@@ -1,0 +1,57 @@
+$line-height: pxTorem(44px);
+$line-height-double: pxTorem(64px);
+$tit-color: #000;
+$tit-color-light: #737373;
+$placeholder-color: #007AFF;
+
+.listview-form {
+    background: #f2f2f4;
+    //padding-top: pxTorem(10px);
+
+    li {
+        //border: red 1px solid;
+        display: block;
+        position: relative;
+        //height: $line-height;
+        font-size: pxTorem(15px);
+        line-height: 1;
+        background: #FFF;
+
+        >div {
+            border-bottom: #DDDEE3 pxTorem(1px) solid;
+
+            .v-cell>div {
+                border-bottom: 0;
+            }
+        }
+
+        &:first-child {
+            //    margin-top: pxTorem(10px);
+            border-top: #DDDEE3 pxTorem(1px) solid;
+        }
+        &:last-child {
+            border-bottom: #DDDEE3 pxTorem(1px) solid;
+
+            //.tit, .con {
+            >div,
+            .v-feed,
+            .v-cell>div {
+                border-bottom: 0;
+            }
+        }
+
+        &.height-auto {
+            height: auto;
+        }
+    }
+
+    .no-border {
+        border: 0 !important;
+    }
+    .no-border-b {
+        border-bottom: 0 !important;
+    }
+    .border-top {
+        border-top: #DDDEE3 pxTorem(1px) solid;
+    }
+}

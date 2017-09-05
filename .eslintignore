@@ -1,0 +1,10 @@
+docs/*.js
+build/*.js
+config/*.js
+node_modules/*.js
+static/js/vendor/*.js
+src/js/utils/dom.js
+src/js/utils/emitter.js
+src/js/utils/draggable.js
+src/js/utils/translate.js
+src/js/utils/popup
