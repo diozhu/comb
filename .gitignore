@@ -10,4 +10,5 @@ lib/*
 node_modules
 example/dist
 docs/
-
+package-lock.json
+npm-debug.*
