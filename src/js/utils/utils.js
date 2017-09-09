@@ -26,6 +26,145 @@ export function getCurrentPath (opts) {
     // return rtn;
     return document.location.pathname;
 };
+export function getCookie (name) {
+    let reg = new RegExp('(^| )' + name + '=([^;]*)(;|$)'),
+        arr = document.cookie.match(reg) || null;
+    if (arr && arr.length > 2) return (unescape(arr[2]));
+    return null;
+}
+export function setCookie (key, value, expires) {
+    let exdate = new Date();
+    exdate.setTime(exdate.getTime() + expires);
+    document.cookie = key + '=' + escape(value) + ((expires == null) ? '' : ';expires=' + exdate.toGMTString());
+};
+export function delCookie (name) {
+    let exp = new Date();
+    exp.setTime(exp.getTime() - 1);
+    let cval = getCookie(name);
+    if (cval != null) document.cookie = name + '=' + cval + ';expires=' + exp.toGMTString();
+};
+
+export let cookie = {
+    set: function (obj) {
+        var ck = [];
+        ck.push(obj.name + '=');
+        if (obj.value) {
+            ck.push(!!obj.encode ? obj.value : encodeURIComponent(obj.value)); //eslint-disable-line
+            // 是否encodeURIComponent
+        }
+        if (obj.expires) {
+            var d = new Date();
+            d.setHours(0);
+            d.setMinutes(0);
+            d.setSeconds(0);
+            d.setTime(d.getTime() + obj.expires * 86400000);
+            // d.setTime(d.getTime() + obj.expires);
+            // // 24 * 60 * 60 * 1000
+            ck.push(';expires=' + d.toGMTString());
+        }
+        if (obj.domain) {
+            ck.push(';domain=' + obj.domain);
+        }
+        ck.push(';path=' + (obj.path || '/'));
+        if (obj.secure) {
+            ck.push(';secure');
+        }
+        document.cookie = ck.join('');
+    },
+    get: function (name, encode) {
+        var m = document.cookie.match(new RegExp('(^| )' + name + '=([^;])*', 'gi')),
+            v = !m ? '' : m[0].split(name + '=')[1];
+        return (!!encode ? v : decodeURIComponent(v)); //eslint-disable-line
+    }
+};
+export function getLocalStorage () {
+    let storage = window.localStorage,
+        _uid = 'cn.hy-sport.comb';
+
+    if (!storage) {
+        console.error('This browser does NOT support localStorage!');
+        return;
+    }
+
+    if (!storage[_uid]) {
+        var obj = {};
+        storage[_uid] = JSON.stringify(obj);
+    }
+
+    return {
+        set: function (key, value) { // 设置某个已保存的键值
+            var obj = JSON.parse(storage.getItem(_uid));
+            obj[key] = value;
+            storage[_uid] = JSON.stringify(obj);
+        },
+        get: function (key) { // 获取某个已保存的键值
+            if (!this.has()) return;
+            var obj = JSON.parse(storage.getItem(_uid));
+            if (obj.hasOwnProperty(key)) {
+                return obj[key];
+            }
+            return null;
+        },
+        has: function () {
+            var v = storage.getItem(_uid);
+            var obj = JSON.parse(v);
+            if (typeof obj !== 'object' || obj == null) {
+                return false;
+            }
+            return true;
+        },
+        remove: function (key) {
+            storage.removeItem(key);
+        },
+        clear: function () {
+            storage.clear();
+        }
+    };
+};
+export function getSessionStorage () {
+    let storage = window.sessionStorage,
+        _uid = 'cn.hy-sport.comb';
+
+    if (!storage) {
+        console.error('This browser does NOT support sessionStorage!');
+        return;
+    }
+
+    if (!storage[_uid]) {
+        var obj = {};
+        storage[_uid] = JSON.stringify(obj);
+    }
+
+    return {
+        set: function (key, value) { // 设置某个已保存的键值
+            var obj = JSON.parse(storage.getItem(_uid));
+            obj[key] = value;
+            storage[_uid] = JSON.stringify(obj);
+        },
+        get: function (key) { // 获取某个已保存的键值
+            if (!this.has()) return;
+            var obj = JSON.parse(storage.getItem(_uid));
+            if (obj.hasOwnProperty(key)) {
+                return obj[key];
+            }
+            return null;
+        },
+        has: function () {
+            var v = storage.getItem(_uid);
+            var obj = JSON.parse(v);
+            if (typeof obj !== 'object' || obj == null) {
+                return false;
+            }
+            return true;
+        },
+        remove: function (key) {
+            storage.removeItem(key);
+        },
+        clear: function () {
+            storage.clear();
+        }
+    };
+};
 
 /** ==================== 事件扩展 ==================== */
 export function throttle (fn, delay) { // 节流
