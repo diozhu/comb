@@ -40,9 +40,8 @@
                 <router-link :to="{ path: '/popup', query: { subjectId: 43 } }" tag="li">popup控件</router-link>
                 <router-link :to="{ path: '/swipe-label', query: { subjectId: 44 } }" tag="li">滑动菜单（swipe-label）</router-link>
                 <router-link :to="{ path: '/scroll', query: { subjectId: 45 } }" tag="li">滚动条（scroll）（vuex示例--关注）</router-link>
-                <router-link :to="{ path: '/refresh', query: { subjectId: 46 } }" tag="li">下拉刷新（refresh）</router-link>
+                <router-link :to="{ path: '/refresh', query: { subjectId: 46 } }" tag="li">下拉刷新（refresh + scroll）</router-link>
                 <router-link :to="{ path: '/tab-bar', query: { subjectId: 47 } }" tag="li">选项卡（tabBar）</router-link>
-                <router-link :to="{ path: '/autocomplete', query: { subjectId: 49 } }" tag="li">输入联想（autocomplete）</router-link>
                 <router-link :to="{ path: '/sensorsdata-share', query: { subjectId: 49 } }" tag="li">埋点分享组件（v-sensorsdata 和 v-shares）</router-link>
             </ul>
         </div>
@@ -84,6 +83,8 @@
                 <router-link :to="{ path: '/scroll-infinite', query: { subjectId: 48 } }" tag="li">滚动条（scroll-infinite）（dom回收无尽滚动）</router-link>
                 <router-link :to="{ path: '/iscroll', query: { subjectId: 48 } }" tag="li">iscroll（iscroll方式）</router-link>
                 <router-link :to="{ path: '/tmp-css', query: { subjectId: 19 } }" tag="li">各种临时css样式</router-link>
+                <router-link :to="{ path: '/autocomplete', query: { subjectId: 49 } }" tag="li">输入联想（autocomplete）</router-link>
+                <router-link :to="{ path: '/scroll-io', query: { subjectId: 48 } }" tag="li">滚动条（intersectionObserver）</router-link>
             </ul>
         </div>
 

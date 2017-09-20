@@ -32,12 +32,22 @@ if (typeof Promise === 'undefined') {
     var Promise = _promise;
 }
 
+/**
+ * 修改opts参数，java后台，接口有的需要用form表单形式，有的需要query形式。。。
+ * 原理是采用vue.http.post的第三个参数，这里没有拆分函数形参，为了可以接受更多的参数，比如emulateJSON。。。
+ * 利用opts.options接受所有类似emulateJSON的参数；
+ * 利用opts.query接受options.params；
+ * 其他参数可以参考官网API：https://github.com/pagekit/vue-resource/blob/develop/docs/http.md
+ *              -- Author by Dio Zhu. on 2017.7.12
+ */
 let post = (uri, params, opts) => {
         // logger.log('in post: ', uri, params, opts);
         if (opts && opts.loading) {
             logger.log('api.post: START LOADING ... ');
             store.commit('OPEN_LOADING'); // 显示菊花
         }
+        let options = opts && opts.options || {}; // options of vue-resource
+        options.params = opts && opts.query || {}; // 传入的参数，转换到query方式，具体说明查看API
         // logger.log('POST START...');
         return Vue.http.post(uri, params).then(function (res) {
             // // logger.log('POST: ', uri, params);
@@ -48,7 +58,7 @@ let post = (uri, params, opts) => {
             }
             // var result = res.json();
             var result = res.data;
-            logger.log('RESULT: ', res);
+            // logger.log('RESULT: ', res);
             if (result.code === 0 || result.meta.code === 0) {
                 // logger.log('POST SUCCESS', uri, JSON.stringify(result.data));
                 return Promise.resolve(result.data);
@@ -57,7 +67,7 @@ let post = (uri, params, opts) => {
                 return Promise.reject(result.meta || result.msg || result.Msg || result.meta.message);
             }
         }, function (err) {
-            logger.error('POST ERROR-2', uri, err);
+            // logger.error('POST ERROR-2', uri, err);
             if (opts && opts.loading) {
                 logger.log('api.post: CLOSE LOADING ... ');
                 store.dispatch('CLOSE_LOADING'); // 菊花
@@ -68,7 +78,7 @@ let post = (uri, params, opts) => {
             // });
             return Promise.reject(err);
         }).catch(function (err) {
-            logger.error('POST ERROR-3', err);
+            // logger.error('POST ERROR-3', err);
             if (opts && opts.loading) {
                 logger.log('api.post: CLOSE LOADING ... ');
                 store.dispatch('CLOSE_LOADING'); // 菊花
@@ -112,83 +122,100 @@ let post = (uri, params, opts) => {
             }
             return Promise.reject(err);
         });
-    }, _fetch = function (fn, typ) { //eslint-disable-line
-        logger.log('[api.fetch]: start...');
-
-        let func = null,
-            _offset = 0,                  // 当前页数(nodejs)
-            _limit = CONFIG.LIMIT,        // 每页显示记录数(nodejs)
-            getListBySection = function () {
-                logger.log(`[api.fetch].getListBySection...`, _offset, _limit);
-                try {
-                    let offset = _offset,
-                        limit = _offset + _limit;
-
-                    return fn({
-                        offset: offset,
-                        limit: limit
-                    }).then(res => {
-                        logger.log('=============> ', (res && res.length));
-                        if (res && res.length) _offset += res.length;
-                        return Promise.resolve(res);
-                    }).catch(e => {
-                        logger.error(`[api.fetch].getListBySection.error: ${e}`);
-                        return Promise.reject(e);
-                    });
-                } catch (e) {
-                    logger.error(`[api.fetch].getListBySection.error: ${e}`);
-                    return Promise.reject(e);
-                }
-            };
-        if (typ === 'section') {
-            func = getListBySection;
-        }
-        if (typeof func === 'function') {
-            try {
-                return func().then(res => {
-                    return Promise.resolve(res);
-                });
-            } catch (e) {
-                logger.error(`[api.fetch.after]error: ${e}`);
-                return Promise.reject(e);
-            }
-        }
-    },
-    _fetcher = {
-        getInstance (fn, typ) {
-            let _obj = {
-                offset: 0,                  // 当前页数(nodejs)
-                limit: CONFIG.LIMIT,        // 每页显示记录数(nodejs)
-                fetch () {
-                    logger.log('[api._fetcher.fetch]');
-                    if (typ === 'section') {
-                        return this.getListBySection();
-                    } else {
-                        return Promise.reject('error func type in api fetcher...');
-                    }
-                },
-                getListBySection () {
-                    logger.log('[api._fetcher.getListBySection]', this.offset, this.limit);
-                    if (typeof fn === 'function') {
-                        return fn({
-                            offset: this.offset,
-                            limit: (this.offset + this.limit)
-                        }).then(res => {
-                            if (res && res.length) this.offset += res.length;
-                            return Promise.resolve(res);
-                        });
-                    }
-                }
-            };
-            return _obj;
-        }
     };
+/**
+ * section 方式：基本上nodejs使用的是这种方式
+ *      第一页：offset: 0, limit: 10
+ *      第二页：offset: 10, limit: 20
+ * page 方式： 所有php的分页基本使用这种方式
+ *      第一页：page: 1, pageNum: 10
+ *      第二页：page: 2, pageNum: 10
+ * limit 方式： 评论赞的微服务使用这种方式
+ *      第一页：offset: 0, limit: 10
+ *      第二页：offset:10, limit: 10
+ * 添加了enabled参数，调整了组件加载机制，适应一个页面多个滚动条的情况；
+ * 调整了为空判断、结束语判断等逻辑；
+ *              -- Mod by Dio Zhu. on 2017.3.17
+ * time 方式：秘语中上拉加载，用的是传最后跳的时间戳的方法
+ *      第一页：oTime：-1，pageSize：10
+ *      第二页：oTime: 第一次最后一条数据的时间（接口中有返回），pageSize：10
+ *              -- xufeng on 2017.4.17
+ */
+let _fetcher = {
+    getInstance (fn, typ) {
+        let _obj = {
+            offset: 0,                  // 当前页数(nodejs)
+            limit: CONFIG.LIMIT,        // 每页显示记录数(nodejs)
+            page: 1,                    // 当前页号
+            time: -1,                   // 当前分页时间
+            fetch () {
+                logger.log('[api._fetcher.fetch]');
+                if (typ === 'section') {
+                    return this.getListBySection();
+                } else if (typ === 'limit') {
+                    return this.getListByLimit();
+                } else if (typ === 'page') {
+                    return this.getListByPage();
+                } else if (typ === 'time') {
+                    return this.getListByTime();
+                } else {
+                    return Promise.reject('error func type in api fetcher...');
+                }
+            },
+            getListBySection () {
+                logger.log('[api._fetcher.getListBySection]', this.offset, this.limit);
+                if (typeof fn === 'function') {
+                    return fn({
+                        offset: this.offset,
+                        limit: (this.offset + this.limit)
+                    }).then(res => {
+                        if (res && res.length) this.offset += res.length;
+                        return Promise.resolve(res);
+                    });
+                }
+            },
+            getListByLimit () {
+                logger.log('[api._fetcher.getListByLimit]', this.offset, this.limit);
+                if (typeof fn === 'function') {
+                    return fn({
+                        offset: this.offset,
+                        limit: this.limit
+                    }).then(res => {
+                        if (res && res.length) this.offset += res.length;
+                        return Promise.resolve(res);
+                    });
+                }
+            },
+            getListByPage () {
+                logger.log('[api._fetcher.getListByPage]', this.page, this.limit);
+                if (typeof fn === 'function') {
+                    return fn({
+                        page: this.page,
+                        limit: this.limit
+                    }).then(res => {
+                        if (res && res.length) this.page += 1;
+                        return Promise.resolve(res);
+                    });
+                }
+            },
+            getListByTime () {
+                logger.log('[api._fetcher.getListByTime]', this.time, this.limit);
+                if (typeof fn === 'function') {
+                    return fn({
+                        time: this.time,
+                        limit: this.limit
+                    }).then(({res = [], last = -1} = {}) => {
+                        if (res && res.length) this.time = last;
+                        return Promise.resolve(res);
+                    });
+                }
+            }
+        };
+        return _obj;
+    }
+};
 export function getFetcher (fn, typ) {
     return _fetcher.getInstance(fn, typ);
-};
-
-export function fetch (fn, typ) {
-    return _fetch(fn, typ);
 };
 
 /**

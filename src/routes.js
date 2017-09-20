@@ -49,6 +49,7 @@ const UploadCreateCloud = resolve => require(['./views/upload-create-cloud.vue']
 const AlbumInfo = resolve => require(['./views/album-info.vue'], resolve);
 const Share = resolve => require(['./views/share.vue'], resolve);
 const TmpCss = resolve => require(['./views/tmp-css.vue'], resolve);
+const ScrollIO = resolve => require(['./views/scroll-io.vue'], resolve);
 const Scroll = resolve => require(['./views/scroll.vue'], resolve);
 const ScrollTwo = resolve => require(['./views/scroll-two.vue'], resolve);
 const InfiniteScroll = resolve => require(['./views/infinite-scroll.vue'], resolve);
@@ -165,6 +166,7 @@ const routes = [
     { name: 'infinite-scroll', path: '/infinite-scroll', meta: {title: '无限滚动', requiresAuth: true, keepAlive: true}, component: InfiniteScroll },
     { name: 'scroll-infinite', path: '/scroll-infinite', meta: {title: '无限滚动', requiresAuth: true, keepAlive: true}, component: ScrollInfinite },
     { name: 'iscroll', path: '/iscroll', meta: {title: 'iscroll', requiresAuth: true, keepAlive: true}, component: IScroll },
+    { name: 'scroll-io', path: '/scroll-io', meta: {title: 'scroll-io', requiresAuth: true, keepAlive: true}, component: ScrollIO },
     // {
     //     path: '/upload',
     //     component: Upload,

@@ -1,85 +1,58 @@
 <template>
-    <!-- v-show="isEnabled" -->
-    <div class="v-scroll"
+    <div v-show="isEnabled"
+         class="v-iscroll"
     >
+            <!-- v-iscroll="getList"
+            iscroll-optoins="iscrollOptions" -->
         <div
             :id="'combScroll_'+_uid"
             ref="container"
-            class="v-scroll-container"
-            v-scroll="getList"
-            scroll-disabled="isLoading"
-            scroll-distance="scrollDistance"
-            scroll-enabled="isEnabled"
-            scroll-tombstone="tombstone"
-            v-scroll-position
+            class="v-iscroll-container"
         >
             <!--:style="{ 'transform': 'translate3d(0, ' + translate + 'px, 0)' }"-->
+            <!--@touchmove.prevent-->
             <!-- 内容插槽 -->
-            <div ref="content" class="v-scroll-content">
+            <div
+                 id="vIscrollContent"
+                 ref="content"
+                 class="v-iscroll-content"
+            >
+                <ul><li class="row"></li></ul>
                 <slot></slot>
             </div>
             <!-- 底部loading && 结束标识 -->
-            <div v-if="!refreshTag && (isLoading || (isShowText && scrollEndTxt && currentValue.length > 0))" class="v-scroll-bottom">
+            <div v-if="!refreshTag && (isLoading || (isShowText && scrollEndTxt && currentValue.length > 0))" class="v-iscroll-bottom">
                 <transition name="fade">
                     <v-spinner v-show="isLoading" color="#BBBAC2" type="triple-bounce"></v-spinner>
                 </transition>
                 <transition name="fade">
-                    <p class="v-scroll-bottom-txt" v-show="!isLoading && isShowText && scrollEndTxt && currentValue.length > 0">·&nbsp;END&nbsp;·</p>
+                    <p class="v-iscroll-bottom-txt" v-show="!isLoading && isShowText && scrollEndTxt && currentValue.length > 0">·&nbsp;END&nbsp;·</p>
                 </transition>
             </div>
             <!-- 默认为空样式的插槽 -->
-            <div v-if="!hasData && currentValue.length <= 0" class="v-scroll-empty">
-                <slot class="v-scroll-empty" name="empty">暂无数据</slot>
+            <div v-if="!hasData && currentValue.length <= 0" class="v-iscroll-empty">
+                <slot class="v-iscroll-empty" name="empty">暂无数据</slot>
             </div>
         </div>
-        <!-- 返回顶部 -->
-        <transition name="fade">
-            <div v-show="toper && goTopTag" @click="goTop" class="v-scroll-top icon icon-top"></div>
-        </transition>
     </div>
 </template>
 <script type="text/ecmascript-6">
     import Vue from 'vue';
-    import Scroll from './v-scroll';
+    import Iscroll from './v-iscroll.js';
     import vSpinner from '../vendor/v-spinner/';
     import CONFIG from '../config';
 //    import { mapState } from 'vuex';
-//    import ScrollPosition from '../vendor/v-scroll-position.js'; // 滚动条位置信息
-    import bus from '../vendor/eventbus';
-    import * as api from '../js/core/api.js'; //eslint-disable-line
-    // import * as dom from '../js/utils/dom.js';
+//    import ScrollPosition from '../vendor/v-iscroll-position.js'; // 滚动条位置信息
+    import bus from '../vendor/eventbus'; //eslint-disable-line
 
-    Vue.use(Scroll);
+    Vue.use(Iscroll);
 
     /**
-     * scroll 组件
+     * iscroll 组件
      *              -- Author by Dio Zhu. on 2017.2.11
-     * 添加了外部scroll事件，目的在于控制'END'字样显示，记录数一屏内不显示，超过一屏显示；
-     *              -- Mod by Dio Zhu. on 2017.3.13
-     * 封装了按limit + offset方式加载的函数，简化函数流程，调用时不用再设置一大堆的参数，只传入一个列表的api方法即可；
-     * 注意外部函数一定要返回一个包含列表数据的Promise.resolve：return Promise.resolve(dat);
-     * 取消了外部scroll事件，结束语同屏判断放在了getList函数中；
-     *              -- Mod by Dio Zhu. on 2017.3.13
-     * 添加了funcType，对应不同的分页类型，按各自需求传入参数，默认使用page方式：
-     * section 方式：基本上nodejs使用的是这种方式
-     *      第一页：offset: 0, limit: 10
-     *      第二页：offset: 10, limit: 20
-     * page 方式： 所有php的分页基本使用这种方式
-     *      第一页：page: 1, pageNum: 10
-     *      第二页：page: 2, pageNum: 10
-     * limit 方式： 评论赞的微服务使用这种方式
-     *      第一页：offset: 0, limit: 10
-     *      第二页：offset:10, limit: 10
-     * 添加了enabled参数，调整了组件加载机制，适应一个页面多个滚动条的情况；
-     * 调整了为空判断、结束语判断等逻辑；
-     *              -- Mod by Dio Zhu. on 2017.3.17
-     * time 方式：秘语中上拉加载，用的是传最后跳的时间戳的方法
-     *      第一页：oTime：-1，pageSize：10
-     *      第二页：oTime: 第一次最后一条数据的时间（接口中有返回），pageSize：10
-     *              -- xufeng on 2017.4.17
      */
     export default {
-        name: 'v-scroll',
+        name: 'v-iscroll',
 
         props: {
             id: String,
@@ -150,7 +123,20 @@
 //                translate: 0,               // 下拉刷新的偏移量
 //                refreshHeight: 0,           // refresh的dom高度
 //                refreshTranslate: 0,        // refresh的dom位移
-                scrollTarget: null          // 当前滚动dom
+                scrollTarget: null,          // 当前滚动dom
+                iscrollOptions: {
+                    mouseWheel: true,
+                    // vScrollbar: true,
+                    // click: true,
+                    // preventDefault: true,
+                    // tap: true,
+                    // bounce: false,
+                    // disableTouch: true,
+                    infiniteElements: '#vIscrollContent .row',
+                    // dataset: this.getList,
+                    // dataFiller: this.updateList,
+                    cacheSize: 1000
+                }
             };
         },
 
@@ -173,119 +159,23 @@
         watch: {
             value (val) {
                 this.currentValue = val;
-
-                // 取消此方式刷新数据，如果要刷新，使用eventbus。 mod by Dio Zhu. on 2017.7.1
-//                if (val.length < 1 && this.isEnabled && !this.isLoading && !this.refreshTag) { // 客户端直接清空listdata，触发刷新事件
-//                    this.$logger.log(`[v-scroll].${this._uid}.watch: value`, val);
-//                    this.refreshList();
-//                }
             },
             currentValue (val) {
                 this.$emit('input', val);
             },
             enabled (val) {
-                this.$logger.log('v-scroll.watch.enabled! ');
-//                this.isEnabled = !this._inactive && val;
+                this.$logger.log('v-iscroll.watch.enabled! ');
                 this.isEnabled = val;
-//                if (val) this.$router.scrollTarget = this.scrollTarget; // 保存滚动容器
-//                if (val === true && this.listCount <= 0) {
-                if (val === true && this.value.length <= 0) {
-//                    this.init();
-                    this.refreshList();
-                }
             }
-
-            /**
-             *  如果当前页面使用了keep-alive，根据路由变化，判断组件的_inactive，设置isEnabled，避免事件重复触发
-             *  加上nexttick是因为改版后（vue、vue-router），_inactive的渲染顺序变了。。。
-             *  暂时这么处理，并非最佳方案，需要考虑更好的实现。。。
-             *                  -- Author by Dio Zhu. on 2017.5.15
-             *  之前的滚动记录需要记录在vuex上，现在改为标签属性方式，在v-scroll-position中处理，所以不需要在此进行滚动还原
-             *                  -- Author by Dio Zhu. on 2017.5.25
-             */
-            // '$route.name' (val) {
-            //     this.$logger.log(`v-scroll.${this._uid}.watch: $route!!!`, val, this._inactive, this.$router.direct());
-            //     this.$nextTick(() => {
-            //         this.$logger.log(`v-scroll.${this._uid}.watch: $route!!!`, val, this._inactive, this.$router.direct());
-            //         if (!this._inactive) { // 激活时重新加载
-            //             this.isEnabled = this.enabled;
-            //             if (this.$router.direct()) { // in
-            //                 this.init(); // 如果当前页面是keep-alive的，这里重新初始化
-            //             } else { // back
-            //                 // do nothing ...
-            //             }
-            //         } else {
-            //             this.isEnabled = false;
-            //         }
-            //     });
-/*
-                this.$nextTick(() => {
-                    this.$logger.log(`v-scroll.${this._uid}.watch: $route!!!`, val, this._inactive);
-                    if (!this._inactive) { // 激活时重新加载，这里可根据实际需要进行重新定义
-                        this.isEnabled = this.enabled;
-//                        if (this.isEnabled) this.$router.scrollTarget = this.scrollTarget; // 保存滚动容器
-//                        // 如果保存了位置信息，还原"容器"的滚动条位置，window的走route的scrollBehavior
-//                        if (this.position && this.position[this.timestamp] && this.position[this.timestamp].y >= 0) {
-//                        this.$logger.log(`v-scroll.${this._uid}.watch: $route!!!`, this.position[this.timestamp]);
-// //                        let y = this.position[this.timestamp].y || 0;
-// //                        this.$nextTick(() => {
-// // //                            this.$el.scrollTop = y;
-// //                            this.scrollTarget.scrollTop = y;
-// //                        });
-//                        if (this.scrollTarget && this.scrollTarget !== window) {
-//                            this.$nextTick(() => {
-//                                this.scrollTarget.WebKitOverflowScrolling = 'auto'; // 避免ios容器白屏，再次点击才出现的问题。。。
-//                                this.scrollTarget.scrollTop = this.position[this.timestamp].y || 0;
-//                                this.scrollTarget.WebKitOverflowScrolling = 'touch';
-//                            });
-//                        }
-//                        } else { // 如果没保存过信息，说明是新页面，重新加载数据。按理说应该使用activated钩子，组件没有此方法，如果用$parent又无法保证嵌套调用，所以采用此方式~
-//                            this.currentValue = [];
-//                            this.refreshList();
-//                            this.$emit('reset', true);
-//                        }
-//                        this.currentValue = [];
-                        this.$nextTick().then(() => {
-                            ScrollPosition.inserted(this.scrollTarget);
-                        });
-                    } else { // 失效
-                        this.isEnabled = false;
-                    }
-                });
-*/
-            // }
         },
 
         created () {
-            this.$logger.log(`[v-scroll].${this._uid}.created...`);
-            bus.$on('v-scroll.refreshList', this.refreshList); // 监听下拉刷新的事件
-            bus.$on('v-scroll.getList', this.getList); // 监听上拉加载事件
-            if (!this.$route.matched.some(record => record.meta.keepAlive)) this.init(); // 非keep-alive时执行，否则放在activated中初始化. add by Dio Zhu. on 2017.9.11
+            // bus.$on('v-iscroll.refreshList', this.refreshList); // 监听下拉刷新的事件
+            // bus.$on('v-iscroll.getList', this.getList); // 监听上拉加载事件
         },
         mounted () {
-            this.$logger.log(`[v-scroll].${this._uid}.mounted...`, this.$route.name, this.$parent.$route.name);
-        },
-
-        activated () {
-            this.$logger.log(`*[v-scroll].${this._uid}.activated...`, this._inactive);
-            this.isEnabled = this.enabled;
-            // this.init(); // 如果当前页面是keep-alive的，这里重新初始化
-            if (this.$router.direct()) { // in
-                this.init(); // 如果当前页面是keep-alive的，这里重新初始化
-            } else { // back
-                // do nothing ...
-            }
-
-            // dom.addClass(window.document.documentElement, 'overflow'); // body绑定overflow样式
-        },
-        deactivated () {
-            this.$logger.log(`*[v-scroll].${this._uid}.deactivated...`, this._inactive);
-            this.isEnabled = false;
-
-            // dom.removeClass(window.document.documentElement, 'overflow'); // 移除overflow样式
-        },
-        beforeDestroy () {
-            this.$logger.log(`*[v-scroll].${this._uid}.beforeDestroy...`);
+            this.$logger.log(`[v-iscroll].${this._uid}.mounted...`, this.$route.name, this.$parent.$route.name);
+            this.init();
         },
 
         methods: {
@@ -305,14 +195,12 @@
             },
 
             init () {
-                this.$logger.log(`[v-scroll].${this._uid}.init...`);
-
-                // dom.addClass(window.document.documentElement, 'overflow'); // body绑定overflow样式
+                this.$logger.log(`[v-iscroll].${this._uid}.init...`);
 
                 this.reset(); // 重置
 
                 // 初次加载
-                if (!this.tombstone) this.getList();
+                this.getList();
 //                // 滚动条位置还原
 //                this.getPosition(this.timestamp);
 
@@ -322,31 +210,16 @@
 //                });
             },
 
-            goTop () {
-                let target = this.scrollTarget;
-                this.$logger.log(`[v-scroll].${this._uid}.getList.after: `, target.scrollHeight, target.offsetHeight);
-                if (target === window) {
-                    window.scrollTo(0, 0);
-                } else {
-//                    target.scrollTop = 0;
-                    if (target.scrollTop > 0) {
-                        target.scrollTop -= 1000;
-                        setTimeout(this.goTop, 30);
-                    }
-                }
-            },
-
             /**
              * 获取数据
              */
             getList () {
-                this.$logger.log(`[v-scroll].${this._uid}.getList.befor: !!!`);
+                this.$logger.log(`[v-iscroll].${this._uid}.getList.befor: !!!`);
                 if (!this.isEnabled) return;  // 当前滚动条非可用时，直接返回，用于同页面多个实例的时候
-                // 结束语判断
-                // if (!this.scrollEndTxt && this.scrollTarget) this.scrollEndTxt = document.body.scrollHeight > document.body.offsetHeight;
-                if (!this.scrollEndTxt && this.scrollTarget) this.scrollEndTxt = this.scrollTarget.scrollHeight > (this.scrollTarget.offsetHeight * 5 / 4);
+                // // 结束语判断
+                // if (!this.scrollEndTxt) this.scrollEndTxt = document.body.scrollHeight > document.body.offsetHeight;
                 let target = this.scrollTarget;
-                this.$logger.log(`[v-scroll].${this._uid}.getList.befor: `, target);
+                this.$logger.log(`[v-iscroll].${this._uid}.getList.befor: `, target);
 
                 if (typeof this.func !== 'function' || !this.hasMore) return;  // 无效函数、无数据，直接返回
 
@@ -368,44 +241,26 @@
                             if (res && res.length) {
                                 this.currentValue = this.currentValue.concat(res);
                             }
-//                        }).then(res => { // 放在上面无法正确判断渲染后的高度对比，又不想用nextTick。 mod by Dio Zhu. on 2017.6.14
-                            // 可以试试在上面加上return Promis.resove();，之前上面那句不好使是忘记了返回Promis对象。。。回头试试。。。Dio Zhu. on 2017.6.30
-                            // 结束语判断
-                            if (this.scrollTarget) {
-                                this.$logger.log(`[v-scroll].${this._uid}.getList.after: `, this.scrollTarget.scrollHeight, this.scrollTarget.offsetHeight);
-                                // 判断页面是否加载完毕 2017-06-30 孙乐卿
-                                this.$nextTick(() => {
-                                    this.scrollEndTxt = this.scrollTarget.scrollHeight > (this.scrollTarget.offsetHeight * 5 / 4);
-                                });
-                            }
+
+                            // // 结束语判断
+                            // if (this.scrollTarget) {
+                            //     this.$logger.log(`[v-iscroll].${this._uid}.getList.after: `, this.scrollTarget.scrollHeight, this.scrollTarget.offsetHeight);
+                            //     this.scrollEndTxt = this.scrollTarget.scrollHeight > this.scrollTarget.offsetHeight;
+                            // }
                         });
                     } catch (e) {
-                        this.$logger.error(`[v-scroll].${this._uid}.getList.after.error: ${e}`);
+                        this.$logger.error(`[v-iscroll].${this._uid}.getList.after.error: ${e}`);
                     }
                 }
+            },
 
-                // try {
-                //     if (!this.fetcher) this.fetcher = api.getFetcher(this.func, this.funcType);
-                //     this.fetcher.fetch().then(res => {
-                //         this.$logger.log(`[v-scroll].${this._uid}.getList.api.after.success: `, res);
-                //         if (res && res.length) {
-                //             this.hasData = true;
-                //             this.currentValue = this.currentValue.concat(res);
-                //         } else if (!this.currentValue || !this.currentValue.length) {
-                //             this.hasData = false;
-                //         }
-                //         /** 只返回数据, 根据请求数和返回数判断是否没数据了 */
-                //         if (!res || res.length < this.fetcher.limit) this.hasMore = false;
-                //         this.isLoading = false;
-                //     });
-                // } catch (e) {
-                //     this.$logger.error(`[v-scroll].${this._uid}.getList.after.error: ${e}`);
-                // }
+            updateList (el, data) {
+                this.$logger.warn(`[v-iscroll].${this._uid}.updateList: `, el, data);
             },
 
             /** nodejs一般采用的区间方式 */
             getListBySection ({ refresh = false } = {}) { // nodejs方式
-                this.$logger.log(`[v-scroll].${this._uid}.getListBySection...`);
+                this.$logger.log(`[v-iscroll].${this._uid}.getListBySection...`);
                 try {
                     this.isLoading = true;          // 开始加载
 
@@ -419,7 +274,7 @@
                         limit: limit,
                         refresh: refresh
                     }).then(res => {
-                        this.$logger.log(`[v-scroll].${this._uid}.getListBySection.success: ${res}`, this.offset, this.limit);
+                        this.$logger.log(`[v-iscroll].${this._uid}.getListBySection.success: ${res}`, this.offset, this.limit);
 
                         if (res && res.length > 0) {
                             this.hasData = true;              // 数据标识
@@ -434,19 +289,19 @@
                         this.isLoading = false;
                         return Promise.resolve(res);
                     }).catch(e => {
-                        this.$logger.error(`[v-scroll].${this._uid}.getListBySection.error: ${e}`);
+                        this.$logger.error(`[v-iscroll].${this._uid}.getListBySection.error: ${e}`);
                         this.isLoading = false;
                         return Promise.reject(e);
                     });
                 } catch (e) {
-                    this.$logger.error(`[v-scroll].${this._uid}.getListBySection.error: ${e}`);
+                    this.$logger.error(`[v-iscroll].${this._uid}.getListBySection.error: ${e}`);
                     this.isLoading = false;
                     return Promise.reject(e);
                 }
             },
             /** go一般采用的区间方式 */
             getListByLimit ({ refresh = false } = {}) { // go方式
-                this.$logger.log(`[v-scroll].${this._uid}.getListByLimit...`);
+                this.$logger.log(`[v-iscroll].${this._uid}.getListByLimit...`);
                 try {
                     this.isLoading = true;          // 开始加载
                     return this.func({
@@ -454,7 +309,7 @@
                         limit: this.limit,
                         refresh: refresh
                     }).then(res => {
-                        this.$logger.log(`[v-scroll].${this._uid}.getListByLimit.success: ${res}`, this.offset, this.limit);
+                        this.$logger.log(`[v-iscroll].${this._uid}.getListByLimit.success: ${res}`, this.offset, this.limit);
 
                         if (res && res.length > 0) {
                             this.hasData = true;            // 数据标识
@@ -469,12 +324,12 @@
                         this.isLoading = false;
                         return Promise.resolve(res);
                     }).catch(e => {
-                        this.$logger.error(`[v-scroll].${this._uid}.getListByLimit.error: ${e}`);
+                        this.$logger.error(`[v-iscroll].${this._uid}.getListByLimit.error: ${e}`);
                         this.isLoading = false;
                         return Promise.reject(e);
                     });
                 } catch (e) {
-                    this.$logger.error(`[v-scroll].${this._uid}.getListByLimit.error: ${e}`);
+                    this.$logger.error(`[v-iscroll].${this._uid}.getListByLimit.error: ${e}`);
                     this.isLoading = false;
                     return Promise.reject(e);
                 }
@@ -482,7 +337,7 @@
 
             /** php一般采用的分页方式 */
             getListByPage ({ refresh = false } = {}) { // php方式
-                this.$logger.log(`[v-scroll].${this._uid}.getListByPage...`, this.page, this.pageNum);
+                this.$logger.log(`[v-iscroll].${this._uid}.getListByPage...`, this.page, this.pageNum);
                 try {
                     this.isLoading = true;          // 开始加载
                     return this.func({
@@ -490,7 +345,7 @@
                         pageNum: this.pageNum,
                         refresh: refresh
                     }).then(res => {
-                        this.$logger.log(`[v-scroll].${this._uid}.getListByPage.success: ${res}`);
+                        this.$logger.log(`[v-iscroll].${this._uid}.getListByPage.success: ${res}`);
 
                         if (res && res.length > 0) {
                             this.hasData = true;            // 数据标识
@@ -505,12 +360,12 @@
                         this.isLoading = false;
                         return Promise.resolve(res);
                     }).catch(e => {
-                        this.$logger.error(`[v-scroll].${this._uid}.getListByPage.error: ${e}`);
+                        this.$logger.error(`[v-iscroll].${this._uid}.getListByPage.error: ${e}`);
                         this.isLoading = false;
                         return Promise.reject(e);
                     });
                 } catch (e) {
-                    this.$logger.error(`[v-scroll].${this._uid}.getListByPage.error: ${e}`);
+                    this.$logger.error(`[v-iscroll].${this._uid}.getListByPage.error: ${e}`);
                     this.isLoading = false;
                     return Promise.reject(e);
                 }
@@ -518,7 +373,7 @@
 
             /** 时间戳分页，秘语中的分页方式. Author by Feng Xu. on 2017.4.17 */
             getListByTime ({ refresh = false } = {}) {
-                this.$logger.log(`[v-scroll].${this._uid}.getListByTime...`, this.oTime, this.pageSize);
+                this.$logger.log(`[v-iscroll].${this._uid}.getListByTime...`, this.oTime, this.pageSize);
                 var self = this;
                 try {
                     self.isLoading = true;          // 开始加载
@@ -531,8 +386,7 @@
                             self.hasData = true;// 数据标识
                             self.oTime = last;                 // 区间递增
 //                            this.listCount += res.length;   // list计数
-                        // } else if (res.length <= 10) {
-                        } else if (!this.currentValue.length) {
+                        } else if (res.length <= 10) {
                             self.hasData = false;           // 无数据
                         }
 
@@ -551,9 +405,8 @@
             },
 
             refreshList () {
-                // 添加了 || this._isDestroyed的判断，源于食上的详情页，非keepalive，从评论列表到发布评论再返回时，会初始化多个列表实例，造成多个请求。。。
-                if (!this.isEnabled || this._isDestroyed) return;  // 当前滚动条非可用时，直接返回，用于同页面多个实例的时候
-                this.$logger.log(`!!!v-scroll.${this._uid}.refreshList...`);
+                if (!this.isEnabled) return;  // 当前滚动条非可用时，直接返回，用于同页面多个实例的时候
+                this.$logger.log(`!!!v-iscroll.${this._uid}.refreshList...`);
                 if (typeof this.func !== 'function') return;  // 无效函数、无数据，直接返回
 
                 this.refreshTag = true;
@@ -574,31 +427,28 @@
                         this.reset({resetData: false}); // 重置，不清除数据，回调之后按照分页数量删除数组内容，避免重新渲染时屏幕闪~ Author by Dio Zhu. on 2017.4.12
 
                         func({refresh: true}).then(res => {
-                            this.$logger.log(`[v-scroll].${this._uid}.refreshList.after: `, this.currentValue.length);
+                            this.$logger.log(`[v-iscroll].${this._uid}.refreshList.after: `, this.currentValue.length);
                             if (res && res.length) {
                                 this.currentValue = res;
-                            } else { // 如果删除了第一条，然后调用此方法，返回的是空数据。 mod by Dio Zhu. on 2017.7.1
-                                this.currentValue = [];
                             }
 //                            // 刷新之后，去除之前的历史数据
 //                            if (this.currentValue && res && this.currentValue.length > 0 && res.length > 0 && this.currentValue.length > res.length) {
 //                                this.currentValue = this.currentValue.slice(this.currentValue.length - res.length, this.currentValue.length);
 //                            }
+                            // 结束语判断
+                            // let target = this.scrollTarget;
+                            // this.$logger.log(`[v-iscroll].${this._uid}.refreshList.after: `, target.scrollHeight, target.offsetHeight);
+                            // this.scrollEndTxt = target.scrollHeight > target.offsetHeight;
+
                             this.refreshTag = false;
 //                            this.inertia(this.translate);
-                        }).then(res => {
-                            // 结束语判断
-                            if (this.scrollTarget) {
-                                this.$logger.log(`[v-scroll].${this._uid}.refreshList.after: `, this.scrollTarget.scrollHeight, this.scrollTarget.offsetHeight);
-                                this.scrollEndTxt = this.scrollTarget.scrollHeight > (this.scrollTarget.offsetHeight * 5 / 4);
-                            }
                         }).catch(e => {
                             this.refreshTag = false;
-                            this.$logger.error(`[v-scroll].${this._uid}.refreshList.after.error: ${e}`);
+                            this.$logger.error(`[v-iscroll].${this._uid}.refreshList.after.error: ${e}`);
                         });
                     } catch (e) {
                         this.refreshTag = false;
-                        this.$logger.error(`[v-scroll].${this._uid}.refreshList.after.error: ${e}`);
+                        this.$logger.error(`[v-iscroll].${this._uid}.refreshList.after.error: ${e}`);
                     }
                 }
             }
@@ -611,14 +461,18 @@
 
     $refresh-height: pxTorem(36px);
 
-    .v-scroll {
+    .v-iscroll {
         height: 100%;
     }
 
-    .v-scroll-container {
+    .v-iscroll-container {
+        width: 100%;
         height: 100%;
         overflow: scroll;
         -webkit-overflow-scrolling: touch;
+        position: absolute;
+        top: 0;
+        left: 0;
 
         /*ul {*/
         /*visibility: hidden;*/
@@ -640,7 +494,7 @@
         }*/
     }
 
-    .v-scroll-refresh {
+    .v-iscroll-refresh {
         width: 100%;
         height: $refresh-height;
         position: absolute;
@@ -655,30 +509,38 @@
         }
     }
 
-    .v-scroll-content {
+    .v-iscroll-content {
         /*border: red 1px solid;*/
+        // height: 100%;
+        position: absolute;
+        z-index: 1;
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
+        width: 100%;
+        transform: translateZ(0);
+        user-select: none;
+        text-size-adjust: none;
     }
 
-    .v-scroll-bottom {
+    .v-iscroll-bottom {
         padding: pxTorem(20px) 0;
 
         .v-spinner {
             text-align: center;
         }
     }
-    .v-scroll-bottom-txt {
+    .v-iscroll-bottom-txt {
         text-align: center;
         font-size: pxTorem(15px);
         color: #c1c1c1;
     }
-    .v-scroll-empty {
+    .v-iscroll-empty {
         width: 100%;
         min-height: pxTorem(100px);
         display: flex;
         align-items: center;
         justify-content: center;
     }
-    .v-scroll-top {
+    .v-iscroll-top {
         width: pxTorem(38px);
         height: pxTorem(38px);
         position: fixed;

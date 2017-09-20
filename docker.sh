@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
-CONTAINER_NAME=arp.vue2_1-dev
-IMAGE_NAME=arp.reg.innertoon.com/arp.vue2_1/node-dev
+CONTAINER_NAME=arp.comb-dev
+IMAGE_NAME=arp.hy-sport.cn/comb/node-dev
 IMAGE_TAG=latest
-PORT=8080
-DIR=Comb
+PORT=9900
+DIR=comb
 
 
 rm -rf ${DIR}
-git clone -b develop http://arp.gitlab.innertoon.com/Front/Comb.git ${DIR}
+git clone -b develop http://git.hy-sport.cn/front/comb.git ${DIR}
 
 CONTAINER_ID=`docker ps --filter="name=${CONTAINER_NAME}" -q`
 if [ -n "${CONTAINER_ID}" ]; then

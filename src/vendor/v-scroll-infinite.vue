@@ -8,12 +8,13 @@
         preventDefaultException,
         assign
     } from '../js/utils/util.js';
+    import bus from '../vendor/eventbus.js';
 
     const Loading = {
         render (h) {
             return h('div', {
                 attrs: {
-                    class: 'recyclerview-loading'
+                    class: 'v-scroll-infinite__loading'
                 }
             }, 'Loading...');
         }
@@ -23,7 +24,7 @@
         render (h) {
             return h('div', {
                 attrs: {
-                    class: 'recyclerview-item tombstone'
+                    class: 'v-scroll-infinite__item tombstone'
                 },
                 style: {
                     height: '100px',
@@ -52,17 +53,17 @@
     export default {
         name: 'v-scroll-infinite',
         props: {
-            fetch: Function,
-            list: Array,
-            item: Object,
-            loading: Object,
-            tombstone: {
+            fetch: Function, // Data fetching function
+            list: Array, // List data of RecyclerView
+            item: Object, // The Vue component of RecyclerView's item
+            loading: Object, // The loading component behind the RecyclerView pull-to-refresh
+            tombstone: { // The Vue component of RecyclerView's tombstone
                 type: Object,
                 default: () => Tombstone
             },
-            column: Number,
-            prerender: Number,
-            remain: Number,
+            column: Number, // Specifies how many columns the listings should be displayed in
+            prerender: Number, // Number of items to instantiate beyond current view in the opposite direction. default 20
+            remain: Number, // Number of items to instantiate beyond current view in the opposite direction. default 10
             waterflow: Boolean,
             preventDefault: Boolean,
             options: Object,
@@ -79,8 +80,9 @@
             }, [
                 h(this.loading || Loading),
                 h(this.tag, {
+                    ref: 'recyclerview', // mod by Dio Zhu. on 2017.9.14
                     attrs: {
-                        class: 'recyclerview'
+                        class: 'v-scroll-infinite__container'
                     },
                     on: {
                         touchstart: this._start,
@@ -107,6 +109,9 @@
                 scroller: null
             };
         },
+        created () {
+            bus.$on('v-scroll-infinite.init', this.init);
+        },
         mounted () {
             this.$logger.log('v-scroll-infinite.mounted: ');
             this.init();
@@ -117,6 +122,7 @@
         },
         methods: {
             init () {
+                this.$logger.log(`v-scroll-infinite.${this._uid}.init ... `);
                 this._options = assign({}, options, {
                     prerender: this.prerender || options.prerender,
                     remain: this.remain || options.remain,
@@ -131,7 +137,8 @@
 
                 this._contentSource = new ContentSource(Vue, this._options);
 
-                this.$list = this.$el.querySelector('.recyclerview');
+                // this.$list = this.$el.querySelector('.recyclerview');
+                this.$list = this.$refs.recyclerview; // mod by Dio Zhu. on 2017.9.14
                 this.scroller = new InfiniteScroller(
                     this.$list,
                     this._contentSource,
@@ -219,7 +226,7 @@
         position: relative;
         height: 100%;
 
-        .recyclerview-loading {
+        .v-scroll-infinite__loading {
             position: absolute;
             top: 0;
             left: 0;
@@ -229,7 +236,7 @@
             font-size: 14px;
             color: #9E9E9E;
         }
-        .recyclerview {
+        .v-scroll-infinite__container {
             background: #fff;
             margin: 0;
             padding: 0;
@@ -242,6 +249,10 @@
             box-sizing: border-box;
             contain: layout;
             will-change: transform;
+
+            // li {
+            //     position: absolute;
+            // }
 
             .invisible {
                 display: none;

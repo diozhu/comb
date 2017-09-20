@@ -20,6 +20,7 @@
     import config from '../config';
     import * as api from '../js/core/api';
     import Stats from '../../static/js/vendor/stats.min.js'; // 状态插件
+    // import bus from '../vendor/eventbus.js';
 
     export default {
 //        components: { vText, vFeed, 'v-scroll-infinite': vScrollInfinite(Vue) },
@@ -43,10 +44,12 @@
         mounted () {
             this.$logger.log('scroll-infinite.mounted... ');
 //            this.initStatsPlugins(); // 初始化状态插件
+            // this.init();
         },
 
         activated () {
-            this.$logger.log('scroll-infinite.activated... ');
+            this.$logger.log('scroll-infinite.activated... ', this.$router.direct());
+            // if (this.$router.direct()) this.init();
         },
 //        deactivated () {
 //            this.$logger.log('scroll-infinite.deactivated... ');
@@ -59,6 +62,7 @@
         methods: {
             init () {
                 this.$logger.log(`scroll-infinite.${this._uid}.init: `);
+                // bus.$emit('v-scroll-infinite.init');
             },
             initStatsPlugins () { // 初始化状态插件
                 if (window.requestIdleCallback) {
@@ -85,12 +89,12 @@
             },
 
             getList ({ offset = 0, limit = config.LIMIT }) {
-                this.$logger.log('scroll-infinite.methods.getList: ', ...arguments);
+                // this.$logger.log('scroll-infinite.methods.getList: ', ...arguments);
                 return api.getInfiniteList({
                     offset: offset,
                     limit: limit
                 }).then((res) => {
-                    this.$logger.log('scroll-infinite.methods.getList: SUCCESS, ', res);
+                    // this.$logger.log(`scroll-infinite.methods.getList: SUCCESS ... offset: ${offset}, limit: ${limit} => response ${res.length} `);
                     return Promise.resolve(res);
                 });
             },

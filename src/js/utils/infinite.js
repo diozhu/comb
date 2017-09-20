@@ -20,13 +20,12 @@
 import { inView } from './util';
 
 const MAX_COUNT = Infinity;
+const SCROLL_RUNWAY = 2000;
 
 /**
  * Construct an infinite scroller.
- * @param {Element} scroller The scrollable element to use as the infinite
- *     scroll region.
- * @param {InfiniteScrollerSource} source A provider of the content to be
- *     displayed in the infinite scroll region.
+ * @param {Element} scroller The scrollable element to use as the infinite scroll region.
+ * @param {InfiniteScrollerSource} source A provider of the content to be displayed in the infinite scroll region.
  */
 export default function InfiniteScroller (scroller, source, options) {
     // Number of items to instantiate beyond current view in the opposite direction.
@@ -34,7 +33,7 @@ export default function InfiniteScroller (scroller, source, options) {
     // Number of items to instantiate beyond current view in the opposite direction.
     this.RUNWAY_ITEMS_OPPOSITE = options.remain;
     // The number of pixels of additional length to allow scrolling to.
-    // this.SCROLL_RUNWAY = options.SCROLL_RUNWAY || SCROLL_RUNWAY
+    this.SCROLL_RUNWAY = options.SCROLL_RUNWAY || SCROLL_RUNWAY
 
     // The animation interval (in ms) for fading in content from tombstones.
     this.ANIMATION_DURATION_MS = options.animation_duration_ms;
@@ -75,8 +74,7 @@ export default function InfiniteScroller (scroller, source, options) {
     window.addEventListener('resize', this.onResize_.bind(this));
     window.addEventListener('orientationchange', this.onResize_.bind(this));
 
-    // Create an element to force the scroller to allow scrolling to a certain
-    // point.
+    // Create an element to force the scroller to allow scrolling to a certain point.
     // this.scrollRunway_ = document.createElement('div');
 
     // // Internet explorer seems to require some text in this div in order to
@@ -126,7 +124,7 @@ InfiniteScroller.prototype = {
      * content.
      */
     onScroll_ () {
-        const delta = this.scroller_.scrollTop - this.anchorScrollTop;
+        const delta = this.scroller_.scrollTop - this.anchorScrollTop; // 与上次的滚动差异距离
 
         if (this.scroller_.scrollTop == 0) {
             this.anchorItem = {
@@ -141,22 +139,19 @@ InfiniteScroller.prototype = {
 
         const lastScreenItem = this.calculateAnchoredItem(this.anchorItem, this.scroller_.offsetHeight);
 
-        // console.log('[infinite.onScroll_]: ', lastScreenItem.index, this.RUNWAY_ITEMS);
-        if (delta < 0) {
+        // console.log('[infinite.onScroll_]: ', JSON.stringify(this.anchorItem), this.scroller_.offsetHeight, lastScreenItem.index, this.RUNWAY_ITEMS);
+        if (delta < 0) { // 向下滚动： 
             this.fill(this.anchorItem.index - this.RUNWAY_ITEMS, lastScreenItem.index + this.RUNWAY_ITEMS_OPPOSITE);
-        } else {
+        } else { // 向上滚动： 
             this.fill(this.anchorItem.index - this.RUNWAY_ITEMS_OPPOSITE, lastScreenItem.index + this.RUNWAY_ITEMS);
         }
     },
 
     /**
-     * Calculates the item that should be anchored after scrolling by delta from
-     * the initial anchored item.
-     * @param {{index: number, offset: number}} initialAnchor The initial position
-     *     to scroll from before calculating the new anchor position.
+     * Calculates the item that should be anchored after scrolling by delta from the initial anchored item.
+     * @param {{index: number, offset: number}} initialAnchor The initial position to scroll from before calculating the new anchor position.
      * @param {number} delta The offset from the initial item to scroll by.
-     * @return {{index: number, offset: number}} Returns the new item and offset
-     *     scroll should be anchored to.
+     * @return {{index: number, offset: number}} Returns the new item and offset scroll should be anchored to.
      */
     calculateAnchoredItem (initialAnchor, delta) {
         if (delta === 0) return initialAnchor;
@@ -193,7 +188,7 @@ InfiniteScroller.prototype = {
      * @param {number} end One past the last item which should be attached.
      */
     fill (start, end) {
-        // console.log('[infinite.fill]: ');
+        // console.log('[infinite.fill]: ', start, end);
         this.firstAttachedItem_ = Math.max(0, start);
         this.lastAttachedItem_ = end;
         this.attachContent();
@@ -222,6 +217,12 @@ InfiniteScroller.prototype = {
         return (index > -window.innerHeight * .5 && index < window.innerHeight);
     },
 
+    /**
+     * 清理 this.items_ 列表，位置在屏幕上下runaway里的item：
+     * 1. 从 this.scroller_ 容器中 removeChild；
+     * (2. 设定 this.source_ 中的对应item.inuse = false;)
+     * 3. 清空vm和node；
+     */
     getUnUsedNodes (clearAll) {
         if (this.waterflow) {
             for (let i = 0, len = this.items_.length; i < len; i++) {
@@ -285,11 +286,14 @@ InfiniteScroller.prototype = {
         }
     },
 
+    /**
+     * 获取node位置
+     * 1. 重新计算第一个锚点的位置： this.anchorScrollTop；
+     * 2. 重新计算第一个显示元素的位置： this.curPos；
+     */
     getNodePosition () {
-        // Fix scroll position in case we have realized the heights of elements
-        // that we didn't used to know.
-        // TODO: We should only need to do this when a height of an item becomes
-        // known above.
+        // Fix scroll position in case we have realized the heights of elements that we didn't used to know.
+        // TODO: We should only need to do this when a height of an item becomes known above.
         this.anchorScrollTop = 0;
         for (let i = 0; i < this.anchorItem.index; i++) {
             this.anchorScrollTop += this.items_[i].height || this.tombstoneSize_;
@@ -393,6 +397,11 @@ InfiniteScroller.prototype = {
         this.itemLayout(tombstoneAnimations);
     },
 
+    /**
+     * 可视区dom创建：
+     *  1. 已有node，改样式；
+     *  2. 没有node，有数据创建node，没有数据创建tombstone；
+     */
     renderItems () {
         let tombstoneAnimations = {};
         let node;
@@ -400,19 +409,18 @@ InfiniteScroller.prototype = {
         let i;
 
         const last = Math.floor((this.lastAttachedItem_ + this.RUNWAY_ITEMS) / this.column) * this.column;
-        console.log('[infinite.renderItems]: this.lastAttachedItem_：', this.lastAttachedItem_, last);
+        // console.log(`[infinite.renderItems]: this.firstAttachedItem_: ${this.firstAttachedItem_},  this.lastAttachedItem_：${this.lastAttachedItem_}`);
         if (last > this.MAX_COUNT) {
             this.lastAttachedItem_ = this.MAX_COUNT;
         }
         // Create DOM nodes.
         for (i = this.firstAttachedItem_; i < this.lastAttachedItem_; i++) {
-            while (this.items_.length <= i) {
+            while (this.items_.length <= i) { // 用空数据补全items
                 this.addItem_();
             }
-            if (this.items_[i].node) {
+            if (this.items_[i].node) { // 如果已经创建了node
                 // if it's a tombstone but we have data, replace it.
-                if (this.items_[i].node.classList.contains(this.TOMBSTONE_CLASS) &&
-                    this.items_[i].data) {
+                if (this.items_[i].node.classList.contains(this.TOMBSTONE_CLASS) && this.items_[i].data) { // 有数据 && 是tombstone，那就替换成真实dom
                     // TODO: Probably best to move items on top of tombstones and fade them in instead.
                     if (this.ANIMATION_DURATION_MS) {
                         this.items_[i].node.style.zIndex = 1;
@@ -441,9 +449,9 @@ InfiniteScroller.prototype = {
                     newNodes.push(node);
                 }
             } else {
-                if (this.items_[i].data) {
+                if (this.items_[i].data) { // 有数据，创建node
                     node = this.source_.render(this.items_[i].data, (this.unusedNodes.pop() || this.baseNode.cloneNode(true)), this.items_[i]);
-                } else {
+                } else { // 无数据，创建tombstone
                     node = this.getTombstone();
                 }
                 // Maybe don't do this if it's already attached?
@@ -462,6 +470,9 @@ InfiniteScroller.prototype = {
         return tombstoneAnimations;
     },
 
+    /**
+     * 计算 this.items_ 中所有可视item的宽高（10次差异计算）
+     */
     cacheItemHeight (force) {
         let rect = {};
         for (let i = this.firstAttachedItem_; i < this.lastAttachedItem_; i++) {
@@ -522,6 +533,7 @@ InfiniteScroller.prototype = {
     },
 
     setScrollRunway () {
+        console.warn('alert: SCROLL_RUNWAY: ', this.SCROLL_RUNWAY);
         this.scrollRunwayEnd_ = Math.max(this.scrollRunwayEnd_, this.curPos + this.SCROLL_RUNWAY);
         this.scrollRunway_.style.transform = 'translate(0, ' + this.scrollRunwayEnd_ + 'px)';
         this.scroller_.scrollTop = this.anchorScrollTop;
@@ -541,17 +553,16 @@ InfiniteScroller.prototype = {
      * Requests additional content if we don't have enough currently.
      */
     maybeRequestContent () {
-        // Don't issue another request if one is already in progress as we don't
-        // know where to start the next request yet.
+        // Don't issue another request if one is already in progress as we don't know where to start the next request yet.
         if (this.requestInProgress_) return;
         var itemsNeeded = this.lastAttachedItem_ - this.loadedItems_;
-        console.log('[infinite.maybeRequestContent]: ', this.requestInProgress_, !!this.source_.fetch, itemsNeeded, this.loadedItems_);
         if (itemsNeeded <= 0) return;
         this.requestInProgress_ = true;
         if (!this.source_.fetch) return;
         // this.source_.fetch(itemsNeeded, this.loadedItems_).then(data => {
         let offset = this.loadedItems_ ? this.loadedItems_ : 0,
             limit = itemsNeeded + offset;
+        // console.log(`[infinite.maybeRequestContent]: --->>> offset: ${offset}, limit: ${limit}`);
         this.source_.fetch({limit: limit, offset: offset}).then(data => {
             // console.log('infinite.maybeRequestContent.response: ', data);
             // this.MAX_COUNT = data.count;
@@ -580,7 +591,7 @@ InfiniteScroller.prototype = {
      *     scroller list.
      */
     addContent (items) {
-        console.log('[infinite.addContent]: ', items);
+        // console.log('[infinite.addContent]: ', items);
         if (!items.length) return;
         this.requestInProgress_ = false;
 

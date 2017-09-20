@@ -145,11 +145,11 @@
              *              -- Author by Dio Zhu. on 2017.5.19
              */
             beforeEnter (el) {
-                this.$logger.log(`[APP.transition].beforeEnter!`);
+                // this.$logger.log(`[APP.transition].beforeEnter!`);
                 el.style.opacity = 0.1;
             },
             enter (el, done) {
-                this.$logger.log(`[APP.transition].enter: ${this.$route.name}`);
+                // this.$logger.log(`[APP.transition].enter: ${this.$route.name}`);
                 let flt = 0; // 首页，渐进
                 if (this.trans === 'slide-left') { // 进入
                     flt = 40;
@@ -171,12 +171,12 @@
                 Velocity(el, { opacity: 1, translateX: [0, flt], translateZ: 0 }, 300, done); //eslint-disable-line
             },
             afterEnter (el) { // 还原滚动条信息
-                this.$logger.log(`[APP.transition].afterEnter: `, dom.getDetectPrefixes().transform);
+                // this.$logger.log(`[APP.transition].afterEnter: `, dom.getDetectPrefixes().transform);
                 el.style.opacity = ''; // 清除动画残留
                 el.style[dom.getDetectPrefixes().transform] = ''; // 清除动画残留，避免合并层过多，以及android低版本下transition造成fixed失效问题。。。
             },
             leave (el, done) { // 离开前获取滚动条信息
-                this.$logger.log(`[APP.transition].leave: ${this.$route.name}`);
+                // this.$logger.log(`[APP.transition].leave: ${this.$route.name}`);
                 el.style.opacity = 0.1;
                 done();
             }
