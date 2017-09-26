@@ -1,16 +1,25 @@
 <template>
     <div class="page page-home">
-        <dl>
-            <dt>
-                <img src="../assets/logo.png">
-                 <!-- <img src="/app/static/images/mark.png">       -->
-                <p>蜂巢（Comb）</p>
-            </dt>
-            <dd>
-                <!--<router-link>wiki</router-link>-->
-                <router-link to="/index" class="btn">demo</router-link>
-            </dd>
-        </dl>
+        <div class="logo">
+            <img src="../assets/logo.png">
+            <p>蜂巢（Comb）</p>
+        </div>
+        <div class="listview simple">
+            <ul>
+                <router-link :to="{ path: '/index' }" tag="li">示例<i class="icon icon-arrow-r"></i></router-link>
+            </ul>
+        </div>
+        <div class="listview simple">
+            <ul>
+                <li @click="go('http://git.hy-sport.cn/front/comb/blob/develop/README.md')">readme<i class="icon icon-arrow-r"></i></li>
+                <li @click="go('http://git.hy-sport.cn/front/comb/issues')">issues<i class="icon icon-arrow-r"></i></li>
+            </ul>
+        </div>
+        <div class="listview simple">
+            <ul>
+                <li @click="go('http://git.hy-sport.cn/front/generator-comb/blob/develop/README.md')">脚手架<i class="icon icon-arrow-r"></i></li>
+            </ul>
+        </div>
     </div>
 
 </template>
@@ -28,7 +37,9 @@
         },
 
         methods: {
-
+            go (url) {
+                document.location.href = url;
+            }
         }
     };
 </script>
@@ -38,46 +49,34 @@
     @import "../scss/_mixins.scss";
 
     .page-home{
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
 
-        dl {
-            width: 67%;
-
-            dt{
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                text-align: center;
-                margin-bottom: 20px;
-
-                img {
-                    width: 20%;
-                    flex: 0 0 auto;
-                }
-
-                p {
-                    font-size: pxTorem(20px);
-                    flex: 1 1 auto;
-                }
+            img {
+                width: pxTorem(50px);
+                padding: pxTorem(15px);
             }
-
-            dd {
-                margin-top: pxTorem(100px);
+            p {
+                font-size: pxTorem(12px);
             }
         }
 
-        .btn{
-            width: 100%;
-            height: pxTorem(44px);
-            line-height: pxTorem(44px);
-            border: 1px #3395ff solid;
-            border-radius: pxTorem(100px);
-            display: block;
-            text-align: center;
-            color: #007aff;
-            font-size: pxTorem(17px);
+        .listview {
+            padding: 0 0 pxTorem(10px) 0;
+
+            li {
+                display: flex;
+                justify-content: space-between;
+                font-size: pxTorem(14px);
+
+                .icon {
+                    margin: 0 pxTorem(15px);
+                    font-size: pxTorem(16px);
+                    color: #dddee3;
+                }
+            }
         }
     }
 </style>
