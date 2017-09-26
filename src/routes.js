@@ -13,7 +13,7 @@ const TabBar = resolve => require(['./views/tab-bar.vue'], resolve);
 const List = resolve => require(['./views/list.vue'], resolve);
 const ViewImage = resolve => require(['./vendor/v-viewImage.vue'], resolve);
 const Viewer = resolve => require(['./vendor/v-viewer.vue'], resolve);
-const vSwipe = resolve => require(['./vendor/v-swipe.vue'], resolve);
+const Swiper = resolve => require(['./views/swiper.vue'], resolve);
 const Slider = resolve => require(['./vendor/v-slider.vue'], resolve);
 const FormInput = resolve => require(['./views/form-input.vue'], resolve);
 const FormLabel = resolve => require(['./views/form-label.vue'], resolve);
@@ -211,7 +211,7 @@ const routes = [
     { name: 'mwap-info', path: '/mwap-info', meta: {title: 'mwap测试二级页面'}, component: MwapInfo },
     { name: 'timeline', path: '/timeline', meta: {title: '时间轴'}, component: Timeline },
 
-    { name: 'swipe', path: '/swipe', meta: {title: '预览', requiresAuth: true}, component: vSwipe },
+    { name: 'swiper', path: '/swiper', meta: {title: '滑动', requiresAuth: true}, component: Swiper },
     { name: 'error', path: '/error', meta: {title: '网页无法打开'}, component: Error },
     { name: 'compiler-toon', path: '/compiler-toon', meta: {title: '富文本编译器', requiresAuth: true}, component: CompilerToon },
     { name: 'sensorsdata-share', path: '/sensorsdata-share', meta: {title: '埋点分享组件', requiresAuth: true}, component: SensorsdataShare },

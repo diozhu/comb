@@ -85,6 +85,7 @@
                 <router-link :to="{ path: '/tmp-css', query: { subjectId: 19 } }" tag="li">各种临时css样式</router-link>
                 <router-link :to="{ path: '/autocomplete', query: { subjectId: 49 } }" tag="li">输入联想（autocomplete）</router-link>
                 <router-link :to="{ path: '/scroll-io', query: { subjectId: 48 } }" tag="li">滚动条（intersectionObserver）</router-link>
+                <router-link :to="{ path: '/swiper', query: { subjectId: 48 } }" tag="li">轮播（swiper）</router-link>
             </ul>
         </div>
 
