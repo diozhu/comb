@@ -23,7 +23,7 @@
 
         <h2>示例</h2>
         <v-swiper :auto="5000">
-            <v-swiper-item v-for="item in imgList">
+            <v-swiper-item v-for="(item, idx) in imgList" key="idx">
                 <img :src="item.url | thumb">
             </v-swiper-item>
         </v-swiper>
@@ -37,7 +37,7 @@
 
         <p class="desc">隐藏 indicators</p>
         <v-swiper :show-indicators="false">
-            <v-swiper-item v-for="item in imgList">
+            <v-swiper-item v-for="(item, idx) in imgList" key="idx">
                 <img :src="item.url | thumb">
             </v-swiper-item>
         </v-swiper>
@@ -51,7 +51,7 @@
 
         <p class="desc">取消自动播放</p>
         <v-swiper :auto="0">
-            <v-swiper-item v-for="item in imgList">
+            <v-swiper-item v-for="(item, idx) in imgList" key="idx">
                 <img :src="item.url | thumb">
             </v-swiper-item>
         </v-swiper>
@@ -65,7 +65,7 @@
 
         <p class="desc">设置默认显示页</p>
         <v-swiper :auto="0" :defaultIndex="1">
-            <v-swiper-item v-for="item in imgList">
+            <v-swiper-item v-for="(item, idx) in imgList" key="idx">
                 <img :src="item.url | thumb">
             </v-swiper-item>
         </v-swiper>
