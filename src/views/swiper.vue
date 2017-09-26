@@ -128,6 +128,12 @@ export default {
         };
     },
 
+    created () {
+        // api.getImageList().then(res => {
+        //     this.$set(this, 'imgList', res);
+        // });
+    },
+
     mounted () {
         this.$logger.log('swiper.mounted... ');
     },
