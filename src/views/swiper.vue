@@ -28,15 +28,26 @@
             </v-swiper-item>
         </v-swiper>
         <pre v-highlightjs @touchend.stop><code class="html">
-
+        &lt;v-swiper :auto="5000"&gt;
+            &lt;v-swiper-item v-for="item in imgList"&gt;
+                &lt;img :src="item.url | thumb"&gt;
+            &lt;/v-swiper-item&gt;
+        &lt;/v-swiper&gt;
         </code></pre>
 
         <p class="desc">隐藏 indicators</p>
-        <v-swiper :show-indicators="false" :prevent="true" :stopPropagation="true">
+        <v-swiper :show-indicators="false">
             <v-swiper-item class="slide1">1</v-swiper-item>
             <v-swiper-item class="slide2">2</v-swiper-item>
             <v-swiper-item class="slide3">3</v-swiper-item>
         </v-swiper>
+        <pre v-highlightjs @touchend.stop><code class="html">
+        &lt;v-swiper :show-indicators="false"&gt;
+            &lt;v-swiper-item class="slide1"&gt;1&lt;/v-swiper-item&gt;
+            &lt;v-swiper-item class="slide2"&gt;2&lt;/v-swiper-item&gt;
+            &lt;v-swiper-item class="slide3"&gt;3&lt;/v-swiper-item&gt;
+        &lt;/v-swiper&gt;
+        </code></pre>
 
         <p class="desc">取消自动播放</p>
         <v-swiper :auto="0">
@@ -44,6 +55,13 @@
             <v-swiper-item class="slide2">2</v-swiper-item>
             <v-swiper-item class="slide3">3</v-swiper-item>
         </v-swiper>
+        <pre v-highlightjs @touchend.stop><code class="html">
+        &lt;v-swiper :auto="0"&gt;
+            &lt;v-swiper-item class="slide1"&gt;1&lt;/v-swiper-item&gt;
+            &lt;v-swiper-item class="slide2"&gt;2&lt;/v-swiper-item&gt;
+            &lt;v-swiper-item class="slide3"&gt;3&lt;/v-swiper-item&gt;
+        &lt;/v-swiper&gt;
+        </code></pre>
 
         <p class="desc">设置默认显示页</p>
         <v-swiper :auto="0" :defaultIndex="1">
@@ -51,13 +69,22 @@
             <v-swiper-item class="slide2">2</v-swiper-item>
             <v-swiper-item class="slide3">3</v-swiper-item>
         </v-swiper>
+        <pre v-highlightjs @touchend.stop><code class="html">
+        &lt;v-swiper :auto="0" :defaultIndex="1"&gt;
+            &lt;v-swiper-item class="slide1"&gt;1&lt;/v-swiper-item&gt;
+            &lt;v-swiper-item class="slide2"&gt;2&lt;/v-swiper-item&gt;
+            &lt;v-swiper-item class="slide3"&gt;3&lt;/v-swiper-item&gt;
+        &lt;/v-swiper&gt;
+        </code></pre>
 
         <p class="desc">单个幻灯片</p>
-            <v-swiper :show-indicators="false">
+        <v-swiper :show-indicators="false">
             <v-swiper-item class="slide1">SINGLE SLIDE</v-swiper-item>
         </v-swiper>
         <pre v-highlightjs @touchend.stop><code class="html">
-
+        &lt;v-swiper :show-indicators="false"&gt;
+            &lt;v-swiper-item class="slide1"&gt;SINGLE SLIDE&lt;/v-swiper-item&gt;
+        &lt;/v-swiper&gt;
         </code></pre>
 
         <div class="blank"></div>
