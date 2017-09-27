@@ -24,7 +24,8 @@
         <h2>示例</h2>
         <v-swiper :auto="5000">
             <v-swiper-item v-for="(item, idx) in imgList" key="idx">
-                <img :src="item.url | thumb">
+                <!-- <img :src="item.url | thumb"> -->
+                <img v-lazy="item.url">
             </v-swiper-item>
         </v-swiper>
         <pre v-highlightjs @touchend.stop><code class="html">
@@ -159,14 +160,26 @@ export default {
             font-size: pxTorem(15px);
             text-align: center;
             margin-bottom: pxTorem(20px);
-        }
 
-        .v-swiper-item {
-            line-height: pxTorem(100px);
-            background-color: #000;
+            .v-swiper-item {
+                line-height: pxTorem(100px);
+                background-color: #fff;
+                display: flex;
+                justify-content: center;
+                align-items: center;
 
-            img {
-                width: 100%;
+                &.is-active {
+                    display: flex;
+                }
+
+                img {
+                    width: 100%;
+                    height: initial;
+                }
+                img[lazy=loading] {
+                    width: pxTorem(16px);
+                    height: pxTorem(16px);
+                }
             }
         }
     }

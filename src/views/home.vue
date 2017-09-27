@@ -6,7 +6,7 @@
         </div>
         <div class="listview simple">
             <ul>
-                <router-link :to="{ path: '/index' }" tag="li">示例<i class="icon icon-arrow-r"></i></router-link>
+                <router-link :to="{ name: 'index' }" tag="li">示例<i class="icon icon-arrow-r"></i></router-link>
             </ul>
         </div>
         <div class="listview simple">
