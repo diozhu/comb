@@ -27,6 +27,7 @@ Vue.use(VueResource);
 
 // import axios from 'axios'; // 可替换vue-resource
 // Vue.http = axios;
+// window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 if (typeof Promise === 'undefined') {
     var Promise = _promise;

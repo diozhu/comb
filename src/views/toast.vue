@@ -129,17 +129,22 @@
         mounted () {
             this.$logger.log('toast.mounted... ');
         },
+        beforeRouteLeave (to, from, next) {
+            this.$logger.log('toast.beforeRouteLeave... ');
+            if (this.toast) this.toast.close(); // 离开前关闭
+            next();
+        },
         methods: {
             openToast: function () {
-                this.$toast('提示文字，尽量限制在一行以内');
+                this.toast = this.$toast('提示文字，尽量限制在一行以内');
             },
 
             openToastWithIcon () {
-                this.$toast({ message: '操作成功', iconClass: 'icon icon-right' });
+                this.toast = this.$toast({ message: '操作成功', iconClass: 'icon icon-right' });
             },
 
             openBottomToast () {
-                this.$toast({ message: '提示信息', duration: 1000, position: 'bottom' });
+                this.toast = this.$toast({ message: '提示信息', duration: 1000, position: 'bottom' });
             }
 
         }

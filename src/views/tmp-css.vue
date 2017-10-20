@@ -12,6 +12,7 @@
 </template>
 
 <script>
+    // import '../../static/js/vendor/zepto.min';
     import VButton from '../vendor/v-button';
     export default {
         name: 'page-tmp-css',

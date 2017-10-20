@@ -1,5 +1,6 @@
 var express = require('express'),
     router = express.Router(),
+    // https = require('https'),
     comment = require('./comment'),
     dat = [
         {'id': 1001, 'title': '这是一句测试的内容 01', 'dt': 1478655191000, 'userInfo': { 'id': "397833", 'title': '老朱',    'subtitle': '推广语', 'isfollow': 1, 'avatar': 'http://scloud.toon.mobi/f/px7AsFiOs4o1y2QYiCLSEFtj2uLEp44OvJMtAkgCVV8fG_80_80_100_1.jpg', }},
@@ -1166,5 +1167,40 @@ router.post('/getDelay', function (req, res, next) {
         res.json(rtn);
     }, delay);// 模拟网络延时...
 });
+
+// /**
+//  * 微信小程序能通过login方法获取code，此接口接收code，请求服务器换取open_id；
+//  *              -- Author by Dio Zhu. on 2017.10.19
+//  */
+// router.get('/wxcode2session', function (req, res, next) {
+//     res.json({'code': 0, 'msg': 'ok!!!'});
+//     // var data = {
+//     //     code: 'test@test.com'
+//     // };
+
+//     // // data = require('querystring').stringify(data);
+//     // console.log(data);
+//     // var opt = {
+//     //     method: 'POST',
+//     //     host: 'https://api.weixin.qq.com',
+//     //     // port: 80,
+//     //     path: '/sns/jscode2session',
+//     //     headers: {
+//     //         'Content-Type': 'application/x-www-form-urlencoded'
+//     //     }
+//     // };
+//     // var req = https.request(opt, function (serverFeedback) {
+//     //     // if (serverFeedback.statusCode == 200) {
+//     //     //     var body = '';
+//     //     //     serverFeedback.on('data', function (data) { body += data; })
+//     //     //                   .on('end', function () { res.send(200, body); });
+//     //     // } else {
+//     //     //     res.send(500, 'error');
+//     //     // }
+//     //     res.json(serverFeedback);
+//     // });
+//     // req.write(data + '\n');
+//     // req.end();
+// });
 
 module.exports = router;
