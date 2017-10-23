@@ -33,9 +33,11 @@ module.exports = {
     // 增加plugins。 Author by Dio Zhu. on 2017.4.7
     plugins: [
         new webpack.optimize.MinChunkSizePlugin({minChunkSize: 50000}), // 合并低于50K的小文件
-        // new webpack.ProvidePlugin({
+        // new webpack.ProvidePlugin({ // 当webpack加载到某个js模块里，出现了未定义且名称符合（字符串完全匹配）配置中key的变量时，会自动require配置中value所指定的js模块
         //     $: "jquery",
-        //     jQuery: "jquery"
+        //     jQuery: "jquery",
+        //     'window.jQuery': 'jquery',
+        //     'window.$': 'jquery',
         // })
     ],
     module: {
