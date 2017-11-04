@@ -7,7 +7,8 @@ import { sync } from 'vuex-router-sync';
 import Comb from './vendor/index';
 import * as filters from './filters';
 import VueLazyload from 'vue-lazyload';
-import '../static/js/vendor/fastclick'; // get fastclick
+// import '../static/js/vendor/fastclick'; // get fastclick
+import FastClick from 'fastclick';
 import 'intersection-observer'; // polyfill: intersectionObserver
 import 'es6-promise/auto'; // polyfill: es6-promise
 import app from './app.vue';
@@ -16,10 +17,11 @@ import app from './app.vue';
 // this registers `store.state.route`
 sync(store, router);
 
-// 注册 fastclick
-document.addEventListener('DOMContentLoaded', function () {
-    if (window.FastClick) window.FastClick.attach(document.body);
-}, false);
+// // 注册 fastclick
+// document.addEventListener('DOMContentLoaded', function () {
+//     if (window.FastClick) window.FastClick.attach(document.body);
+// }, false);
+FastClick.attach(document.body);
 
 // 注册vue-resource
 Vue.use(VueResource);

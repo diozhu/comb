@@ -1,10 +1,10 @@
 <template>
     <div class="v-swiper" @touchend.stop>
-        <div class="v-swiper-items-wrap" ref="wrap">
+        <div class="v-swiper-items-wrap" ref="wrap" :class="[{carousel: isCarousel}]">
             <slot></slot>
         </div>
         <div class="v-swiper-indicators" v-show="showIndicators">
-            <div class="v-swiper-indicator" v-for="(page, $index) in pages" :class="{ 'is-active': $index === index }"></div>
+            <div class="v-swiper-indicator" v-for="(page, $index) in pages" :key="$index" :class="{ 'is-active': $index === index }"></div>
         </div>
     </div>
 </template>
@@ -34,45 +34,15 @@ export default {
     },
 
     props: {
-        speed: {
-            type: Number,
-            default: 300
-        },
-
-        defaultIndex: {
-            type: Number,
-            default: 0
-        },
-
-        auto: {
-            type: Number,
-            default: 3000
-        },
-
-        continuous: {
-            type: Boolean,
-            default: true
-        },
-
-        showIndicators: {
-            type: Boolean,
-            default: true
-        },
-
-        noDragWhenSingle: {
-            type: Boolean,
-            default: true
-        },
-
-        prevent: {
-            type: Boolean,
-            default: false
-        },
-
-        stopPropagation: {
-            type: Boolean,
-            default: false
-        }
+        speed: { type: Number, default: 300 },
+        defaultIndex: { type: Number, default: 0 },
+        auto: { type: Number, default: 3000 },
+        continuous: { type: Boolean, default: true },
+        showIndicators: { type: Boolean, default: true },
+        noDragWhenSingle: { type: Boolean, default: true },
+        prevent: { type: Boolean, default: false },
+        stopPropagation: { type: Boolean, default: false },
+        isCarousel: { type: Boolean, default: false }
     },
 
     watch: {
@@ -146,6 +116,9 @@ export default {
                 if (index === defaultIndex) {
                     addClass(child.$el, 'is-active');
                 }
+                // if (this.isCarousel) {
+                //     addClass(child.$el, 'carousel');
+                // }
             });
 
             this.pages = pages;
@@ -526,4 +499,15 @@ export default {
         }
     }
 }
+
+// .v-swiper {
+
+//     .carousel {
+
+//         .v-swiper-item {
+//             width: 50%;
+//             overflow: hidden;
+//         }
+//     }
+// }
 </style>

@@ -69,7 +69,7 @@ let isAttached = function (element) {
         let directive = this,
             element = directive.el;
         // 添加touch事件，实现下拉刷新
-        console.log('v-refresh.doBind ...', element);
+        // console.log('v-refresh.doBind ...', element);
         directive.pullEventTarget = element;
         // this.vm.$set(this.vm, 'pullTarget', directive.pullEventTarget);
 
@@ -84,19 +84,21 @@ let isAttached = function (element) {
     },
 
     pullStart = function (e) {
-        // console.log('[v-refresh.pullStart]', e.touches[0].clientY);
+        // console.log('[v-refresh.pullStart]', e.touches[0].clientY, getScrollTop(this.pullEventTarget));
         // if (!this.vm[this.el.getAttribute('refresh-enabled')]) return;
         this.startX = e.touches[0].clientX;
         this.startY = e.touches[0].clientY;
         this.startScrollTop = getScrollTop(this.pullEventTarget);
-        // if (this.startScrollTop === 0) {
-        //     e.preventDefault();
-        // }
-        return true;
+        if (this.startScrollTop === 0) {
+            e.preventDefault(); // 解决移动端卡死问题，实际上是touchend没有触发
+        }
+        this.pulling = true; // 移动端多个touch容器会有卡死现象，添加此标识解决touchstart、touchend不执行，只执行touchmove的问题。Author by Dio Zhu. on 2017.11.4
+        // return true;
     },
 
     pulling = function (e) {
-        // console.log('[v-refresh.pulling]', e.touches[0].clientY);
+        if (!this.pulling) return;
+        // console.log('[v-refresh.pulling] this.direction： ', this.direction, this.el.className, this.startX, this.startY);
         // if (!this.vm[this.el.getAttribute('refresh-enabled')]) return;
         if (this.startY < this.el.getBoundingClientRect().top && this.startY > this.el.getBoundingClientRect().bottom) return true;
         this.currentX = e.touches[0].clientX;
@@ -117,12 +119,13 @@ let isAttached = function (element) {
             if (this.vm[translateExpr] > 30) this.vm['refreshTag'] = true;
             // if (this.vm[translateExpr] >= this.vm['refreshHeight']) this.vm[translateExpr] = this.vm['refreshHeight'];
             if (this.vm[translateExpr] >= this.vm['refreshHeight']) this.vm[translateExpr] = this.vm['refreshHeight'] + (this.vm[translateExpr] - this.vm['refreshHeight']) / 10;
+            // console.log(`[v-refresh.pulling]: ${this.direction}, ${viewportScrollTop}, ${distance - this.startScrollTop}`);
         }
-        return true;
+        // return true;
     },
 
     pullEnd = function (e) {
-        console.log('[v-refresh].pullEnd: ', this.direction, e);
+        console.log('[v-refresh].pullEnd: ', this.direction);
         // if (!this.vm[this.el.getAttribute('refresh-enabled')]) return;
         let viewportScrollTop = getScrollTop(this.pullEventTarget),
             translateExpr = this.el.getAttribute('refresh-translate');
@@ -132,7 +135,8 @@ let isAttached = function (element) {
             this.expression();
         }
         this.direction = '';
-        return true;
+        this.pulling = false; // 移动端多个touch容器会有卡死现象，添加此标识解决touchstart、touchend不执行，只执行touchmove的问题
+        // return true;
     };
 
 // === infinite scrolll ===

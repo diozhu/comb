@@ -73,7 +73,6 @@ let throttle = function (fn, delay) { //eslint-disable-line
         directive.distance = element.getAttribute('swipe-distance') || 20; // 修正距离
         directive.preventDefault = Boolean(element.getAttribute('swipe-prevent-default')); //
         directive.stopPropagation = Boolean(element.getAttribute('swipe-stop-propagation')); //
-
         console.log('[v-swipe].doBind: ', directive);
 
         directive.swipeEventTarget = element;
@@ -107,10 +106,12 @@ let throttle = function (fn, delay) { //eslint-disable-line
         if (touchEvent && this.vm[touchEvent]) this.vm[touchEvent](e);
     },
     _touchMove = function (e) { //eslint-disable-line
+        // if (this.startY < this.el.getBoundingClientRect().top && this.startY > this.el.getBoundingClientRect().bottom) return true; // 超出范围
         if (!this.startTouches || this.startTouches.length < 1) return false;
         // if (this.startY < this.el.getBoundingClientRect().top && this.startY > this.el.getBoundingClientRect().bottom) return true; // 超出范围
         if (this.stopPropagation) e.stopPropagation();
         if (this.preventDefault) e.preventDefault();
+        // console.log(`[v-swipe].swiping!!!: ${this.direction}`, this.el.className, this.distance, this.stopPropagation, this.preventDefault);
         // this.currentX = e.touches[0].clientX;
         // this.currentY = e.touches[0].clientY;
         // let x = this.currentX - this.startX,
@@ -127,32 +128,42 @@ let throttle = function (fn, delay) { //eslint-disable-line
             dist = 0;
         if (x < this.tapRangeLimit && y < this.tapRangeLimit) return false; // 触摸精度不满足
         // console.log(`[v-swipe].swiping!!!: ${this.fingerType}, ${this.direction}`, this.startTouches, this.currentTouches);
-        if (this.fingerType === 'swipe') { // 单指滑动
-            // x = this.currentTouches[0].clientX - this.startTouches[0].clientX;
-            // y = this.currentTouches[0].clientY - this.startTouches[0].clientY;
-            if (Math.abs(x) > Math.abs(y) && x >= this.distance) { // right
-                this.direction = 'right';
-            } else if (Math.abs(x) > Math.abs(y) && x <= -this.distance) { // left
-                this.direction = 'left';
-            } else if (Math.abs(x) < Math.abs(y) && y >= this.distance) { // up
-                this.direction = 'down';
-            } else if (Math.abs(x) < Math.abs(y) && y <= -this.distance) { // down
-                this.direction = 'up';
-            }
-            // console.log(`[v-swipe].swiping: ${this.fingerType}, ${x}, ${y}, ${this.direction}`);
-        } else { // 多指，按两指取pinch间距，返回两指移动距离和
-            // console.log(`[v-swipe].swiping: ${this.fingerType}, ${this.direction}`, this.oldTouches, this.currentTouches);
-            let oldDist = _getPinchDist(this.oldTouches, this.currentTouches);
-            if ((this.direction === 'pinchout' && oldDist > 0) || (this.direction === 'pinchin' && oldDist <= 0)) {
-                this.startTouches = this.oldTouches.slice(0);
-            }
-            dist = _getPinchDist(this.startTouches, this.currentTouches);
-            if (dist > 0) {
-                this.direction = 'pinchin';
-            } else {
-                this.direction = 'pinchout';
-            }
+        // if (this.fingerType === 'swipe') { // 单指滑动
+        //     // x = this.currentTouches[0].clientX - this.startTouches[0].clientX;
+        //     // y = this.currentTouches[0].clientY - this.startTouches[0].clientY;
+        //     if (Math.abs(x) > Math.abs(y) && x >= this.distance) { // right
+        //         this.direction = 'right';
+        //     } else if (Math.abs(x) > Math.abs(y) && x <= -this.distance) { // left
+        //         this.direction = 'left';
+        //     } else if (Math.abs(x) < Math.abs(y) && y >= this.distance) { // up
+        //         this.direction = 'down';
+        //     } else if (Math.abs(x) < Math.abs(y) && y <= -this.distance) { // down
+        //         this.direction = 'up';
+        //     }
+        //     // console.log(`[v-swipe].swiping: ${this.fingerType}, ${x}, ${y}, ${this.direction}`);
+        // } else { // 多指，按两指取pinch间距，返回两指移动距离和
+        //     // console.log(`[v-swipe].swiping: ${this.fingerType}, ${this.direction}`, this.oldTouches, this.currentTouches);
+        //     let oldDist = _getPinchDist(this.oldTouches, this.currentTouches);
+        //     if ((this.direction === 'pinchout' && oldDist > 0) || (this.direction === 'pinchin' && oldDist <= 0)) {
+        //         this.startTouches = this.oldTouches.slice(0);
+        //     }
+        //     dist = _getPinchDist(this.startTouches, this.currentTouches);
+        //     if (dist > 0) {
+        //         this.direction = 'pinchin';
+        //     } else {
+        //         this.direction = 'pinchout';
+        //     }
+        // }
+        if (Math.abs(x) > Math.abs(y) && x >= this.distance) { // right
+            this.direction = 'right';
+        } else if (Math.abs(x) > Math.abs(y) && x <= -this.distance) { // left
+            this.direction = 'left';
+        } else if (Math.abs(x) < Math.abs(y) && y >= this.distance) { // up
+            this.direction = 'down';
+        } else if (Math.abs(x) < Math.abs(y) && y <= -this.distance) { // down
+            this.direction = 'up';
         }
+        // console.log(`[v-swipe].swiping!!!: ${this.direction}`, this.el.className, this.distance, x, y, this.stopPropagation, this.preventDefault);
         let touchEvent = this.el.getAttribute('handle-touch-move'); // 回调：e、手势类型、移动距离（正负）
         if (this.direction && touchEvent && this.vm[touchEvent]) this.vm[touchEvent](e, this.direction, {x: x, y: y, dist: dist});
     },
@@ -163,37 +174,38 @@ let throttle = function (fn, delay) { //eslint-disable-line
         // console.log(`[v-swipe].swipeEnd: ${this.direction} === ${this.direction}`, this.currentTouches[0].clientX, this.startTouches[0].clientX);
 
         let x = this.currentTouches[0].clientX - this.startTouches[0].clientX,
-            y = this.currentTouches[0].clientY - this.startTouches[0].clientY,
-            isTap = Math.abs(x) < this.tapRangeLimit && Math.abs(y) < this.tapRangeLimit,
-            tapEvent = this.el.getAttribute('handle-tap'),
-            doubleTapEvent = this.el.getAttribute('handle-double-tap'),
-            ts = new Date().getTime(),
-            delta = ts - (this.tsTouchStart || ts);
+            y = this.currentTouches[0].clientY - this.startTouches[0].clientY;
+            // isTap = Math.abs(x) < this.tapRangeLimit && Math.abs(y) < this.tapRangeLimit,
+            // tapEvent = this.el.getAttribute('handle-tap'),
+            // doubleTapEvent = this.el.getAttribute('handle-double-tap'),
+            // ts = new Date().getTime(),
+            // delta = ts - (this.tsTouchStart || ts);
 
-        // doubleTap模拟doubleClick
-        // if (this.tsTouchEnd - ts <= this.tapMaxTime && isTap && this.vm[doubleTapEvent] && typeof this.vm[doubleTapEvent] === 'function') {
-        if (this.isDoubleTap && this.vm[doubleTapEvent] && typeof this.vm[doubleTapEvent] === 'function') {
-            console.log(`[v-swipe].swipeEnd: onDoubleTap!!!`);
-            this.vm[doubleTapEvent](e);
-            return false;
-        }
-        // tap模拟click事件
-        this.tsTouchEnd = ts;
-        if (delta <= this.tapMaxTime && isTap && this.vm[tapEvent] && typeof this.vm[tapEvent] === 'function') {
-            console.log(`[v-swipe].swipeEnd: onTap!!!`);
-            this.vm[tapEvent](e);
-            return false;
-        }
+        // // doubleTap模拟doubleClick
+        // // if (this.tsTouchEnd - ts <= this.tapMaxTime && isTap && this.vm[doubleTapEvent] && typeof this.vm[doubleTapEvent] === 'function') {
+        // if (this.isDoubleTap && this.vm[doubleTapEvent] && typeof this.vm[doubleTapEvent] === 'function') {
+        //     console.log(`[v-swipe].swipeEnd: onDoubleTap!!!`);
+        //     this.vm[doubleTapEvent](e);
+        //     return false;
+        // }
+        // // tap模拟click事件
+        // this.tsTouchEnd = ts;
+        // if (delta <= this.tapMaxTime && isTap && this.vm[tapEvent] && typeof this.vm[tapEvent] === 'function') {
+        //     console.log(`[v-swipe].swipeEnd: onTap!!!`);
+        //     this.vm[tapEvent](e);
+        //     return false;
+        // }
 
         let direction = this.el.getAttribute('swipe-direction');
         // console.log(`[v-swipe].swipeEnd: ${this.direction} === ${direction}`, direction.split(','), typeof this.expression);
+        // console.log(`[v-swipe].swipeEnd: ==> ${direction} === ${this.direction}`, x, y, this.distance);
         // if (this.direction === direction && typeof this.expression === 'function') {
         //     this.expression();
         // }
         [].forEach.call(direction.split(','), dic => {
-            if (dic === this.direction && (x >= this.distance || y >= this.distance) && typeof this.expression === 'function') {
-                console.log(`[v-swipe].swipeEnd: ${dic} === ${direction}`, x, y);
-                this.expression();
+            if (dic === this.direction && (Math.abs(x) >= this.distance || Math.abs(y) >= this.distance) && typeof this.expression === 'function') {
+                console.log(`[v-swipe].swipeEnd: ==> ${dic} === ${this.direction}`, x, y, this.distance);
+                this.expression(this.direction);
             }
         });
         let touchEvent = this.el.getAttribute('handle-touch-end'); //
@@ -212,7 +224,6 @@ let throttle = function (fn, delay) { //eslint-disable-line
         let now = new Date().getTime(),
             delta = now - (this.tsTouchStart || now);
         this.isDoubleTap = (delta > 0 && delta < this.tapMaxTime);
-        console.log(`@@@[v-swipe].swipeStart: delta: ${delta}, this.tsTouchStart: ${this.tsTouchStart}, this.isDoubleTap: ${this.isDoubleTap}`);
         this.tsTouchStart = now;
 
         [].forEach.call(e.touches, v => { this.startTouches.push({ clientX: v.clientX, clientY: v.clientY }); }); // 全部保存
@@ -242,7 +253,8 @@ let throttle = function (fn, delay) { //eslint-disable-line
     },
 
     swiping = function (e) { //eslint-disable-line
-        // if (this.startY < this.el.getBoundingClientRect().top && this.startY > this.el.getBoundingClientRect().bottom) return true; // 超出范围
+        // console.log(`[v-swipe].swiping: ${this.fingerType}, ${this.direction}`);
+        if (this.startY < this.el.getBoundingClientRect().top && this.startY > this.el.getBoundingClientRect().bottom) return true; // 超出范围
         if (this.stopPropagation) e.stopPropagation();
         if (this.preventDefault) e.preventDefault();
         // this.currentX = e.touches[0].clientX;
@@ -258,6 +270,7 @@ let throttle = function (fn, delay) { //eslint-disable-line
         let x = this.currentTouches[0].clientX - this.startTouches[0].clientX,
             y = this.currentTouches[0].clientY - this.startTouches[0].clientY,
             dist = 0;
+        // console.log(`[v-swipe].swiping: ${this.fingerType}, ${x}, ${y}, ${this.direction}`);
         if (x < this.tapRangeLimit && y < this.tapRangeLimit) return false; // 触摸精度不满足
         if (this.fingerType === 'swipe') { // 单指滑动
             // x = this.currentTouches[0].clientX - this.startTouches[0].clientX;
