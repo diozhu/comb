@@ -19,7 +19,7 @@
         <ul>
             <li>
                 <v-timeline v-model="detail.state" :flows="detail.flows">
-                    <template slot="item" scope="props">
+                    <template slot="item" slot-scope="props">
                         <v-feed
                             :feedId = "props.data.feedId"
                             :imgUrl = "props.data.imgUrl"

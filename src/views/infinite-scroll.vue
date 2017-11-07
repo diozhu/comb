@@ -22,7 +22,7 @@
                 <!--</div>-->
             <!--</template>-->
             <!-- 实际滚动行样式 -->
-            <template slot="item" scope="props">
+            <template slot="item" slot-scope="props">
                 <div @click="goDetail(props.data)">
                     <v-feed
                         :feedId="props.data.userInfo ? props.data.userInfo.feedId : ''"

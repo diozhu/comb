@@ -71,7 +71,7 @@
         created () {
             this.$on('slotValueChange', this.slotValueChange);
             var slots = this.slots || [], valueIndexCount = 0;
-            this.values = [];
+            // this.values = []; // 会报错。。。mod by Dio Zhu. on 2017.11.4
             let values = this.values;
             slots.forEach(function (slot) {
                 if (!slot.divider) {

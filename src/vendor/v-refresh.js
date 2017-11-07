@@ -89,9 +89,9 @@ let isAttached = function (element) {
         this.startX = e.touches[0].clientX;
         this.startY = e.touches[0].clientY;
         this.startScrollTop = getScrollTop(this.pullEventTarget);
-        if (this.startScrollTop === 0) {
-            e.preventDefault(); // 解决移动端卡死问题，实际上是touchend没有触发
-        }
+        // if (this.startScrollTop === 0) {
+        //     e.preventDefault(); // 解决移动端卡死问题，实际上是touchend没有触发
+        // }
         this.pulling = true; // 移动端多个touch容器会有卡死现象，添加此标识解决touchstart、touchend不执行，只执行touchmove的问题。Author by Dio Zhu. on 2017.11.4
         // return true;
     },
@@ -125,7 +125,7 @@ let isAttached = function (element) {
     },
 
     pullEnd = function (e) {
-        console.log('[v-refresh].pullEnd: ', this.direction);
+        // console.log('[v-refresh].pullEnd: ', this.direction);
         // if (!this.vm[this.el.getAttribute('refresh-enabled')]) return;
         let viewportScrollTop = getScrollTop(this.pullEventTarget),
             translateExpr = this.el.getAttribute('refresh-translate');

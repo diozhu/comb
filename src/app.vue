@@ -41,7 +41,8 @@
     import * as dom from './js/utils/dom.js';
     import * as utils from './js/utils/utils.js';
 //    require('../static/js/vendor/velocity.min'); // get velocity.min
-    import '../static/js/vendor/velocity.min.js'; // get velocity.min
+    // import '../static/js/vendor/velocity.min.js'; // get velocity.min
+    import Velocity from 'velocity-animate'; // 使用npm包。。。
     import Swipe from './vendor/v-swipe.js'; // 滑动手势
     import ScrollPosition from './vendor/v-scroll-position.js'; // 滚动条位置信息
     // import pFloatComments from './components/p-float-comments.vue'; // 组件库浮动评论赞组件，实际项目请注释掉

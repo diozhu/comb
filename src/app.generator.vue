@@ -51,7 +51,8 @@
     import Vue from 'vue';
     import { toonCall } from './js/core/core'; // Examples of using the toon protocal. Author by Dio Zhu. on 2017.2.24
     import * as utils from './js/utils/utils';
-    require('../static/js/vendor/velocity.min'); // get velocity.min
+    // require('../static/js/vendor/velocity.min'); // get velocity.min
+    import Velocity from 'velocity-animate';
     import Swipe from './vendor/v-swipe'; // 滑动手势
     import ScrollPosition from './vendor/v-scroll-position'; // 滚动条位置信息
 
