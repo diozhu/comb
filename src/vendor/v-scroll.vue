@@ -1,6 +1,6 @@
 <template>
-    <!-- v-show="isEnabled" -->
-    <div class="v-scroll"
+    <div v-show="isEnabled"
+         class="v-scroll"
     >
         <div
             :id="'combScroll_'+_uid"
@@ -11,20 +11,24 @@
             scroll-distance="scrollDistance"
             scroll-enabled="isEnabled"
             scroll-tombstone="tombstone"
+            scroll-scrolling-func="scrollingFunc"
             v-scroll-position
         >
             <!--:style="{ 'transform': 'translate3d(0, ' + translate + 'px, 0)' }"-->
             <!-- 内容插槽 -->
             <div ref="content" class="v-scroll-content">
                 <slot></slot>
+                <!-- <slot name="footer" :class="[]"></slot> -->
             </div>
             <!-- 底部loading && 结束标识 -->
-            <div v-if="!refreshTag && (isLoading || (isShowText && scrollEndTxt && currentValue.length > 0))" class="v-scroll-bottom">
+            <div v-if="typeof endFunc == 'function' || (!refreshTag && (isLoading || (isShowText && scrollEndTxt && currentValue.length > 0)))" class="v-scroll-bottom">
                 <transition name="fade">
                     <v-spinner v-show="isLoading" color="#BBBAC2" type="triple-bounce"></v-spinner>
                 </transition>
                 <transition name="fade">
-                    <p class="v-scroll-bottom-txt" v-show="!isLoading && isShowText && scrollEndTxt && currentValue.length > 0">·&nbsp;END&nbsp;·</p>
+                    <p class="v-scroll-bottom-txt" v-show="!isLoading && isShowText && scrollEndTxt && currentValue.length > 0">
+                        <slot name="endText">·&nbsp;我是有底线的&nbsp;·</slot>
+                    </p>
                 </transition>
             </div>
             <!-- 默认为空样式的插槽 -->
@@ -46,7 +50,6 @@
 //    import { mapState } from 'vuex';
 //    import ScrollPosition from '../vendor/v-scroll-position.js'; // 滚动条位置信息
     import bus from '../vendor/eventbus';
-    import * as api from '../js/core/api.js'; //eslint-disable-line
     // import * as dom from '../js/utils/dom.js';
 
     Vue.use(Scroll);
@@ -82,12 +85,15 @@
         name: 'v-scroll',
 
         props: {
+            from: String,
             id: String,
             value: {
                 type: Array,
                 default: () => []
             },
-            func: Function,         // 加载所需函数
+            func: Function,             // 加载所需函数
+            endFunc: Function,          // 加载完毕的回调函数，用于拉到最后，切换首页类目，进行瀑布流展示
+            scrollingFunc: Function,    // 滚动时的回调函数，用于外部监听
             funcType: {             // 使用的分页类型，section：常用语nodejs的区间方式(0~10, 10~20)、page：常用于php的分页方式、time：时间分页方式（暂未实现）
                 type: String,
                 default: 'page'
@@ -111,6 +117,22 @@
             tombstone: {
                 type: Boolean,      // 是否开启墓碑模式
                 default: false
+            },
+            hasDataParent: {
+                type: Boolean,
+                default: true
+            },
+            isGoInit: {
+                type: Boolean,
+                default: true
+            },
+            scrollEndFlowTag: {     // 结束提示语是否跟随显示，false：不满一屏不显示，true：只要没有数据就显示
+                type: Boolean,
+                default: false
+            },
+            endFuncEnable: {        // 是否开启加载完回调功能（endFunc）
+                type: Boolean,
+                default: false
             }
 //            loading: {
 //                type: Boolean,
@@ -127,6 +149,7 @@
 
         data () {
             return {
+                pageHeight: 0,
                 uid: this._uid,
                 currentValue: this.value,
 
@@ -139,13 +162,13 @@
                 limit: CONFIG.LIMIT,        // 每页显示记录数(nodejs)
                 page: 1,                    // 当前页数(php)
                 pageNum: CONFIG.LIMIT,      // 每页显示记录数(php)
-                hasData: true,              // 是否存在数据, 决定是否显示特定样式的"空白页"
                 hasMore: true,              // 是否还有数据, 决定最底下是否显示" - 已加载完毕 - "样式
+                hasMoreTotal: true,         // 用于打开endFunc时，判断外部是否还有需要加载的数据
                 isLoading: false,           // 正在加载
 //                listCount: 0,               // 数据列表计数，用于初始加载判断
                 scrollEndTxt: false,        // 列表结束语显示标识
                 refreshTag: false,          // 刷新的标识
-
+                hasData: true,
                 isEnabled: this.enabled,    // 可用标识
 //                translate: 0,               // 下拉刷新的偏移量
 //                refreshHeight: 0,           // refresh的dom高度
@@ -260,17 +283,22 @@
             this.$logger.log(`[v-scroll].${this._uid}.created...`);
             bus.$on('v-scroll.refreshList', this.refreshList); // 监听下拉刷新的事件
             bus.$on('v-scroll.getList', this.getList); // 监听上拉加载事件
-            if (!this.$route.matched.some(record => record.meta.keepAlive)) this.init(); // 非keep-alive时执行，否则放在activated中初始化. add by Dio Zhu. on 2017.9.11
+//            this.init();
+            if (!this.$route.meta || !this.$route.meta.keepAlive) this.init(); // 如果路由没有设定keepAlive，再执行init函数，否则会重复执行。 Author by Dio Zhu. on 2017.12.2
         },
         mounted () {
+            this.pageHeight = window.screen.height;
             this.$logger.log(`[v-scroll].${this._uid}.mounted...`, this.$route.name, this.$parent.$route.name);
         },
 
         activated () {
-            this.$logger.log(`*[v-scroll].${this._uid}.activated...`, this._inactive);
+            this.$logger.log(`*[v-scroll].${this._uid}.activated...`, this._inactive, this.$router.direct());
             this.isEnabled = this.enabled;
             // this.init(); // 如果当前页面是keep-alive的，这里重新初始化
             if (this.$router.direct()) { // in
+                if (!this.isGoInit) {
+                    return false;
+                }
                 this.init(); // 如果当前页面是keep-alive的，这里重新初始化
             } else { // back
                 // do nothing ...
@@ -289,7 +317,7 @@
         },
 
         methods: {
-            reset ({resetData = true} = {}) {
+            reset ({resetData = true, goTop = true} = {}) {
                 // 初始化分页参数
                 this.oTime = -1;
                 this.pageSize = CONFIG.LIMIT;
@@ -300,8 +328,11 @@
                 this.hasMore = true;
                 this.hasData = true;
                 this.scrollEndTxt = false;
+                // this.endFuncEnable = false; // 关闭瀑布流，如需调用，确保refresh前重新赋值
 
                 if (resetData) this.currentValue = [];
+                if (goTop && this.scrollTarget) this.scrollTarget.scrollTop = 0;
+                this.hasMoreTotal = true;
             },
 
             init () {
@@ -340,16 +371,48 @@
              * 获取数据
              */
             getList () {
-                this.$logger.log(`[v-scroll].${this._uid}.getList.befor: !!!`);
+                // this.$logger.log(`[v-scroll].${this._uid}.getList.befor: !!!`);
                 if (!this.isEnabled) return;  // 当前滚动条非可用时，直接返回，用于同页面多个实例的时候
                 // 结束语判断
                 // if (!this.scrollEndTxt && this.scrollTarget) this.scrollEndTxt = document.body.scrollHeight > document.body.offsetHeight;
-                if (!this.scrollEndTxt && this.scrollTarget) this.scrollEndTxt = this.scrollTarget.scrollHeight > (this.scrollTarget.offsetHeight * 5 / 4);
+                if (!this.scrollEndTxt && this.scrollTarget) this.scrollEndTxt = this.scrollEndFlowTag ? true : this.scrollTarget.scrollHeight > (this.scrollTarget.offsetHeight * 5 / 4);
                 let target = this.scrollTarget;
+
+//                if (typeof this.func !== 'function' || !this.hasMore) return;  // 无效函数、无数据，直接返回
+                /**
+                 * 新增逻辑：如果指定了endFunc，在此触发回调；
+                 * v1.01项目中的首页，每次滑到底部，触发此函数回调，切换标签，继续加载，流式布局，直至最后一个类目加载完毕，显示'我是有底线的'，结束所有加载；
+                 *              -- Author by Dio Zhu. on 2017.12.5
+                 */
+                if (typeof this.func !== 'function') return;  // 无效函数
+                if (typeof this.endFunc === 'function' && !this.hasMore && this.hasMoreTotal && this.endFuncEnable) { // 如果有结束回调
+                    try {
+                        if (this.isLoading) return;
+                        if (this.isEnding) return;
+                        this.isEnding = true;
+                        this.isLoading = true;
+                        this.endFunc().then(res => {
+//                            this.$logger.log(`[v-scroll].${this._uid}.endFunc.after: `, res);
+                            if (res) {
+                                this.$logger.log(`[v-scroll].${this._uid}.endFunc.after: `, res);
+                                this.reset({resetData: false, goTop: false}); // 重置，且不清数据！
+//                                this.getList();
+                            } else {
+                                this.hasMoreTotal = false;
+                            }
+                            this.isEnding = false;
+                            this.isLoading = false;
+                        });
+                    } catch (e) {
+                        this.$logger.error(`[v-scroll].${this._uid}.endFunc.after.error: ${e}`);
+                    }
+                }
+                if (!this.hasMore) return;  // 无数据
+                /**
+                 * end mod. on 2017.12.5
+                 */
+
                 this.$logger.log(`[v-scroll].${this._uid}.getList.befor: `, target);
-
-                if (typeof this.func !== 'function' || !this.hasMore) return;  // 无效函数、无数据，直接返回
-
                 let func = null;
                 if (this.funcType === 'section') {
                     func = this.getListBySection;
@@ -375,32 +438,18 @@
                                 this.$logger.log(`[v-scroll].${this._uid}.getList.after: `, this.scrollTarget.scrollHeight, this.scrollTarget.offsetHeight);
                                 // 判断页面是否加载完毕 2017-06-30 孙乐卿
                                 this.$nextTick(() => {
-                                    this.scrollEndTxt = this.scrollTarget.scrollHeight > (this.scrollTarget.offsetHeight * 5 / 4);
+                                    this.scrollEndTxt = this.scrollEndFlowTag ? true : this.scrollTarget.scrollHeight > (this.scrollTarget.offsetHeight * 5 / 4);
                                 });
+                            }
+                            if (this.endFunc && typeof this.endFunc === 'function') { // 有可能标签无数据，hasData在上面函数中被赋值，这里根据总数据进行二次判断。。。避免'我是有底线'的endText不显示。。。Author by Dio Zhu. on 2017.12.6
+                                if (this.currentValue && this.currentValue.length > 0) this.hasData = true;
+                                else this.hasData = false;
                             }
                         });
                     } catch (e) {
                         this.$logger.error(`[v-scroll].${this._uid}.getList.after.error: ${e}`);
                     }
                 }
-
-                // try {
-                //     if (!this.fetcher) this.fetcher = api.getFetcher(this.func, this.funcType);
-                //     this.fetcher.fetch().then(res => {
-                //         this.$logger.log(`[v-scroll].${this._uid}.getList.api.after.success: `, res);
-                //         if (res && res.length) {
-                //             this.hasData = true;
-                //             this.currentValue = this.currentValue.concat(res);
-                //         } else if (!this.currentValue || !this.currentValue.length) {
-                //             this.hasData = false;
-                //         }
-                //         /** 只返回数据, 根据请求数和返回数判断是否没数据了 */
-                //         if (!res || res.length < this.fetcher.limit) this.hasMore = false;
-                //         this.isLoading = false;
-                //     });
-                // } catch (e) {
-                //     this.$logger.error(`[v-scroll].${this._uid}.getList.after.error: ${e}`);
-                // }
             },
 
             /** nodejs一般采用的区间方式 */
@@ -555,7 +604,6 @@
                 if (!this.isEnabled || this._isDestroyed) return;  // 当前滚动条非可用时，直接返回，用于同页面多个实例的时候
                 this.$logger.log(`!!!v-scroll.${this._uid}.refreshList...`);
                 if (typeof this.func !== 'function') return;  // 无效函数、无数据，直接返回
-
                 this.refreshTag = true;
                 let func = null;
                 if (this.funcType === 'section') {
@@ -571,7 +619,7 @@
                 if (typeof func === 'function') {
                     try {
 //                        this.reset(); // 重置如果先清除数据，待接口返回后渲染，屏幕会白屏一段时间。。。
-                        this.reset({resetData: false}); // 重置，不清除数据，回调之后按照分页数量删除数组内容，避免重新渲染时屏幕闪~ Author by Dio Zhu. on 2017.4.12
+                        this.reset({resetData: false, goTop: true}); // 重置，不清除数据，回调之后按照分页数量删除数组内容，避免重新渲染时屏幕闪~ Author by Dio Zhu. on 2017.4.12
 
                         func({refresh: true}).then(res => {
                             this.$logger.log(`[v-scroll].${this._uid}.refreshList.after: `, this.currentValue.length);
@@ -590,8 +638,35 @@
                             // 结束语判断
                             if (this.scrollTarget) {
                                 this.$logger.log(`[v-scroll].${this._uid}.refreshList.after: `, this.scrollTarget.scrollHeight, this.scrollTarget.offsetHeight);
-                                this.scrollEndTxt = this.scrollTarget.scrollHeight > (this.scrollTarget.offsetHeight * 5 / 4);
+                                this.scrollEndTxt = this.scrollEndFlowTag ? true : this.scrollTarget.scrollHeight > (this.scrollTarget.offsetHeight * 5 / 4);
                             }
+//                        }).then(res => { // 新增逻辑，如果只有一条记录，点击类目时，开启了endFunc，这里需要继续执行getList。 Author by Dio Zhu. on 2017.12.7
+//                            if (typeof this.endFunc === 'function' &&
+//                                !this.hasMore && this.hasMoreTotal && this.endFuncEnable &&
+//                                this.currentValue && this.currentValue.length <= 1
+//                            ) { // 如果有结束回调
+//                                this.$logger.log(`[v-scroll].${this._uid}.refreshList.after.endFunc: `, typeof this.endFunc, this.endFuncEnable);
+//                                try {
+//                                    if (this.isLoading) return;
+//                                    if (this.isEnding) return;
+//                                    this.isEnding = true;
+//                                    this.isLoading = true;
+//                                    this.endFunc().then(res => {
+//             //                            this.$logger.log(`[v-scroll].${this._uid}.endFunc.after: `, res);
+//                                        if (res) {
+//                                            this.$logger.log(`[v-scroll].${this._uid}.refreshList.endFunc.after: `, res);
+//                                            this.reset({resetData: false, goTop: false}); // 重置，且不清数据！
+//                                            this.getList();
+//                                        } else {
+//                                            this.hasMoreTotal = false;
+//                                        }
+//                                        this.isEnding = false;
+//                                        this.isLoading = false;
+//                                    });
+//                                } catch (e) {
+//                                    this.$logger.error(`[v-scroll].${this._uid}.refreshList.endFunc.after.error: ${e}`);
+//                                }
+//                            }
                         }).catch(e => {
                             this.refreshTag = false;
                             this.$logger.error(`[v-scroll].${this._uid}.refreshList.after.error: ${e}`);
@@ -660,7 +735,12 @@
     }
 
     .v-scroll-bottom {
-        padding: pxTorem(20px) 0;
+        /*padding: pxTorem(20px) 0;*/
+        height: pxTorem(45);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
 
         .v-spinner {
             text-align: center;
@@ -692,5 +772,38 @@
         border-radius: 50%;
         background: #ccc;
         box-shadow: 0 0 pxTorem(3px) #999;
+    }
+    .null-search-box{
+        padding:0 0 pxTorem(40px);
+        background:#fff;
+        color: #777E8C;
+        position: fixed;
+        top:pxTorem(181px);
+        width:100%;
+        .bg_icon{
+            // background:url(../img/ico_nosearch.png) no-repeat 50% 50%;
+            // background-size: pxTorem(70px);
+        }
+        .text{
+            font-size: pxTorem(14px);
+            color: #777E8C;
+            letter-spacing: 0;
+            line-height: 22px;
+            text-align: center;
+            .error-img{
+                text-align:center;
+                padding-bottom:pxTorem(35px);
+                img{
+                    width:pxTorem(70px);
+                    height:pxTorem(70px);
+                }
+            }
+            .error-content{
+                color:#4A4A4A;
+                font-size:pxTorem(16px);
+                line-height:pxTorem(22px);
+                text-align:center;
+            }
+        }
     }
 </style>

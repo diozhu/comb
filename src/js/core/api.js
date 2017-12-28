@@ -14,19 +14,19 @@
  */
 
 import Vue from 'vue';
-import VueResource from 'vue-resource';
+// import VueResource from 'vue-resource';
 import CONFIG from '../../config';
 import logger from '../utils/logger';
 import _promise from '../utils/promise';
 import store from '../../store/';
 // import { toonCall } from '../../js/core/core.js';
 
-// 注册vue-resource
-Vue.use(VueResource);
+// // 注册vue-resource
+// Vue.use(VueResource);
 // Vue.http.options.emulateJSON = true; // post 提交时，以表单形式提交
 
-// import axios from 'axios'; // 可替换vue-resource
-// Vue.http = axios;
+import axios from 'axios'; // 可替换vue-resource
+Vue.http = axios;
 // window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 if (typeof Promise === 'undefined') {
@@ -149,6 +149,12 @@ let _fetcher = {
             limit: CONFIG.LIMIT,        // 每页显示记录数(nodejs)
             page: 1,                    // 当前页号
             time: -1,                   // 当前分页时间
+            init () { // 下拉刷新时重新赋值
+                this.offset = 0;
+                this.limit = CONFIG.LIMIT;
+                this.page = 1;
+                this.time = -1;
+            },
             fetch () {
                 logger.log('[api._fetcher.fetch]');
                 if (typ === 'section') {
@@ -170,6 +176,7 @@ let _fetcher = {
                         offset: this.offset,
                         limit: (this.offset + this.limit)
                     }).then(res => {
+                        logger.log('[api._fetcher.getListBySection.success]', res);
                         if (res && res.length) this.offset += res.length;
                         return Promise.resolve(res);
                     });

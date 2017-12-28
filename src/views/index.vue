@@ -79,6 +79,7 @@
         <div class="listview simple">
             <ul>
                 <li>日历（区间）（待）</li>
+                <router-link :to="{ path: '/scroller', query: { subjectId: 47 } }" tag="li">滚动条（scroller）<i class="icon icon-arrow-r"></i></router-link>
                 <router-link :to="{ path: '/infinite-scroll', query: { subjectId: 47 } }" tag="li">滚动条（infinite-scroll）（dom回收无尽滚动）<i class="icon icon-arrow-r"></i></router-link>
                 <router-link :to="{ path: '/scroll-infinite', query: { subjectId: 48 } }" tag="li">滚动条（scroll-infinite）（dom回收无尽滚动）<i class="icon icon-arrow-r"></i></router-link>
                 <router-link :to="{ path: '/iscroll', query: { subjectId: 48 } }" tag="li">iscroll（iscroll方式）<i class="icon icon-arrow-r"></i></router-link>

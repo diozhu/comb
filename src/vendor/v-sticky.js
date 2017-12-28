@@ -11,7 +11,7 @@ let doBind = function () {
         if (this.binded) return; // eslint-disable-line
         this.binded = true;
 
-        console.log(`[v-sticky].${this.vm._uid}.bind!`, this.expression);
+        console.log(`[v-sticky].${this.vm._uid}.bind!`, this.modifiers, this.expression);
         // console.log(`[v-sticky].${this.vm._uid}.bind!!!`, dom.getScrollEventTarget(this.el));
         // this.vm.$nextTick(() => {
         // setTimeout(() => {
@@ -56,23 +56,26 @@ let doBind = function () {
     },
     doCheck = function () {
         const offsetTop = this.el.getBoundingClientRect().top;
-        // console.log(`[v-sticky].${this.vm._uid}.doCheck!`, this.modifiers, offsetTop);
-        if (offsetTop <= this.expression) {
+        // console.log(`[v-sticky].${this.vm._uid}.doCheck!`, this.modifiers, offsetTop, this.expression);
+        // if ((this.modifiers.top && offsetTop <= this.expression) || (this.modifiers.bottom && offsetTop > (window.innerHeight + 20))) {
+        if ((this.modifiers.top && offsetTop <= this.expression)) { // 只考虑top的，bottom的如果走这个流程会卡顿。mod by Dio Zhu. on 2017.12.12
             sticky.call(this);
             return;
         }
         reset.call(this);
     },
     sticky = function () {
+        // console.log(`[v-sticky].${this.vm._uid}.sticky!`, this.modifiers, this.active, this.expression);
         if (this.active) return;
         if (!this.el.style.height) {
             this.el.style.height = `${this.el.offsetHeight}px`;
         }
-        // console.log(`[v-sticky].${this.vm._uid}.sticky!`);
+        // console.log(`[v-sticky].${this.vm._uid}.sticky!`, this.el.style.height);
         this.el.firstElementChild.style.position = 'fixed';
         this.active = true;
     },
     reset = function () {
+        // console.log(`[v-sticky].${this.vm._uid}.reset!`, this.modifiers, this.active, this.expression);
         if (!this.active) return;
         this.el.firstElementChild.style.position = 'initial';
         this.active = false;

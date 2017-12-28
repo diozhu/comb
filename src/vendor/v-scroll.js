@@ -102,12 +102,14 @@ let throttle = function (fn, delay) {
             tombstoneExpr = element.getAttribute('scroll-tombstone'),
             tombstone = Boolean(directive.vm[tombstoneExpr]);
 
+        directive.isBottom = false; // 到底标识
+
         directive.scrollEventTarget = getScrollEventTarget(element);
         if (tombstone !== true) { // 非墓碑模式才进行滚动监听翻页的操作，墓碑模式由v-infinite-scroll操纵，进行不间断触发
             directive.scrollListener = throttle(doCheck.bind(directive), 50);
             directive.scrollEventTarget.addEventListener('scroll', directive.scrollListener);
         }
-        console.log('v-scroll.doBind: directive.scrollEventTarget = ', this.vm, directive.scrollEventTarget);
+        console.log('v-scroll.doBind: directive.scrollEventTarget = ', this.vm, directive.scrollEventTarget.className);
         this.vm.$set(this.vm, 'scrollTarget', directive.scrollEventTarget); // 保存滚动dom
 
         let disabledExpr = element.getAttribute('scroll-disabled'),
@@ -161,8 +163,18 @@ let throttle = function (fn, delay) {
         if (force !== true && this.disabled) return; //eslint-disable-line
         let viewportScrollTop = getScrollTop(scrollEventTarget),
             viewportBottom = viewportScrollTop + getVisibleHeight(scrollEventTarget),
-            shouldTrigger = false;
-        // console.log('=============>>>>>>>>---> ', scrollEventTarget, scrollEventTarget.scrollHeight, viewportBottom);
+            shouldTrigger = false,
+            scrollingFuncExpr = element.getAttribute('scroll-scrolling-func');
+
+        // 添加了到底标识，如果到底，开启touch，辅助完成滚动触发的数据拉取。。。
+        if (scrollEventTarget.scrollHeight < viewportBottom || scrollEventTarget.scrollHeight === viewportBottom) this.isBottom = true;
+        else this.isBottom = false;
+
+        // console.log('[v-scroll.js] ==> doCheck: ', scrollEventTarget.className, scrollEventTarget.scrollHeight, viewportBottom, distance, this.isBottom);
+        // 添加了滚动回调，便于外部监听滚动过程，做一些处理，比如v1.0.1时滚动位置还原类目选中状态。。。 Author by Dio Zhu. on 2017.12.5
+        if (scrollingFuncExpr && this.vm[scrollingFuncExpr] && typeof this.vm[scrollingFuncExpr] === 'function') {
+            this.vm[scrollingFuncExpr](scrollEventTarget, viewportScrollTop);
+        }
 
         if (scrollEventTarget === element) {
             shouldTrigger = scrollEventTarget.scrollHeight - viewportBottom <= distance;
@@ -180,6 +192,7 @@ let throttle = function (fn, delay) {
         //     return;
         // }
         if (shouldTrigger && this.expression) {
+            console.log('[v-scroll.js] ==> doCheck.trigger...');
             this.expression();
         }
     };

@@ -23,7 +23,7 @@
         overflow-x: hidden;
         overflow-y: auto; // 设定默认滚动容器
         -webkit-overflow-scrolling: touch;
-        background: #F2f2f2; // 添加v-transition后，如果page没有底色会透底。。。
+        background: #FFF; // 添加v-transition后，如果page没有底色会透底。。。
     }
 }
 
@@ -40,7 +40,7 @@
 //     position: relative;
 //     overflow-x: hidden;
 //     overflow-y: auto;
-    
+
 //     &::-webkit-scrollbar {
 //         display: none;
 //     }

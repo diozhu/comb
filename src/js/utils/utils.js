@@ -10,9 +10,26 @@
  *              -- Author by Dio Zhu. on 2017.6.26
  */
 
-/** ==================== 浏览器相关 ==================== */
+// /** ==================== 浏览器相关 ==================== */
+export function isWechat () {
+    let ua = window.navigator.userAgent.toLowerCase();
+    return (ua.match(/MicroMessenger/i) == 'micromessenger'); //eslint-disable-line
+    // return true;
+};
+export function isiOS () {
+    let ua = window.navigator.userAgent.toLowerCase();
+    // window.alert(ua);
+    return !!ua.match(/\(i[^;]+;( u;)? cpu.+mac os x/); // ios终端
+};
 export function getQueryStringByName (name) {
     var result = document.location.search.match(new RegExp('[\?\&]' + name + '=([^\&]+)', 'i'));
+    if (result == null || result.length < 1) {
+        return '';
+    }
+    return result[1];
+};
+export function getPathQueryStringByName (path, name) {
+    var result = path.match(new RegExp('[\?\&]' + name + '=([^\&]+)', 'i'));
     if (result == null || result.length < 1) {
         return '';
     }
@@ -166,7 +183,26 @@ export function getSessionStorage () {
     };
 };
 
-/** ==================== 事件扩展 ==================== */
+/**
+ * chrome为保证滑动性能添加了Passive支持，而支持度并不高。。。
+ *              -- Author by Dio Zhu. on 2017.12.14
+ */
+export function supportsPassive () {
+    // Test via a getter in the options object to see
+    // if the passive property is accessed
+    let supportsPassive = false;
+    try {
+        let opts = Object.defineProperty({}, 'passive', {
+            get: function () {
+                supportsPassive = true;
+            }
+        });
+        window.addEventListener('test', null, opts);
+    } catch (e) {}
+    return supportsPassive;
+}
+
+// /** ==================== 事件扩展 ==================== */
 export function throttle (fn, delay) { // 节流
     let now, lastExec, timer, context, args; //eslint-disable-line
 
@@ -200,7 +236,19 @@ export function throttle (fn, delay) { // 节流
         }
     };
 };
-/** ==================== 图片相关 ==================== */
+
+// window.requestIdleCallback
+export const requestAnimationFrame = window.requestIdleCallback ||
+    window.requestAnimationFrame ||
+    window.webkitRequestAnimationFrame ||
+    window.mozRequestAnimationFrame ||
+    window.oRequestAnimationFrame ||
+    window.msRequestAnimationFrame ||
+    function (callback) {
+        window.setTimeout(callback, 1000 / 60);
+    };
+
+// /** ==================== 图片相关 ==================== */
 /**
  * 头像、七牛的缩略图
  *              -- Author by Dio Zhu. on 2017.5.2
@@ -228,8 +276,24 @@ export function getThumbnail (url) {
         return path + suffix + mimeType;
     }
 };
-
-/** ==================== 时间函数 ==================== */
+/**
+ * 头像、七牛的缩略图
+ *              -- Author by Dio Zhu. on 2017.5.2
+ */
+export function getYouPaiYun (url, str) {
+    // url====>>路径
+    // str====>配置信息
+    if (!url) {
+        return;
+        // return '../static/images/default-avatar.png';
+    }
+    if (/upaiyun.com/.test(url)) { // 又拍云缩略图
+        return url + str;
+    } else {
+        return url;
+    }
+};
+// /** ==================== 时间函数 ==================== */
 /**
  * 时间转化
  * time 时间毫秒数,必传
@@ -320,7 +384,7 @@ export function isSameDay (dt1, dt2) {
     return dt1.getMonth() === dt2.getMonth() && dt1.getDate() === dt2.getDate();
 };
 
-/** ==================== 各种正则 ==================== */
+// /** ==================== 各种正则 ==================== */
 /**
  * validator校验
  *              -- Author By Dio Zhu. on 2017.5.10

@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import VueResource from 'vue-resource';
+// import VueResource from 'vue-resource';
 import store from './store';
 import router from './router';
 import { sync } from 'vuex-router-sync';
@@ -8,23 +8,22 @@ import Comb from './vendor/index';
 import * as filters from './filters';
 import VueLazyload from 'vue-lazyload';
 // import '../static/js/vendor/fastclick'; // get fastclick
-import FastClick from 'fastclick';
+import FastClick from 'fastclick'; // get fastclick
 import 'intersection-observer'; // polyfill: intersectionObserver
 import 'es6-promise/auto'; // polyfill: es6-promise
 import app from './app.vue';
-
 // sync the router with the vuex store.
 // this registers `store.state.route`
 sync(store, router);
-
 // // 注册 fastclick
 // document.addEventListener('DOMContentLoaded', function () {
 //     if (window.FastClick) window.FastClick.attach(document.body);
+//     // else if (FastClick) FastClick.attach(document.body);
 // }, false);
 FastClick.attach(document.body);
 
-// 注册vue-resource
-Vue.use(VueResource);
+// // 注册vue-resource
+// Vue.use(VueResource);
 // Vue.http.options.emulateJSON = true; // post 提交时，以表单形式提交
 
 // 注册蜂巢（Comb）组件

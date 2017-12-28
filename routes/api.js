@@ -1008,10 +1008,11 @@ router.post('/getRandomList', function (req, res, next) {
 
     rtn.data = dat.slice(offset, limit);
 
-    // res.json(rtn);
-    setTimeout(function () {
-        res.json(rtn);
-    }, 500);// 模拟网络延时...
+    res.json(rtn);
+    res.end();
+    // setTimeout(function () {
+    //     res.json(rtn);
+    // }, 500);// 模拟网络延时...
 });
 
 router.post('/getInfiniteList', function (req, res, next) {
@@ -1037,10 +1038,10 @@ router.post('/getInfiniteList', function (req, res, next) {
         });
     }
 
-    // res.json(rtn);
-    setTimeout(function () {
-        res.json(rtn);
-    }, 500);// 模拟网络延时...
+    res.json(rtn);
+    // setTimeout(function () {
+    //     res.json(rtn);
+    // }, 500);// 模拟网络延时...
 });
 
 router.post('/getImgList', function (req, res, next) {

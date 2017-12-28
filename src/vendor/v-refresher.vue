@@ -26,10 +26,12 @@
                 </div>
             </transition>
             <!-- 内容插槽 -->
-            <div ref="content" class="v-refresh__content" :style="[
-                 { 'transform': translate ? 'translate3d(0, ' + translate + 'px, 0)' : '' },
-                 { '-webkit-transform': translate ? 'translate3d(0, ' + translate + 'px, 0)' : '' }
-                 ]">
+            <!--:style="[-->
+            <!--{ 'transform': translate ? 'translate3d(0, ' + translate + 'px, 0)' : '' },-->
+            <!--{ '-webkit-transform': translate ? 'translate3d(0, ' + translate + 'px, 0)' : '' }-->
+            <!--]"-->
+            <div ref="content" class="v-refresh__content"
+            >
                 <slot></slot>
             </div>
         </div>
@@ -44,18 +46,18 @@
     import Vue from 'vue';
     import vSpinner from '../vendor/v-spinner/';
     import { mapState } from 'vuex';
-    import Refresh from './v-refresh';
+    import Refresher from './v-refresher';
     import bus from '../vendor/eventbus';
     // import * as dom from '../js/utils/dom.js';
 
-    Vue.use(Refresh);
+    Vue.use(Refresher);
 
     /**
      * 下拉刷新组件
      *              -- Author by Dio Zhu. on 2017.4.21
      */
     export default {
-        name: 'v-refresh',
+        name: 'v-refresher',
 
         props: {
             func: Function,         // 加载所需函数
@@ -111,12 +113,21 @@
             },
 
             translate (val) {
-//                this.$logger.log(`v-refresh.${this._uid}.watch.translate: ${val}, ${val - this.refreshHeight}`);
+                // this.$logger.log(`v-refresh.${this._uid}.watch.translate: refreshHeight: ${this.refreshHeight}, val: ${val}, ${-(this.refreshHeight + val)}`, val >= this.refreshHeight);
+                // if (val >= this.refreshHeight) {
+                //     this.refreshTranslate = 0;
+                // } else {
+                //     this.refreshTranslate = val - (this.refreshHeight);
+                // }
                 if (val >= this.refreshHeight) {
-                    this.refreshTranslate = 0;
+                    this.refreshTranslate = -val;
                 } else {
-                    this.refreshTranslate = val - (this.refreshHeight);
+                    this.refreshTranslate = -this.refreshHeight;
                 }
+                // this.refreshTranslate = -(val);
+                // document.getElementById('container').style.transform = 'translate3d(0, ' + val + 'px, 0)';
+                document.body.style.transform = 'translate3d(0, ' + val + 'px, 0)';
+                if (!val) document.body.style.transform = '';
             }
         },
 
@@ -151,6 +162,7 @@
             init () {
                 this.$logger.log(`v-refresh.${this._uid}.init...`);
                 // dom.addClass(window.document.documentElement, 'overflow'); // body绑定overflow样式
+                document.body.style.transform = ''; // 恢复之前的偏移量
 
                 this.$nextTick(() => {
                     this.refreshHeight = 36 * window.lib.flexible.dpr; // 直接计算，按理说应该去获取dom实际高度，但因使用了v-if，使得高度获取挺费劲。。。暂时这么解决。。。
@@ -170,7 +182,8 @@
                         t = nowTime - startTime,
                         v = val / t / deceleration;
 //                    _self.$logger.log('============>', val, t, v);
-                    if (_self.refreshTag || Math.floor(v) === 0) {
+//                     if (_self.refreshTag || Math.floor(v) === 0) {
+                    if (_self.refreshTag || Math.floor(v) <= 5) {
                         _self.translate = 0;
                         return;
                     }
@@ -346,6 +359,7 @@
         width: 100%;
         height: $refresh-height;
         position: absolute;
+        z-index: 99999;
         padding: 0;
         /*background: #f2f2f4;*/
         display: flex;

@@ -50,6 +50,7 @@ const AlbumInfo = resolve => require(['./views/album-info.vue'], resolve);
 const Share = resolve => require(['./views/share.vue'], resolve);
 const TmpCss = resolve => require(['./views/tmp-css.vue'], resolve);
 const ScrollIO = resolve => require(['./views/scroll-io.vue'], resolve);
+const Scroller = resolve => require(['./views/scroller.vue'], resolve);
 const Scroll = resolve => require(['./views/scroll.vue'], resolve);
 const ScrollTwo = resolve => require(['./views/scroll-two.vue'], resolve);
 const InfiniteScroll = resolve => require(['./views/infinite-scroll.vue'], resolve);
@@ -157,6 +158,7 @@ const routes = [
     { name: 'swipe-label', path: '/swipe-label', meta: {title: '滑动菜单', requiresAuth: true}, component: SwipeLabel },
     { name: 'cell', path: '/cell', meta: {title: '列表单元', requiresAuth: true}, component: Cell },
     { name: 'cell-swipe', path: '/cell-swipe', meta: {title: '滑动单元', requiresAuth: true}, component: CellSwipe },
+    { name: 'scroller', path: '/scroller', meta: {title: '滚动方式', requiresAuth: true, keepAlive: true}, component: Scroller },
     { name: 'scroll', path: '/scroll', meta: {title: '滚动条', requiresAuth: true, keepAlive: true}, component: Scroll },
     { name: 'scroll-two', path: '/scroll-two', meta: {title: '双滚动条', requiresAuth: true, keepAlive: true}, component: ScrollTwo },
     { name: 'slider-show', path: '/slider-show', meta: {title: '滚动', requiresAuth: true, keepAlive: true}, component: SlideShow },
