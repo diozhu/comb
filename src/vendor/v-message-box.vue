@@ -1,12 +1,13 @@
 <template>
     <div class="v-msgbox-wrapper">
         <transition name="msgbox-bounce">
-            <div class="v-msgbox" v-show="value">
+            <!-- @touchstart.stop  -->
+            <div class="v-msgbox" v-show="value" @touchmove.stop.prevent @touchend.stop>
                 <div class="v-msgbox-header" v-if="title !== ''">
                     <div class="v-msgbox-title">{{ title }}</div>
                 </div>
                 <div class="v-msgbox-content" v-if="message !== ''">
-                    <div class="v-msgbox-message" v-html="message"></div>
+                    <div :class="['v-msgbox-message', {mutil: message.length > 20}]" v-html="message"></div>
                     <div class="v-msgbox-input" v-show="showInput">
                         <input v-model="inputValue" :placeholder="inputPlaceholder" ref="input">
                         <div class="v-msgbox-errormsg" v-if="!!editorErrorMessage">{{ editorErrorMessage }}</div>
@@ -217,7 +218,7 @@
         transform: translate3d(-50%, -50%, 0);
         background-color: #fff;
         width: pxTorem(270px);
-        border-radius: pxTorem(5px);
+        border-radius: pxTorem(12px);
         font-size: pxTorem(16px);
         -webkit-user-select: none;
         overflow: hidden;
@@ -283,6 +284,9 @@
         text-align: center;
         font-size: pxTorem(13px);
         line-height: 1.2;
+        &.mutil{
+            text-align: left;
+        }
     }
     .v-msgbox-btns {
         display: -webkit-box;

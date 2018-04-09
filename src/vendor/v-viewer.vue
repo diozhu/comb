@@ -130,8 +130,8 @@
                 this.$root.img.forEach(v => {
                     this.images.push({
                         src: v.url,
-                        w: v.width,
-                        h: v.height
+                        w: v.width * 2,
+                        h: v.height * 2
                     });
                 });
                 this.open();

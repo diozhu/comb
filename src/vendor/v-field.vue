@@ -31,7 +31,7 @@
                   :field="field"
                   v-validator="validator"
         ></textarea>
-        <slot name="after"></slot>
+        <slot name="after" class="multi-after"></slot>
         <div v-if="type === 'textarea' && limit" class="v-field__limit">{{currentValue.length || 0}}/{{limit}}</div>
         <input v-if="type !== 'textarea'"
                ref="input"
@@ -72,12 +72,12 @@
             } else {  // 当为非字母时， 按第个字符占两个字节宽度计算
                 totalLength += 2;
             }
-    
+
             if (totalLength <= length) {
                 pEnd = i + 1;
             }
         }
-    
+
         if (pEnd < this.length) {  // 有截取
             tStr = this.substr(0, pEnd);
             tStr += '';
@@ -145,7 +145,7 @@
             },
 
             currentValue (val) {
-                this.len = val.length;
+                this.len = val ? val.length : 0;
 //                let arr = val.match(/[\n]/ig); // 加上换行后，计算不应累加，去掉就好。 -- Author by Zhicun Liu. on 2017.3.8
 //                if (arr != null) {
 //                    this.len += arr.length;
@@ -212,11 +212,12 @@
 
     .v-field {
         display: block;
-
+        input{opacity:1;} /*统一颜色*/
         input,
         textarea {
             &::-webkit-input-placeholder {/* WebKit browsers */
-                color: #737373;
+                color: #bebebe;
+                font-size:pxTorem(14px);
             }
         }
 
@@ -283,4 +284,18 @@
         border-top: #DDDEE3 pxTorem(1px) solid;
     }
 
+    .v-field.multi {
+
+        .v-cell__value {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+
+            > div {
+                padding: pxTorem(10) pxTorem(10) 0 pxTorem(10);
+                font-size: pxTorem(14);
+                color: #000;
+            }
+        }
+    }
 </style>

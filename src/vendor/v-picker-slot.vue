@@ -2,9 +2,17 @@
     <div class="picker-slot" ref="center" :class="classNames" :style="flexStyle" @touchend.stop>
         <div v-if="!divider" ref="wrapper" class="picker-slot-wrapper" :class="{ dragging: dragging }"
              :style="{ height: contentHeight + 'px' }">
-            <div class="picker-item" ref="item" v-for="itemValue in mutatingValues"
+            <!-- <div v-if="isAddress" class="picker-item" ref="item" v-for="itemValue in mutatingValues"
+                 :class="{ 'picker-selected': itemValue === currentValue }">a
+            </div>
+            <div v-ele class="picker-item" ref="item" v-for="itemValue in mutatingValues"
                  :class="{ 'picker-selected': itemValue === currentValue }">
                 {{ typeof itemValue === 'object' && itemValue[valueKey] ? itemValue[valueKey] : itemValue }}
+            </div> -->
+            <div class="picker-item" ref="item" v-for="itemValue in mutatingValues"
+                 :class="[{ 'picker-selected': itemValue === currentValue }, {'hasDesc': descKey}]">
+                {{ typeof itemValue === 'object' && itemValue[valueKey] ? itemValue[valueKey] : itemValue }}
+                <p v-if="descKey">{{ itemValue[descKey] }}</p>
             </div>
         </div>
         <div v-if="divider">{{ content }}</div>
@@ -65,7 +73,11 @@
             },
             flex: {},
             className: {},
-            content: {}
+            content: {},
+            descKey: {
+                type: String,
+                default: ''
+            }
         },
 
         data () {
@@ -124,10 +136,21 @@
         methods: {
             value2Translate (value) {
                 var values = this.mutatingValues,
-                    valueIndex = values.indexOf(value),
+                    // valueIndex = values.indexOf(value), // 组件使用时，如果用v-model外部值外部会跟着变，如果不用v-model绑定，比如p-position，要指定默认值，传入的对象和当前对象用这种方法无法判断为相等！-- Author by Dio Zhu. on 2018.2.4
+                    valueIndex,
                     offset = Math.floor(this.visibleItemCount / 2);
+                // if (values && values.length && value) {
+                //     [].forEach.call(values, (v, i) => {
+                //         console.log('=========> ', i, v, value, v === value, v[this.valueKey] === value, v[this.valueKey], value[this.valueKey], (v[this.valueKey] !== undefined && v[this.valueKey] === value[this.valueKey]));
+                //         if (v === value || v[this.valueKey] === value || (v[this.valueKey] !== undefined && v[this.valueKey] === value[this.valueKey])) {
+                //             valueIndex = i;
+                //         }
+                //     });
+                // }
+                if (values && values.length && value) [].forEach.call(values, (v, i) => { if (v === value || v[this.valueKey] === value || (v[this.valueKey] !== undefined && v[this.valueKey] === value[this.valueKey])) valueIndex = i; });
+                if (!value && valueIndex === undefined) valueIndex = -1;
                 if (valueIndex !== -1) {
-//                    this.$logger.log('v-picker-slot.value2Translate: ', (valueIndex - offset) * -ITEM_HEIGHT);
+                    // if (value) this.$logger.warn('v-picker-slot.value2Translate: ', values, value, valueIndex, offset, (valueIndex - offset) * -ITEM_HEIGHT);
                     return (valueIndex - offset) * -ITEM_HEIGHT;
                 }
             },
@@ -328,12 +351,16 @@
                 }
             },
             currentValue (val) {
+                // console.log('!!!!!!!!!!!1', JSON.stringify(val));
                 this.doOnValueChange();
                 if (this.rotateEffect) {
                     this.planUpdateRotate();
                 }
                 this.$emit('input', val);
                 this.dispatch('picker', 'slotValueChange', this);
+            },
+            className () {
+                this.$logger.warn('v-picker-slot.watch.className: ', ...arguments);
             }
         }
     };
@@ -401,6 +428,21 @@
         box-sizing: border-box;
         transition-duration: .3s;
         /*backface-visibility: hidden; // 不面向屏幕时隐藏*/
+
+        &.hasDesc {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+
+            p {
+                padding: 0 0 0 pxTorem(10);
+                font-size: pxTorem(12);
+                color: #333;
+                overflow: hidden;
+                text-overflow:ellipsis;
+                white-space: nowrap;
+            }
+        }
     }
 
     .picker-slot-absolute .picker-item {

@@ -53,7 +53,9 @@
 
     export default {
         name: 'viewer',
+        components: {
 
+        },
         props: {
         },
 

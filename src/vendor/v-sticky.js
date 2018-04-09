@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import * as dom from '../js/utils/dom.js';
-import * as utils from '../js/utils/utils.js';
+import * as utils from '../js/utils/utils.js'; //eslint-disable-line
 
 const ctx = '@@sticky';
 
@@ -11,7 +11,7 @@ let doBind = function () {
         if (this.binded) return; // eslint-disable-line
         this.binded = true;
 
-        console.log(`[v-sticky].${this.vm._uid}.bind!`, this.modifiers, this.expression);
+        console.log(`[v-sticky].${this.vm._uid}.bind!`, this.expression);
         // console.log(`[v-sticky].${this.vm._uid}.bind!!!`, dom.getScrollEventTarget(this.el));
         // this.vm.$nextTick(() => {
         // setTimeout(() => {
@@ -27,57 +27,75 @@ let doBind = function () {
         // this.el.style.transform = 'translate3d(0, 0, 0)';
 
         // 如果浏览器支持 css sticky（Currently Safari, Firefox and Chrome Canary）
+        this.isSticky = false;
         let dpr = window.lib && window.lib.flexible && window.lib.flexible.dpr || 1;
         if (~this.el.style.position.indexOf('sticky')) {
+        // if (~this.el.style.position.indexOf('stickayaaaaaaa')) {
+            this.isSticky = true;
             // elStyle.top = `${stickyTop}px`;
             if (this.modifiers.top) this.el.style.top = this.expression * dpr + 'px';
             if (this.modifiers.bottom) this.el.style.bottom = this.expression * dpr + 'px';
             this.el.style.zIndex = zIndex;
-            return;
+            // return;
+        } else {
+            // 如果浏览器不支持sticky，初始化位置
+            const elementChild = this.el.firstElementChild.style;
+            // elementChild.cssText = `left: 0; right: 0; index: ${zIndex}`;
+            elementChild.cssText = `left: 0; index: ${zIndex}; transform: translate3d(0, 0, 0);`;
+            if (this.modifiers.top) elementChild.cssText += ` top: ${this.expression * dpr}px;`;
+            // if (this.modifiers.top) elementChild.cssText += ` top: 0px;`;
+            if (this.modifiers.bottom) elementChild.cssText += ` position: fixed; bottom: ${this.expression * dpr}px;`;
+            // if (this.modifiers.bottom) elementChild.cssText += ` position: absolute; bottom: ${this.expression * dpr}px;`;
         }
 
         this.prefixes = dom.getDetectPrefixes();
-
-        // 如果浏览器不支持sticky，初始化位置
-        const elementChild = this.el.firstElementChild.style;
-        // elementChild.cssText = `left: 0; right: 0; index: ${zIndex}`;
-        elementChild.cssText = `left: 0; index: ${zIndex}; transform: translate3d(0, 0, 0);`;
-        if (this.modifiers.top) elementChild.cssText += ` top: ${this.expression * dpr}px;`;
-        // if (this.modifiers.top) elementChild.cssText += ` top: 0px;`;
-        if (this.modifiers.bottom) elementChild.cssText += ` position: fixed; bottom: ${this.expression * dpr}px;`;
-        // if (this.modifiers.bottom) elementChild.cssText += ` position: absolute; bottom: ${this.expression * dpr}px;`;
-
         this.active = false; // 浮动标识
 
         this.scrollEventTarget = dom.getScrollEventTarget(this.el);
-        this.scrollListener = utils.throttle(doCheck.bind(this), 50);
-        // this.scrollListener = doCheck.bind(this);
+        this.scrollListener = utils.throttle(doCheck.bind(this), 20);
+        console.log(`[v-sticky].${this.vm._uid}.bind!!!!!`, this.scrollEventTarget.className);
         this.scrollEventTarget.addEventListener('scroll', this.scrollListener);
     },
-    doCheck = function () {
-        const offsetTop = this.el.getBoundingClientRect().top;
-        // console.log(`[v-sticky].${this.vm._uid}.doCheck!`, this.modifiers, offsetTop, this.expression);
-        // if ((this.modifiers.top && offsetTop <= this.expression) || (this.modifiers.bottom && offsetTop > (window.innerHeight + 20))) {
-        if ((this.modifiers.top && offsetTop <= this.expression)) { // 只考虑top的，bottom的如果走这个流程会卡顿。mod by Dio Zhu. on 2017.12.12
-            sticky.call(this);
+    doCheck = function () { //eslint-disable-line
+        // console.log(`[v-sticky].${this.vm._uid}.doCheck!`);
+        // console.log(`[v-sticky].${this.vm._uid}.doCheck!`, this.vm[this.el.getAttribute('sticky-disabled')]);
+        if (this.vm[this.el.getAttribute('sticky-disabled')]) { // 禁用标识，refresh组件提供，拉动页面时避免卡住的现象。。。mod by Dio Zhu. on 2018.3.20
+            reset.call(this);
             return;
         }
-        reset.call(this);
+        const offsetTop = this.el.getBoundingClientRect().top;
+        // if (offsetTop > this.expression) return;
+        // console.log(`[v-sticky].${this.vm._uid}.doCheck!`, this.modifiers, offsetTop, this.expression);
+        if (offsetTop <= this.expression) {
+            sticky.call(this);
+        } else {
+            reset.call(this);
+        }
+        let sevent = this.el.getAttribute('sticky-handle-change'); // 回调：是否被定位（Boolean）、移动的距离（正负）
+        if (sevent && this.vm[sevent]) this.vm[sevent](this.active, offsetTop);
     },
     sticky = function () {
-        // console.log(`[v-sticky].${this.vm._uid}.sticky!`, this.modifiers, this.active, this.expression);
         if (this.active) return;
         if (!this.el.style.height) {
             this.el.style.height = `${this.el.offsetHeight}px`;
         }
-        // console.log(`[v-sticky].${this.vm._uid}.sticky!`, this.el.style.height);
-        this.el.firstElementChild.style.position = 'fixed';
+        // console.log(`[v-sticky].${this.vm._uid}.sticky: `, this.el.style.height, this.el.firstElementChild.style.position, this.el.firstElementChild.style.cssText);
+        if (this.isSticky) { // 如果浏览器支持sticky
+
+        } else { // 如果浏览器不支持sticky
+            this.el.firstElementChild.style.position = 'fixed';
+        }
+        dom.addClass(this.el, 'sticky');
         this.active = true;
     },
     reset = function () {
-        // console.log(`[v-sticky].${this.vm._uid}.reset!`, this.modifiers, this.active, this.expression);
         if (!this.active) return;
-        this.el.firstElementChild.style.position = 'initial';
+        if (this.isSticky) { // 如果浏览器支持sticky
+
+        } else { // 如果浏览器不支持sticky
+            this.el.firstElementChild.style.position = 'initial';
+        }
+        dom.removeClass(this.el, 'sticky');
         this.active = false;
     };
 

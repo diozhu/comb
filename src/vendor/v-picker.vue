@@ -1,8 +1,11 @@
 <template>
     <div class="v-picker" :class="{ 'v-picker-3d': rotateEffect }">
+            <!-- <slot name='message'></slot> -->
         <div class="v-picker-toolbar" v-if="$slots.default">
+        <!-- <div v-if="$slots.default"> -->
             <slot></slot>
         </div>
+
         <div class="v-picker-items">
             <v-picker-slot v-for="(slot, idx) in slots"
                          :key="idx"
@@ -16,6 +19,7 @@
                          :rotate-effect="rotateEffect"
                          :divider="slot.divider"
                          :content="slot.content"
+                         :descKey="descKey"
             ></v-picker-slot>
             <div ref="mask" class="v-picker-center-mask"></div>
             <div class="v-picker-center-highlight"></div>
@@ -45,6 +49,10 @@
             rotateEffect: {
                 type: Boolean,
                 default: false
+            },
+            descKey: {
+                type: String,
+                default: ''
             }
         },
 
@@ -68,6 +76,12 @@
             }
         },
 
+        // watch: {
+        //     slots () {
+        //         this.$logger.warn('v-picker.watch.slots: ', this.slots, ...arguments);
+        //     }
+        // },
+
         created () {
             this.$on('slotValueChange', this.slotValueChange);
             var slots = this.slots || [], valueIndexCount = 0;
@@ -85,7 +99,6 @@
         mounted () {
             logger.log('picker.mounted: ');
         },
-
         methods: {
             slotValueChange () {
                 this.$emit('change', this, this.values);
@@ -156,15 +169,34 @@
     .v-picker {
         overflow: hidden;
     }
-
+    .top-message{
+        font-size: pxTorem(14px);
+        // height: pxTorem(80px);
+        padding:pxTorem(12px) pxTorem(15px);
+        // display: block;
+        border-bottom: 1px solid #E3E3E3;
+        border-top: 1px solid #E3E3E3;
+        .msg-tit{
+            font-size:pxTorem(15px);
+            color: #3E3A39;
+            text-align: center;
+            padding-bottom:pxTorem(2px);
+        }
+        .msg-con{
+            font-size: pxTorem(13px);
+            color: #3E3A39;
+            text-align: center;
+        }
+    }
     .v-picker-toolbar {
         height: pxTorem(40px);
+        border-bottom: 1px solid #E3E3E3;
         display: flex;
         justify-content: space-between;
 
         .v-popup-action {
             font-size: pxTorem(15px);
-            color: #007AFF;
+            color: #000000;
             margin: 0 pxTorem(15px);
 
             flex: 0 0 auto;

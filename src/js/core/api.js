@@ -391,14 +391,6 @@ export function vGetMicroBbsToken (params, opts) {
     });
 };
 /**
- * 纯测试...
- */
-export function getDelay (params, opts) {
-    let uri = CONFIG.URL + '/api/getDelay',
-        param = params || {};
-    return post(uri, param, opts);
-};
-/**
  * 批量获取用户信息
  */
 export function getUserList (params, opts) {
@@ -425,3 +417,7 @@ export function getOrgTree (params, opts) {
     param.ticket = CONFIG.ticket;
     return post(uri, param, opts);
 };
+/**
+ * 纯测试...
+ */
+export const getDelay = (params, opts) => post(CONFIG.URL + '/api/getDelay', params, opts);

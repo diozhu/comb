@@ -110,6 +110,7 @@ let isAttached = function (element) {
             translateExpr = this.el.getAttribute('refresh-translate'),
             distance = (this.currentY - this.startY);
         // console.log(`[v-refresh.pulling]: ${this.direction}, ${viewportScrollTop}, ${distance - this.startScrollTop}`);
+        if (this.direction === 'down' && viewportScrollTop < 10) e.preventDefault(); // 阻止微信内页面下拉
         if (this.direction === 'down' && viewportScrollTop === 0 && this.expression) { // 下拉
             // console.log('[v-refresh.pulling]!!!', this.vm[translateExpr]);
             e.preventDefault();
@@ -120,12 +121,31 @@ let isAttached = function (element) {
             // if (this.vm[translateExpr] >= this.vm['refreshHeight']) this.vm[translateExpr] = this.vm['refreshHeight'];
             if (this.vm[translateExpr] >= this.vm['refreshHeight']) this.vm[translateExpr] = this.vm['refreshHeight'] + (this.vm[translateExpr] - this.vm['refreshHeight']) / 10;
             // console.log(`[v-refresh.pulling]: ${this.direction}, ${viewportScrollTop}, ${distance - this.startScrollTop}`);
+        } else {
+            pullEnd.call(this, e);
+            // this.direction = '';
+            // this.vm[translateExpr] = 0; // 还原位置，防止android下拖拽后上拉造成的卡死。 mod by Dio Zhu. on 2018.3.20
+            // this.pulling = false; // 移动端多个touch容器会有卡死现象，添加此标识解决touchstart、touchend不执行，只执行touchmove的问题
+            // this.vm['refreshTag'] = false;
         }
+        this.touching = true;
+        setTimeout(() => {
+            if (this.touching) {
+                pullEnd.call(this, e);
+                // this.direction = '';
+                // this.vm[translateExpr] = 0; // 还原位置，防止android下拖拽后上拉造成的卡死。 mod by Dio Zhu. on 2018.3.20
+                // this.pulling = false; // 移动端多个touch容器会有卡死现象，添加此标识解决touchstart、touchend不执行，只执行touchmove的问题
+                // this.vm['refreshTag'] = false;
+            }
+        }, 500);
+        setTimeout(() => {
+            this.touching = false;
+        }, 600);
         // return true;
     },
 
     pullEnd = function (e) {
-        // console.log('[v-refresh].pullEnd: ', this.direction);
+        console.log('[v-refresh].pullEnd: ', this.direction);
         // if (!this.vm[this.el.getAttribute('refresh-enabled')]) return;
         let viewportScrollTop = getScrollTop(this.pullEventTarget),
             translateExpr = this.el.getAttribute('refresh-translate');
@@ -133,9 +153,12 @@ let isAttached = function (element) {
             // console.log('[v-refresh.down]!!!');
             if (this.vm[translateExpr] >= this.vm['refreshHeight']) this.vm[translateExpr] = this.vm['refreshHeight'];
             this.expression();
+        } else {
+            this.vm[translateExpr] = 0;
         }
         this.direction = '';
         this.pulling = false; // 移动端多个touch容器会有卡死现象，添加此标识解决touchstart、touchend不执行，只执行touchmove的问题
+        this.vm['refreshTag'] = false;
         // return true;
     };
 

@@ -53,6 +53,8 @@
     @import "../scss/_mixins";
 
     .v-toast{
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
         /*width: 100%;*/
         max-width: 80%;
         position: fixed;
@@ -62,29 +64,32 @@
         color: #fff;
         box-sizing: border-box;
         text-align: center;
-        z-index: 1000;
+        z-index: 2999;
         transition: opacity .3s linear;
 
         &.is-placebottom {
             bottom: pxTorem(50px);
             left: 50%;
-            -webkit-transform: translate(-50%, 0);
-            transform: translate(-50%, 0)
+            -webkit-transform: translate3d(-50%, 0, 0);
+            transform: translate3d(-50%, 0, 0)
         }
         &.is-placemiddle {
             left: 50%;
             top: 50%;
-            -webkit-transform: translate(-50%, -50%);
-            transform: translate(-50%, -50%)
+            -webkit-transform: translate3d(-50%, -50%, 0);
+            transform: translate3d(-50%, -50%, 0);
         }
         &.is-placetop {
             top: pxTorem(50px);
             left: 50%;
-            -webkit-transform: translate(-50%, 0);
-            transform: translate(-50%, 0)
+            -webkit-transform: translate3d(-50%, 0, 0);
+            transform: translate3d(-50%, 0, 0);
         }
     }
-
+    /* autoprefixer: off */
+    .v-toast {
+        z-index: 2999;
+    }
     .v-toast-icon {
         display: block;
         text-align: center;
