@@ -1,6 +1,6 @@
 <template>
     <div class="v-star">
-        <div class="label">{{ label }}</div>
+        <div v-if="label" class="label">{{ label }}</div>
         <div class="v-star__frm">
             <i v-for="n in 5"
                class="icon"
@@ -27,6 +27,10 @@
             value: {
                 type: Number,
                 default: 0
+            },
+            disabled: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -50,6 +54,7 @@
 
         methods: {
             handleClick (val) {
+                if (this.disabled) return;
                 this.currentValue = val;
             }
         }

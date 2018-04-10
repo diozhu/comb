@@ -10,15 +10,17 @@
                 <tr><th>参数</th><th>说明</th><th>类型</th><th>可选</th><th>默认</th></tr>
                 <tr><td>label</td><td>左侧标题</td><td>String</td><td>-</td><td>-</td></tr>
                 <tr><td>value</td><td>当前选中的值</td><td>Number</td><td>-</td><td>0</td></tr>
+                <tr><td>disabled</td><td>是否禁用点击，只展示</td><td>Boolean</td><td>-</td><td>false</td></tr>
             </table>
         </div>
 
         <h2>示例</h2>
         <v-star v-model="val1" label="第一行："></v-star>
-        <v-star v-model="val2" label="第二行："></v-star>
+        <v-star v-model="val2"></v-star>
         <v-star v-model="val3" label="第三行："></v-star>
         <v-star v-model="val4" label="第四行："></v-star>
-        <v-star v-model="val5" label="第五行："></v-star>
+        <v-star v-model="val5" label="第五行(禁用)：" disabled></v-star>
+        <br />
         <ul>
             <li><p>第一行的值：{{val1}}</p></li>
             <li><p>第二行的值：{{val2}}</p></li>
@@ -66,5 +68,8 @@
 
     .page-star {
 
+        .v-star, ul {
+            padding: 0 pxTorem(15);
+        }
     }
 </style>
