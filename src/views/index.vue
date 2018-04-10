@@ -78,6 +78,7 @@
         <p>开发中...</p>
         <div class="listview simple">
             <ul>
+                <router-link :to="{ path: '/star', query: { subjectId: 47 } }" tag="li">评星（star）<i class="icon icon-arrow-r"></i></router-link>
                 <li>日历（区间）（待）</li>
                 <router-link :to="{ path: '/scroller', query: { subjectId: 47 } }" tag="li">滚动条（scroller）<i class="icon icon-arrow-r"></i></router-link>
                 <router-link :to="{ path: '/infinite-scroll', query: { subjectId: 47 } }" tag="li">滚动条（infinite-scroll）（dom回收无尽滚动）<i class="icon icon-arrow-r"></i></router-link>

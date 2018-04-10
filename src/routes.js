@@ -91,6 +91,7 @@ const Audio = resolve => require(['./views/audio.vue'], resolve);
 const Mwap = resolve => require(['./views/mwap.vue'], resolve);
 const MwapInfo = resolve => require(['./views/mwap-info.vue'], resolve);
 const Timeline = resolve => require(['./views/timeline.vue'], resolve);
+const Star = resolve => require(['./views/star.vue'], resolve);
 
 // 编写路由集合
 const routes = [
@@ -217,6 +218,8 @@ const routes = [
     { name: 'error', path: '/error', meta: {title: '网页无法打开'}, component: Error },
     { name: 'compiler-toon', path: '/compiler-toon', meta: {title: '富文本编译器', requiresAuth: true}, component: CompilerToon },
     { name: 'sensorsdata-share', path: '/sensorsdata-share', meta: {title: '埋点分享组件', requiresAuth: true}, component: SensorsdataShare },
+
+    { name: 'star', path: '/star', meta: {title: '评星', requiresAuth: true}, component: Star },
     { path: '*', meta: {title: '出错啦'}, component: PageNotFound }
 ];
 // 导出路由集合
