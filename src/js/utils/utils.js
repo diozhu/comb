@@ -383,6 +383,45 @@ export function isSameDay (dt1, dt2) {
     dt2 = (dt2 instanceof Date) ? dt2 : this.dateTrans(dt2);
     return dt1.getMonth() === dt2.getMonth() && dt1.getDate() === dt2.getDate();
 };
+export const daysInMonths = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+/** 闰年 */
+export const getIsLeapYear = year => (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+export const getMonthComps = (month, year) => ({
+    days: (month === 2 && getIsLeapYear(year)) ? 29 : daysInMonths[month - 1],
+    month,
+    year
+});
+
+/** 上周 */
+export const getPrevWeekComps = (month, year, day) => {
+    let dt = (year && month && day) ? new Date(year, month - 1, day) : new Date();
+    dt.setDate(dt.getDate() - 7 + dt.getDay() - 3); // 这么写是为了从周三开始计算本月还是下月、上月。。。
+    let comps = getMonthComps(dt.getMonth() + 1, dt.getFullYear());
+    // console.log('===========>>>>> ', year, month, day, dt, comps);
+    return {...comps, day: dt.getDate()};
+};
+/** 下周 */
+export const getNextWeekComps = (month, year, day) => {
+    let dt = (year && month && day) ? new Date(year, month - 1, day) : new Date();
+    // console.log('===========>>>>> ', year, month, day, dt);
+    dt.setDate(dt.getDate() + 7 - dt.getDay() + 3); // 这么写是为了从周三开始计算本月还是下月、上月。。。
+    // console.log('===========>>>>> ', year, month, day, dt);
+    let comps = getMonthComps(dt.getMonth() + 1, dt.getFullYear());
+    // console.log('===========>>>>> ', year, month, day, dt, comps);
+    return {...comps, day: dt.getDate()};
+};
+/** 上个月 */
+export const getPrevMonthComps = (month, year) => {
+    if (month === 1) return getMonthComps(12, year - 1);
+    return getMonthComps(month - 1, year);
+};
+
+/** 下个月 */
+// Day/month/year components for next month
+export const getNextMonthComps = (month, year) => {
+    if (month === 12) return getMonthComps(1, year + 1);
+    return getMonthComps(month + 1, year);
+};
 
 /** ==================== 各种正则 ==================== */
 /**
