@@ -219,7 +219,7 @@ const routes = [
     { name: 'compiler-toon', path: '/compiler-toon', meta: {title: '富文本编译器', requiresAuth: true}, component: CompilerToon },
     { name: 'sensorsdata-share', path: '/sensorsdata-share', meta: {title: '埋点分享组件', requiresAuth: true}, component: SensorsdataShare },
 
-    { name: 'star', path: '/star', meta: {title: '评星', requiresAuth: true}, component: Star },
+    { name: 'star', path: '/star', meta: {title: '评星', requiresAuth: true, keepAlive: true}, component: Star },
     { path: '*', meta: {title: '出错啦'}, component: PageNotFound }
 ];
 // 导出路由集合

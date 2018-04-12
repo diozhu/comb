@@ -7,6 +7,7 @@
                :class="[{'icon-star-fill': n <= currentValue}, {'icon-star': n > currentValue}]"
                @click="handleClick(n)"
             ></i>
+            <p class="desc" v-if="enableDesc && desc && desc.length">{{ desc[currentValue] }}</p>
         </div>
     </div>
 </template>
@@ -31,6 +32,14 @@
             disabled: {
                 type: Boolean,
                 default: false
+            },
+            enableDesc: {
+                type: Boolean,
+                default: true
+            },
+            desc: {
+                type: Array,
+                default: () => ['', '非常不满意', '不满意', '一般', '满意', '非常满意']
             }
         },
         data () {
@@ -79,6 +88,11 @@
             .icon {
                 font-size: pxTorem(12);
                 padding: 0 pxTorem(6) 0 0;
+            }
+            .desc {
+                display: inline-block;
+                font-size: pxTorem(12);
+                line-height: 1;
             }
         }
     }
