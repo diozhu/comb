@@ -35,6 +35,30 @@
             <div v-if="!hasData && currentValue.length <= 0" class="v-scroll-empty">
                 <slot class="v-scroll-empty" name="empty">暂无数据</slot>
             </div>
+            <!-- <div v-if="!hasDataParent && currentValue.length <= 0" class="null-search-box">
+                <div class="bg_icon"></div>
+                <div class="text" v-if="!from">
+                    <div class="error-img">
+                    </div>
+                    <div class="error-content">
+                        暂无数据
+                    </div>
+                </div>
+                <div class="text" v-if="from">没搜索到相关内容！</div>
+            </div> -->
+            <!--
+             <div v-if="!hasData && currentValue.length <= 0" class="null-search-box">
+                <div class="bg_icon"></div>
+                <div class="text" v-if="!from">
+                    <div class="error-img">
+                         <img src="../assets/pic_cont.png" />
+                    </div>
+                    <div class="error-content">
+                        暂无数据
+                    </div>
+                </div>
+                <div class="text" v-if="from">没搜索到相关内容！</div>
+            </div>-->
         </div>
         <!-- 返回顶部 -->
         <transition name="fade">

@@ -31,6 +31,16 @@ module.exports = {
         assetsSubDirectory: 'static',
         assetsPublicPath: '/',
         proxyTable: {
+            '/wap': { // doing项目qa环境，用于测试axios的post和get。。。
+                target: 'http://qa.doing.hy-sport.cn',
+                changeOrigin: true,
+                secure: false
+            },
+            '/activity_sales': { // doing项目qa环境，用于测试axios的post和get。。。
+                target: 'http://qa.doing.hy-sport.cn',
+                changeOrigin: true,
+                secure: false
+            },
             // '/bbs': {
             //     // target: process.env.REMOTE_API_BASE_URL,
             //     target: 'http://p100.ms-bbs.systoon.com',

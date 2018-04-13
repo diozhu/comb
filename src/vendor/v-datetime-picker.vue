@@ -7,8 +7,13 @@
       class="v-datetime-picker"
       ref="picker"
     >
-      <span class="v-datetime-action v-datetime-cancel" @click="visible = false">{{ cancelText }}</span>
-      <span class="v-datetime-action v-datetime-confirm" @click="confirm">{{ confirmText }}</span>
+    <div class="date-time-msg-box">
+        <slot name="topMessage"></slot>
+        <div class="concel-confirm-button">
+            <span class="v-datetime-action v-datetime-cancel" @click="visible = false">{{ cancelText }}</span>
+            <span class="v-datetime-action v-datetime-confirm" @click="confirm">{{ confirmText }}</span>
+        </div>
+    </div>
     </v-picker>
   </v-popup>
 </template>
@@ -59,7 +64,7 @@
             startDate: {
                 type: Date,
                 default () {
-                    let sd = new Date(new Date().getFullYear() - 10, 0, 1);
+                    let sd = new Date(new Date().getFullYear() - 18, 0, 1);
                     if (this.type === 'smart') sd = new Date(); // Dio Zhu. on 2017.3.1
                     return sd;
                 }
@@ -104,7 +109,15 @@
                 type: Number,
                 default: 5
             },
-            value: null
+            value: null,
+            validity: {
+                type: Boolean,
+                default: false
+            },
+            isValidator: {
+                type: Boolean,
+                default: false
+            }
         },
 
         data () {
@@ -279,14 +292,13 @@
 
             onChange (picker) {
                 let values = picker.$children.filter(child => child.currentValue !== undefined).map(child => child.currentValue);
-//                console.log('v-datetime-picker.onChange: ', this.selfTriggered, values, this.currentValue);
+                // console.log('v-datetime-picker.onChange: ', this.selfTriggered, values, this.currentValue);
                 if (this.selfTriggered) {
                     this.selfTriggered = false;
                     return;
                 }
 
                 this.currentValue = this.getValue(values);
-
                 if (this.type === 'smart') { // smart模式时间校验。 add by Dio Zhu. on 2017.3.31
                     let std = new Date();
                     console.log('v-datetime-picker.onChange: ', values, this.currentValue < std);
@@ -300,7 +312,6 @@
                         return;
                     }
                 }
-
                 this.handleValueChange();
             },
 
@@ -337,7 +348,8 @@
                 } else {
                     slots.push({
                         flex: 1,
-                        values: this.fillValues(type, start, end)
+                        values: this.fillValues(type, start, end),
+                        className: type
                     });
                 }
             },
@@ -352,6 +364,7 @@
                     m: this.rims.min
                 };
                 let typesArr = this.typeStr.split('');
+                // this.$logger.log('!!!!!!!!!!!!!!! dateSlots: ', INTERVAL_MAP, typesArr);
                 typesArr.forEach(type => {
                     if (INTERVAL_MAP[type]) {
                         this.pushSlots.apply(null, [dateSlots, type].concat(INTERVAL_MAP[type]));
@@ -369,8 +382,13 @@
                     dateSlots.splice(5, 0, { divider: true, content: '日' });
                     dateSlots.splice(7, 0, { divider: true, content: ':' });
                 }
+                if (this.typeStr === 'YMD') {
+                    dateSlots.splice(1, 0, { divider: true, content: '年' });
+                    dateSlots.splice(3, 0, { divider: true, content: '月' });
+                    dateSlots.splice(5, 0, { divider: true, content: '日', className: 'dayStr' });
+                }
                 this.dateSlots = dateSlots;
-//                console.log('v-datetime-picker.generateSlots: ', this.rims, dateSlots);
+                // this.$logger.log('v-datetime-picker.generateSlots: ', this.rims, dateSlots);
                 this.handleExceededValue();
             },
 
@@ -414,7 +432,7 @@
 
             setSlotsByValues (values) {
                 const setSlotValue = this.$refs.picker.setSlotValue;
-//                console.log('========> ', values);
+                // console.log('========> ', values);
                 if (this.type === 'time') {
                     setSlotValue(0, values[0]);
                     setSlotValue(1, values[1]);
@@ -461,6 +479,8 @@
             },
 
             getMonth (value) {
+                // value = new Date(value.getFullYear(), value.getMonth() + 1, value.getDate());
+                // console.log('bbbbbbb', value.getMonth());
                 return this.isDateString(value) ? value.split(' ')[0].split(/-|\/|\./)[1] : value.getMonth() + 1;
             },
 
@@ -498,7 +518,9 @@
             this.currentValue = this.value;
             if (!this.value) {
                 if (this.type.indexOf('date') > -1) {
-                    this.currentValue = this.startDate;
+                    // this.currentValue = this.startDate; 如果是课程有效期默认下一个月 孙乐卿 2018-02-11
+                    if (this.isValidator) this.currentValue = new Date(this.startDate.getFullYear(), this.startDate.getMonth() + 1, this.startDate.getDate());
+                    else this.currentValue = this.startDate;
                 } else if (this.type.indexOf('smart') > -1) { // add by Dio Zhu. on 2017.2.28
                     this.currentValue = this.startDate; // new Date();
                 } else {
@@ -516,6 +538,9 @@
 
     .v-datetime {
         width: 100%;
+        .dayStr{
+            padding-right:pxTorem(20px);
+        }
     }
     .v-datetime-action {
         display: inline-block;
@@ -539,5 +564,11 @@
     }
     .picker-toolbar{
         height: pxTorem(44px);
+    }
+    .date-time-msg-box{width:100%;}
+    .concel-confirm-button {
+        height: pxTorem(40px);
+        display: flex;
+        justify-content: space-between;
     }
 </style>

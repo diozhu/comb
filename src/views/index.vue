@@ -17,6 +17,7 @@
         <p>表单</p>
         <div class="listview simple">
             <ul>
+                <router-link :to="{ path: '/api', query: { subjectId: 21 } }" tag="li">接口调用（axios）<i class="icon icon-arrow-r"></i></router-link>
                 <router-link :to="{ path: '/cell', query: { subjectId: 21 } }" tag="li">列表单元（cell）<i class="icon icon-arrow-r"></i></router-link>
                 <router-link :to="{ path: '/cell-swipe', query: { subjectId: 22 } }" tag="li">滑动单元（cell-swipe）<i class="icon icon-arrow-r"></i></router-link>
                 <!--<router-link :to="{ path: '/form-input', query: { subjectId: 23 } }" tag="li">输入框（input）<i class="icon icon-arrow-r"></i></router-link>-->
@@ -58,15 +59,15 @@
         <div class="listview simple">
             <ul>
                 <router-link :to="{ path: '/feed', query: { subjectId: 81 } }" tag="li">名片样式（feed）<i class="icon icon-arrow-r"></i></router-link>
-                <router-link :to="{ path: '/comment', query: { subjectId: 82 } }" tag="li">微服务-评论点赞（comment）<i class="icon icon-arrow-r"></i></router-link>
-                <router-link :to="{ path: '/forum', query: { subjectId: 87 } }" tag="li">微服务-论坛（bbs）<i class="icon icon-arrow-r"></i></router-link>
+                <!--<router-link :to="{ path: '/comment', query: { subjectId: 82 } }" tag="li">微服务-评论点赞（comment）<i class="icon icon-arrow-r"></i></router-link>-->
+                <!--<router-link :to="{ path: '/forum', query: { subjectId: 87 } }" tag="li">微服务-论坛（bbs）<i class="icon icon-arrow-r"></i></router-link>-->
                 <router-link :to="{ path: '/upload', query: { subjectId: 83 } }" tag="li">上传图片（upload-images）<i class="icon icon-arrow-r"></i></router-link>
-                <router-link :to="{ path: '/upload-cloud', query: { subjectId: 92 } }" tag="li">上传图片到思源云存储（upload-cloud-images）<i class="icon icon-arrow-r"></i></router-link>
+                <!--<router-link :to="{ path: '/upload-cloud', query: { subjectId: 92 } }" tag="li">上传图片到思源云存储（upload-cloud-images）<i class="icon icon-arrow-r"></i></router-link>-->
                 <router-link :to="{ path: '/share', query: { subjectId: 84 } }" tag="li">分享（share）<i class="icon icon-arrow-r"></i></router-link>
                 <router-link :to="{ path: '/lazyload', query: { subjectId: 85 } }" tag="li">图片延时加载（lazyload）<i class="icon icon-arrow-r"></i></router-link>
                 <router-link :to="{ path: '/qr-code', query: { subjectId: 86 } }" tag="li">二维码(QRCode)<i class="icon icon-arrow-r"></i></router-link>
                 <router-link :to="{ path: '/map', query: { subjectId: 87 } }" tag="li">地图（map）<i class="icon icon-arrow-r"></i></router-link>
-                <router-link :to="{ path: '/org', query: { subjectId: 88 } }" tag="li">企通-组织选择器（org-selector）<i class="icon icon-arrow-r"></i></router-link>
+                <!--<router-link :to="{ path: '/org', query: { subjectId: 88 } }" tag="li">企通-组织选择器（org-selector）<i class="icon icon-arrow-r"></i></router-link>-->
                 <router-link :to="{ path: '/audio', query: { subjectId: 89 } }" tag="li">多媒体阅读器（audio）<i class="icon icon-arrow-r"></i></router-link>
                 <router-link :to="{ path: '/slider-show', query: { subjectId: 90 } }" tag="li">图片轮播（slide-show）<i class="icon icon-arrow-r"></i></router-link>
                 <router-link :to="{ path: '/slider-image', query: { subjectId: 90 } }" tag="li">图片预览（view-image）<i class="icon icon-arrow-r"></i></router-link>
@@ -78,6 +79,7 @@
         <p>开发中...</p>
         <div class="listview simple">
             <ul>
+                <router-link :to="{ path: '/star', query: { subjectId: 47 } }" tag="li">评星（star）<i class="icon icon-arrow-r"></i></router-link>
                 <li>日历（区间）（待）</li>
                 <router-link :to="{ path: '/scroller', query: { subjectId: 47 } }" tag="li">滚动条（scroller）<i class="icon icon-arrow-r"></i></router-link>
                 <router-link :to="{ path: '/infinite-scroll', query: { subjectId: 47 } }" tag="li">滚动条（infinite-scroll）（dom回收无尽滚动）<i class="icon icon-arrow-r"></i></router-link>

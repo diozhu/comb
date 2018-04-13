@@ -250,15 +250,15 @@
         transform: translate3d(100%, 0, 0);
     }
     .v-cell__allow-right::after {
-        border: solid 2px #c8c8cd;
+        border: solid 2px #3e3a39;
         border-bottom-width: 0;
         border-left-width: 0;
         content: " ";
         top:50%;
         right:pxTorem(15px);
         position: absolute;
-        width: pxTorem(10px);
-        height: pxTorem(10px);
+        width: pxTorem(7);
+        height: pxTorem(7);
         -webkit-transform: translateY(-50%) rotate(45deg);
         transform: translateY(-50%) rotate(45deg);
     }

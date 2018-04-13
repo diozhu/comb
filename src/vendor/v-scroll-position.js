@@ -126,7 +126,7 @@ let throttle = function (fn, delay) { //eslint-disable-line
     resetPosition = function (target, laz = false) {
         let pos = target.getAttribute('scroll-position') ? target.getAttribute('scroll-position').split('-') : [0, 0];
         // console.log('=====================>>> ');
-        console.log(`[v-scroll-position].${this.vm._uid}.resetPosition: `, this, this.scrollEventTarget, target, pos, laz);
+        // console.log(`[v-scroll-position].${this.vm._uid}.resetPosition: `, this.scrollEventTarget ? this.scrollEventTarget.className : 'null', target.className, pos, laz);
         // console.log(`[v-scroll-position].${this.vm._uid}.resetPosition: `, this.scrollEventTarget, target, pos);
         if (laz) {
             if (this.scrollEventTarget === window) target = document.body;

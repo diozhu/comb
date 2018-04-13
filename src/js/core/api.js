@@ -19,7 +19,9 @@ import CONFIG from '../../config';
 import logger from '../utils/logger';
 import _promise from '../utils/promise';
 import store from '../../store/';
+import * as utils from '../utils/utils.js'; //eslint-disable-line
 // import { toonCall } from '../../js/core/core.js';
+import qs from 'qs'; //eslint-disable-line
 
 // // 注册vue-resource
 // Vue.use(VueResource);
@@ -41,7 +43,7 @@ if (typeof Promise === 'undefined') {
  * 其他参数可以参考官网API：https://github.com/pagekit/vue-resource/blob/develop/docs/http.md
  *              -- Author by Dio Zhu. on 2017.7.12
  */
-let post = (uri, params, opts) => {
+let post = (uri, params, opts) => { //eslint-disable-line
         // logger.log('in post: ', uri, params, opts);
         if (opts && opts.loading) {
             logger.log('api.post: START LOADING ... ');
@@ -86,7 +88,7 @@ let post = (uri, params, opts) => {
             }
             return Promise.reject(err);
         });
-    }, get = function (uri, params, opts) {
+    }, get = function (uri, params, opts) { //eslint-disable-line
         // logger.log('GET START...', uri, params, opts);
         if (opts && opts.loading) {
             logger.log('api.get: START LOADING ... ');
@@ -124,6 +126,52 @@ let post = (uri, params, opts) => {
             return Promise.reject(err);
         });
     };
+/** 封装request方法 -- Author by Dio Zhu. on 2018.4.14 */
+let request = (url, params, opts) => { //eslint-disable-line
+    logger.log('---------------- REQUEST START ----------------');
+    logger.log('---> api.request: ', url, params, opts);
+    if (opts && opts.loading) store.commit('OPEN_LOADING'); // 显示菊花
+//     let accessSource = utils.getSessionStorage().get('access_source') || 20;  // 服务器端的指定标识，用于区分多公众号及各个下单平台的标识，默认标识：20（代表H5）。 Author by Dio Zhu. on 2017.12.22        if (opt.query) { // 处理query对象到url
+    let opt = opts || {},
+        param = {
+            url: url,
+            method: opt.method || 'get',
+            headers: {
+                'access-token': CONFIG.token || utils.getSessionStorage().get('token')
+            }
+        };
+    if (opt.emulateJSON) { // 开启表单模式，转换对象、数组为string
+        param.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+        for (let k in params) if (params.hasOwnProperty(k) && (Object.prototype.toString.call(params[k]) === '[object Object]' || Object.prototype.toString.call(params[k]) === '[object Array]')) params[k] = JSON.stringify(params[k]);
+    }
+    if (param.method.toLowerCase() === 'post') { // post，把参数添加到data
+        // param.params = {'access_source': accessSource};
+        param.data = params;
+        param.transformRequest = [function (data, headers) { return qs.stringify(data); }]; // data转换
+    } else { // get，参数添加到query。。。
+        // param.params = {...params, 'access_source': accessSource};
+        param.params = params;
+    }
+    param.paramsSerializer = function (params) { return qs.stringify(params); }; // 序列化query参数
+    logger.log('---> api.request: ', param);
+    return Vue.http.request(param).then(res => {
+        if (opts && opts.loading) store.commit('CLOSE_LOADING'); // 隐藏菊花
+        // logger.log('api.request.RESPONSE ===>>> ', res);
+        let rtn = res && res.data;
+        logger.log('api.request.RESPONSE ===>>> ', rtn, rtn.errcode);
+        if (rtn && rtn.errcode === 0) { // 接口成功返回~
+            // logger.log('api.request.RESPONSE.SUCCESS ===>>> ', rtn.data);
+            return rtn.data;
+        } else if (rtn.errcode === 10003 || rtn.errcode === 10004 || rtn.errcode === 10005 || rtn.errcode === 10006 || rtn.errcode === 10011) {
+            // TODO: 接口回报token失效，可在此进行重登录处理
+            logger.warn('api.request.RESPONSE.TOKEN_INVALID ===>>> ', rtn);
+            return Promise.reject(rtn);
+        } else { // 接口返回其他错误~
+            logger.error('api.request.RESPONSE.ERROR ===>>> ', res.data);
+            return Promise.reject(res.data);
+        }
+    });
+};
 /**
  * section 方式：基本上nodejs使用的是这种方式
  *      第一页：offset: 0, limit: 10
@@ -250,81 +298,81 @@ export function signin () {
     logger.log('api.login.loginData: ', CONFIG.loginData);
     return Promise.resolve(data);
 };
-
-/**
- * 根据ids，获取一组用户数据，接口由富强提供，实际项目中，各后台自己完成。。。
- *              -- Author by Dio Zhu. on 2017.4.18
- */
-export function getUsers (params, opts) {
-    let uri = 'http://p100.muser.systoon.com/user/getUserList',
-        param = params || {};
-    param.appId = CONFIG.APPID;
-
-    return post(uri, params, opts);
-};
-
-/**
- * 富强提供的临时接口，用于根据id列表获取主题列表
- */
-export function _getSubjectByIds (params, opts) {
-    // let uri = 'http://msbbs.toon.mobi',
-    let uri = 'http://p100.ms-bbs.systoon.com/test/topiclist',
-        // let uri = CONFIG.URL + '/test/topiclist',
-        param = params || {};
-    param.appId = CONFIG.APPID;
-
-    return post(uri, params, opts);
-};
-
-/**
- * 峰军提供的feed信息接口
- * 地址：t200.appinstall.toon.mobi/plugin/feedinfo
- * 数据格式：{'id':'313','code':'/XbBYdC1N+wJaLLziEhh+QeVcJDBgZbeYRdSGUbAOz9s7H4R+JfRBbbo/8hI/RDdGDbdkSXiC5xq7f838ZFFh8fTKCg4X6RKdLsmoXUSdG6MkcZkMmjZExOaOYNkXVnuKpk0QzcacMOoSbgWCAhMqIweR/Wg7OHzzkszcZINY+YTH70y8g5uwEmZLlk3MCMyXgFGMtKW+LQ='}
- *
- */
-export function login () {
-    // logger.log('@@@login.code: ', CONFIG.code);
-    let _self = this,
-        params = null,
-        uri = 'http://t200.appinstall.toon.mobi/plugin/feedinfo',
-        code = CONFIG.CODE;
-
-    if (!code) {
-        return Promise.reject('code error!');
-    }
-
-    params = {
-        'id': 505,
-        'code': code
-    };
-    return post(uri, params).then(function (data) {
-        CONFIG.loginData.userInfo = data || { userId: 1 };
-        logger.log('api.login.loginData: ', CONFIG.loginData);
-
-        // 通知后台保存用户信息
-        _self._addUser({
-            userId: data.userId,
-            feedId: data.feedId,
-            avatarId: data.avatarId,
-            title: data.title,
-            subtitle: data.subtitle,
-            cardNo: data.cardNo,
-            version: data.version
-        });
-        return Promise.resolve(data);
-    });
-};
-
-/**
- * 通知本地服务，保存用户信息。。。这个方法在其他项目中不存在哈，因为用了上面那个峰军的接口，所以要把获取回来的用户信息放到本地。。。
- * 没有用数据库，后台直接写个json文件保存的。。。
- *              -- Author by Dio Zhu. on 2017.1.22
- */
-export function _addUser (params, opts) {
-    let uri = CONFIG.URL + '/api/addUser',
-        param = params || {};
-    return post(uri, param, opts);
-};
+//
+// /**
+//  * 根据ids，获取一组用户数据，接口由富强提供，实际项目中，各后台自己完成。。。
+//  *              -- Author by Dio Zhu. on 2017.4.18
+//  */
+// export function getUsers (params, opts) {
+//     let uri = 'http://p100.muser.systoon.com/user/getUserList',
+//         param = params || {};
+//     param.appId = CONFIG.APPID;
+//
+//     return post(uri, params, opts);
+// };
+//
+// /**
+//  * 富强提供的临时接口，用于根据id列表获取主题列表
+//  */
+// export function _getSubjectByIds (params, opts) {
+//     // let uri = 'http://msbbs.toon.mobi',
+//     let uri = 'http://p100.ms-bbs.systoon.com/test/topiclist',
+//         // let uri = CONFIG.URL + '/test/topiclist',
+//         param = params || {};
+//     param.appId = CONFIG.APPID;
+//
+//     return post(uri, params, opts);
+// };
+//
+// /**
+//  * 峰军提供的feed信息接口
+//  * 地址：t200.appinstall.toon.mobi/plugin/feedinfo
+//  * 数据格式：{'id':'313','code':'/XbBYdC1N+wJaLLziEhh+QeVcJDBgZbeYRdSGUbAOz9s7H4R+JfRBbbo/8hI/RDdGDbdkSXiC5xq7f838ZFFh8fTKCg4X6RKdLsmoXUSdG6MkcZkMmjZExOaOYNkXVnuKpk0QzcacMOoSbgWCAhMqIweR/Wg7OHzzkszcZINY+YTH70y8g5uwEmZLlk3MCMyXgFGMtKW+LQ='}
+//  *
+//  */
+// export function login () {
+//     // logger.log('@@@login.code: ', CONFIG.code);
+//     let _self = this,
+//         params = null,
+//         uri = 'http://t200.appinstall.toon.mobi/plugin/feedinfo',
+//         code = CONFIG.CODE;
+//
+//     if (!code) {
+//         return Promise.reject('code error!');
+//     }
+//
+//     params = {
+//         'id': 505,
+//         'code': code
+//     };
+//     return post(uri, params).then(function (data) {
+//         CONFIG.loginData.userInfo = data || { userId: 1 };
+//         logger.log('api.login.loginData: ', CONFIG.loginData);
+//
+//         // 通知后台保存用户信息
+//         _self._addUser({
+//             userId: data.userId,
+//             feedId: data.feedId,
+//             avatarId: data.avatarId,
+//             title: data.title,
+//             subtitle: data.subtitle,
+//             cardNo: data.cardNo,
+//             version: data.version
+//         });
+//         return Promise.resolve(data);
+//     });
+// };
+//
+// /**
+//  * 通知本地服务，保存用户信息。。。这个方法在其他项目中不存在哈，因为用了上面那个峰军的接口，所以要把获取回来的用户信息放到本地。。。
+//  * 没有用数据库，后台直接写个json文件保存的。。。
+//  *              -- Author by Dio Zhu. on 2017.1.22
+//  */
+// export function _addUser (params, opts) {
+//     let uri = CONFIG.URL + '/api/addUser',
+//         param = params || {};
+//     return post(uri, param, opts);
+// };
 
 /** 获取列表信息 */
 export function getRandomList (params, opts) {
@@ -350,78 +398,80 @@ export function getImgList (params, opts) {
     param.session = (CONFIG.loginData) ? CONFIG.loginData.session || '' : '';
     return post(uri, param, opts);
 };
-
-/**
- * 向当前app服务请求微服务的token
- * 注意: 这里是向当前APP的服务端请求token, 而不是微服务!
- *              -- Author by Dio Zhu. on 2016.12.25
- */
-export function vGetMicroCommentToken (params, opts) {
-    let uri = CONFIG.URL + '/api/comment/token',
-        param = params || {};
-    return get(uri, param, opts).then(function (res) {
-        CONFIG.COMMENT_TOKEN = res.token;
-        logger.log('REFRESH COMMENT TOKEN: ', CONFIG.COMMENT_TOKEN);
-        return Promise.resolve(res.token);
-    });
-};
-
-/**
- * 根据评论赞微服务的用户id，获取本地用户列表，补充用户信息（头像、名称、推广语等）
- *              -- Author by Dio Zhu. on 2017.1.3
- */
-export function vGetUserList (params, opts) {
-    let uri = 'http://p100.muser.systoon.com/user/getUserList',
-        param = params || {};
-    param.appId = CONFIG.APPID;
-    return post(uri, param, opts);
-};
-/**
- * 向当前app服务请求微服务的token
- *              -- Author by Dio Zhu. on 2017.4.10
- */
-export function vGetMicroBbsToken (params, opts) {
-    let uri = CONFIG.BBS_URL + '/bbs/gettoken',
-        param = params || {};
-    param.appId = CONFIG.BBS_APPID;
-    return post(uri, param, opts).then(function (res) {
-        CONFIG.BBS_TOKEN = res.token;
-        logger.log('REFRESH BBS TOKEN: ', CONFIG.BBS_TOKEN);
-        return Promise.resolve(res.token);
-    });
-};
-/**
- * 纯测试...
- */
-export function getDelay (params, opts) {
-    let uri = CONFIG.URL + '/api/getDelay',
-        param = params || {};
-    return post(uri, param, opts);
-};
-/**
- * 批量获取用户信息
- */
-export function getUserList (params, opts) {
-    let uri = 'http://t200app-daily.toon.mobi/user/getUserList',
-        param = params || {};
-    param.ticket = CONFIG.ticket;
-    return post(uri, param, opts);
-};
-/**
- * 选择人员搜索接口
- */
-export function searchUser (params, opts) {
-    let uri = 'http://t200app-daily.toon.mobi/user/search',
-        param = params || {};
-    param.ticket = CONFIG.ticket;
-    return post(uri, param, opts);
-};
-/**
- * 获取组织或人员树
- */
-export function getOrgTree (params, opts) {
-    let uri = 'http://t200app-daily.toon.mobi/user/getOrgTree',
-        param = params || {};
-    param.ticket = CONFIG.ticket;
-    return post(uri, param, opts);
-};
+//
+// /**
+//  * 向当前app服务请求微服务的token
+//  * 注意: 这里是向当前APP的服务端请求token, 而不是微服务!
+//  *              -- Author by Dio Zhu. on 2016.12.25
+//  */
+// export function vGetMicroCommentToken (params, opts) {
+//     let uri = CONFIG.URL + '/api/comment/token',
+//         param = params || {};
+//     return get(uri, param, opts).then(function (res) {
+//         CONFIG.COMMENT_TOKEN = res.token;
+//         logger.log('REFRESH COMMENT TOKEN: ', CONFIG.COMMENT_TOKEN);
+//         return Promise.resolve(res.token);
+//     });
+// };
+//
+// /**
+//  * 根据评论赞微服务的用户id，获取本地用户列表，补充用户信息（头像、名称、推广语等）
+//  *              -- Author by Dio Zhu. on 2017.1.3
+//  */
+// export function vGetUserList (params, opts) {
+//     let uri = 'http://p100.muser.systoon.com/user/getUserList',
+//         param = params || {};
+//     param.appId = CONFIG.APPID;
+//     return post(uri, param, opts);
+// };
+// /**
+//  * 向当前app服务请求微服务的token
+//  *              -- Author by Dio Zhu. on 2017.4.10
+//  */
+// export function vGetMicroBbsToken (params, opts) {
+//     let uri = CONFIG.BBS_URL + '/bbs/gettoken',
+//         param = params || {};
+//     param.appId = CONFIG.BBS_APPID;
+//     return post(uri, param, opts).then(function (res) {
+//         CONFIG.BBS_TOKEN = res.token;
+//         logger.log('REFRESH BBS TOKEN: ', CONFIG.BBS_TOKEN);
+//         return Promise.resolve(res.token);
+//     });
+// };
+// /**
+//  * 批量获取用户信息
+//  */
+// export function getUserList (params, opts) {
+//     let uri = 'http://t200app-daily.toon.mobi/user/getUserList',
+//         param = params || {};
+//     param.ticket = CONFIG.ticket;
+//     return post(uri, param, opts);
+// };
+// /**
+//  * 选择人员搜索接口
+//  */
+// export function searchUser (params, opts) {
+//     let uri = 'http://t200app-daily.toon.mobi/user/search',
+//         param = params || {};
+//     param.ticket = CONFIG.ticket;
+//     return post(uri, param, opts);
+// };
+// /**
+//  * 获取组织或人员树
+//  */
+// export function getOrgTree (params, opts) {
+//     let uri = 'http://t200app-daily.toon.mobi/user/getOrgTree',
+//         param = params || {};
+//     param.ticket = CONFIG.ticket;
+//     return post(uri, param, opts);
+// };
+/** 【测试】延迟的post */
+export const getDelay = (params, opts) => request(CONFIG.URL + '/api/getDelay', params, opts);
+/** 【测试】POST~-- Author by Dio sunelqing. on 2018.4.9 */
+export const postTest = (params, opts) => request(CONFIG.URL + '/wap/user/add_address', params, { ...opts, method: 'post', emulateJSON: true });
+/** 【测试】POST~-- Author by Dio sunelqing. on 2018.4.9 */
+export const postTest2 = (params, opts) => request(CONFIG.URL + '/activity_sales/add_activity_sales', params, { ...opts, method: 'post', emulateJSON: true });
+/** 【测试】GET -- Author by Dio sunelqing. on 2018.4.9 */
+export const getTest = (params, opts) => request(CONFIG.URL + '/wap/city/get_city_list', params, opts);
+/** 【测试】根据手机号获取token，仅用于测试 -- Author by Dio Zhu. on 2018.4.13 */
+export const bindPhone = (params, opts) => request(CONFIG.URL + '/wap/user/bind_phone', params, opts);

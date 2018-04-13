@@ -1,21 +1,11 @@
 <template>
-    <!--<v-touch tag="div" class="v-refresh" :id="'vRefresh_'+_uid" v-on:swipeleft="swipeLeft" v-on:swiperight="swipeRight" v-bind:swipe-options="{ direction: 'horizontal', threshold: 100 }">-->
     <div class="v-refresh" :id="'vRefresh_'+_uid">
-        <!--v-bind:touchAction="'pan-y'"-->
-        <!--v-refresh="refresh"-->
-        <!--refresh-enabled="refreshTag"-->
-        <!--refresh-translate="translate"-->
         <div tag="div" ref="container" class="v-refresh__container"
              v-refresh="refresh"
              refresh-enabled="refreshTag"
              refresh-translate="translate"
              v-scroll-position
         >
-            <!--v-on:panstart="pullStart" v-on:panmove="pulling" v-on:panend="pullEnd" v-bind:pan-options="{ direction: 'down', threshold: 10 }"-->
-            <!--v-bind:touchAction="'pan-x'"-->
-            <!--v-bind:domEvents="false"-->
-            <!--v-bind:enable="false"-->
-
             <!-- 下拉刷新 -->
             <transition name="slide-fade">
                 <div v-show="refreshTag" :id="'vRefresher' + _uid" class="v-refresh__spinner" :style="[
@@ -33,10 +23,6 @@
                 <slot></slot>
             </div>
         </div>
-        <!-- 返回顶部 -->
-        <transition name="fade">
-            <div v-show="toper && goTopTag" @click="goTop" class="v-scroll-top icon icon-top"></div>
-        </transition>
     </div>
     <!--</v-touch>-->
 </template>
@@ -111,12 +97,15 @@
             },
 
             translate (val) {
-//                this.$logger.log(`v-refresh.${this._uid}.watch.translate: ${val}, ${val - this.refreshHeight}`);
+                // this.$logger.log(`v-refresh.${this._uid}.watch.translate: ${val}, ${val - this.refreshHeight}`);
                 if (val >= this.refreshHeight) {
                     this.refreshTranslate = 0;
                 } else {
                     this.refreshTranslate = val - (this.refreshHeight);
                 }
+            },
+            refreshTag (val) {
+                this.$emit('handleRefreshTag', val);
             }
         },
 
@@ -212,75 +201,6 @@
                     bus.$emit('v-scroll.refreshList');
                     this.refreshTag = false;
                     this.inertia(this.translate);
-                }
-            },
-
-            /**
-             * 支持设定左划右划手势，并返回currentValue的标识，外部页面根据标识进行页面重构
-             *              -- Author by Dio Zhu. on 2017.4.25
-             */
-            swipeLeft (e) {
-                this.$logger.log(`v-refresh.${this._uid}.swipeLeft: `);
-                this.currentValue = (this.currentValue + 1 > this.swipeLength - 1) ? 0 : (this.currentValue + 1);
-            },
-            swipeRight (e) {
-                this.$logger.log(`v-refresh.${this._uid}.swipeRight: `);
-//                if (this.currentValue + 1 <= this.swipeLength - 1) return true;
-                this.currentValue = (this.currentValue - 1 < 0) ? (this.swipeLength - 1) : (this.currentValue - 1);
-//                e.srcEvent.stopPropagation();
-//                e.srcEvent.preventDefault();
-            },
-
-            pullStart (e) {
-                if (this.$refs.container.$el.scrollTop > 0) return true;
-                this.$logger.log(`v-refresh.${this._uid}.pullStart: `);
-                this.startY = e.srcEvent.touches ? e.srcEvent.touches[0].clientY : e.srcEvent.clientY;
-                this.startScrollTop = this.$el.scrollTop;
-                return true;
-            },
-            pulling (e) {
-//                this.$logger.log(`v-refresh.${this._uid}.pulling: `, this.$refs.container.$el.scrollTop);
-                if (this.$refs.container.$el.scrollTop > 0) return true;
-                if (this.startY < this.$el.getBoundingClientRect().top && this.startY > this.$el.getBoundingClientRect().bottom) return true;
-                this.currentY = e.srcEvent.touches ? e.srcEvent.touches[0].clientY : e.srcEvent.clientY;
-                this.direction = this.currentY > (this.startY + 20) ? 'down' : 'up';
-                let distance = (this.currentY - this.startY);
-                if (this.direction === 'down' && this.$el.scrollTop === 0) { // 下拉
-                    e.srcEvent.preventDefault();
-                    e.srcEvent.stopPropagation();
-                    this.translate = distance - this.startScrollTop;
-                    if (this.translate < 0) this.translate = 0;
-                    if (this.translate > 30) this.refreshTag = true;
-                    // if (this.translate >= this.vm['refreshHeight']) this.translate = this.vm['refreshHeight'];
-                    if (this.translate >= this.refreshHeight) this.translate = this.refreshHeight + (this.translate - this.refreshHeight) / 10;
-//                    this.$logger.log(`v-refresh.${this._uid}.pulling: `, this.translate);
-                }
-                return true;
-            },
-            pullEnd (e) {
-                if (this.$refs.container.$el.scrollTop > 0) return true;
-                this.$logger.log(`v-refresh.${this._uid}.pullEnd: `);
-                let viewportScrollTop = this.$el.scrollTop;
-                if (this.direction === 'down' && viewportScrollTop === 0) {
-                    // console.log('[v-refresh.down]!!!');
-                    if (this.translate >= this.refreshHeight) this.translate = this.refreshHeight;
-                    this.refresh();
-                }
-                this.direction = '';
-                return true;
-            },
-
-            goTop () {
-                let target = this.scrollTarget;
-                this.$logger.log(`[v-scroll].${this._uid}.getList.after: `, target.scrollHeight, target.offsetHeight);
-                if (target === window) {
-                    window.scrollTo(0, 0);
-                } else {
- //                    target.scrollTop = 0;
-                    if (target.scrollTop > 0) {
-                        target.scrollTop -= 1000;
-                        setTimeout(this.goTop, 30);
-                    }
                 }
             }
         }

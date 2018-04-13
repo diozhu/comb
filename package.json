@@ -1,8 +1,8 @@
 {
-  "name": "com.systoon.comb",
+  "name": "com.hy-sport.comb",
   "version": "1.0.0",
   "description": "Simple project, created in vue2. As reference to other projects.",
-  "author": "liyang <liyang@syswin.com>, Dio Zhu <diozhu@163.com>",
+  "author": "Dio Zhu <diozhu@163.com>",
   "private": true,
   "scripts": {
     "dev": "node build/dev-server.js",
@@ -15,12 +15,13 @@
     "start": "node build/dev-server.js"
   },
   "dependencies": {
-    "axios": "^0.16.2",
+    "axios": "^0.18.0",
     "es6-promise": "^4.1.1",
     "fastclick": "^1.0.6",
     "intersection-observer": "^0.4.2",
     "photoswipe": "^4.1.2",
-    "velocity-animate": "^1.5.0",
+    "qs": "^6.5.1",
+    "velocity-animate": "^1.5.1",
     "vue": "^2.5.2",
     "vue-awesome-swiper": "^2.6.7",
     "vue-resource": "^1.3.4",

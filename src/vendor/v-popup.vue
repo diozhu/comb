@@ -71,19 +71,25 @@
                  */
 //                let touchObj = document.getElementById('container');
                 let touchObj = document.getElementsByClassName('page')[0];
-//                this.$logger.log('v-popup.watch.currentValue: ', val, touchObj);
+                this.$logger.log('v-popup.watch.currentValue: ', val, touchObj);
                 if (val && touchObj) {
 //                    touchObj.style.height = '100%';
-                    touchObj.style.overflow = 'hidden';
+                    // touchObj.style.overflow = 'hidden';
+                    touchObj.style.overflowX = 'hidden';
+                    touchObj.style.overflowY = 'hidden';
                 } else if (touchObj) {
 //                    touchObj.style.height = 'initial';
-                    touchObj.style.overflow = 'auto';
+                    // touchObj.style.overflow = 'auto';
+                    touchObj.style.overflowY = 'auto';
+                    touchObj.style.overflowX = 'hidden';
                 }
                 this.$emit('input', val);
             },
 
             value (val) {
                 this.currentValue = val;
+                // this.$set(this, 'currentValue', val);
+                console.log('v-popup.watch.value: ', val);
             }
         },
 
@@ -118,20 +124,20 @@
             },
 
             enter: function (el, done) {
-//                console.log('v-popup.enter: ', el, done);
+                // console.log('v-popup.enter: ', el, done);
                 let maskor = this.$el.querySelectorAll('.picker-center-mask')[0];
 
                 if (maskor && maskor.style) {
                     maskor.style.top = 0;
                 }
-                console.log('v-popup.enter: ');
+                // console.log('v-popup.enter: ');
             },
             afterEnter (el) {
-                console.log('v-popup.afterEnter: ');
+                // console.log('v-popup.afterEnter: ');
             },
             enterCancelled: function (el) {
 //                this.eventbus;
-                console.log('v-popup.enterCancelled: ');
+                // console.log('v-popup.enterCancelled: ');
             }
         }
     };
@@ -185,6 +191,11 @@
         bottom: auto;
         left: auto;
         transform: translate3d(0, -50%, 0);
+    }
+    .v-popup-middle{
+        /*left: 50%;*/
+        top: 50%;
+        transform: translate(-50,-50%);
     }
     .v-popup-bottom {
 /*

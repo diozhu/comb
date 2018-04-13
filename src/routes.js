@@ -1,5 +1,6 @@
 const Home = resolve => require(['./views/home.vue'], resolve);
 const Index = resolve => require(['./views/index.vue'], resolve);
+const Api = resolve => require(['./views/api.vue'], resolve);
 const Layout = resolve => require(['./views/layout.vue'], resolve);
 const Sticky = resolve => require(['./views/sticky.vue'], resolve);
 const Colour = resolve => require(['./views/colour.vue'], resolve);
@@ -28,16 +29,16 @@ const Toast = resolve => require(['./views/toast.vue'], resolve);
 const MessageBox = resolve => require(['./views/message-box.vue'], resolve);
 const Picker = resolve => require(['./views/picker.vue'], resolve);
 const Feed = resolve => require(['./views/feed.vue'], resolve);
-const Comment = resolve => require(['./views/comment.vue'], resolve);
-const CommentList = resolve => require(['./views/comment-list.vue'], resolve);
-const CommentListReply = resolve => require(['./views/comment-list-reply.vue'], resolve);
-const CommentInfo = resolve => require(['./views/comment-info.vue'], resolve);
-const CommentInfoReply = resolve => require(['./views/comment-info-reply.vue'], resolve);
-const CommentInfoReplies = resolve => require(['./views/comment-info-replies.vue'], resolve);
-const CommentCreate = resolve => require(['./views/comment-create.vue'], resolve);
-const CommentsDetail = resolve => require(['./views/comments-detail.vue'], resolve);
-const CommentComments = resolve => require(['./views/comment-comments.vue'], resolve);
-const CommentPraises = resolve => require(['./views/comment-praises.vue'], resolve);
+// const Comment = resolve => require(['./views/comment.vue'], resolve);
+// const CommentList = resolve => require(['./views/comment-list.vue'], resolve);
+// const CommentListReply = resolve => require(['./views/comment-list-reply.vue'], resolve);
+// const CommentInfo = resolve => require(['./views/comment-info.vue'], resolve);
+// const CommentInfoReply = resolve => require(['./views/comment-info-reply.vue'], resolve);
+// const CommentInfoReplies = resolve => require(['./views/comment-info-replies.vue'], resolve);
+// const CommentCreate = resolve => require(['./views/comment-create.vue'], resolve);
+// const CommentsDetail = resolve => require(['./views/comments-detail.vue'], resolve);
+// const CommentComments = resolve => require(['./views/comment-comments.vue'], resolve);
+// const CommentPraises = resolve => require(['./views/comment-praises.vue'], resolve);
 const Popup = resolve => require(['./views/popup.vue'], resolve);
 const DatetimePicker = resolve => require(['./views/datetime-picker.vue'], resolve);
 const SwipeLabel = resolve => require(['./views/swipe-label.vue'], resolve);
@@ -45,7 +46,7 @@ const ScrollPicker = resolve => require(['./views/scroll-picker.vue'], resolve);
 const Cell = resolve => require(['./views/cell.vue'], resolve);
 const CellSwipe = resolve => require(['./views/cell-swipe.vue'], resolve);
 const UploadCreate = resolve => require(['./views/upload-create.vue'], resolve);
-const UploadCreateCloud = resolve => require(['./views/upload-create-cloud.vue'], resolve);
+// const UploadCreateCloud = resolve => require(['./views/upload-create-cloud.vue'], resolve);
 const AlbumInfo = resolve => require(['./views/album-info.vue'], resolve);
 const Share = resolve => require(['./views/share.vue'], resolve);
 const TmpCss = resolve => require(['./views/tmp-css.vue'], resolve);
@@ -71,19 +72,19 @@ const SensorsdataShare = resolve => require(['./views/sensorsdata-share.vue'], r
 const Refresh = r => require.ensure([], () => r(require('./views/refresh.vue')), 'group-refresh');
 const RefreshTwo = r => require.ensure([], () => r(require('./views/refresh-two.vue')), 'group-refresh');
 
-const Forum = resolve => require(['./views/forum.vue'], resolve);
-const ForumTopics = resolve => require(['./views/forum-topics.vue'], resolve);
-const ForumSearch = resolve => require(['./views/forum-search.vue'], resolve);
-const ForumTopicsDetail = resolve => require(['./views/forum-topics-detail.vue'], resolve);
-const ForumRelease = resolve => require(['./views/forum-release.vue'], resolve);
-const ForumReply = resolve => require(['./views/forum-reply.vue'], resolve);
+// const Forum = resolve => require(['./views/forum.vue'], resolve);
+// const ForumTopics = resolve => require(['./views/forum-topics.vue'], resolve);
+// const ForumSearch = resolve => require(['./views/forum-search.vue'], resolve);
+// const ForumTopicsDetail = resolve => require(['./views/forum-topics-detail.vue'], resolve);
+// const ForumRelease = resolve => require(['./views/forum-release.vue'], resolve);
+// const ForumReply = resolve => require(['./views/forum-reply.vue'], resolve);
 
 const Map = resolve => require(['./views/map.vue'], resolve);
 const MapMarkers = resolve => require(['./views/map-markers.vue'], resolve);
 const MapSelector = resolve => require(['./views/map-selector.vue'], resolve);
 
-const Org = resolve => require(['./views/org.vue'], resolve);
-const OrgSelector = resolve => require(['./views/org-selector.vue'], resolve);
+// const Org = resolve => require(['./views/org.vue'], resolve);
+// const OrgSelector = resolve => require(['./views/org-selector.vue'], resolve);
 // 音频/视频
 const Audio = resolve => require(['./views/audio.vue'], resolve);
 
@@ -91,6 +92,7 @@ const Audio = resolve => require(['./views/audio.vue'], resolve);
 const Mwap = resolve => require(['./views/mwap.vue'], resolve);
 const MwapInfo = resolve => require(['./views/mwap-info.vue'], resolve);
 const Timeline = resolve => require(['./views/timeline.vue'], resolve);
+const Star = resolve => require(['./views/star.vue'], resolve);
 
 // 编写路由集合
 const routes = [
@@ -106,6 +108,8 @@ const routes = [
     { name: 'font', path: '/font', meta: {title: '字体', requiresAuth: true}, component: Font },
     { name: 'icon', path: '/icon', meta: {title: 'icon', requiresAuth: true}, component: Icon },
     { name: 'button', path: '/button', meta: {title: '按钮', requiresAuth: true}, component: Button },
+
+    { name: 'api', path: '/api', meta: {title: '按钮', requiresAuth: true}, component: Api },
     { name: 'list', path: '/list', meta: {title: 'list', requiresAuth: true, keepAlive: true}, component: List },
     { name: 'viewImage', path: '/viewImage', meta: {title: '预览', requiresAuth: true}, component: ViewImage },
     { name: 'picker', path: '/picker', meta: {title: '选择', requiresAuth: true}, component: Picker },
@@ -136,24 +140,24 @@ const routes = [
     //         { name: 'comment-create', path: ':id/create', meta: {title: '评论', requiresAuth: true}, component: CommentCreate }
     //     ]
     // },
-    { name: 'comment', path: '/comment', meta: {title: '评论点赞', requiresAuth: true, scrollToTop: true}, component: Comment },
-    { name: 'comment-list', path: '/comment-list', meta: {title: '话题列表', requiresAuth: true, keepAlive: true}, component: CommentList },
-    { name: 'comment-list-reply', path: '/comment-list-reply', meta: {title: '话题列表', requiresAuth: true, keepAlive: true}, component: CommentListReply },
-    { name: 'comment-info', path: '/comment/:id/', meta: {title: '详情', requiresAuth: true, keepAlive: true}, component: CommentInfo },
-    { name: 'comment-info-reply', path: '/comment-replay/:id/', meta: {title: '详情', requiresAuth: true, keepAlive: true}, component: CommentInfoReply },
-    { name: 'comment-info-replies', path: '/comment-replay/:id/list', meta: {title: '详情', requiresAuth: true}, component: CommentInfoReplies },
-    { name: 'comment-create', path: '/comment/:id/create', meta: {title: '评论', requiresAuth: true}, component: CommentCreate },
-    { name: 'comments-detail', path: '/comments/detail', meta: {title: '评论和赞', requiresAuth: true, keepAlive: true}, component: CommentsDetail },
-    { name: 'comments-create', path: '/comments/create', meta: {title: '评论', requiresAuth: true}, component: CommentCreate },
-    { name: 'comment-comments', path: '/comment-comments', meta: {title: '我的评论', requiresAuth: true, keepAlive: true}, component: CommentComments },
-    { name: 'comment-praises', path: '/comment-praises', meta: {title: '我的点赞', requiresAuth: true, keepAlive: true}, component: CommentPraises },
+    // { name: 'comment', path: '/comment', meta: {title: '评论点赞', requiresAuth: true, scrollToTop: true}, component: Comment },
+    // { name: 'comment-list', path: '/comment-list', meta: {title: '话题列表', requiresAuth: true, keepAlive: true}, component: CommentList },
+    // { name: 'comment-list-reply', path: '/comment-list-reply', meta: {title: '话题列表', requiresAuth: true, keepAlive: true}, component: CommentListReply },
+    // { name: 'comment-info', path: '/comment/:id/', meta: {title: '详情', requiresAuth: true, keepAlive: true}, component: CommentInfo },
+    // { name: 'comment-info-reply', path: '/comment-replay/:id/', meta: {title: '详情', requiresAuth: true, keepAlive: true}, component: CommentInfoReply },
+    // { name: 'comment-info-replies', path: '/comment-replay/:id/list', meta: {title: '详情', requiresAuth: true}, component: CommentInfoReplies },
+    // { name: 'comment-create', path: '/comment/:id/create', meta: {title: '评论', requiresAuth: true}, component: CommentCreate },
+    // { name: 'comments-detail', path: '/comments/detail', meta: {title: '评论和赞', requiresAuth: true, keepAlive: true}, component: CommentsDetail },
+    // { name: 'comments-create', path: '/comments/create', meta: {title: '评论', requiresAuth: true}, component: CommentCreate },
+    // { name: 'comment-comments', path: '/comment-comments', meta: {title: '我的评论', requiresAuth: true, keepAlive: true}, component: CommentComments },
+    // { name: 'comment-praises', path: '/comment-praises', meta: {title: '我的点赞', requiresAuth: true, keepAlive: true}, component: CommentPraises },
 
-    { name: 'forum', path: '/forum', meta: {title: '微服务-论坛', requiresAuth: true}, component: Forum },
-    { name: 'forum-topics', path: '/forum-topics/:forumId', meta: {title: '话题列表', requiresAuth: true, keepAlive: true}, component: ForumTopics },
-    { name: 'forum-search', path: '/forum-search/:forumId', meta: {title: '搜索话题', requiresAuth: true, keepAlive: true, disableLoading: true, scrollToTop: true}, component: ForumSearch },
-    { name: 'forum-topics-detail', path: '/forum-topics-detail/:forumId/:topicId', meta: {title: '话题详情', requiresAuth: true, keepAlive: true}, component: ForumTopicsDetail },
-    { name: 'forum-release', path: '/forum-release/:forumId', meta: {title: '发布话题', requiresAuth: true, keepAlive: true}, component: ForumRelease },
-    { name: 'forum-reply', path: '/forum-reply/:forumId/:topicId', meta: {title: '回复', requiresAuth: true}, component: ForumReply },
+    // { name: 'forum', path: '/forum', meta: {title: '微服务-论坛', requiresAuth: true}, component: Forum },
+    // { name: 'forum-topics', path: '/forum-topics/:forumId', meta: {title: '话题列表', requiresAuth: true, keepAlive: true}, component: ForumTopics },
+    // { name: 'forum-search', path: '/forum-search/:forumId', meta: {title: '搜索话题', requiresAuth: true, keepAlive: true, disableLoading: true, scrollToTop: true}, component: ForumSearch },
+    // { name: 'forum-topics-detail', path: '/forum-topics-detail/:forumId/:topicId', meta: {title: '话题详情', requiresAuth: true, keepAlive: true}, component: ForumTopicsDetail },
+    // { name: 'forum-release', path: '/forum-release/:forumId', meta: {title: '发布话题', requiresAuth: true, keepAlive: true}, component: ForumRelease },
+    // { name: 'forum-reply', path: '/forum-reply/:forumId/:topicId', meta: {title: '回复', requiresAuth: true}, component: ForumReply },
 
     { name: 'swipe-label', path: '/swipe-label', meta: {title: '滑动菜单', requiresAuth: true}, component: SwipeLabel },
     { name: 'cell', path: '/cell', meta: {title: '列表单元', requiresAuth: true}, component: Cell },
@@ -178,7 +182,7 @@ const routes = [
     //     ]
     // },
     { name: 'upload', path: '/upload', meta: {title: '上传', requiresAuth: true, keepAlive: true}, component: UploadCreate },
-    { name: 'upload-cloud', path: '/upload-cloud', meta: {title: '上传到思源云存储', requiresAuth: true, keepAlive: true}, component: UploadCreateCloud },
+    // { name: 'upload-cloud', path: '/upload-cloud', meta: {title: '上传到思源云存储', requiresAuth: true, keepAlive: true}, component: UploadCreateCloud },
     { name: 'lazyload', path: '/lazyload', meta: {title: '延时加载', requiresAuth: true, keepAlive: true}, component: Lazyload },
 
     // {
@@ -205,8 +209,8 @@ const routes = [
     { name: 'map-markers', path: '/map-markers', meta: {title: '地图', requiresAuth: true}, component: MapMarkers },
     { name: 'map-selector', path: '/map-selector', meta: {title: '地址选择', requiresAuth: true}, component: MapSelector },
 
-    { name: 'org', path: '/org', meta: {title: '企通组织结构选择器', requiresAuth: true, keepAlive: true}, component: Org },
-    { name: 'org-selector', path: '/org-selector', meta: {title: '企通组织结构选择器', requiresAuth: true}, component: OrgSelector },
+    // { name: 'org', path: '/org', meta: {title: '企通组织结构选择器', requiresAuth: true, keepAlive: true}, component: Org },
+    // { name: 'org-selector', path: '/org-selector', meta: {title: '企通组织结构选择器', requiresAuth: true}, component: OrgSelector },
     { name: 'audio', path: '/audio', meta: {title: '多媒体阅读器', requiresAuth: true, keepAlive: true}, component: Audio },
 
     { name: 'mwap', path: '/mwap', meta: {title: 'mwap测试'}, component: Mwap },
@@ -217,6 +221,8 @@ const routes = [
     { name: 'error', path: '/error', meta: {title: '网页无法打开'}, component: Error },
     { name: 'compiler-toon', path: '/compiler-toon', meta: {title: '富文本编译器', requiresAuth: true}, component: CompilerToon },
     { name: 'sensorsdata-share', path: '/sensorsdata-share', meta: {title: '埋点分享组件', requiresAuth: true}, component: SensorsdataShare },
+
+    { name: 'star', path: '/star', meta: {title: '评星', requiresAuth: true, keepAlive: true}, component: Star },
     { path: '*', meta: {title: '出错啦'}, component: PageNotFound }
 ];
 // 导出路由集合

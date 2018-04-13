@@ -10,7 +10,7 @@ import comment from './modules/comment';
 // 微服务-论坛的评论赞对象管理
 import forum from './modules/forum';
 
-Vue.use(Vuex); // 如果vuex在index.html中使用了cdn方式，这里需注释掉~ mod by Dio Zhu. on 2017.6.23
+if (process.env.NODE_ENV !== 'production') Vue.use(Vuex); // 打包后会启用cdn方式，这里不需重复注册~ mod by Dio Zhu. on 2018.4.12
 
 // env里去获取当前的环境是否需要开启严格模式
 // 在发布环境开启严格模式会造成性能上不必要的损失

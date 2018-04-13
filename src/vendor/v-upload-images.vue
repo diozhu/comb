@@ -203,14 +203,30 @@
              * 图片预览
              */
             goViewer (idx) {
-                logger.log('v-upload-images.goViewer: ', idx);
-//                this.$root.img = this.imgList;
-                this.$root.img = [];
-                this.imgList.forEach((v, i) => {
-                //    this.$root.img.push(v.url);
-                    this.$root.img.push(v.src || v.url);
-                });
+//                 logger.log('v-upload-images.goViewer: ', idx);
+// //                this.$root.img = this.imgList;
+//                 this.$root.img = [];
+//                 this.imgList.forEach((v, i) => {
+//                 //    this.$root.img.push(v.url);
+//                     this.$root.img.push(v.src || v.url);
+//                 });
+//                 this.$router.push({name: 'viewer', query: {idx: idx}});
+                let imgList = [];
+                if (this.imgList.length > 0) {
+                    this.imgList.forEach(element => {
+                        let imgObj = {
+                            'url': element.url,
+                            'width': element.width,
+                            'height': element.height
+                        };
+                        imgList.push(imgObj);
+                        // console.log('---------------7--------------', element);
+                    });
+                }
+                this.$root.swipes = {list: imgList, idx: idx}; // swipe
+                this.$root.img = imgList; // viewer
                 this.$router.push({name: 'viewer', query: {idx: idx}});
+                return;
             }
         }
     };
