@@ -6,15 +6,16 @@
             </keep-alive>
         </transition>
 
-        <p-comments :subject-id="subjectId"></p-comments>
+        <!--<p-comments :subject-id="subjectId"></p-comments>-->
     </div>
 </template>
 
 <script>
-    import pComments from '../components/p-comments.vue';
+    // import pComments from '../../src_old/components/p-comments.vue';
 
     export default {
-        components: { 'p-comments': pComments },
+        // components: { 'p-comments': pComments },
+        components: {},
 
         data () {
             return {

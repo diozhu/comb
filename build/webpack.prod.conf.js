@@ -61,7 +61,8 @@ var webpackConfig = merge(baseWebpackConfig, {
             chunksSortMode: 'dependency',
             // 静态文件采用cdn方式，直接写在index.html会影响本地开发时的调试。 Author by Dio Zhu. on 2017.6.27
             // scripts: '<script src="https://cdn.bootcss.com/vue/2.2.2/vue.min.js"></script><script src="https://cdn.bootcss.com/vue-resource/1.2.0/vue-resource.min.js"></script><script src="https://cdn.bootcss.com/vue-router/2.3.0/vue-router.min.js"></script><script src="https://cdn.bootcss.com/vuex/2.2.1/vuex.min.js"></script>'
-            scripts: '<script src="https://cdn.bootcss.com/vue/2.4.2/vue.min.js"></script><script src="https://cdn.bootcss.com/vue-resource/1.3.4/vue-resource.min.js"></script><script src="https://cdn.bootcss.com/vue-router/2.7.0/vue-router.min.js"></script><script src="https://cdn.bootcss.com/vuex/2.3.1/vuex.min.js"></script>'
+            // scripts: '<script src="https://cdn.bootcss.com/vue/2.4.2/vue.min.js"></script><script src="https://cdn.bootcss.com/vue-resource/1.3.4/vue-resource.min.js"></script><script src="https://cdn.bootcss.com/vue-router/2.7.0/vue-router.min.js"></script><script src="https://cdn.bootcss.com/vuex/2.3.1/vuex.min.js"></script>'
+            scripts: '<script src="https://cdn.bootcss.com/vue/2.5.2/vue.min.js"></script><script src="https://cdn.bootcss.com/axios/0.18.0/axios.min.js"></script><script src="https://cdn.bootcss.com/vue-router/2.8.1/vue-router.min.js"></script><script src="https://cdn.bootcss.com/vuex/2.5.0/vuex.min.js"></script>'
         }),
         // split vendor js into its own file
         new webpack.optimize.CommonsChunkPlugin({
@@ -116,7 +117,7 @@ var webpackConfig = merge(baseWebpackConfig, {
     externals: {
         'vue': 'Vue',
         'vue-router': 'VueRouter',
-        'axios': 'Axios',
+        'axios': 'axios',
         'vuex': 'Vuex',
         'vue-resource': 'VueResource'
     }

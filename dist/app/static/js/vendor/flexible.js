@@ -8,7 +8,7 @@
     var tempScale = 0;
     var tid;
     var flexible = lib.flexible || (lib.flexible = {});
-    
+
 //    if (metaEl) {
 //        console.warn('将根据已有的meta标签来设置缩放比例');
 //        var match = metaEl.getAttribute('content').match(/initial\-scale=([\d\.]+)/);
@@ -24,11 +24,11 @@
             var maximumDpr = content.match(/maximum\-dpr=([\d\.]+)/);
             if (initialDpr) {
                 dpr = parseFloat(initialDpr[1]);
-                scale = parseFloat((1 / dpr).toFixed(2));    
+                scale = parseFloat((1 / dpr).toFixed(2));
             }
             if (maximumDpr) {
                 dpr = parseFloat(maximumDpr[1]);
-                scale = parseFloat((1 / dpr).toFixed(2));    
+                scale = parseFloat((1 / dpr).toFixed(2));
             }
         }
     }
@@ -41,7 +41,7 @@
         // 对于2和3的屏，用2倍的方案，其余的用1倍方案
         if (devicePixelRatio >= 3 && (!dpr || dpr >= 3)) {
             dpr = 3;
-        } else if (devicePixelRatio >= 2 && (!dpr || dpr >= 2)){
+        } else if (devicePixelRatio >= 2 && (!dpr || dpr >= 2)) {
             dpr = 2;
         } else {
             dpr = 1;
@@ -74,6 +74,14 @@
 
         docEl.style.fontSize = rem + 'px';
         flexible.rem = win.rem = rem;
+
+        var fontSize = parseFloat(docEl.style.fontSize),
+            finalFontSize = parseFloat(window.getComputedStyle(docEl).getPropertyValue("font-size"));
+        console.log('flexible.refreshRem: fontSize && finalFontSize => ', fontSize, finalFontSize);
+        if (fontSize !== finalFontSize) { // 个别机型会出现计算后的宽度差异，比如小米6，这里进行重新计算。。。Author by Dio Zhu. on 2017.8.21
+            docEl.style.fontSize = fontSize * (fontSize / finalFontSize) + 'px';
+            console.log('flexible.refreshRem.fixed: fontSize  => ', docEl.style.fontSize);
+        }
     }
 
     win.addEventListener('resize', function() {
@@ -94,7 +102,7 @@
             doc.body.style.fontSize = 12 * dpr + 'px';
         }, false);
     }
-    
+
 
     refreshRem();
 

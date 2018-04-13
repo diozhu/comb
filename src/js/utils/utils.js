@@ -159,12 +159,12 @@ export function getSessionStorage () {
             storage[_uid] = JSON.stringify(obj);
         },
         get: function (key) { // 获取某个已保存的键值
-            if (!this.has()) return;
+            if (!this.has()) return '';
             var obj = JSON.parse(storage.getItem(_uid));
             if (obj.hasOwnProperty(key)) {
                 return obj[key];
             }
-            return null;
+            return '';
         },
         has: function () {
             var v = storage.getItem(_uid);

@@ -36,21 +36,22 @@
                 <img v-lazy="img.url">
             </li>
         </ul>
-        <p-comments-btn :praised="!!1"></p-comments-btn>
+        <!--<p-comments-btn :praised="!!1"></p-comments-btn>-->
 
-        <p-comments :subject-id="1002"></p-comments>
+        <!--<p-comments :subject-id="1002"></p-comments>-->
 
     </div>
 </template>
 
 <script>
 import vFeed from '../vendor/v-feed.vue';
-import pComments from '../components/p-comments.vue';
-import pCommentsBtn from '../components/p-comments-btn.vue';
+// import pComments from '../../src_old/components/p-comments.vue';
+// import pCommentsBtn from '../../src_old/components/p-comments-btn.vue';
 import * as api from '../js/core/api';
 
 export default {
-    components: { vFeed, pComments, pCommentsBtn },
+    // components: { vFeed, pComments, pCommentsBtn },
+    components: { vFeed },
 
     data () {
         return {
