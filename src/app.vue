@@ -37,7 +37,6 @@
 
 <script type="text/ecmascript-6">
     import Vue from 'vue';
-    import { toonCall } from './js/core/core.js'; // Examples of using the toon protocal. Author by Dio Zhu. on 2017.2.24
     import * as dom from './js/utils/dom.js';
     import * as utils from './js/utils/utils.js';
 //    require('../static/js/vendor/velocity.min'); // get velocity.min
@@ -113,7 +112,7 @@
         methods: {
             /**
              * 右划回退：
-             *  如果上级是原生，调toon协议进行回退操作；
+             *  如果上级是原生，调协议进行回退操作；
              *  如果是普通h5，用使用js方式；
              *
              */
@@ -122,11 +121,8 @@
 //                if (this.$route.name === 'upload-viewer' || this.$route.name === 'viewImage') {
 //                this.$logger.log('(/.viewer/ig).test(this.$route.name): ', (/.viewer/ig).test(this.$route.name));
 //                if (!this.$route.query.timestamp) { // 本地路由为了保存滚动位置都加了时间戳，如果没有，说明是首页~
-                if (!window.history || !window.history.state || utils.getQueryStringByName('code')) { // 如果首页，调toon协议关闭webview~
-                    this.$logger.log('<== swipe right! toon back ...');
-                    toonCall({functionType: 1}, 'mwap/window', function (res) {
-                        console.log('toon back: ', res);
-                    });
+                if (!window.history || !window.history.state || utils.getQueryStringByName('code')) { // 如果首页，调协议关闭webview~
+                    this.$logger.log('<== swipe right! back ...');
                 } else if (this.$route.name === 'viewer' || this.$route.name === 'cell') {
                     this.$logger.log('<== swipe right, do nothing ...');
                     // 图片预览页调用了swiper，冒泡居然反了。。。这里暂时根据路由判断

@@ -2,7 +2,7 @@
     <li class="p-infinite-item tombstone">
         <a class="version-item">
             <div class="version-item-img">
-                <img class="lazy" src="http://static1.systoon.com/share/img/185x185.png">
+                <img class="lazy" src="">
             </div>
             <div class="version-item-intro">
                 <div class="version-item-name">

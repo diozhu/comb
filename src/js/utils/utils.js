@@ -249,49 +249,17 @@ export const requestAnimationFrame = window.requestIdleCallback ||
     };
 
 // /** ==================== 图片相关 ==================== */
-/**
- * 头像、七牛的缩略图
- *              -- Author by Dio Zhu. on 2017.5.2
- */
-export function getThumbnail (url) {
-    if (!url) {
-        return 'http://static1.systoon.com/share/img/185x185.png';
-        // return '../static/images/default-avatar.png';
+/** 缩略图：又拍云 */
+export function thumb (url, width, height) {
+    let str = url;
+    // console.log('utils.thumb: ', url, width, height);
+    // return url + '!/fw/100';
+    if (/upaiyun/.test(url)) { // 又拍云缩略图
+        if (width && height) str += '!/both/' + width + 'x' + height;
+        else if (width) str += '!/fw/' + width;
+        else if (height) str += '!/fh/' + height;
     }
-    if (/qiniu.toon.mobi/.test(url)) { // 七牛缩略图
-        return url + '?imageView2/0/w/750';
-    }
-    // 静态服务器头像
-    if (url.indexOf('http://img.icon.systoon.com') >= 0 || url.indexOf('http://static1.systoon.com') >= 0) {
-        return url;
-    }
-    if (url.match(/_/g) && url.match(/_/g).length > 1) return url; // 已经转过的
-    let w = 80, h = 80, q = 100,
-        path = url.substr(0, url.lastIndexOf('.')),
-        mimeType = url.substring(url.lastIndexOf('.'), url.length),
-        suffix = '_' + w + '_' + h + '_' + q + '_1';
-    if (mimeType.length > 4) { // 会有没有后缀，直接显示地址的头像：feedId：s_1948762391184096，avatar："http://scloud.toon.mobi/f/Zs9xtlKKvwI6-iy1CGlAK5UFxlwMtlBU-U4tt0aqqYkfI"
-        return path + mimeType + suffix + '.jpg';
-    } else {
-        return path + suffix + mimeType;
-    }
-};
-/**
- * 头像、七牛的缩略图
- *              -- Author by Dio Zhu. on 2017.5.2
- */
-export function getYouPaiYun (url, str) {
-    // url====>>路径
-    // str====>配置信息
-    if (!url) {
-        return;
-        // return '../static/images/default-avatar.png';
-    }
-    if (/upaiyun.com/.test(url)) { // 又拍云缩略图
-        return url + str;
-    } else {
-        return url;
-    }
+    return str;
 };
 /** ==================== 时间函数 ==================== */
 /**
@@ -518,20 +486,6 @@ export function validatePassport (val) {
 export function permitForForeigners (val) {
     // 暂时不做校验
     return true;
-};
-/*
- * 图片处理*
- */
-export function thumb (url, width, height) {
-    let str = url;
-    // console.log('utils.thumb: ', url, width, height);
-    // return url + '!/fw/100';
-    if (/upaiyun/.test(url)) { // 又拍云缩略图
-        if (width && height) str += '!/both/' + width + 'x' + height;
-        else if (width) str += '!/fw/' + width;
-        else if (height) str += '!/fh/' + height;
-    }
-    return str;
 };
 // 通过id返回验证条件
 export function findValidate (id) {

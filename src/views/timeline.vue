@@ -66,48 +66,48 @@
                 this.$set(this.detail, 'createDt', '2016-01-29 10:42');
                 this.$set(this.detail, 'title', '停电了');
                 this.$set(this.detail, 'content', '十分钟前电闸跳了，不能正常推上，不知道什么原因，请派工程师上门。');
-                this.$set(this.detail, 'imgList', [{ src: 'http://apr.qiniu.toon.mobi/FqvlnzdAtya7MWSoqq68QE-O5q49?imageView2/0/w/750', url: 'http://apr.qiniu.toon.mobi/FqvlnzdAtya7MWSoqq68QE-O5q49?imageView2/0/w/750', width: 3264, height: 2448 }, { src: 'http://apr.qiniu.toon.mobi/FmXTkxsW6lyvwYYph3Z_9OcuTdH-?imageView2/0/w/750', url: 'http://apr.qiniu.toon.mobi/FmXTkxsW6lyvwYYph3Z_9OcuTdH-?imageView2/0/w/750', width: 2448, height: 3264 }, { src: 'http://apr.qiniu.toon.mobi/FsFj1WAycSZm65jGvE_vvMdFiMmm?imageView2/0/w/750', url: 'http://apr.qiniu.toon.mobi/FsFj1WAycSZm65jGvE_vvMdFiMmm?imageView2/0/w/750', width: 2448, height: 3264 }, { src: 'http://apr.qiniu.toon.mobi/Fuj_9AkRYImxjEKwYWO5zuuQm5Po?imageView2/0/w/750', url: 'http://apr.qiniu.toon.mobi/Fuj_9AkRYImxjEKwYWO5zuuQm5Po?imageView2/0/w/750', width: 2448, height: 3264 }]);
+                this.$set(this.detail, 'imgList', [{ src: '', url: '', width: 3264, height: 2448 }, { src: '', url: '', width: 2448, height: 3264 }, { src: '', url: '', width: 2448, height: 3264 }, { src: '', url: '', width: 2448, height: 3264 }]);
                 this.$set(this.detail, 'state', 2);
                 this.$set(this.detail, 'flows', [
                     {
                         value: 1,
                         feedId: 'c_1407459100687437',
-                        imgUrl: 'http://scloud.toon.mobi/f/TptY54A58iDdczs9At3haUK6ulWuzMuEPd9bIJGv3kIfG_80_80_100_1.png',
+                        imgUrl: '',
                         title: '老朱',
                         subtitle: '人在江湖飘~'
                     },
                     {
                         value: 2,
                         feedId: 'c_1407459100687437',
-                        imgUrl: 'http://scloud.toon.mobi/f/TptY54A58iDdczs9At3haUK6ulWuzMuEPd9bIJGv3kIfG_80_80_100_1.png',
+                        imgUrl: '',
                         title: '张三',
                         subtitle: '人在江湖飘~'
                     },
                     {
                         value: 3,
                         feedId: 'c_1407459100687437',
-                        imgUrl: 'http://scloud.toon.mobi/f/TptY54A58iDdczs9At3haUK6ulWuzMuEPd9bIJGv3kIfG_80_80_100_1.png',
+                        imgUrl: '',
                         title: '李四',
                         subtitle: '人在江湖飘~'
                     },
                     {
                         value: 4,
                         feedId: 'c_1407459100687437',
-                        imgUrl: 'http://scloud.toon.mobi/f/TptY54A58iDdczs9At3haUK6ulWuzMuEPd9bIJGv3kIfG_80_80_100_1.png',
+                        imgUrl: '',
                         title: '王五',
                         subtitle: '人在江湖飘~'
                     },
                     {
                         value: 5,
                         feedId: 'c_1407459100687437',
-                        imgUrl: 'http://scloud.toon.mobi/f/TptY54A58iDdczs9At3haUK6ulWuzMuEPd9bIJGv3kIfG_80_80_100_1.png',
+                        imgUrl: '',
                         title: '赵六',
                         subtitle: '人在江湖飘~'
                     },
                     {
                         value: 6,
                         feedId: 'c_1407459100687437',
-                        imgUrl: 'http://scloud.toon.mobi/f/TptY54A58iDdczs9At3haUK6ulWuzMuEPd9bIJGv3kIfG_80_80_100_1.png',
+                        imgUrl: '',
                         title: '二狗子',
                         subtitle: '人在江湖飘~'
                     }

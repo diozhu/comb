@@ -30,7 +30,7 @@ npm run e2e
 npm test
 ```
 
-git地址：[http://arp.gitlab.innertoon.com/Front/Comb](http://172.28.20.6/Front/Comb)
+git地址：[http://git.hy-sport.cn/front/comb.git](http://git.hy-sport.cn/front/comb.git)
 
 ## Mod the vue-cli's config
 ##合并低于50k的文件
@@ -68,7 +68,7 @@ plugins: [
         }
     ])
     ...
-    
+
 // 添加externals，vue、vuex、vue-router等使用cdn方式，在此排除后，需要在上面的HtmlWebpackPlugin.scripts中设置外链。 Author by Dio Zhu. on 2017.6.23
 externals: {
     'vue': 'Vue',

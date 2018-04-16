@@ -8,7 +8,6 @@ const Font = resolve => require(['./views/font.vue'], resolve);
 const Icon = resolve => require(['./views/icon.vue'], resolve);
 const Button = resolve => require(['./views/button.vue'], resolve);
 const FormSearch = resolve => require(['./views/form-search.vue'], resolve);
-const CalendarToon = resolve => require(['./views/calendar-toon.vue'], resolve);
 const FormSearchResult = resolve => require(['./views/form-search-result.vue'], resolve);
 const TabBar = resolve => require(['./views/tab-bar.vue'], resolve);
 const List = resolve => require(['./views/list.vue'], resolve);
@@ -48,7 +47,7 @@ const CellSwipe = resolve => require(['./views/cell-swipe.vue'], resolve);
 const UploadCreate = resolve => require(['./views/upload-create.vue'], resolve);
 // const UploadCreateCloud = resolve => require(['./views/upload-create-cloud.vue'], resolve);
 const AlbumInfo = resolve => require(['./views/album-info.vue'], resolve);
-const Share = resolve => require(['./views/share.vue'], resolve);
+// const Share = resolve => require(['./views/share.vue'], resolve);
 const TmpCss = resolve => require(['./views/tmp-css.vue'], resolve);
 const ScrollIO = resolve => require(['./views/scroll-io.vue'], resolve);
 const Scroller = resolve => require(['./views/scroller.vue'], resolve);
@@ -65,8 +64,6 @@ const Lazyload = resolve => require(['./views/lazyload.vue'], resolve);
 const PageNotFound = resolve => require(['./views/404.vue'], resolve);
 const Error = resolve => require(['./views/error'], resolve);
 const QrCode = resolve => require(['./views/qr-code.vue'], resolve);
-const CompilerToon = resolve => require(['./views/compiler-toon.vue'], resolve); // 富文本编译器
-const SensorsdataShare = resolve => require(['./views/sensorsdata-share.vue'], resolve); // 埋点分享组件
 
 /** 按组分块打包 */
 const Refresh = r => require.ensure([], () => r(require('./views/refresh.vue')), 'group-refresh');
@@ -89,8 +86,6 @@ const MapSelector = resolve => require(['./views/map-selector.vue'], resolve);
 const Audio = resolve => require(['./views/audio.vue'], resolve);
 
 // mwap测试
-const Mwap = resolve => require(['./views/mwap.vue'], resolve);
-const MwapInfo = resolve => require(['./views/mwap-info.vue'], resolve);
 const Timeline = resolve => require(['./views/timeline.vue'], resolve);
 const Star = resolve => require(['./views/star.vue'], resolve);
 
@@ -116,7 +111,6 @@ const routes = [
     { name: 'popup', path: '/popup', meta: {title: '弹出', requiresAuth: true}, component: Popup },
     { name: 'datetime-picker', path: '/datetime-picker', meta: {title: '日期选择器', requiresAuth: true}, component: DatetimePicker },
     { name: 'form-search', path: '/form-search', meta: {title: '搜索', requiresAuth: true}, component: FormSearch },
-    { name: 'calendar-toon', path: '/calendar-toon', meta: {title: '日历', requiresAuth: true}, component: CalendarToon },
     { name: 'tab-bar', path: '/tab-bar', meta: {title: '选项卡', requiresAuth: true}, component: TabBar },
     { name: 'form-search-result', path: '/form-search-result', meta: {title: '搜索', requiresAuth: true}, component: FormSearchResult },
     { name: 'form-input', path: '/form-input', meta: {title: 'input', requiresAuth: true}, component: FormInput },
@@ -182,7 +176,6 @@ const routes = [
     //     ]
     // },
     { name: 'upload', path: '/upload', meta: {title: '上传', requiresAuth: true, keepAlive: true}, component: UploadCreate },
-    // { name: 'upload-cloud', path: '/upload-cloud', meta: {title: '上传到思源云存储', requiresAuth: true, keepAlive: true}, component: UploadCreateCloud },
     { name: 'lazyload', path: '/lazyload', meta: {title: '延时加载', requiresAuth: true, keepAlive: true}, component: Lazyload },
 
     // {
@@ -194,7 +187,7 @@ const routes = [
     //     ]
     // },
     { name: 'album', path: '/album', meta: {title: '图片显示', requiresAuth: true, scrollToTop: true}, component: AlbumInfo },
-    { name: 'share', path: '/share', meta: {title: '分享页', requiresAuth: true}, component: Share },
+    // { name: 'share', path: '/share', meta: {title: '分享页', requiresAuth: true}, component: Share },
     { name: 'tmp-css', path: '/tmp-css', meta: {title: '临时样式', requiresAuth: true}, component: TmpCss },
     { name: 'scroll-picker', path: '/scroll-picker', meta: {title: '测试', requiresAuth: true}, component: ScrollPicker },
 
@@ -213,14 +206,12 @@ const routes = [
     // { name: 'org-selector', path: '/org-selector', meta: {title: '企通组织结构选择器', requiresAuth: true}, component: OrgSelector },
     { name: 'audio', path: '/audio', meta: {title: '多媒体阅读器', requiresAuth: true, keepAlive: true}, component: Audio },
 
-    { name: 'mwap', path: '/mwap', meta: {title: 'mwap测试'}, component: Mwap },
-    { name: 'mwap-info', path: '/mwap-info', meta: {title: 'mwap测试二级页面'}, component: MwapInfo },
+    // { name: 'mwap', path: '/mwap', meta: {title: 'mwap测试'}, component: Mwap },
+    // { name: 'mwap-info', path: '/mwap-info', meta: {title: 'mwap测试二级页面'}, component: MwapInfo },
     { name: 'timeline', path: '/timeline', meta: {title: '时间轴'}, component: Timeline },
 
     { name: 'swiper', path: '/swiper', meta: {title: '滑动', requiresAuth: true}, component: Swiper },
     { name: 'error', path: '/error', meta: {title: '网页无法打开'}, component: Error },
-    { name: 'compiler-toon', path: '/compiler-toon', meta: {title: '富文本编译器', requiresAuth: true}, component: CompilerToon },
-    { name: 'sensorsdata-share', path: '/sensorsdata-share', meta: {title: '埋点分享组件', requiresAuth: true}, component: SensorsdataShare },
 
     { name: 'star', path: '/star', meta: {title: '评星', requiresAuth: true, keepAlive: true}, component: Star },
     { path: '*', meta: {title: '出错啦'}, component: PageNotFound }

@@ -3,7 +3,7 @@
         <h2>v-map</h2>
 
         <p class="desc">
-            包含toon地图、高德地图
+            包含地图、高德地图
         </p>
 
         <div class="attributes">
@@ -31,31 +31,7 @@
         &lt;v-map :lng="lng" :lat="lat" :img="img" :location="location"&gt;&lt;/v-map&gt;
         </code></pre>
 
-        <h2>Toon协议</h2>
-        <p class="desc">打开地图选地址</p>
-        <v-button type="info" @click="openToonMap">打开toon地图</v-button>
-        <p class="desc msg">
-            lat: {{ lat }}
-            lng: {{ lng }}
-            address: {{ address }}
-        </p>
-        <pre v-highlightjs @touchend.stop><code class="html">
-            &lt;v-button type="info" @click="openToonMap"&gt;打开地图&lt;/v-button&gt;
-            openToonMap () {
-                toonCall({}, 'mwap/map', res =&gt; {
-                    res = res || {};
-                    if (res.latitude && res.longitude) {
-                        this.lat = res.latitude;
-                        this.lng = res.longitude;
-                        this.address = res.address;
-                        // todo: 正式项目相应调整
-                        this.$toast(this.address);
-                    }
-                });
-            }
-        </code></pre>
-
-        <h2>高德地址搜索（仿toon）</h2>
+        <h2>高德地址搜索</h2>
         <p class="desc">打开地图搜索地址，可拖拽，根据范围搜索周边，范围可自定；</p>
         <v-button type="info" @click="openMap">打开地图</v-button>
 
@@ -71,7 +47,6 @@
 //    require('http://webapi.amap.com/maps?v=1.3&key=7f339c48990ad1b3bac62a5338b92041');
     import vButton from '../vendor/v-button.vue';
     import vMap from '../vendor/v-map.vue';
-    import { toonCall } from '../js/core/core'; // Examples of using the toon protocal. Author by Dio Zhu. on 2017.2.24
 
     export default {
         components: { vButton, vMap },
@@ -80,7 +55,7 @@
             return {
                 lng: '116.4514501384251588', // 经度
                 lat: '39.9951573546932124', // 纬度
-                img: 'http://rssqiniu.systoon.com/500283127.898516.jpg',
+                img: '',
                 location: '北京市朝阳区望京街道望京西路150号季景·沁园',
 
                 address: ''
@@ -101,20 +76,6 @@
         },
 
         methods: {
-            openToonMap () {
-                toonCall({
-                }, 'mwap/map', res => {
-                    res = res || {};
-                    if (res.latitude && res.longitude) {
-                        this.lat = res.latitude;
-                        this.lng = res.longitude;
-                        this.address = res.address;
-                        // todo: 正式项目相应调整
-                        this.$toast(this.address);
-                    }
-                });
-            },
-
             openMap () {
                 this.$router.push({name: 'map-selector', query: {lng: this.lng, lat: this.lat}});
             },

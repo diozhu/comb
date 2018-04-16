@@ -40,42 +40,7 @@ module.exports = {
                 target: 'http://qa.doing.hy-sport.cn',
                 changeOrigin: true,
                 secure: false
-            },
-            // '/bbs': {
-            //     // target: process.env.REMOTE_API_BASE_URL,
-            //     target: 'http://p100.ms-bbs.systoon.com',
-            //     // target: 'http://172.31.44.46',
-            //     changeOrigin: true,
-            //     secure: false,
-            //     // filter: function (pathname, req) {
-            //     //     return pathname.match('^/app') && req.method === 'POST'
-            //     // }
-            // },
-            // '/forum': {
-            //     target: 'http://p100.ms-bbs.systoon.com',
-            //     changeOrigin: true,
-            //     secure: false
-            // },
-            // '/topic': {
-            //     target: 'http://p100.ms-bbs.systoon.com',
-            //     changeOrigin: true,
-            //     secure: false
-            // },
-            // '/user': {
-            //     target: 'http://p100.ms-bbs.systoon.com',
-            //     changeOrigin: true,
-            //     secure: false
-            // },
-            // '/v1': {
-            //     target: 'http://p100.ms-bbs.systoon.com',
-            //     changeOrigin: true,
-            //     secure: false
-            // }
-            // '/test': {
-            //     target: 'http://p100.ms-bbs.toon.mobi',
-            //     changeOrigin: true,
-            //     secure: false
-            // }
+            }
         },
         // CSS Sourcemaps off by default because relative paths are "buggy"
         // with this option, according to the CSS-Loader README

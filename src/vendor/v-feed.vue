@@ -43,7 +43,7 @@
 
         computed: {
             feedImg () {
-                return utils.getThumbnail(this.imgUrl);
+                return utils.thumb(this.imgUrl);
             },
             /**
              * 根据feedid判断来源, 显示不同形式头像.

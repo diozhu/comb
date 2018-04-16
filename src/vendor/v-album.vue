@@ -40,7 +40,7 @@
         computed: {
             formatedValues () {
                 this.currentValue.forEach((v, i) => {
-                    v.formatedUrl = utils.getThumbnail(v.url);
+                    v.formatedUrl = utils.thumb(v.url);
                 });
                 return this.currentValue;
             },

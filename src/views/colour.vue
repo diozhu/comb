@@ -3,7 +3,7 @@
         <h2>Colour for H5</h2>
 
         <p class="desc">
-            本色彩适用于toon平台上挂载的所有H5应用。
+            本色彩适用于平台上挂载的所有H5应用。
             应用方只能参照此手册配色，不得出现其他色系。（定制版本除外）
         </p>
         <v-row :aligment="true">
@@ -33,9 +33,9 @@
         <h2>色卡</h2>
         <p-colour color="#007AFF" title="科技蓝"></p-colour>
         <br>
-        <p class="desc">沿用toon蓝，理智、忠诚、科技、稳重且富有亲和感，凸显政府级企业的威严。</p>
+        <p class="desc">沿用蓝，理智、忠诚、科技、稳重且富有亲和感，凸显政府级企业的威严。</p>
         <h3>适用范围</h3>
-        <p class="desc">toon企业级应用、to B平台类、工作效率类、科技类等</p>
+        <p class="desc">企业应用、to B平台类、工作效率类、科技类等</p>
         <h3>辅色</h3>
         <v-row :aligment="true">
             <v-col :span="1"><p-colour color="#007AFF"></p-colour></v-col>

@@ -20,7 +20,6 @@ import logger from '../utils/logger';
 import _promise from '../utils/promise';
 import store from '../../store/';
 import * as utils from '../utils/utils.js'; //eslint-disable-line
-// import { toonCall } from '../../js/core/core.js';
 import qs from 'qs'; //eslint-disable-line
 
 // // 注册vue-resource

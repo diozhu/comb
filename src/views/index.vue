@@ -28,7 +28,6 @@
                 <router-link :to="{ path: '/picker', query: { subjectId: 28 } }" tag="li">选择器（picker）<i class="icon icon-arrow-r"></i></router-link>
                 <router-link :to="{ path: '/datetime-picker', query: { subjectId: 29 } }" tag="li">时间选择器（datetime-picker）<i class="icon icon-arrow-r"></i></router-link>
                 <router-link :to="{ path: '/form-search', query: { subjectId: 30 } }" tag="li">搜索（search）<i class="icon icon-arrow-r"></i></router-link>
-                <router-link :to="{ path: '/calendar-toon', query: { subjectId: 91 } }" tag="li">日历（calendar-toon）<i class="icon icon-arrow-r"></i></router-link>
                 <router-link :to="{ path: '/form-validator', query: { subjectId: 32 } }" tag="li">校验（validator）<i class="icon icon-arrow-r"></i></router-link>
             </ul>
         </div>
@@ -62,17 +61,14 @@
                 <!--<router-link :to="{ path: '/comment', query: { subjectId: 82 } }" tag="li">微服务-评论点赞（comment）<i class="icon icon-arrow-r"></i></router-link>-->
                 <!--<router-link :to="{ path: '/forum', query: { subjectId: 87 } }" tag="li">微服务-论坛（bbs）<i class="icon icon-arrow-r"></i></router-link>-->
                 <router-link :to="{ path: '/upload', query: { subjectId: 83 } }" tag="li">上传图片（upload-images）<i class="icon icon-arrow-r"></i></router-link>
-                <!--<router-link :to="{ path: '/upload-cloud', query: { subjectId: 92 } }" tag="li">上传图片到思源云存储（upload-cloud-images）<i class="icon icon-arrow-r"></i></router-link>-->
                 <router-link :to="{ path: '/share', query: { subjectId: 84 } }" tag="li">分享（share）<i class="icon icon-arrow-r"></i></router-link>
                 <router-link :to="{ path: '/lazyload', query: { subjectId: 85 } }" tag="li">图片延时加载（lazyload）<i class="icon icon-arrow-r"></i></router-link>
                 <router-link :to="{ path: '/qr-code', query: { subjectId: 86 } }" tag="li">二维码(QRCode)<i class="icon icon-arrow-r"></i></router-link>
                 <router-link :to="{ path: '/map', query: { subjectId: 87 } }" tag="li">地图（map）<i class="icon icon-arrow-r"></i></router-link>
-                <!--<router-link :to="{ path: '/org', query: { subjectId: 88 } }" tag="li">企通-组织选择器（org-selector）<i class="icon icon-arrow-r"></i></router-link>-->
                 <router-link :to="{ path: '/audio', query: { subjectId: 89 } }" tag="li">多媒体阅读器（audio）<i class="icon icon-arrow-r"></i></router-link>
                 <router-link :to="{ path: '/slider-show', query: { subjectId: 90 } }" tag="li">图片轮播（slide-show）<i class="icon icon-arrow-r"></i></router-link>
                 <router-link :to="{ path: '/slider-image', query: { subjectId: 90 } }" tag="li">图片预览（view-image）<i class="icon icon-arrow-r"></i></router-link>
                 <router-link :to="{ path: '/timeline', query: { subjectId: 90 } }" tag="li">时间轴（timeline）<i class="icon icon-arrow-r"></i></router-link>
-                <router-link :to="{ path: '/compiler-toon', query: { subjectId: 90 } }" tag="li">富文本编译器（compiler-toon）<i class="icon icon-arrow-r"></i></router-link>
             </ul>
         </div>
 

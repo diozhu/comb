@@ -191,39 +191,9 @@ router.afterEach(route => {
     }
 
     /**
-     * 埋点--神策，需在index.html中引入'vendor/sensorsdata.js'
-     *              -- Author by Xiaowei Shen. on 2017.6.1
+     * 埋点
+     *              -- Author by Dio Zhu. on 2017.6.1
      */
-/*
-    let trackInApp = (fn) => {
-        if (navigator.userAgent.indexOf('toon') >= 0 && navigator.userAgent.indexOf('Toon') >= 0) {
-            sa.getAppStatus(function(app_info){//eslint-disable-line
-                // 设置 ID
-                sa.identify(app_info.distinct_id);//eslint-disable-line
-                // 跟踪事件
-                fn();
-            });
-            logger.log('Comb.trackInApp', 'app内埋点');
-        } else {
-            fn();
-            logger.log('Comb.trackInApp', '非app内埋点');
-        }
-    };
-    trackInApp(function () {
-        sa.quick('autoTrack', {//eslint-disable-line
-            toon_type: '102',
-            share_type: 'Comb',
-            share_source: 'Comb',
-            obj_id: '001'
-        });
-        sa.track('ViewHomePage', {//eslint-disable-line
-            toon_type: '102',
-            share_type: 'Comb',
-            share_source: 'Comb',
-            obj_id: '001'
-        });
-    });
-*/
     try { // 路由跳转，隐藏菊花~ Author by Dio Zhu. on 2017.2.17
         // logger.log('===>>> router.afterEach ===>>> ', router.app.$store);
         if (store && store.state) {
