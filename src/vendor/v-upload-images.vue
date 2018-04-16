@@ -123,8 +123,8 @@
                         'functionType': 2,  // 相机和相册
                         'maxCount': max     // 最大可选数
                     };
-                uploadImages(option, (e) => { // toon返回base64的回调, 用于显示图片正在上传的状态, 避免白屏等待
-                    logger.log('v-upload-images.uploadImage.toon -> back', e);
+                uploadImages(option, (e) => { // 返回base64的回调, 用于显示图片正在上传的状态, 避免白屏等待
+                    logger.log('v-upload-images.uploadImage. -> back', e);
                     let i, len;
                     if (e === 'cancel') {
                         this.checkStatus(); // 检查状态，返回通知                    this.uploadedStatus = true; // 结束上传
@@ -151,7 +151,7 @@
                     this.checkStatus(); // 检查状态，返回通知                    this.uploadedStatus = true; // 结束上传
                     logger.error('v-upload-images.uploadImage.error: ', e);
                     let i, len, j, jlen, img;
-                    if (!e) { // toon 返回错误
+                    if (!e) { //  返回错误
                         // do nothing...
                     } else if (typeof e === 'object') { // 图片list
                         for (i = 0, len = this.imgList.length;i < len;i++) {

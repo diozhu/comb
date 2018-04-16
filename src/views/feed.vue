@@ -5,10 +5,10 @@
          <div class="t-6">
             <div>
                 <div>
-                    <div style="background: url(http://scloud.toon.mobi/f/TptY54A58iDdczs9At3haUK6ulWuzMuEPd9bIJGv3kIfG_80_80_100_1.png)"></div>
+                    <div style="background: url(http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png)"></div>
                 </div>
             </div>
-        </div> 
+        </div>
 
         <div class="listview listview-form" v-for="user in this.users">
 
@@ -27,7 +27,7 @@
 
         <v-feed
             :feedId = "'c_1407459100687437'"
-            :imgUrl = "'http://scloud.toon.mobi/f/TptY54A58iDdczs9At3haUK6ulWuzMuEPd9bIJGv3kIfG_80_80_100_1.png'"
+            :imgUrl = "'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png'"
             :title = "'老朱'"
             :subtitle = "'人在江湖飘~'"
             :classes = "'small'"
@@ -53,7 +53,7 @@
                 {
                     userId: '397833',
                     feedId: 'o_1407459100687437',
-                    avatarId: 'http://scloud.toon.mobi/f/TptY54A58iDdczs9At3haUK6ulWuzMuEPd9bIJGv3kIfG_80_80_100_1.png',
+                    avatarId: 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
                     title: 'Dio',
                     desc: '18:00',
                     subtitle: 'Dio...',
@@ -62,7 +62,7 @@
                 {
                     userId: '397833',
                     feedId: 'c_1407459100687437',
-                    avatarId: 'http://scloud.toon.mobi/f/TptY54A58iDdczs9At3haUK6ulWuzMuEPd9bIJGv3kIfG_80_80_100_1.jpg',
+                    avatarId: 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
                     title: '老朱',
                     desc: '18:00',
                     subtitle: '推广啦啦啦',
@@ -71,7 +71,7 @@
                 {
                     userId: '397833',
                     feedId: 'g_1407459100687437',
-                    avatarId: 'http://scloud.toon.mobi/f/TptY54A58iDdczs9At3haUK6ulWuzMuEPd9bIJGv3kIfG_80_80_100_1.png',
+                    avatarId: 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
                     title: '李四',
                     desc: '18:00',
                     subtitle: '老李哇哈哈',
@@ -81,7 +81,7 @@
                 {
                     userId: '397833',
                     feedId: 'o_1407459100687437',
-                    avatarId: 'http://scloud.toon.mobi/f/TptY54A58iDdczs9At3haUK6ulWuzMuEPd9bIJGv3kIfG_80_80_100_1.png',
+                    avatarId: 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
                     title: 'Dio',
                     desc: '1km以内',
                     subtitle: 'Dio...',
@@ -92,7 +92,7 @@
                 {
                     userId: '397833',
                     feedId: 'c_1407459100687437',
-                    avatarId: 'http://scloud.toon.mobi/f/TptY54A58iDdczs9At3haUK6ulWuzMuEPd9bIJGv3kIfG_80_80_100_1.jpg',
+                    avatarId: 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
                     title: '老朱',
                     desc: '2.1km',
                     subtitle: '推广啦啦啦',
@@ -103,7 +103,7 @@
                 {
                     userId: '397833',
                     feedId: 'g_1407459100687437',
-                    avatarId: 'http://scloud.toon.mobi/f/TptY54A58iDdczs9At3haUK6ulWuzMuEPd9bIJGv3kIfG_80_80_100_1.png',
+                    avatarId: 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
                     title: '李四',
                     desc: '200km',
                     subtitle: '老李哇哈哈',
@@ -148,7 +148,7 @@
             height:pxTorem(46px);
             transform: rotate(120deg);
             visibility: hidden;
-            
+
             div {
                 width: 100%;
                 height:100%;
@@ -162,11 +162,11 @@
                 >div {
                     transform: rotate(-60deg);
                     visibility: visible;
-                    
+
                     >div {
                         // transform: rotate(-60deg);
                         visibility: visible;
-                        
+
                     }
                 }
             }

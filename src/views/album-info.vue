@@ -47,7 +47,7 @@
             // 单横图
             this.imgList1 = [
                 {
-                    'url': 'http://apr.qiniu.toon.mobi/FnkFw7vjnev3LrlqBA_uTGf6sAKm',
+                    'url': 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
                     'width': 402,
                     'height': 242
                 }
@@ -55,12 +55,12 @@
             // 双图：横排
             this.imgList2 = [
                 {
-                    'url': 'http://apr.qiniu.toon.mobi/FkBD477TSGJVw6vJcoxywn0ATqrN',
+                    'url': 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
                     'width': 362,
                     'height': 644
                 },
                 {
-                    'url': 'http://apr.qiniu.toon.mobi/FkBD477TSGJVw6vJcoxywn0ATqrN',
+                    'url': 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
                     'width': 362,
                     'height': 644
                 }
@@ -69,12 +69,12 @@
             // 双图：纵排
             this.imgList3 = [
                 {
-                    'url': 'http://apr.qiniu.toon.mobi/FnkFw7vjnev3LrlqBA_uTGf6sAKm',
+                    'url': 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
                     'width': 402,
                     'height': 242
                 },
                 {
-                    'url': 'http://apr.qiniu.toon.mobi/FnkFw7vjnev3LrlqBA_uTGf6sAKm',
+                    'url': 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
                     'width': 402,
                     'height': 242
                 }
@@ -83,17 +83,17 @@
             // 多图：纵排
             this.imgList4 = [
                 {
-                    'url': 'http://apr.qiniu.toon.mobi/FkBD477TSGJVw6vJcoxywn0ATqrN',
+                    'url': 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
                     'width': 362,
                     'height': 644
                 },
                 {
-                    'url': 'http://apr.qiniu.toon.mobi/FkBD477TSGJVw6vJcoxywn0ATqrN',
+                    'url': 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
                     'width': 362,
                     'height': 644
                 },
                 {
-                    'url': 'http://apr.qiniu.toon.mobi/FkBD477TSGJVw6vJcoxywn0ATqrN',
+                    'url': 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
                     'width': 362,
                     'height': 644
                 }
@@ -101,17 +101,17 @@
             // 多图：横排
             this.imgList5 = [
                 {
-                    'url': 'http://apr.qiniu.toon.mobi/FnkFw7vjnev3LrlqBA_uTGf6sAKm',
+                    'url': 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
                     'width': 402,
                     'height': 242
                 },
                 {
-                    'url': 'http://apr.qiniu.toon.mobi/FnkFw7vjnev3LrlqBA_uTGf6sAKm',
+                    'url': 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
                     'width': 402,
                     'height': 242
                 },
                 {
-                    'url': 'http://apr.qiniu.toon.mobi/FnkFw7vjnev3LrlqBA_uTGf6sAKm',
+                    'url': 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
                     'width': 402,
                     'height': 242
                 }

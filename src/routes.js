@@ -63,7 +63,6 @@ const Detail = resolve => require(['./views/detail.vue'], resolve);
 const Lazyload = resolve => require(['./views/lazyload.vue'], resolve);
 const PageNotFound = resolve => require(['./views/404.vue'], resolve);
 const Error = resolve => require(['./views/error'], resolve);
-const QrCode = resolve => require(['./views/qr-code.vue'], resolve);
 
 /** 按组分块打包 */
 const Refresh = r => require.ensure([], () => r(require('./views/refresh.vue')), 'group-refresh');
@@ -193,7 +192,6 @@ const routes = [
 
     { name: 'viewer', path: '/viewer', meta: {title: '预览', requiresAuth: true}, component: Viewer },
     { name: 'slider', path: '/slider', meta: {title: '预览', requiresAuth: true}, component: Slider },
-    { name: 'qr-code', path: '/qr-code', meta: {title: '生成二维码', requiresAuth: true}, component: QrCode },
 
     { name: 'refresh', path: '/refresh', meta: {title: '下拉刷新', requiresAuth: true, keepAlive: true}, component: Refresh },
     { name: 'refresh-two', path: '/refresh-two', meta: {title: '下拉刷新', requiresAuth: true, keepAlive: true}, component: RefreshTwo },

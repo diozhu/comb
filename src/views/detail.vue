@@ -4,7 +4,7 @@
 
         <v-feed
             :feedId = "'c_1407459100687437'"
-            :imgUrl = "'http://scloud.toon.mobi/f/TptY54A58iDdczs9At3haUK6ulWuzMuEPd9bIJGv3kIfG_80_80_100_1.png'"
+            :imgUrl = "'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png'"
             :title = "'老朱'"
             :subtitle = "'人在江湖飘~'"
             :classes = "'small'"
@@ -16,18 +16,6 @@
             3. 如果是单滚动条或者只有两个平级滚动条的话（如之前的两个list页面），不用设置任何东西，滚动条会默认使用容器高度进行滚动即可（app.vue中限定了容器高度）；
                     -- Author by Dio Zhu. on 2017.3.28
         </p>
-
-        <!--<div class="blank"></div>-->
-
-        <!--<div id="labDiv">-->
-            <!--<v-feed-->
-                <!--:feedId = "'c_1407459100687437'"-->
-                <!--:imgUrl = "'http://scloud.toon.mobi/f/TptY54A58iDdczs9At3haUK6ulWuzMuEPd9bIJGv3kIfG_80_80_100_1.png'"-->
-                <!--:title = "'老朱'"-->
-                <!--:subtitle = "'人在江湖飘~'"-->
-                <!--:classes = "'small'"-->
-            <!--&gt; </v-feed>-->
-        <!--</div>-->
 
 
         <ul class="listview-info-img">
@@ -83,15 +71,9 @@ export default {
             return api.getDelay({delay: 2000}, {loading: true}).then(res => {
                 this.$logger.log('detail.getDetail: ', res);
                 this.images = [
-                    {url: 'http://apr.qiniu.toon.mobi/FsFj1WAycSZm65jGvE_vvMdFiMmm', width: '2448', height: '3264'},
-                    {url: 'http://apr.qiniu.toon.mobi/FmXTkxsW6lyvwYYph3Z_9OcuTdH-', width: '2448', height: '3264'},
-//            {url: 'http://apr.qiniu.toon.mobi/Fuj_9AkRYImxjEKwYWO5zuuQm5Po'},
-//            {url: 'http://apr.qiniu.toon.mobi/FqYcvx9zm1eM2ixxmA4niPQfiXP-'},
-//            {url: 'http://apr.qiniu.toon.mobi/FjwowYBSWevS_vYT0pDGGZiMIwtJ'},
-//            {url: 'http://apr.qiniu.toon.mobi/FqvlnzdAtya7MWSoqq68QE-O5q49'},
-//            {url: 'http://apr.qiniu.toon.mobi/FtCiLntvXFGD_207B-OvwmgMDNjU'},
-//            {url: 'http://apr.qiniu.toon.mobi/FtPkdZgEDrJnORRcdzwkpv_DCRT5'},
-                    {url: 'http://apr.qiniu.toon.mobi/lru5pWzoqBgUGqjmZ5J-CLI2foqR', width: '11520', height: '3178'}
+                    {url: 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png', width: '2448', height: '3264'},
+                    {url: 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png', width: '2448', height: '3264'},
+                    {url: 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png', width: '11520', height: '3178'}
                 ];
             });
         }

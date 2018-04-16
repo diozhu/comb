@@ -63,7 +63,7 @@
                 >
                     <v-feed
                         :feedId = "'c_1407459100687437'"
-                        :imgUrl = "'http://scloud.toon.mobi/f/TptY54A58iDdczs9At3haUK6ulWuzMuEPd9bIJGv3kIfG_80_80_100_1.png'"
+                        :imgUrl = "'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png'"
                         :title = "'老朱'"
                         :subtitle = "'人在江湖飘~'"
                         :classes = "'small'"
@@ -82,7 +82,7 @@
                 &gt;
                     &lt;v-feed
                         :feedId = "'c_1407459100687437'"
-                        :imgUrl = "'http://scloud.toon.mobi/f/TptY54A58iDdczs9At3haUK6ulWuzMuEPd9bIJGv3kIfG_80_80_100_1.png'"
+                        :imgUrl = "'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png'"
                         :title = "'老朱'"
                         :subtitle = "'人在江湖飘~'"
                         :classes = "'small'"

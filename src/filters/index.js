@@ -1,10 +1,6 @@
 import * as utils from '../js/utils/utils';
 
 export function thumb (src) {
-    let isCDN = /qiniu.toon.mobi/;
-    if (isCDN.test(src)) {
-        src += '?imageView2/0/w/750';
-    }
     return src;
 }
 
