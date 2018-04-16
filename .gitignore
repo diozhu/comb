@@ -10,6 +10,6 @@ lib/*
 node_modules
 example/dist
 docs/
-src_old/*
+src_*/*
 package-lock.json
 npm-debug.*

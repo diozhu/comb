@@ -16,7 +16,7 @@
     import logger from '../js/utils/logger';
     import vField from '../vendor/v-field.vue';
     import vButton from '../vendor/v-button.vue';
-    import MicroComment from '../../src_old/vendor/v-comment';
+    import MicroComment from '..//vendor/v-comment';
 
     export default {
         name: 'page-comment-create',
