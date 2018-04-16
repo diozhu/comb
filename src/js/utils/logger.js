@@ -34,6 +34,10 @@ let logger = (() => {
     }
     errorFunc = console.error.bind(console);
     assertFunc = console.assert.bind(console);
+    // logFunc = console.log;
+    // errorFunc = console.error;
+    // warnFunc = console.warn;
+    // assertFunc = console.assert;
     return {
         log: logFunc,
         error: errorFunc,

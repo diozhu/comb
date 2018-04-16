@@ -9,7 +9,8 @@ module.exports = {
         index: path.resolve(__dirname, '../dist/app/index.html'),
         assetsRoot: path.resolve(__dirname, '../dist/app'),
         assetsSubDirectory: 'static',
-        assetsPublicPath: './',
+        // assetsPublicPath: './',
+        assetsPublicPath: '/',
         // assetsPublicPath: '/app/',
         productionSourceMap: false,
         // Gzip off by default as many popular static hosts such as
