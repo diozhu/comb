@@ -46,9 +46,11 @@
                         </div>
                     </div>
                     <!--日历中间的分割内容-->
-                    <div v-show="week.current && week.current.length" class="week-content">
-                        <slot name="week-content" :data="week.current"></slot>
-                    </div>
+                    <v-collaple-transition>
+                        <div v-show="week.current && week.current.length" class="week-content">
+                            <slot name="week-content" :data="week.current"></slot>
+                        </div>
+                    </v-collaple-transition>
                 </div>
             </div>
             <!--说明插槽-->
@@ -58,6 +60,7 @@
 </template>
 <script>
     import * as utils from '../js/utils/utils'; //eslint-disable-line
+    import vCollapleTransition from '../vendor/v-collaple-transition';
 
     /**
      *              -- Author by Dio Zhu. on 2018.4.10
@@ -140,6 +143,7 @@
 
     export default {
         name: 'v-calendar',
+        components: { vCollapleTransition },
 
         props: {
             attributes: {   // 在日期标签上的样式描述
@@ -933,9 +937,16 @@
             .week-content {
                 background: #F9F9F9;
                 margin: 0;
-                transition: height .5s;
-                transition-timing-function: ease-out;
+                /*transition: height .5s;*/
+                /*transition-timing-function: ease-out;*/
             }
+        }
+
+        .fade-enter-active, .fade-leave-active {
+            transition: opacity .5s
+        }
+        .fade-enter, .fade-leave-to /* .fade-leave-active in below version 2.1.8 */ {
+            opacity: 0
         }
     }
 
