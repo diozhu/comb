@@ -87,6 +87,7 @@ const Audio = resolve => require(['./views/audio.vue'], resolve);
 // mwap测试
 const Timeline = resolve => require(['./views/timeline.vue'], resolve);
 const Star = resolve => require(['./views/star.vue'], resolve);
+const Calendar = resolve => require(['./views/calendar.vue'], resolve);
 
 // 编写路由集合
 const routes = [
@@ -212,6 +213,7 @@ const routes = [
     { name: 'error', path: '/error', meta: {title: '网页无法打开'}, component: Error },
 
     { name: 'star', path: '/star', meta: {title: '评星', requiresAuth: true, keepAlive: true}, component: Star },
+    { name: 'calendar', path: '/calendar', meta: {title: '日历', requiresAuth: true, keepAlive: true}, component: Calendar },
     { path: '*', meta: {title: '出错啦'}, component: PageNotFound }
 ];
 // 导出路由集合

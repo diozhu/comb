@@ -9,7 +9,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 // var HtmlCriticalPlugin = require("./html.critical.webpack.plugin"); // critical css. add by Dio Zhu. on 2017.7.27
-// const PrerenderSPAPlugin = require('prerender-spa-plugin') // add by Dio Zhu. on 2018.4.16
+const PrerenderSPAPlugin = require('prerender-spa-plugin') // add by Dio Zhu. on 2018.4.16
 
 var env = config.build.env
 
@@ -100,12 +100,12 @@ var webpackConfig = merge(baseWebpackConfig, {
                 to: config.build.assetsRoot
             }
         ]),
-        // new PrerenderSPAPlugin({ //. Author by Dio Zhu. on 2018.4.16
-        //     // Required - The path to the webpack-outputted app to prerender.
-        //     staticDir: path.join(__dirname, '../dist/app'),
-        //     // Required - Routes to render.
-        //     routes: [ '/', '/layout', '/api' ],
-        // }),
+        new PrerenderSPAPlugin({ //. Author by Dio Zhu. on 2018.4.16
+            // Required - The path to the webpack-outputted app to prerender.
+            staticDir: path.join(__dirname, '../dist/app'),
+            // Required - Routes to render.
+            routes: [ '/', '/font' ],
+        }),
         // new HtmlCriticalPlugin({
         //     base: path.resolve(__dirname, '../dist/app/'),
         //     src: 'index.html',

@@ -335,20 +335,20 @@ export function dateTrans (dt) {
  */
 export function isSameYear (dt1, dt2) {
     if (!dt1 || !dt2) return false;
-    dt1 = (dt1 instanceof Date) ? dt1 : this.dateTrans(dt1);
-    dt2 = (dt2 instanceof Date) ? dt2 : this.dateTrans(dt2);
+    dt1 = (dt1 instanceof Date) ? dt1 : dateTrans(dt1);
+    dt2 = (dt2 instanceof Date) ? dt2 : dateTrans(dt2);
     return dt1.getFullYear() === dt2.getFullYear();
 };
 export function isSameMonth (dt1, dt2) {
     if (!dt1 || !dt2) return false;
-    dt1 = (dt1 instanceof Date) ? dt1 : this.dateTrans(dt1);
-    dt2 = (dt2 instanceof Date) ? dt2 : this.dateTrans(dt2);
+    dt1 = (dt1 instanceof Date) ? dt1 : dateTrans(dt1);
+    dt2 = (dt2 instanceof Date) ? dt2 : dateTrans(dt2);
     return dt1.getFullYear() === dt2.getFullYear() && dt1.getMonth() === dt2.getMonth();
 };
 export function isSameDay (dt1, dt2) {
     if (!dt1 || !dt2) return false;
-    dt1 = (dt1 instanceof Date) ? dt1 : this.dateTrans(dt1);
-    dt2 = (dt2 instanceof Date) ? dt2 : this.dateTrans(dt2);
+    dt1 = (dt1 instanceof Date) ? dt1 : dateTrans(dt1);
+    dt2 = (dt2 instanceof Date) ? dt2 : dateTrans(dt2);
     return dt1.getMonth() === dt2.getMonth() && dt1.getDate() === dt2.getDate();
 };
 export const daysInMonths = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];

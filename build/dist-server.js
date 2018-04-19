@@ -8,6 +8,7 @@ if (!process.env.NODE_ENV) {
 var opn = require('opn')
 var path = require('path')
 var express = require('express')
+var path = require('path');
 var webpack = require('webpack')
 var proxyMiddleware = require('http-proxy-middleware')
 var webpackConfig = require('./webpack.prod.conf')
@@ -25,6 +26,13 @@ var autoOpenBrowser = !!config.dev.autoOpenBrowser
 var proxyTable = config.dev.proxyTable
 
 var app = express()
+// app.get('/app/font', (req, res) => res.send('123'))
+// app.get('/app/font', (req, res) => res.sendFile(path.join(__dirname, '../dist/app/font/index.html')))
+// console.log('---> ', express.static(path.join(__dirname, '../dist/app/font/index.html')));
+app.use('/app/font', express.static(path.join(__dirname, '../dist/app/font'))); // 修正虚路径静态文件目录. Add by Dio Zhu. on 2017.7.24
+
+
+
 var compiler = webpack(webpackConfig)
 
 var devMiddleware = require('webpack-dev-middleware')(compiler, {
@@ -74,6 +82,8 @@ app.use('/api', function (req, res, next) {
     next();
 });
 app.use('/api', api);
+// app.use(express.static(path.join(__dirname, '../dist/app'))); // 修正虚路径静态文件目录. Add by Dio Zhu. on 2017.7.24
+// console.log('---> ', path.join(__dirname, '../dist/app/font/index.html'));
 
 // handle fallback for HTML5 history API
 app.use(require('connect-history-api-fallback')())
