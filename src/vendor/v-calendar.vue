@@ -299,9 +299,7 @@
                 this.$emit('chooseDate', this.currentSelectedDt);
             },
             weeksInit ({animation = true} = {}) { // 按照page进行单月渲染
-                // this.weeks = [];
                 this.$set(this, 'weeks', []); // 还原
-                // this.$set(this.page, 'firstWeekdayInMonth', this.page.firstWeekdayInMonth - 1);
                 let day = (this.page.prevMonthComps.days - this.page.firstWeekdayInMonth) + 2, // 起始日期
                     month = this.page.prevMonthComps.month,
                     year = this.page.prevMonthComps.year,
@@ -309,37 +307,18 @@
                     thisMonth = false,
                     nextMonth = false,
                     weeks = [];
-                // if (this.firstDay === 1 && this.page.firstWeekdayInMonth === 1) {
-                //     // day += 1;
-                //     day = (this.page.prevMonthComps.days - this.page.firstWeekdayInMonth) - 4;
-                // }
-                console.log('------------------->>> ', day, this.page.prevMonthComps.days, this.page.firstWeekdayInMonth);
+                // console.log('------------------->>> ', day, this.page.prevMonthComps.days, this.page.firstWeekdayInMonth);
                 // for (let w = 1, len = 6;w <= len && !nextMonth;w++) {
                 for (let w = 1, len = 6;w <= len;w++) {
                     let week = [], current = null;
                     for (let i = 1, d = 1;i <= 7;i++, d += (d === 7) ? -6 : 1) {
                         if (previousMonth && d >= this.page.firstWeekdayInMonth) {
-                        // if (previousMonth && day > this.page.prevMonthComps.days && d >= this.page.firstWeekdayInMonth) {
                             day = 1;
                             month = this.page.month;
                             year = this.page.year;
                             previousMonth = false;
                             thisMonth = true;
                         }
-                        // if (previousMonth && day > this.page.prevMonthComps.days) {
-                        //     day = day - 7;
-                        //     // day = day - this.page.prevMonthComps.days;
-                        //     // month = this.page.month;
-                        //     // year = this.page.year;
-                        //     // previousMonth = false;
-                        //     // thisMonth = true;
-                        // } else if (previousMonth && d >= this.page.firstWeekdayInMonth) {
-                        //     day = 1;
-                        //     month = this.page.month;
-                        //     year = this.page.year;
-                        //     previousMonth = false;
-                        //     thisMonth = true;
-                        // }
                         let dayInfo = {
                             day: day,
                             month: month,
@@ -357,6 +336,8 @@
                         } else {
                             current = dayInfo.datas;
                         }
+                        // 补充是否有数据的样式
+                        if (dayInfo.datas && dayInfo.datas.length) dayInfo.classes += ' has-data';
                         // 判断day是否小10 如果小于10 label前面加0
                         if (dayInfo.day < 10) dayInfo.day = '0' + day;
                         // console.log(`v-calendar._weeksInit.dayInfo: `, this.currentSelectedDt, utils.isSameDay(new Date(year, month - 1, day), this.currentSelectedDt));
@@ -434,20 +415,6 @@
             },
             getDayClasses (date, animation) { // 获取某一天的样式
                 // console.log(`v-calendar.getDayClasses: `, utils.formatTime(date, 'yyyy-MM-dd'), this.attributes, this.currentAttributes, this.currentAttributes.length);
-                // if (!this.currentAttributes || !this.currentAttributes.length) return '';
-                // let classes = animation ? ' fade' : '';
-                // this.currentAttributes.forEach((attr) => {
-                //     attr.dates.forEach((dateInfo) => {
-                //         // console.log(`v-calendar._getDayClasses: `, dateInfo, utils.formatTime(date, 'yyyy-MM-dd'), attr);
-                //         if (!dateInfo.containsDate(date)) return;
-                //         if (!/ shadow/.test(classes)) classes += ' shadow';
-                //         classes += ' ' + attr.classes;
-                //     });
-                // });
-                // console.log(`v-calendar._getDayClasses: `, utils.formatTime(date, 'yyyy-MM-dd'), utils.formatTime(this.selectedDate, 'yyyy-MM-dd'));
-                // // if (utils.isSameDay(date, this.selectedDate)) classes += ' shadow selected'; // 当前被选中，标记selected
-                // if (utils.isSameDay(date, this.currentSelectedDt)) classes += ' shadow selected'; // 当前被选中，标记selected
-                // return classes;
                 let classes = animation ? ' fade' : '';
                 if (this.currentAttributes && this.currentAttributes.length) {
                     this.currentAttributes.forEach((attr) => {
@@ -460,8 +427,6 @@
                     });
                 }
                 // console.log(`v-calendar._getDayClasses: `, utils.formatTime(date, 'yyyy-MM-dd'), utils.formatTime(this.selectedDate, 'yyyy-MM-dd'));
-                // if (utils.isSameDay(date, this.selectedDate)) classes += ' shadow selected'; // 当前被选中，标记selected
-                // if (utils.isSameDay(date, this.currentSelectedDt)) classes += ' shadow selected'; // 当前被选中，标记selected
                 if (utils.isSameDay(date, this.currentSelectedDt)) classes += ' selected'; // 当前被选中，标记selected
                 return classes;
             },
@@ -901,25 +866,27 @@
                         box-shadow: 0 pxTorem(2) pxTorem(6) 0 rgba(253,188,8,0.20);
                         transform: translate3d(0, 0, 0);
 
-                        &::after {
-                            width: pxTorem(20);
-                            height: pxTorem(20);
-                            /*background: #7ED321;*/
-                            border-top: transparent pxTorem(10) solid;
-                            border-left: transparent pxTorem(10) solid;
-                            border-right: #FF6900 pxTorem(10) solid;
-                            border-bottom: #FF6900 pxTorem(10) solid;
-                            transform: rotate(45deg);
-                            border-radius: pxTorem(4);
-                            content: ' ';
-                            position: absolute;
-                            /*z-index: 1;*/
-                            left: pxTorem(15);
-                            bottom: pxTorem(-6);
-                            font-weight: 300;
-                            color: #000;
-                            text-align: center;
-                            line-height: pxTorem(44);
+                        &.has-data {
+                            &::after {
+                                width: pxTorem(20);
+                                height: pxTorem(20);
+                                /*background: #7ED321;*/
+                                border-top: transparent pxTorem(10) solid;
+                                border-left: transparent pxTorem(10) solid;
+                                border-right: #FF6900 pxTorem(10) solid;
+                                border-bottom: #FF6900 pxTorem(10) solid;
+                                transform: rotate(45deg);
+                                border-radius: pxTorem(4);
+                                content: ' ';
+                                position: absolute;
+                                /*z-index: 1;*/
+                                left: pxTorem(15);
+                                bottom: pxTorem(-6);
+                                font-weight: 300;
+                                color: #000;
+                                text-align: center;
+                                line-height: pxTorem(44);
+                            }
                         }
 
                         .day {
