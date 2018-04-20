@@ -104,7 +104,7 @@ var webpackConfig = merge(baseWebpackConfig, {
             // Required - The path to the webpack-outputted app to prerender.
             staticDir: path.join(__dirname, '../dist/app'),
             // Required - Routes to render.
-            routes: [ '/', '/font' ],
+            routes: ['/font'],
         }),
         // new HtmlCriticalPlugin({
         //     base: path.resolve(__dirname, '../dist/app/'),
