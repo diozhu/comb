@@ -1,7 +1,10 @@
 <script>
+    import bus from '../vendor/eventbus.js'; //eslint-disable-line
+
     const elTransition = '0.3s height ease-in-out, 0.3s padding-top ease-in-out, 0.3s padding-bottom ease-in-out';
     const Transition = {
         'before-enter' (el) {
+            // console.log('v-collaple-transition.before-enter: ', el);
             el.style.transition = elTransition;
             if (!el.dataset) el.dataset = {};
 
@@ -14,6 +17,7 @@
         },
 
         'enter' (el) {
+            // console.log('v-collaple-transition.enter: ', el);
             el.dataset.oldOverflow = el.style.overflow;
             if (el.scrollHeight !== 0) {
                 el.style.height = el.scrollHeight + 'px';
@@ -29,9 +33,11 @@
         },
 
         'after-enter' (el) {
+            // console.log('v-collaple-transition.after-enter: ', el.height, el.scrollHeight);
             el.style.transition = '';
             el.style.height = '';
             el.style.overflow = el.dataset.oldOverflow;
+            // bus.$emit('scrollTo', el.scrollHeight);
         },
 
         'before-leave' (el) {
@@ -59,6 +65,7 @@
             el.style.overflow = el.dataset.oldOverflow;
             el.style.paddingTop = el.dataset.oldPaddingTop;
             el.style.paddingBottom = el.dataset.oldPaddingBottom;
+            console.log('v-collaple-transition.after-leave: ', el);
         }
     };
 

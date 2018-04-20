@@ -233,6 +233,10 @@
                 console.log(`v-calendar.watch.selectedDt: `, val);
                 this.currentSelectedDt = val ? new Date(val) : null;
                 this.weeksInit();
+            },
+            currentSelectedDt (val) {
+                console.log(`v-calendar.watch.currentSelectedDt: `, val);
+                this.$emit('selectedDtChanged', val);
             }
         },
 
@@ -288,17 +292,21 @@
                 console.log(`v-calendar.moveNextMonth: `);
                 this.move(this.page.nextMonthComps);
             },
-            chooseDate (day, index, idx) {
+            chooseDate (day, index, idx) { // 点击日期
                 let selectedDt = new Date(day.year, day.month - 1, day.day);
                 // console.log(`v-calendar.chooseDate: `, index, idx, day, selectedDt, this.selectedDt);
                 // this.$set(this.weeks[index].week[idx], 'classes', ' selected');
-                // console.log(`v-calendar.chooseDate: `, index, idx, day, this.weeks[index]['week'][idx]['classes']);
                 // this.selectedDate = selectedDt;
                 // if (selectedDt === this.selectedDt) selectedDt = null;
-                if (utils.isSameDay(selectedDt, this.selectedDt)) selectedDt = null;
-                this.currentSelectedDt = selectedDt;
+                // if (utils.isSameDay(selectedDt, this.selectedDt)) {
+                if (utils.isSameDay(selectedDt, this.currentSelectedDt)) {
+                    this.currentSelectedDt = selectedDt = null;
+                } else {
+                    this.currentSelectedDt = selectedDt;
+                }
                 this.selectedDtStr = selectedDt ? utils.formatTime(selectedDt, 'yyyy-MM-dd') : '';
                 // this.$apply();
+                console.log(`v-calendar.chooseDate: `, day, index, idx, this.currentSelectedDt, this.selectedDtStr);
                 this.weeksInit({animation: false});
                 this.$emit('chooseDate', this.currentSelectedDt);
             },

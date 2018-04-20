@@ -13,6 +13,7 @@
  */
 import Vue from 'vue';
 import * as dom from '../js/utils/dom.js';
+import bus from '../vendor/eventbus.js'; //eslint-disable-line
 
 const ctx = '@@ScrollPosition'; //eslint-disable-line
 let lockTags = {};  //eslint-disable-line
@@ -83,21 +84,49 @@ let throttle = function (fn, delay) { //eslint-disable-line
 
     doBind = function () {
         if (!this) return;
-        // console.log(`[v-scroll-position].${this.vm._uid}.doBind: `, this.binded, this);
+        console.log(`[v-scroll-position].${this.vm._uid}.doBind: `, this.binded, this);
         if (this.binded) return; // eslint-disable-line
         this.binded = true;
+        this.unbinded = false;
 
         let directive = this;
         directive.scrollEventTarget = directive.el;
         directive.scrollListener = throttle(doCheck.bind(directive), 50);
         directive.scrollEventTarget.addEventListener('scroll', directive.scrollListener, false);
 
+        bus.$on('scrollTo', scrollTo.bind(directive));
         // // 监听滚动容器，而非自身挂载点，改动太大。。。暂时不这么玩儿了。 Author by Dio Zhu. on 2017.8.10
         // directive.scrollEventTarget = getScrollEventTarget(directive.el);
         // if (directive.scrollEventTarget !== window && directive.scrollEventTarget.className !== directive.el.className) return;
         // console.log(`[v-scroll-position].${this.vm._uid}.doBind: `, directive.scrollEventTarget.className, lockTags);
         // directive.scrollListener = throttle(doCheck.bind(directive), 50);
         // directive.scrollEventTarget.addEventListener('scroll', directive.scrollListener, false);
+    },
+
+    scrollTo = function (val) { //eslint-disable-line
+        if (!val || val < 0 || this.unbinded) return;
+        let pos = this.el.getAttribute('scroll-position') ? this.el.getAttribute('scroll-position').split('-') : [0, 0];
+        console.log(`[v-scroll-position].${this.vm._uid}.scrollTo: `, val, pos);
+        pos[1] = parseInt(pos[1]) + parseInt(val);
+        // this.el.scrollTop = pos[1];
+        let _self = this;
+        (function (v, startTime) {
+            let deceleration = 0.09;    // 速度递减
+            // console.log('---> ', v, startTime);
+            function m () {
+                let nowTime = Date.now(),
+                    t = nowTime - startTime,
+                    nowV = t * deceleration,
+                    pos = _self.el.getAttribute('scroll-position') ? _self.el.getAttribute('scroll-position').split('-') : [0, 0],
+                    moveY = (nowV) / 2 * t; // 距离递减~
+                console.log(`[v-scroll-position].${_self.vm._uid}.scrollTo: ---> `, _self);
+                // console.log('m ---> ', v, t, nowV, pos, moveY, _self.el.offsetHeight);
+                if (pos[1] >= v || moveY > _self.el.scrollHeight) return;
+                _self.el.scrollTop = parseInt(moveY);
+                setTimeout(m, 10);
+            }
+            m();
+        })(pos[1], Date.now());
     },
 
     doCheck = function (e) {
@@ -146,7 +175,7 @@ let throttle = function (fn, delay) { //eslint-disable-line
      */
     clearAll = function () { // 清除页面所有位置信息
         if (!this) return;
-        // console.log('v-scroll-position.clearAll!');
+        console.log(`[v-scroll-position].${this.vm._uid}.clearAll: `);
         let directive = this.el,
             targets = directive.querySelectorAll('[scroll-position]');
         if (targets.length > 0) {
@@ -209,7 +238,7 @@ let ScrollPosition = {
         }, 0);
     },
     // update (el) {
-    //     console.log('----- v-scroll-position.update!', el);
+    //     console.log('----- v-scroll-position.update!...', el);
     // },
     // componentUpdated (el) {
     //     console.log('----- v-scroll-position.componentUpdated!', el);
@@ -217,6 +246,7 @@ let ScrollPosition = {
 
     unbind (el) {
         console.log(`[v-scroll-position].${el[ctx].vm._uid}.unbind!`, el.className);
+        el[ctx].unbinded = true;
         el[ctx].scrollEventTarget.removeEventListener('scroll', el[ctx].scrollListener);
         // clearAll.call(el[ctx], ...arguments); // 清除位置信息
         // 如果存在v-refresh、v-scroll，html添加overflow，否则移除. add by Dio Zhu. on 2017.8.9

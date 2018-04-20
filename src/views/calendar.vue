@@ -26,7 +26,7 @@
             </div>
         </v-calendar>
 
-        <v-calendar :datas="calendarDatas" :selectedDt="selectedDt" enableMonthLabel :firstDay="1" @chooseDate="handleChooseDate">
+        <v-calendar :datas="calendarDatas" :selectedDt="selectedDt" enableMonthLabel :firstDay="1" @chooseDate="handleChooseDate" @selectedDtChanged="selectedDtChanged">
             <!--右上角操作区-->
             <!--<template slot="day-header" slot-scope="props">-->
                 <!--<p>新建排课{{props.data.day}}</p>-->
@@ -130,13 +130,19 @@
                 ];
                 this.$set(this, 'calendarAttributes', attrs); // 基础日历样式标记
                 let datas = [
+                    {date: '2018-4-1', datas: [{name: '篮球基础课', time: '13:00'}]},
                     {date: '2018-4-17', datas: [{name: '篮球基础课', time: '13:00'}, {name: '羽毛球基础课', time: '13:00'}]},
-                    {date: '2018-4-20', datas: [{name: '足球基础课', time: '13:00'}, {name: '网球俱乐部', time: '13:00'}]}
+                    {date: '2018-4-20', datas: [{name: '篮球基础课', time: '13:00'}, {name: '羽毛球基础课', time: '13:00'}]},
+                    {date: '2018-4-30', datas: [{name: '足球基础课', time: '13:00'}]}
                 ];
                 this.$set(this, 'calendarDatas', datas); // 月日历数据
             },
             handleChooseDate (val) {
                 this.$logger.log('calendar.handleChooseDate: ', val);
+                // this.selectedDt = val;
+            },
+            selectedDtChanged (val) {
+                this.$logger.log('calendar.selectedDtChanged: ', val);
                 // this.selectedDt = val;
             }
         }
