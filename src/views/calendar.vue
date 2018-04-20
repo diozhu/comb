@@ -1,22 +1,32 @@
 <template>
     <div class="page page-calendar">
-        <!--<h2>v-calendar</h2>-->
-        <!--<div class="attributes">-->
-            <!--<h2>参数</h2>-->
-            <!--<table>-->
-                <!--<tr><th>参数</th><th>说明</th><th>类型</th><th>可选</th><th>默认</th></tr>-->
-                <!--<tr><td>type</td><td>attributes</td><td>String</td><td>default, <br>primary, <br>danger, <br>info</td><td>default</td></tr>-->
-                <!--<tr><td>type</td><td>datas</td><td>String</td><td>default, <br>primary, <br>danger, <br>info</td><td>default</td></tr>-->
-                <!--<tr><td>type</td><td>selectedDt</td><td>String</td><td>default, <br>primary, <br>danger, <br>info</td><td>default</td></tr>-->
-                <!--<tr><td>type</td><td>minDt</td><td>String</td><td>default, <br>primary, <br>danger, <br>info</td><td>default</td></tr>-->
-                <!--<tr><td>type</td><td>maxDt</td><td>String</td><td>default, <br>primary, <br>danger, <br>info</td><td>default</td></tr>-->
-                <!--<tr><td>type</td><td>enableMonthLabel</td><td>String</td><td>default, <br>primary, <br>danger, <br>info</td><td>default</td></tr>-->
-                <!--<tr><td>type</td><td>firstDay</td><td>String</td><td>default, <br>primary, <br>danger, <br>info</td><td>default</td></tr>-->
-            <!--</table>-->
-        <!--</div>-->
+        <h2>v-calendar</h2>
+        <div class="attributes">
+            <h2>参数</h2>
+            <table>
+                <tr><th>参数</th><th>说明</th><th>类型</th><th>可选</th><th>默认</th></tr>
+                <tr><td>attributes</td><td>日期标签的样式数组</td><td>Array</td><td>-</td><td>-</td></tr>
+                <tr><td>datas</td><td>日期内要展示的数据数组</td><td>Array</td><td>-</td><td>-</td></tr>
+                <tr><td>selectedDt</td><td>当前选中的日期</td><td>Date</td><td>-</td><td>-</td></tr>
+                <tr><td>minDt</td><td>组件最小可选日期</td><td>Date</td><td>-</td><td>-</td></tr>
+                <tr><td>maxDt</td><td>组件最大可选日期</td><td>Date</td><td>-</td><td>-</td></tr>
+                <tr><td>enableMonthLabel</td><td>把具体月份数字换成'上个月'、'下个月'</td><td>Boolean</td><td>-</td><td>false</td></tr>
+                <tr><td>firstDay</td><td>日历以星期几开头展示</td><td>Number</td><td>1 ~ 7</td><td>7</td></tr>
+            </table>
+        </div>
 
-        <!--<h2>示例</h2>-->
-        <!--<p class="desc">基本日历</p>-->
+        <h2>示例</h2>
+        <p class="desc">基本日历，所有针对标签的样式放在attributes数组中描述，并可设定月份起止日期</p>
+        <br />
+        <pre v-highlightjs @touchend.stop><code class="html">
+        < v-calendar :attributes="calendarAttributes" :selectedDt="selectedDt" :minDt="minDt" :maxDt="maxDt">
+            <div slot="desc" class="desc">
+                <div class="row dot"><i class="icon"></i><p>可预约课程</p></div>
+                <div class="row check"><i class="icon icon-check"></i><p>已预约</p></div>
+                <div class="row circle"><i class="icon icon-round"></i><p>当前选择</p></div>
+            </div>
+        </ v-calendar>
+        </code></pre>
         <v-calendar :attributes="calendarAttributes" :selectedDt="selectedDt" :minDt="minDt" :maxDt="maxDt">
             <!--图例说明-->
             <div slot="desc" class="desc">
@@ -26,6 +36,15 @@
             </div>
         </v-calendar>
 
+        <h2>示例</h2>
+        <p class="desc">日期带数据，日期内的数据放在datas中，并可设定以"星期一"开头展示</p>
+        <pre v-highlightjs @touchend.stop><code class="html">
+        < v-calendar :datas="calendarDatas" :selectedDt="selectedDt" enableMonthLabel :firstDay="1" @chooseDate="handleChooseDate" @selectedDtChanged="selectedDtChanged">
+            <日期内数据插槽 slot="day-content" slot-scope="props">
+            <点击某一天的内容插槽 slot="week-content" slot-scope="props">
+        </ v-calendar>
+        </code></pre>
+        <br />
         <v-calendar :datas="calendarDatas" :selectedDt="selectedDt" enableMonthLabel :firstDay="1" @chooseDate="handleChooseDate" @selectedDtChanged="selectedDtChanged">
             <!--右上角操作区-->
             <!--<template slot="day-header" slot-scope="props">-->
