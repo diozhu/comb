@@ -33,11 +33,11 @@
         },
 
         'after-enter' (el) {
-            // console.log('v-collaple-transition.after-enter: ', el.height, el.scrollHeight);
+            // console.log('v-collaple-transition.after-enter: ', el, parseInt(el.offsetTop), parseInt(el.scrollHeight));
+            bus.$emit('v-scroll-position.scrollTo', parseInt(el.offsetTop) + parseInt(el.scrollHeight)); // 滑动结束后通知v-scroll-position组件滚动到指定位置。。。Author by Dio Zhu. on 2018.4.20
             el.style.transition = '';
             el.style.height = '';
             el.style.overflow = el.dataset.oldOverflow;
-            // bus.$emit('scrollTo', el.scrollHeight); // TODO: 滑动结束后通知v-scroll-position组件滚动到指定位置，需要判断目的位置是否在屏幕内。。。Author by Dio Zhu. on 2018.4.20
         },
 
         'before-leave' (el) {

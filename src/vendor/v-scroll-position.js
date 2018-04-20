@@ -94,7 +94,7 @@ let throttle = function (fn, delay) { //eslint-disable-line
         directive.scrollListener = throttle(doCheck.bind(directive), 50);
         directive.scrollEventTarget.addEventListener('scroll', directive.scrollListener, false);
 
-        bus.$on('scrollTo', scrollTo.bind(directive));
+        bus.$on('v-scroll-position.scrollTo', scrollTo.bind(directive));
         // // 监听滚动容器，而非自身挂载点，改动太大。。。暂时不这么玩儿了。 Author by Dio Zhu. on 2017.8.10
         // directive.scrollEventTarget = getScrollEventTarget(directive.el);
         // if (directive.scrollEventTarget !== window && directive.scrollEventTarget.className !== directive.el.className) return;
@@ -102,26 +102,27 @@ let throttle = function (fn, delay) { //eslint-disable-line
         // directive.scrollListener = throttle(doCheck.bind(directive), 50);
         // directive.scrollEventTarget.addEventListener('scroll', directive.scrollListener, false);
     },
-
+    // 通知滚动容器滚动到指定位置，需要判断目的位置是否在屏幕内。 Author by Dio Zhu. on 2018.4.19
     scrollTo = function (val) { //eslint-disable-line
         if (!val || val < 0 || this.unbinded) return;
-        let pos = this.el.getAttribute('scroll-position') ? this.el.getAttribute('scroll-position').split('-') : [0, 0];
-        console.log(`[v-scroll-position].${this.vm._uid}.scrollTo: `, val, pos);
-        pos[1] = parseInt(pos[1]) + parseInt(val);
+        let pos = this.el.getAttribute('scroll-position') ? this.el.getAttribute('scroll-position').split('-') : [0, 0],
+            h = this.el.offsetHeight,
+            max = this.el.scrollHeight - h,
+            t = parseInt(val) - parseInt(h);
+        if (val < h) return;
+        // console.log(`[v-scroll-position].${this.vm._uid}.scrollTo: `, pos, val, t);
+        pos[1] = t;
         // this.el.scrollTop = pos[1];
         let _self = this;
-        (function (v, startTime) {
-            let deceleration = 0.09;    // 速度递减
-            // console.log('---> ', v, startTime);
+        (function (v, startTime) { // 缓动
+            let deceleration = 0.0009;    // 速度递减
             function m () {
                 let nowTime = Date.now(),
                     t = nowTime - startTime,
                     nowV = t * deceleration,
-                    pos = _self.el.getAttribute('scroll-position') ? _self.el.getAttribute('scroll-position').split('-') : [0, 0],
-                    moveY = (nowV) / 2 * t; // 距离递减~
-                console.log(`[v-scroll-position].${_self.vm._uid}.scrollTo: ---> `, _self);
-                // console.log('m ---> ', v, t, nowV, pos, moveY, _self.el.offsetHeight);
-                if (pos[1] >= v || moveY > _self.el.scrollHeight) return;
+                    moveY = parseInt(_self.el.scrollTop) + (nowV) / 2 * t; // 距离递减~
+                // console.log('m ---> ', _self.el.scrollTop, max, v, t, moveY);
+                if (_self.el.scrollTop >= v || moveY > max) return;
                 _self.el.scrollTop = parseInt(moveY);
                 setTimeout(m, 10);
             }
