@@ -37,7 +37,7 @@
             el.style.transition = '';
             el.style.height = '';
             el.style.overflow = el.dataset.oldOverflow;
-            // bus.$emit('scrollTo', el.scrollHeight);
+            // bus.$emit('scrollTo', el.scrollHeight); // TODO: 滑动结束后通知v-scroll-position组件滚动到指定位置，需要判断目的位置是否在屏幕内。。。Author by Dio Zhu. on 2018.4.20
         },
 
         'before-leave' (el) {
