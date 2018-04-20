@@ -17,7 +17,7 @@
         },
 
         'enter' (el) {
-            // console.log('v-collaple-transition.enter: ', el);
+            console.log('v-collaple-transition.enter: ');
             el.dataset.oldOverflow = el.style.overflow;
             if (el.scrollHeight !== 0) {
                 el.style.height = el.scrollHeight + 'px';
@@ -65,7 +65,7 @@
             el.style.overflow = el.dataset.oldOverflow;
             el.style.paddingTop = el.dataset.oldPaddingTop;
             el.style.paddingBottom = el.dataset.oldPaddingBottom;
-            console.log('v-collaple-transition.after-leave: ', el);
+            console.log('v-collaple-transition.after-leave: ');
         }
     };
 

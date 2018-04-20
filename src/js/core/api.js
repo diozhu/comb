@@ -199,7 +199,7 @@ export const getInfiniteList = (params, opts) => request(CONFIG.URL + '/api/getI
 /** 【测试】获取图片列表信息 */
 export const getImgList = (params, opts) => request(CONFIG.URL + '/api/getImgList', params, { ...opts, method: 'post' });
 /** 【测试】延迟的post */
-export const getDelay = (params, opts) => request(CONFIG.URL + '/api/getDelay', params, opts);
+export const getDelay = (params, opts) => request(CONFIG.URL + '/api/getDelay', params, { ...opts, method: 'post' });
 /** 【测试】POST~-- Author by Dio sunelqing. on 2018.4.9 */
 export const postTest = (params, opts) => request(CONFIG.URL + '/wap/user/add_address', params, { ...opts, method: 'post', emulateJSON: true });
 /** 【测试】POST~-- Author by Dio sunelqing. on 2018.4.9 */

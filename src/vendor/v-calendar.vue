@@ -28,10 +28,10 @@
             </div>
             <!--日标签-->
             <div class="weeks-wrapper">
-                <div v-for="(week, index) in weeks" class="week">
+                <div v-for="(week, index) in weeks" class="week" :key="index">
                     <!--日历每天的布局-->
                     <div class="day-wrapper">
-                        <div v-for="(day, idx) in week.week"
+                        <div v-for="(day, idx) in week.week" :key="index + '-' + idx"
                              class="day-layer"
                              :class="[day.classes, {pre: day.isPrevMonth, cur: day.isToday, nxt: day.isNextMonth}]"
                              @click="chooseDate(day, index, idx)">
@@ -46,6 +46,7 @@
                         </div>
                     </div>
                     <!--日历中间的分割内容-->
+                    <!--<v-collaple-transition v-if="week.current && week.current.length">-->
                     <v-collaple-transition>
                         <div v-show="week.current && week.current.length" class="week-content">
                             <slot name="week-content" :data="week.current"></slot>
@@ -146,6 +147,10 @@
         components: { vCollapleTransition },
 
         props: {
+            value: {        // 当前组件选择日期，默认为当前月，因为考虑接口传递可按月、可按天，所以这里没有使用Date类型
+                type: String,
+                default: ''
+            },
             attributes: {   // 在日期标签上的样式描述
                 type: Array,
                 default: () => []
@@ -163,10 +168,10 @@
                 type: Date,
                 default: () => new Date()
             },
-            selectedDt: {
-                type: Date,
-                default: null
-            },
+            // selectedDt: {
+            //     type: Date,
+            //     default: null
+            // },
             firstDay: {         // 日历起始是从星期几，默认：7（周日）
                 type: Number,
                 default: 7
@@ -189,9 +194,10 @@
                     firstWeekdayInMonth: 0
                 },   // 当前日历页的对象
                 weeks: [],
+                currentValue: this.value,
                 currentAttributes: this.attributes,
                 currentDatas: this.datas,
-                currentSelectedDt: null,
+                selectedDt: null,
                 todayComps: null,
                 classes: 'normal', // 当前组件样式，如果有attributes：normal，如果有datas：grid
                 isShowPrevMonth: false, // 是否显示不可切换的月份
@@ -203,27 +209,46 @@
         },
 
         watch: {
+            value (val) {
+                console.log(`v-calendar.${this._uid}.watch.value: `, val);
+                this.currentValue = val;
+                if (val && val.length < 8) {
+                    this.selectedDt = null;
+                } else {
+                    this.selectedDt = new Date(val);
+                }
+            },
+            currentValue (val) {
+                console.log(`v-calendar.${this._uid}.watch.currentValue: `, val);
+                // this.weeksDataInit(); // 填充数据~
+                this.$emit('input', val);
+            },
             attributes (val) {
-                console.log(`v-calendar.watch.attributes: `, val);
+                console.log(`v-calendar.${this._uid}.watch.attributes: `, val);
                 this.currentAttributes = val;
                 this.attributesInit(val);
+                // this.weeksDataInit(); // 填充数据~
             },
             datas (val) {
-                console.log(`v-calendar.watch.datas: `, val);
+                console.log(`v-calendar.${this._uid}.watch.datas: `, val);
                 this.currentDatas = val;
                 this.classes = 'grid';
-                this.weeksInit();
+                // this.weeksInit();
+                this.weeksDataInit(); // 填充数据~
                 // this.attributesInit(this.attributes);
             },
             page (val) { // page变化时，重新初始化日历
-                console.log(`v-calendar.watch.page: `, val);
+                console.log(`v-calendar.${this._uid}.watch.page: `, val);
                 // 重新计算是否显示上下月
                 if (!this.minDt || (this.minDt && val.year >= this.minDt.getFullYear() && val.month > this.minDt.getMonth() + 1)) this.isShowPrevMonth = true;
                 else this.isShowPrevMonth = false;
                 if (!this.maxDt || (this.maxDt && val.year <= this.maxDt.getFullYear() && val.month <= this.maxDt.getMonth())) this.isShowNextMonth = true;
                 else this.isShowNextMonth = false;
+                this.currentValue = val.year + '-' + (val.month > 9 ? val.month : '0' + val.month);
                 // this.weeksInit();
-                this.attributesInit(this.attributes);
+                // this.attributesInit(this.attributes);
+                this.weeksInit(); // 重新初始化日历
+                // this.weeksDataInit(); // 填充数据~
             },
             // currentAttributes (val) {
             //     console.log(`v-calendar.watch.currentAttributes: `, val);
@@ -231,24 +256,21 @@
             // },
             selectedDt (val) { // 点击的时候抛出日期，外部变更时，重新计算，用于选择后展示每天的数据。 Author by Dio Zhu. on 2018.4.17
                 console.log(`v-calendar.watch.selectedDt: `, val);
-                this.currentSelectedDt = val ? new Date(val) : null;
-                this.weeksInit();
-            },
-            currentSelectedDt (val) {
-                console.log(`v-calendar.watch.currentSelectedDt: `, val);
+                this.weeksDataInit(); // 填充数据~
                 this.$emit('selectedDtChanged', val);
             }
         },
 
         created () {
-            this.$logger.log('v-calendar.created...');
+            this.$logger.log(`v-calendar.${this._uid}.created: `, this.value);
+            if (!this.currentValue) this.currentValue = utils.formatTime(this.today, 'yyyy-MM');
             this.init({year: this.today.getFullYear(), month: this.today.getMonth() + 1});
         },
 
         methods: {
             init ({year, month}) { // 初始化
                 this.$logger.log('v-calendar.init...', year, month);
-                // if (this.selectedDateStr) this.currentSelectedDt = new Date(this.selectedDateStr);
+                // if (this.selectedDateStr) this.selectedDt = new Date(this.selectedDateStr);
                 // this.attributesInit(this.attributes);
                 // this.firstDay -= 1;
                 if (this.datas && this.datas.length) this.classes = 'grid';
@@ -273,7 +295,7 @@
                 });
                 this.resetWeekLabels(); // 重设周显示模式
             },
-            resetWeekLabels () {
+            resetWeekLabels () { // 根据指定的firstDay，计算周标签显示
                 // if (this.firstDay === 0) this.weekLabels = ['一', '二', '三', '四', '五', '六', '日'];
                 // else this.weekLabels = ['日', '一', '二', '三', '四', '五', '六'];
                 let arr = ['一', '二', '三', '四', '五', '六', '日'];
@@ -299,16 +321,18 @@
                 // this.selectedDate = selectedDt;
                 // if (selectedDt === this.selectedDt) selectedDt = null;
                 // if (utils.isSameDay(selectedDt, this.selectedDt)) {
-                if (utils.isSameDay(selectedDt, this.currentSelectedDt)) {
-                    this.currentSelectedDt = selectedDt = null;
+                if (utils.isSameDay(selectedDt, this.selectedDt)) {
+                    this.selectedDt = selectedDt = null;
+                    this.currentValue = this.page.year + '-' + (this.page.month > 9 ? this.page.month : '0' + this.page.month);
                 } else {
-                    this.currentSelectedDt = selectedDt;
+                    this.selectedDt = selectedDt;
+                    this.currentValue = utils.formatTime(selectedDt, 'yyyy-MM-dd');
                 }
                 this.selectedDtStr = selectedDt ? utils.formatTime(selectedDt, 'yyyy-MM-dd') : '';
                 // this.$apply();
-                console.log(`v-calendar.chooseDate: `, day, index, idx, this.currentSelectedDt, this.selectedDtStr);
-                this.weeksInit({animation: false});
-                this.$emit('chooseDate', this.currentSelectedDt);
+                console.log(`v-calendar.chooseDate: `, day, index, idx, this.selectedDt, this.selectedDtStr);
+                // this.weeksInit({animation: false});
+                // this.$emit('chooseDate', this.selectedDt);
             },
             weeksInit ({animation = true} = {}) { // 按照page进行单月渲染
                 this.$set(this, 'weeks', []); // 还原
@@ -319,7 +343,7 @@
                     thisMonth = false,
                     nextMonth = false,
                     weeks = [];
-                // console.log('------------------->>> ', day, this.page.prevMonthComps.days, this.page.firstWeekdayInMonth);
+                console.log(`v-calendar.${this._uid}.weeksInit ==>> `, day, this.page.prevMonthComps.days, this.page.firstWeekdayInMonth);
                 // for (let w = 1, len = 6;w <= len && !nextMonth;w++) {
                 for (let w = 1, len = 6;w <= len;w++) {
                     let week = [], current = null;
@@ -339,20 +363,23 @@
                             isPrevMonth: previousMonth,
                             isNextMonth: nextMonth,
                             // attributes: this._getDayAttributes(new Date(year, month - 1, day), animation),
-                            classes: this.getDayClasses(new Date(year, month - 1, day), animation),
-                            datas: this.getDayDatas(new Date(year, month - 1, day), animation)
+                            classes: '',
+                            datas: []
+                            // classes: this.getDayClasses(new Date(year, month - 1, day), animation),
+                            // datas: this.getDayDatas(new Date(year, month - 1, day), animation)
                         };
-                        // if (!utils.isSameDay(new Date(year, month - 1, day), this.selectedDate)) {
-                        if (!utils.isSameDay(new Date(year, month - 1, day), this.currentSelectedDt)) {
-                            dayInfo.iconClass = dayInfo.classes.indexOf('check') >= 0 ? dayInfo.classes.replace('check', 'icon-check') : ''; // 如果是'check'样式，直接用icon
-                        } else {
-                            current = dayInfo.datas;
-                        }
-                        // 补充是否有数据的样式
-                        if (dayInfo.datas && dayInfo.datas.length) dayInfo.classes += ' has-data';
-                        // 判断day是否小10 如果小于10 label前面加0
+                        // // if (!utils.isSameDay(new Date(year, month - 1, day), this.selectedDate)) {
+                        // if (!utils.isSameDay(new Date(year, month - 1, day), this.selectedDt)) {
+                        //     dayInfo.iconClass = dayInfo.classes.indexOf('check') >= 0 ? dayInfo.classes.replace('check', 'icon-check') : ''; // 如果是'check'样式，直接用icon
+                        // } else {
+                        //     current = dayInfo.datas;
+                        // }
+                        // // 补充是否有数据的样式
+                        // if (dayInfo.datas && dayInfo.datas.length) dayInfo.classes += ' has-data';
+                        // if (utils.isSameDay(new Date(year, month - 1, day), this.selectedDt)) current = dayInfo.datas;
+                        // // 判断day是否小10 如果小于10 label前面加0
                         if (dayInfo.day < 10) dayInfo.day = '0' + day;
-                        // console.log(`v-calendar._weeksInit.dayInfo: `, this.currentSelectedDt, utils.isSameDay(new Date(year, month - 1, day), this.currentSelectedDt));
+                        // console.log(`v-calendar._weeksInit.dayInfo: `, this.selectedDt, utils.isSameDay(new Date(year, month - 1, day), this.selectedDt));
                         week.push(dayInfo);
 
                         if (thisMonth && day >= this.page.daysInMonth) {
@@ -373,12 +400,36 @@
                 if (animation) this.clearAnimation();
             },
 
-            attributesInit (arr) {
-                console.log(`v-calendar._attributesInit: `, arr);
+            weeksDataInit () { // 绘制日历数据
+                if (!this.weeks || !this.weeks.length) return;
+                console.log(`v-calendar.${this._uid}.weeksDataInit: `);
+                this.weeks.forEach(w => {
+                    w.current = null;
+                    w.week.forEach(d => {
+                        // 如果有样式
+                        // if (this.attributes && this.attributes.length) d.classes = this.getDayClasses(new Date(d.year, d.month - 1, d.day), true);
+                        d.classes = this.getDayClasses(new Date(d.year, d.month - 1, d.day), true);
+                        // 如果有数据
+                        if (this.datas && this.datas.length) d.datas = this.getDayDatas(new Date(d.year, d.month - 1, d.day), true);
+                        if (!utils.isSameDay(new Date(d.year, d.month - 1, d.day), this.selectedDt)) {
+                            d.iconClass = d.classes.indexOf('check') >= 0 ? d.classes.replace('check', 'icon-check') : ''; // 如果是'check'样式，直接用icon
+                        } else {
+                            w.current = d.datas;
+                            if (d.classes.indexOf('selected') < 0) d.classes += ' selected'; // 当前被选中，标记selected
+                        }
+                        // 补充是否有数据的样式
+                        if (d.datas && d.datas.length && d.classes.indexOf('has-data') < 0) d.classes += ' has-data';
+                    });
+                });
+            },
+
+            attributesInit (arr) { // 整理attributes的格式
+                console.log(`v-calendar._attributesInit: `, arr, this.currentAttributes, arr === this.currentAttributes);
                 if (!arr || !arr.length) {
                     this.weeksInit();
                     return;
                 }
+                // if (arr === this.currentAttributes) return;
                 let attrs = [];
                 arr.map((a, i) => {
                     // console.log(`v-calendar._attributesInit: `, a, i);
@@ -395,11 +446,11 @@
                 });
                 this.$set(this, 'currentAttributes', attrs);
                 // this.$apply();
-                this.weeksInit();
+                this.weeksDataInit(); // 绘制日历数据~
             },
             move (p) {
                 console.log(`v-calendar._move: `, p);
-                // this.currentSelectedDt = null; // 切换月份，移除当前选择的日期
+                // this.selectedDt = null; // 切换月份，移除当前选择的日期
                 // this.selectedDtStr = '';
                 // this.$apply();
                 this.init({year: p.year, month: p.month});
@@ -439,7 +490,7 @@
                     });
                 }
                 // console.log(`v-calendar._getDayClasses: `, utils.formatTime(date, 'yyyy-MM-dd'), utils.formatTime(this.selectedDate, 'yyyy-MM-dd'));
-                if (utils.isSameDay(date, this.currentSelectedDt)) classes += ' selected'; // 当前被选中，标记selected
+                // if (utils.isSameDay(date, this.selectedDt)) classes += ' selected'; // 当前被选中，标记selected
                 return classes;
             },
             getDayDatas (date, animation) { // 获取某一天的数据
@@ -458,7 +509,7 @@
                 });
                 // console.log(`v-calendar._getDayClasses: `, utils.formatTime(date, 'yyyy-MM-dd'), utils.formatTime(this.selectedDate, 'yyyy-MM-dd'));
                 // // if (utils.isSameDay(date, this.selectedDate)) classes += ' shadow selected'; // 当前被选中，标记selected
-                // if (utils.isSameDay(date, this.currentSelectedDt)) classes += ' shadow selected'; // 当前被选中，标记selected
+                // if (utils.isSameDay(date, this.selectedDt)) classes += ' shadow selected'; // 当前被选中，标记selected
                 return datas;
             },
             clearAnimation () { // 延时清除动画class
@@ -734,7 +785,7 @@
                 &.tour .day { // 带'赛'字实心圆
                     position: relative;
                     background: #FDD108;
-                    color: transparent!important;
+                    color: transparent;
                     transition: background .5s;
                     transition-timing-function: ease-out;
 

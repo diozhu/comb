@@ -1142,8 +1142,8 @@ router.post('/getResult', function (req, res, next) {
 router.post('/getDelay', function (req, res, next) {
     console.log('getDelay: ', req.body);
     var rtn = {
-            'code': 0,
-            'msg': 'ok',
+            'errcode': 0,
+            'errmsg': 'ok',
             'data': Date.now()
         },
         delay = req.body.delay || 100;

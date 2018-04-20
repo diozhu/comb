@@ -84,7 +84,7 @@ let throttle = function (fn, delay) { //eslint-disable-line
 
     doBind = function () {
         if (!this) return;
-        console.log(`[v-scroll-position].${this.vm._uid}.doBind: `, this.binded, this);
+        // console.log(`[v-scroll-position].${this.vm._uid}.doBind: `, this.binded, this);
         if (this.binded) return; // eslint-disable-line
         this.binded = true;
         this.unbinded = false;
@@ -176,7 +176,7 @@ let throttle = function (fn, delay) { //eslint-disable-line
      */
     clearAll = function () { // 清除页面所有位置信息
         if (!this) return;
-        console.log(`[v-scroll-position].${this.vm._uid}.clearAll: `);
+        // console.log(`[v-scroll-position].${this.vm._uid}.clearAll: `);
         let directive = this.el,
             targets = directive.querySelectorAll('[scroll-position]');
         if (targets.length > 0) {
@@ -232,7 +232,7 @@ let ScrollPosition = {
     },
 
     inserted (el) {
-        console.log(`[v-scroll-position].${el[ctx].vm._uid}.inserted!`, el.className);
+        // console.log(`[v-scroll-position].${el[ctx].vm._uid}.inserted!`, el.className);
         // doInserted.call(el[ctx], ...arguments);
         setTimeout(() => {
             doInserted.call(el[ctx], ...arguments);
@@ -246,7 +246,7 @@ let ScrollPosition = {
     // },
 
     unbind (el) {
-        console.log(`[v-scroll-position].${el[ctx].vm._uid}.unbind!`, el.className);
+        // console.log(`[v-scroll-position].${el[ctx].vm._uid}.unbind!`, el.className);
         el[ctx].unbinded = true;
         el[ctx].scrollEventTarget.removeEventListener('scroll', el[ctx].scrollListener);
         // clearAll.call(el[ctx], ...arguments); // 清除位置信息
@@ -265,11 +265,11 @@ let ScrollPosition = {
     // },
 
     clear (el) {
-        console.log(`[v-scroll-position].${el[ctx].vm._uid}.clear!`, el.className);
+        // console.log(`[v-scroll-position].${el[ctx].vm._uid}.clear!`, el.className);
         clearAll.call(el[ctx], ...arguments);
     },
     reset (el) {
-        console.log(`###[v-scroll-position].${el[ctx].vm._uid}.reset!`, el.className);
+        // console.log(`###[v-scroll-position].${el[ctx].vm._uid}.reset!`, el.className);
         // resetPosition.call(el[ctx], ...arguments);
         // let targets = el.querySelectorAll('[scroll-position]');
         // if (targets.length > 0) {
