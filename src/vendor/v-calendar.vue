@@ -226,8 +226,8 @@
             attributes (val) {
                 console.log(`v-calendar.${this._uid}.watch.attributes: `, val);
                 this.currentAttributes = val;
-                this.attributesInit(val);
-                // this.weeksDataInit(); // 填充数据~
+                // this.attributesInit(val);
+                this.weeksDataInit(); // 填充数据~
             },
             datas (val) {
                 console.log(`v-calendar.${this._uid}.watch.datas: `, val);
@@ -363,10 +363,10 @@
                             isPrevMonth: previousMonth,
                             isNextMonth: nextMonth,
                             // attributes: this._getDayAttributes(new Date(year, month - 1, day), animation),
-                            classes: '',
-                            datas: []
-                            // classes: this.getDayClasses(new Date(year, month - 1, day), animation),
-                            // datas: this.getDayDatas(new Date(year, month - 1, day), animation)
+                            // classes: '', // 剥离，先初始化日历，再初始化数据
+                            // datas: [] // 剥离，先初始化日历，再初始化数据
+                            classes: this.getDayClasses(new Date(year, month - 1, day), animation),
+                            datas: this.getDayDatas(new Date(year, month - 1, day), animation)
                         };
                         // // if (!utils.isSameDay(new Date(year, month - 1, day), this.selectedDate)) {
                         // if (!utils.isSameDay(new Date(year, month - 1, day), this.selectedDt)) {
@@ -415,39 +415,39 @@
                             d.iconClass = d.classes.indexOf('check') >= 0 ? d.classes.replace('check', 'icon-check') : ''; // 如果是'check'样式，直接用icon
                         } else {
                             w.current = d.datas;
-                            if (d.classes.indexOf('selected') < 0) d.classes += ' selected'; // 当前被选中，标记selected
+                            // if (d.classes.indexOf('selected') < 0) d.classes += ' selected'; // 当前被选中，标记selected
                         }
                         // 补充是否有数据的样式
-                        if (d.datas && d.datas.length && d.classes.indexOf('has-data') < 0) d.classes += ' has-data';
+                        // if (d.datas && d.datas.length && d.classes.indexOf('has-data') < 0) d.classes += ' has-data';
                     });
                 });
             },
 
-            attributesInit (arr) { // 整理attributes的格式
-                console.log(`v-calendar._attributesInit: `, arr, this.currentAttributes, arr === this.currentAttributes);
-                if (!arr || !arr.length) {
-                    this.weeksInit();
-                    return;
-                }
-                // if (arr === this.currentAttributes) return;
-                let attrs = [];
-                arr.map((a, i) => {
-                    // console.log(`v-calendar._attributesInit: `, a, i);
-                    let attribute = {
-                        key: a.key || i.toString(),
-                        order: a.order || 0,
-                        dates: a.dates.map(
-                            d => (d instanceof DateInfo ? d : new DateInfo(d, a.order))
-                        ),
-                        classes: a.classes,
-                        isIcon: a.isIcon
-                    };
-                    attrs.push(attribute);
-                });
-                this.$set(this, 'currentAttributes', attrs);
-                // this.$apply();
-                this.weeksDataInit(); // 绘制日历数据~
-            },
+            // attributesInit (arr) { // 整理attributes的格式
+            //     console.log(`v-calendar._attributesInit: `, arr, this.currentAttributes, arr === this.currentAttributes);
+            //     if (!arr || !arr.length) {
+            //         this.weeksInit();
+            //         return;
+            //     }
+            //     // if (arr === this.currentAttributes) return;
+            //     let attrs = [];
+            //     arr.map((a, i) => {
+            //         // console.log(`v-calendar._attributesInit: `, a, i);
+            //         let attribute = {
+            //             key: a.key || i.toString(),
+            //             order: a.order || 0,
+            //             dates: a.dates.map(
+            //                 d => (d instanceof DateInfo ? d : new DateInfo(d, a.order))
+            //             ),
+            //             classes: a.classes,
+            //             isIcon: a.isIcon
+            //         };
+            //         attrs.push(attribute);
+            //     });
+            //     this.$set(this, 'currentAttributes', attrs);
+            //     // this.$apply();
+            //     this.weeksDataInit(); // 绘制日历数据~
+            // },
             move (p) {
                 console.log(`v-calendar._move: `, p);
                 // this.selectedDt = null; // 切换月份，移除当前选择的日期
@@ -456,32 +456,43 @@
                 this.init({year: p.year, month: p.month});
                 this.$emit('handleChange', {year: p.year, month: p.month});
             },
-            getDayAttributes (date) {
-                // console.log(`v-calendar._getDayAttributes: `, utils.formatTime(date, 'yyyy-MM-dd'), this.currentAttributes, this.currentAttributes.length);
-                if (!this.currentAttributes || !this.currentAttributes.length) return '';
-                const attributes = [];
-                this.currentAttributes.forEach((attr) => {
-                    attr.dates.forEach((dateInfo) => {
-                        // console.log(`v-calendar._weeksInit.weeks: `, utils.formatTime(date, 'yyyy-MM-dd'), dateInfo, date, dateInfo.containsDate(date));
-                        if (!dateInfo.containsDate(date)) return;
-                        const attribute = {
-                            ...attr,
-                            date: dateInfo.date,
-                            dateInfo
-                        };
-                        delete attribute.dates;
-                        attributes.push(attribute);
-                    });
-                });
-                attributes.sort((a, b) => a.dateInfo.compare(b.dateInfo));
-                return attributes;
-            },
+            // getDayAttributes (date) {
+            //     // console.log(`v-calendar._getDayAttributes: `, utils.formatTime(date, 'yyyy-MM-dd'), this.currentAttributes, this.currentAttributes.length);
+            //     if (!this.currentAttributes || !this.currentAttributes.length) return '';
+            //     const attributes = [];
+            //     this.currentAttributes.forEach((attr) => {
+            //         attr.dates.forEach((dateInfo) => {
+            //             // console.log(`v-calendar._weeksInit.weeks: `, utils.formatTime(date, 'yyyy-MM-dd'), dateInfo, date, dateInfo.containsDate(date));
+            //             if (!dateInfo.containsDate(date)) return;
+            //             const attribute = {
+            //                 ...attr,
+            //                 date: dateInfo.date,
+            //                 dateInfo
+            //             };
+            //             delete attribute.dates;
+            //             attributes.push(attribute);
+            //         });
+            //     });
+            //     attributes.sort((a, b) => a.dateInfo.compare(b.dateInfo));
+            //     return attributes;
+            // },
             getDayClasses (date, animation) { // 获取某一天的样式
                 // console.log(`v-calendar.getDayClasses: `, utils.formatTime(date, 'yyyy-MM-dd'), this.attributes, this.currentAttributes, this.currentAttributes.length);
                 let classes = animation ? ' fade' : '';
+                // classes = (date < this.today) ? classes + ' past' : classes; // 已过日期标识
+                if (date < this.today && !utils.isSameDay(date, this.today)) classes += ' past'; // 已过日期标识
                 if (this.currentAttributes && this.currentAttributes.length) {
-                    this.currentAttributes.forEach((attr) => {
-                        attr.dates.forEach((dateInfo) => {
+                    this.currentAttributes.forEach((attr, idx) => {
+                        // 扩充数据格式
+                        attr.key = attr.key || idx.toString();
+                        attr.order = attr.order || idx;
+                        attr.classes = attr.classes || '';
+                        attr.isIcon = attr.isIcon || false;
+                        attr.dates.forEach((dateInfo, i) => {
+                            if (!(dateInfo instanceof DateInfo)) {
+                                dateInfo = new DateInfo(dateInfo, attr.order);
+                                this.$set(this.currentAttributes[idx]['dates'], i, dateInfo);
+                            }
                             // console.log(`v-calendar._getDayClasses: `, dateInfo, utils.formatTime(date, 'yyyy-MM-dd'), attr);
                             if (!dateInfo.containsDate(date)) return;
                             if (!/ shadow/.test(classes)) classes += ' shadow';
@@ -489,8 +500,13 @@
                         });
                     });
                 }
+                if (this.datas && this.datas.length) {
+                    this.datas.forEach(d => {
+                        if (d.datas && d.datas.length && utils.isSameDay(date, d.date) && classes.indexOf('has-data') < 0) classes += ' has-data';
+                    });
+                }
                 // console.log(`v-calendar._getDayClasses: `, utils.formatTime(date, 'yyyy-MM-dd'), utils.formatTime(this.selectedDate, 'yyyy-MM-dd'));
-                // if (utils.isSameDay(date, this.selectedDt)) classes += ' selected'; // 当前被选中，标记selected
+                if (utils.isSameDay(date, this.selectedDt)) classes += ' selected'; // 当前被选中，标记selected
                 return classes;
             },
             getDayDatas (date, animation) { // 获取某一天的数据
@@ -577,7 +593,7 @@
                 .prev-month__con { justify-content: flex-start; }
                 .next-month__con { justify-content: flex-end; }
 
-                    .title {
+                .title {
                     height: pxTorem(40);
                     flex: 1 1 auto;
                     display: flex;
