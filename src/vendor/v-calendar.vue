@@ -34,14 +34,16 @@
                     <transition-group class="day-wrapper" tag="div" name="slide">
                         <div v-for="(day, idx) in week.week" :key="index + '-' + idx"
                              class="day-layer"
-                             :class="[day.classes, {pre: day.isPrevMonth, cur: day.isToday, nxt: day.isNextMonth}]"
+                             :class="[day.classes, {pre: day.isPrevMonth, 'shadow cur': day.isToday, nxt: day.isNextMonth}]"
                              @click="chooseDate(day, index, idx)">
                             <div class="day-header">
-                                <i v-if="day.iconClass" class="day icon" :class="day.iconClass"></i>
+                                <!--<i v-if="day.iconClass" class="day icon" :class="day.iconClass"></i>-->
+                                <!--如果有icon样式 且 不是当前选中，显示icon样式，否则就用其他样式覆盖，不支持多重样式并存~-->
+                                <i v-if="day.iconClass && day.dateFormated != currentValue" class="day icon" :class="day.iconClass"></i>
                                 <p v-else class="day">{{day.day}}</p>
                                 <slot name="day-header" :data="day"></slot>
                             </div>
-                            <div class="day-content">
+                            <div v-if="day.datas && day.datas.length" class="day-content">
                                 <slot name="day-content" :data="day"></slot>
                             </div>
                         </div>
@@ -237,7 +239,7 @@
                 this.currentDatas = val;
                 this.classes = 'grid';
                 // this.weeksInit();
-                this.weeksDataInit(); // 填充数据~
+                this.weeksDataInit({animation: false}); // 填充数据~
                 // this.attributesInit(this.attributes);
             },
             page (val) { // page变化时，重新初始化日历
@@ -259,7 +261,7 @@
             // },
             selectedDt (val) { // 点击的时候抛出日期，外部变更时，重新计算，用于选择后展示每天的数据。 Author by Dio Zhu. on 2018.4.17
                 console.log(`v-calendar.watch.selectedDt: `, val);
-                this.weeksDataInit(); // 填充数据~
+                this.weeksDataInit({animation: false}); // 填充数据~
                 this.$emit('selectedDtChanged', val);
             }
         },
@@ -361,6 +363,7 @@
                             thisMonth = true;
                         }
                         let dayInfo = {
+                            dateFormated: utils.formatTime(year + '-' + month + '-' + day, 'yyyy-MM-dd'),
                             day: day,
                             month: month,
                             year: year,
@@ -374,11 +377,11 @@
                             datas: this.getDayDatas(new Date(year, month - 1, day), animation)
                         };
                         // // if (!utils.isSameDay(new Date(year, month - 1, day), this.selectedDate)) {
-                        // if (!utils.isSameDay(new Date(year, month - 1, day), this.selectedDt)) {
-                        //     dayInfo.iconClass = dayInfo.classes.indexOf('check') >= 0 ? dayInfo.classes.replace('check', 'icon-check') : ''; // 如果是'check'样式，直接用icon
-                        // } else {
-                        //     current = dayInfo.datas;
-                        // }
+                        if (!utils.isSameDay(new Date(year, month - 1, day), this.selectedDt)) {
+                            dayInfo.iconClass = dayInfo.classes.indexOf('check') >= 0 ? dayInfo.classes.replace('check', 'icon-check') : ''; // 如果是'check'样式，直接用icon
+                        } else {
+                            current = dayInfo.datas;
+                        }
                         // // 补充是否有数据的样式
                         // if (dayInfo.datas && dayInfo.datas.length) dayInfo.classes += ' has-data';
                         // if (utils.isSameDay(new Date(year, month - 1, day), this.selectedDt)) current = dayInfo.datas;
@@ -504,6 +507,8 @@
                             if (!/ shadow/.test(classes)) classes += ' shadow';
                             classes += ' ' + attr.classes;
                         });
+                        // if (attr.isIcon && classes.indexOf('check') >= 0) classes = classes.replace('check', 'icon-check'); // 如果是'check'样式，直接用icon
+                        // console.log(`v-calendar._getDayClasses: `, utils.formatTime(date, 'yyyy-MM-dd'), attr, classes);
                     });
                 }
                 if (this.datas && this.datas.length) {
@@ -746,6 +751,7 @@
                 }
 
                 .day {
+                    /*box-sizing: content-box;*/
                     justify-content: center;
                     /*border: #3E3A39 1px solid;*/
                     width: pxTorem(28);
@@ -788,7 +794,8 @@
 
                     .day {
                         border-radius: 50%;
-                        box-shadow: 0 pxTorem(8) pxTorem(10) 0 rgba(0,0,0,0.10);
+                        /*box-shadow: 0 pxTorem(8) pxTorem(10) 0 rgba(0,0,0,0.10);*/
+                        box-shadow: 0 pxTorem(4) pxTorem(8) 0 #FFEB90;
                     }
                 }
             }
@@ -815,33 +822,6 @@
         .day-wrapper {
             .day-layer {
 
-                &.cur .day { // 当天的样式
-                    position: relative;
-                    background: #FDD108;
-                    border-radius: 50%;
-                    color: transparent;
-
-                    &:after {
-                        width: pxTorem(28);
-                        height: pxTorem(28);
-                        /*content: '&#36187;';*/
-                        content: '今';
-                        position: absolute;
-                        left: 0;
-                        top: 0;
-                        font-size: pxTorem(14);
-                        font-weight: 300;
-                        color: #fff;
-                        text-align: center;
-                        line-height: pxTorem(28);
-                    }
-                }
-
-                &.circle .day { // 圆圈
-                    border: #FDD108 pxTorem(2) solid;
-                    transition: background .5s;
-                    transition-timing-function: ease-out;
-                }
                 &.round .day { // 实心圆
                     background: #FDD108;
                     color: #fff;
@@ -855,7 +835,7 @@
                     transition: background .5s;
                     transition-timing-function: ease-out;
 
-                    &:after {
+                    &::before {
                         width: pxTorem(28);
                         height: pxTorem(28);
                         /*content: '&#36187;';*/
@@ -881,31 +861,57 @@
                     &:after {
                         width: pxTorem(6);
                         height: pxTorem(6);
+                        box-sizing: content-box;
+                        border: #ffffff pxTorem(1) solid;
                         background: #7ED321;
                         border-radius: 50%;
                         content: ' ';
                         position: absolute;
-                        left: pxTorem(11);
-                        bottom: pxTorem(-2);
+                        left: pxTorem(10);
+                        bottom: pxTorem(-5);
                         font-weight: 300;
                         color: #000;
                         text-align: center;
                         line-height: pxTorem(44);
                     }
                 }
+
+                &.circle .day { // 圆圈
+                    border: #FDD108 pxTorem(2) solid;
+                    transition: background .5s;
+                    transition-timing-function: ease-out;
+                    &::after {
+                        left: pxTorem(8); // 矫正浮动dot的位置
+                        bottom: pxTorem(-7);
+                    }
+                }
+
                 &.check .day { // 圆点
                     position: relative;
                     background: #FDD108;
                     /*box-shadow: none !important;*/
                     box-shadow: 0 pxTorem(4) pxTorem(8) 0 #FFEB90!important;
+                }
+                &.cur .day { // 当天的样式
+                    position: relative;
+                    background: #FDD108;
+                    border-radius: 50%;
+                    color: transparent;
 
-                    /*&:after {*/
-                    /*content: ' ';*/
-                    /*width: pxTorem(9);*/
-                    /*height: pxTorem(9);*/
-                    /*background: #FFF;*/
-                    /*border-radius: pxTorem(60);*/
-                    /*}*/
+                    &::before {
+                        width: pxTorem(28);
+                        height: pxTorem(28);
+                        /*content: '&#36187;';*/
+                        content: '今';
+                        position: absolute;
+                        left: 0;
+                        top: 0;
+                        font-size: pxTorem(14);
+                        font-weight: 300;
+                        color: #fff;
+                        text-align: center;
+                        line-height: pxTorem(28);
+                    }
                 }
                 &.selected .day { // 选中时要清除赛事的文字哈。。。
                     border: #FDD108 pxTorem(2) solid;
@@ -914,8 +920,17 @@
                     color: #7C86A2;
                     transition: background .5s;
                     transition-timing-function: ease-out;
+                    /*box-sizing: content-box;*/
 
-                    &:after {
+                    &::after {
+                        left: pxTorem(8); // 矫正浮动dot的位置
+                        bottom: pxTorem(-7);
+                    }
+                }
+                &.cur.selected .day,
+                &.check.selected .day,
+                &.tour.selected .day {
+                    &::before { // 文字放在before，其他样式放在after。。。选中时，隐藏before的文字，显示日期。。。
                         content: '';
                         display: none;
                     }
@@ -979,7 +994,7 @@
                     &.cur .day {
                         color: transparent;
 
-                        &::after {
+                        &::before {
                             width: pxTorem(20);
                             height: pxTorem(20);
                             font-size: pxTorem(12);
@@ -1029,6 +1044,7 @@
                     background: #FDD108;
                     border-radius: 50%;
                     color: transparent;
+                    box-shadow: none;
 
                     &::before {
                         width: pxTorem(20);

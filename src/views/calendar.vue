@@ -153,6 +153,7 @@
                     { // 代表当日已约课程: status = 2
                         classes: 'round',
                         dates: [
+                            new Date(this.todayComps.year, this.todayComps.month - 1, this.todayComps.day + 2),
                             new Date(this.todayComps.year, this.todayComps.month - 1, this.todayComps.day + 3),
                             new Date(this.todayComps.year, this.todayComps.month - 1, this.todayComps.day + 4)
                         ]
@@ -160,24 +161,36 @@
                     { // 赛事
                         classes: 'tour',
                         dates: [
+                            new Date(this.todayComps.year, this.todayComps.month - 1, this.todayComps.day + 4),
                             new Date(this.todayComps.year, this.todayComps.month - 1, this.todayComps.day + 5),
                             new Date(this.todayComps.year, this.todayComps.month - 1, this.todayComps.day + 6)
-                        ]
-                    },
-                    { // 点标记
-                        classes: 'dot',
-                        dates: [
-                            new Date(this.todayComps.year, this.todayComps.month - 1, this.todayComps.day + 7),
-                            new Date(this.todayComps.year, this.todayComps.month - 1, this.todayComps.day + 8)
                         ]
                     },
                     { // 选中
                         classes: 'check',
                         dates: [
-                            new Date(this.todayComps.year, this.todayComps.month - 1, this.todayComps.day + 9),
-                            new Date(this.todayComps.year, this.todayComps.month - 1, this.todayComps.day + 10)
+                            new Date(this.todayComps.year, this.todayComps.month - 1, this.todayComps.day + 6),
+                            new Date(this.todayComps.year, this.todayComps.month - 1, this.todayComps.day + 7),
+                            new Date(this.todayComps.year, this.todayComps.month - 1, this.todayComps.day + 8)
                         ],
                         isIcon: true
+                    },
+                    { // 点标记
+                        classes: 'dot',
+                        dates: [
+                            new Date(this.todayComps.year, this.todayComps.month - 1, this.todayComps.day - 1),
+                            new Date(this.todayComps.year, this.todayComps.month - 1, this.todayComps.day),
+                            new Date(this.todayComps.year, this.todayComps.month - 1, this.todayComps.day + 1),
+                            new Date(this.todayComps.year, this.todayComps.month - 1, this.todayComps.day + 2),
+                            new Date(this.todayComps.year, this.todayComps.month - 1, this.todayComps.day + 3),
+                            new Date(this.todayComps.year, this.todayComps.month - 1, this.todayComps.day + 4),
+                            new Date(this.todayComps.year, this.todayComps.month - 1, this.todayComps.day + 5),
+                            new Date(this.todayComps.year, this.todayComps.month - 1, this.todayComps.day + 6),
+                            new Date(this.todayComps.year, this.todayComps.month - 1, this.todayComps.day + 7),
+                            new Date(this.todayComps.year, this.todayComps.month - 1, this.todayComps.day + 8),
+                            new Date(this.todayComps.year, this.todayComps.month - 1, this.todayComps.day + 9),
+                            new Date(this.todayComps.year, this.todayComps.month - 1, this.todayComps.day + 10)
+                        ]
                     }
                 ];
                 let datas = [
@@ -187,7 +200,7 @@
                     {date: '2018-4-30', datas: [{name: '足球基础课', time: '13:00'}]}
                 ];
                 setTimeout(() => {
-                    // this.$set(this, 'calendarAttributes', attrs); // 基础日历样式标记
+                    this.$set(this, 'calendarAttributes', attrs); // 基础日历样式标记
                     this.$set(this, 'calendarDatas', datas); // 月日历数据
                 }, 500);
             },
@@ -202,14 +215,14 @@
             getList () { // 监听日期变化，重新获取列表数据
                 api.getDelay({delay: 1000}).then(res => { // 每次成功后删除一组数据，看组件内数据变化是否刷新哈
                     this.$logger.log('calendar.getList.response: ', res);
-                    this.$set(this, 'calendarAttributes', [ //eslint-disable-line
-                        { // 代表当日可约课程: status = 1
-                            classes: 'circle',
-                            dates: [
-                                new Date(res + 24 * 3600 * 1000)
-                            ]
-                        }
-                    ]);
+                    // this.$set(this, 'calendarAttributes', [ //eslint-disable-line
+                    //     { // 代表当日可约课程: status = 1
+                    //         classes: 'circle',
+                    //         dates: [
+                    //             new Date(res + 24 * 3600 * 1000)
+                    //         ]
+                    //     }
+                    // ]);
                 });
             }
         }
