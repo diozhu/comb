@@ -30,7 +30,8 @@
             <div class="weeks-wrapper">
                 <div v-for="(week, index) in weeks" class="week" :key="index">
                     <!--日历每天的布局-->
-                    <div class="day-wrapper">
+                    <!--<div class="day-wrapper">-->
+                    <transition-group class="day-wrapper" tag="div" name="slide">
                         <div v-for="(day, idx) in week.week" :key="index + '-' + idx"
                              class="day-layer"
                              :class="[day.classes, {pre: day.isPrevMonth, cur: day.isToday, nxt: day.isNextMonth}]"
@@ -44,7 +45,8 @@
                                 <slot name="day-content" :data="day"></slot>
                             </div>
                         </div>
-                    </div>
+                    <!--</div>-->
+                    </transition-group>
                     <!--日历中间的分割内容-->
                     <!--<v-collaple-transition v-if="week.current && week.current.length">-->
                     <v-collaple-transition>
@@ -201,7 +203,8 @@
                 todayComps: null,
                 classes: 'normal', // 当前组件样式，如果有attributes：normal，如果有datas：grid
                 isShowPrevMonth: false, // 是否显示不可切换的月份
-                isShowNextMonth: false
+                isShowNextMonth: false,
+                animation: 'fade'     // 转场动画
             };
         },
 
@@ -227,7 +230,7 @@
                 console.log(`v-calendar.${this._uid}.watch.attributes: `, val);
                 this.currentAttributes = val;
                 // this.attributesInit(val);
-                this.weeksDataInit(); // 填充数据~
+                this.weeksDataInit({animation: false}); // 填充数据~
             },
             datas (val) {
                 console.log(`v-calendar.${this._uid}.watch.datas: `, val);
@@ -304,6 +307,7 @@
             },
             movePrevMonth () { // 上月
                 console.log(`v-calendar.movePrevMonth: `);
+                this.animation = 'fade-left';
                 this.move(this.page.prevMonthComps);
             },
             moveCurMonth () { // 当月
@@ -312,6 +316,7 @@
             },
             moveNextMonth () { // 下月
                 console.log(`v-calendar.moveNextMonth: `);
+                this.animation = 'fade-right';
                 this.move(this.page.nextMonthComps);
             },
             chooseDate (day, index, idx) { // 点击日期
@@ -343,7 +348,7 @@
                     thisMonth = false,
                     nextMonth = false,
                     weeks = [];
-                console.log(`v-calendar.${this._uid}.weeksInit ==>> `, day, this.page.prevMonthComps.days, this.page.firstWeekdayInMonth);
+                console.log(`v-calendar.${this._uid}.weeksInit ==>> animation: `, animation, ' --> ', day, this.page.prevMonthComps.days, this.page.firstWeekdayInMonth);
                 // for (let w = 1, len = 6;w <= len && !nextMonth;w++) {
                 for (let w = 1, len = 6;w <= len;w++) {
                     let week = [], current = null;
@@ -400,17 +405,17 @@
                 if (animation) this.clearAnimation();
             },
 
-            weeksDataInit () { // 绘制日历数据
+            weeksDataInit ({animation = true} = {}) { // 绘制日历数据
                 if (!this.weeks || !this.weeks.length) return;
-                console.log(`v-calendar.${this._uid}.weeksDataInit: `);
+                console.log(`v-calendar.${this._uid}.weeksDataInit: animation: `, animation);
                 this.weeks.forEach(w => {
                     w.current = null;
                     w.week.forEach(d => {
                         // 如果有样式
                         // if (this.attributes && this.attributes.length) d.classes = this.getDayClasses(new Date(d.year, d.month - 1, d.day), true);
-                        d.classes = this.getDayClasses(new Date(d.year, d.month - 1, d.day), true);
+                        d.classes = this.getDayClasses(new Date(d.year, d.month - 1, d.day), animation);
                         // 如果有数据
-                        if (this.datas && this.datas.length) d.datas = this.getDayDatas(new Date(d.year, d.month - 1, d.day), true);
+                        if (this.datas && this.datas.length) d.datas = this.getDayDatas(new Date(d.year, d.month - 1, d.day), animation);
                         if (!utils.isSameDay(new Date(d.year, d.month - 1, d.day), this.selectedDt)) {
                             d.iconClass = d.classes.indexOf('check') >= 0 ? d.classes.replace('check', 'icon-check') : ''; // 如果是'check'样式，直接用icon
                         } else {
@@ -478,7 +483,8 @@
             // },
             getDayClasses (date, animation) { // 获取某一天的样式
                 // console.log(`v-calendar.getDayClasses: `, utils.formatTime(date, 'yyyy-MM-dd'), this.attributes, this.currentAttributes, this.currentAttributes.length);
-                let classes = animation ? ' fade' : '';
+                // let classes = animation ? ' fade' : '';
+                let classes = animation ? ' ' + this.animation : '';
                 // classes = (date < this.today) ? classes + ' past' : classes; // 已过日期标识
                 if (date < this.today && !utils.isSameDay(date, this.today)) classes += ' past'; // 已过日期标识
                 if (this.currentAttributes && this.currentAttributes.length) {
@@ -533,12 +539,13 @@
                     setTimeout(() => {
                         this.weeks.forEach(w => {
                             w.week.forEach(d => {
-                                d.classes = d.classes.replace(/ fade/gm, '');
+                                // d.classes = d.classes.replace(/ fade/gm, '');
+                                d.classes = d.classes.replace(/ fade-left/gm, '').replace(/ fade-right/gm, '').replace(/ fade/gm, '');
                             });
                         });
                         // this.$apply();
                         resolve();
-                    }, 1500);
+                    }, 500);
                 });
             }
         }
@@ -547,6 +554,59 @@
 <style rel="stylesheet/scss" lang="scss">
     @import "../scss/variables";
     @import "../scss/mixins";
+    $dayContentTransitionTime: .38s ease-in-out;
+    .v-calendar {
+        $fadeTransition: opacity .2s ease-in-out;
+        $slideRightEnterAnimation: slideRightEnter .18s ease-in-out;
+        $slideLeftEnterAnimation: slideLeftEnter .18s ease-in-out;
+        $scaleEnterAnimation: scaleEnter .18s ease-in-out;
+
+        @keyframes slideRightEnter {
+            /*0% { transform: scaleX(0); }*/
+            /*60% { transform: scaleX(1.08); }*/
+            /*100% { transform: scaleX(1); }*/
+            0% { transform: translateX(.2rem); }
+            60% { transform: translateX(.1rem); }
+            100% { transform: translateX(0); }
+        }
+
+        @keyframes slideLeftEnter {
+            /*0% { transform: scaleX(0); }*/
+            /*60% { transform: scaleX(.90); }*/
+            /*100% { transform: scaleX(1); }*/
+            0% { transform: translateX(-.2rem); }
+            60% { transform: translateX(-.1rem); }
+            100% { transform: translateX(0); }
+        }
+        @keyframes scaleEnter {
+            0% { transform: scaleX(0.7) scaleY(0.7); opacity: 0.3; }
+            90% { transform: scaleX(1.1) scaleY(1.1); }
+            95% { transform: scaleX(0.95) scaleY(0.95); }
+            100% { transform: scaleX(1) scaleY(1); opacity: 1; }
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: scaleX(0.7) scaleY(0.7); }
+            90% { transform: scaleX(1.1) scaleY(1.1); }
+            95% { transform: scaleX(0.95) scaleY(0.95); }
+            100% { opacity: 1; transform: scaleX(1) scaleY(1); }
+        }
+
+        .slide-enter-active {
+        }
+
+        .fade {
+            /*animation: fadeIn 1s 1s normal;*/
+            /*animation: fadeIn .18s ease;*/
+            animation: $fadeTransition;
+        }
+        .fade-left {
+            animation: $slideLeftEnterAnimation;
+        }
+        .fade-right {
+            animation: $slideRightEnterAnimation;
+        }
+
+    }
 
     .v-calendar { // 日历
         /*padding: pxTorem(44) 0;*/
@@ -696,6 +756,8 @@
                     /*transition: opacity .5s;*/
                     /*transition-timing-function: ease-out;*/
                     /*opacity: .8;*/
+                    /*transition: opacity $dayContentTransitionTime;*/
+                    opacity: 1;
 
                     &.icon {
                         background: #FDD108;
@@ -714,7 +776,8 @@
                     /*transition: opacity .8s;*/
                     /*transition-timing-function: ease-out;*/
                     .day {
-                        color: #E1E4E7;
+                        /*color: #E1E4E7;*/
+                        opacity: .4;
                     }
                 }
                 &.cur {
@@ -744,19 +807,6 @@
                 /*}*/
             /*}*/
         /*}*/
-
-        .fade {
-            /*animation: fadeIn 1s 1s normal;*/
-            animation: fadeIn .5s ease;
-        }
-        @keyframes fadeIn {
-            0% {
-                opacity: 0;
-            }
-            100% {
-                opacity: 1;
-            }
-        }
 
     }
 

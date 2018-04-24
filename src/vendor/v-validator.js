@@ -325,7 +325,7 @@ let Validator = {
             });
         },
         componentUpdated (el, binding, vnode) {
-            console.log('fdfdfdfdfdf.....');
+            console.log('v-validator.componentUpdated: .....');
             if (typeof binding.value === 'undefined') return;
             el[ctx] = {
                 el,

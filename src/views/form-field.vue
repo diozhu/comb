@@ -10,6 +10,7 @@
                 <tr><td>placeholder</td><td>提示文字</td><td>String</td><td>-</td><td>-</td></tr>
                 <tr><td>clearEnable</td><td>是否显示输入框后面的清除按钮</td><td>Boolean</td><td>-</td><td>true</td></tr>
                 <tr><td>limit</td><td>限制字数</td><td>Number</td><td>-</td><td>-</td></tr>
+                <tr><td>alarm</td><td>指定最后几个字的时候改变倒计数的样式</td><td>Number</td><td>-</td><td>-</td></tr>
                 <tr><td>type</td><td>原生input类型，添加了mobile，实际按照tel透传，但是按照mobile校验</td><td>String</td><td>text<br>email<br>mobile<br>password<br>number<br>date等</td><td>text</td></tr>
                 <tr><td>validateable</td><td>是否开启校验，目前只针对email、tel、mobile校验</td><td>Boolean</td><td>-</td><td>true</td></tr>
                 <tr><td>rows</td><td>html属性，透传</td><td>String</td><td>-</td><td>-</td></tr>
@@ -118,7 +119,7 @@
                 <v-cell title="标题文字"></v-cell>
             </li>
             <li>
-                <v-field v-model="value13" placeholder="提示文字.." type="textarea" rows="8" :limit="100"></v-field>
+                <v-field v-model="value13" placeholder="提示文字...最后10个字报警" type="textarea" rows="8" :limit="20" :alarm="10"></v-field>
             </li>
         </ul>
         <pre v-highlightjs @touchend.stop><code class="html">
@@ -130,7 +131,7 @@
                 &lt;v-cell title="标题文字"&gt;&lt;/v-cell&gt;
             &lt;/li&gt;
             &lt;li&gt;
-                &lt;v-field v-model="value13" placeholder="提示文字.." type="textarea" rows="8" :limit="100"&gt;&lt;/v-field&gt;
+                &lt;v-field v-model="value13" placeholder="提示文字.." type="textarea" rows="8" :limit="20" :alarm="10"&gt;&lt;/v-field&gt;
             &lt;/li&gt;
         &lt;/ul&gt;
         </code></pre>
@@ -221,6 +222,12 @@ export default {
                     border-left: #fa5a5a pxTorem(3px) solid;
                     padding-left: pxTorem(7px);
                 }
+            }
+        }
+
+        .v-field {
+            .v-field__limit.alarm {
+                color: orangered;
             }
         }
 

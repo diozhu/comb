@@ -32,7 +32,12 @@
                   v-validator="validator"
         ></textarea>
         <slot name="after" class="multi-after"></slot>
-        <div v-if="type === 'textarea' && limit" class="v-field__limit">{{currentValue.length || 0}}/{{limit}}</div>
+        <div v-if="type === 'textarea' && limit"
+             class="v-field__limit"
+            :class="{'alarm': currentValue.length && alarm && limit && limit - currentValue.length < alarm}"
+        >
+            {{currentValue.length || 0}}/{{limit}}
+        </div>
         <input v-if="type !== 'textarea'"
                ref="input"
                :type="type === 'mobile' ? 'tel' : type"
@@ -122,6 +127,7 @@
             disabled: Boolean,
             attr: Object,           // 设置原生属性，例如 :attr="{ maxlength: 10 }"
             limit: Number,           // 字数限制
+            alarm: Number,           // 字数最后几个字改变样式
             isLink: Boolean,        // 右侧箭头图标显示
             field: String, // validator 标识
             validator: Object       // validator 数据
