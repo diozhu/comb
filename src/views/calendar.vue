@@ -1,99 +1,131 @@
 <template>
-    <div class="page page-calendar">
-        <!--<h2>v-calendar</h2>-->
-        <!--<div class="attributes">-->
-            <!--<h2>参数</h2>-->
-            <!--<table>-->
-                <!--<tr><th>参数</th><th>说明</th><th>类型</th><th>可选</th><th>默认</th></tr>-->
-                <!--<tr><td>attributes</td><td>日期标签的样式数组</td><td>Array</td><td>-</td><td>-</td></tr>-->
-                <!--<tr><td>datas</td><td>日期内要展示的数据数组</td><td>Array</td><td>-</td><td>-</td></tr>-->
-                <!--<tr><td>selectedDt</td><td>当前选中的日期</td><td>Date</td><td>-</td><td>-</td></tr>-->
-                <!--<tr><td>minDt</td><td>组件最小可选日期</td><td>Date</td><td>-</td><td>-</td></tr>-->
-                <!--<tr><td>maxDt</td><td>组件最大可选日期</td><td>Date</td><td>-</td><td>-</td></tr>-->
-                <!--<tr><td>enableMonthLabel</td><td>把具体月份数字换成'上个月'、'下个月'</td><td>Boolean</td><td>-</td><td>false</td></tr>-->
-                <!--<tr><td>firstDay</td><td>日历以星期几开头展示</td><td>Number</td><td>1 ~ 7</td><td>7</td></tr>-->
-            <!--</table>-->
-        <!--</div>-->
-
-        <!--<h2>示例</h2>-->
-        <!--<p class="desc">基本日历，所有针对标签的样式放在attributes数组中描述，并可设定月份起止日期</p>-->
-        <!--<br />-->
-        <!--<pre v-highlightjs @touchend.stop><code class="html">-->
-        <!--< v-calendar v-model="selectedDtStr" :attributes="calendarAttributes" :selectedDt="selectedDt" :minDt="minDt" :maxDt="maxDt">-->
-            <!--<div slot="desc" class="desc">-->
-                <!--<div class="row dot"><i class="icon"></i><p>可预约课程</p></div>-->
-                <!--<div class="row check"><i class="icon icon-check"></i><p>已预约</p></div>-->
-                <!--<div class="row circle"><i class="icon icon-round"></i><p>当前选择</p></div>-->
-            <!--</div>-->
-        <!--</ v-calendar>-->
-        <!--</code></pre>-->
-        <v-calendar v-model="selectedDtStr" :attributes="calendarAttributes" :selectedDt="selectedDt" :minDt="minDt" :maxDt="maxDt">
-            <!--图例说明-->
-            <div slot="desc" class="desc">
-                <div class="row dot"><i class="icon"></i><p>可预约课程</p></div>
-                <div class="row check"><i class="icon icon-check"></i><p>已预约</p></div>
-                <div class="row circle"><i class="icon icon-round"></i><p>当前选择</p></div>
+    <div class="page-calendar__frm">
+        <div class="page page-calendar">
+            <h2>v-calendar</h2>
+            <div class="attributes">
+                <h2>参数</h2>
+                <table>
+                    <tr><th>参数</th><th>说明</th><th>类型</th><th>可选</th><th>默认</th></tr>
+                    <tr><td>attributes</td><td>日期标签的样式数组</td><td>Array</td><td>-</td><td>-</td></tr>
+                    <tr><td>datas</td><td>日期内要展示的数据数组</td><td>Array</td><td>-</td><td>-</td></tr>
+                    <tr><td>selectedDt</td><td>当前选中的日期</td><td>Date</td><td>-</td><td>-</td></tr>
+                    <tr><td>minDt</td><td>组件最小可选日期</td><td>Date</td><td>-</td><td>-</td></tr>
+                    <tr><td>maxDt</td><td>组件最大可选日期</td><td>Date</td><td>-</td><td>-</td></tr>
+                    <tr><td>enableMonthLabel</td><td>把具体月份数字换成'上个月'、'下个月'</td><td>Boolean</td><td>-</td><td>false</td></tr>
+                    <tr><td>firstDay</td><td>日历以星期几开头展示</td><td>Number</td><td>1 ~ 7</td><td>7</td></tr>
+                </table>
             </div>
-        </v-calendar>
-        <p class="desc">当前选择日期： {{selectedDtStr}}</p>
-        <!--<h2>示例</h2>-->
-        <!--<p class="desc">日期带数据，日期内的数据放在datas中，并可设定以"星期一"开头展示</p>-->
-        <!--<pre v-highlightjs @touchend.stop><code class="html">-->
-        <!--< v-calendar v-model="selectedDtStr" :datas="calendarDatas" :selectedDt="selectedDt" enableMonthLabel :firstDay="1" @chooseDate="handleChooseDate" @selectedDtChanged="selectedDtChanged">-->
-            <!--<日期内数据插槽 slot="day-content" slot-scope="props">-->
-            <!--<点击某一天的内容插槽 slot="week-content" slot-scope="props">-->
-        <!--</ v-calendar>-->
-        <!--</code></pre>-->
-        <!--<br />-->
-        <v-calendar v-model="selectedDtStr2"
-            :datas="calendarDatas"
-            :selectedDt="selectedDt2"
-            enableMonthLabel
-            :firstDay="1"
-            :minDt="minDt"
-            :maxDt="maxDt"
-            @chooseDate="handleChooseDate"
-            @selectedDtChanged="selectedDtChanged"
-        >
-            <!--右上角操作区-->
-            <!--<template slot="day-header" slot-scope="props">-->
-                <!--<p>新建排课{{props.data.day}}</p>-->
-            <!--</template>-->
-            <!--日期内的数据list-->
-            <template slot="day-content" slot-scope="props">
-                <div class="day-item" v-if="props.data.datas && props.data.datas.length" v-for="item in props.data.datas">
-                    <p>{{item.time}}</p>
-                    <p>{{item.name}}</p>
+
+            <h2>示例</h2>
+            <p class="desc">基本日历，所有针对标签的样式放在attributes数组中描述，并可设定月份起止日期</p>
+            <br />
+            <pre v-highlightjs @touchend.stop><code class="html">
+            < v-calendar v-model="selectedDtStr" :attributes="calendarAttributes" :selectedDt="selectedDt" :minDt="minDt" :maxDt="maxDt">
+                <div slot="desc" class="desc">
+                    <div class="row dot"><i class="icon"></i><p>可预约课程</p></div>
+                    <div class="row check"><i class="icon icon-check"></i><p>已预约</p></div>
+                    <div class="row circle"><i class="icon icon-round"></i><p>当前选择</p></div>
                 </div>
-            </template>
-            <!--点击某一天显示的详情-->
-            <template slot="week-content" slot-scope="props">
-                <div class="week-item" v-if="props.data && props.data.length" v-for="item in props.data">
-                    <p>{{item.time}}</p>
-                    <p><span class="tit">课程名称</span><span>{{item.name}}</span></p>
-                    <p><span class="tit">教练姓名</span><span>{{item.name}}</span></p>
-                    <p><span class="tit">上课场馆</span><span>{{item.name}}</span></p>
-                    <p><span class="tit">场馆地址</span><span>{{item.name}}</span></p>
+            </ v-calendar>
+            </code></pre>
+            <v-calendar v-model="selectedDtStr" :attributes="calendarAttributes" :selectedDt="selectedDt" :minDt="minDt" :maxDt="maxDt">
+                <!--图例说明-->
+                <div slot="desc" class="desc">
+                    <div class="row dot"><i class="icon"></i><p>可预约课程</p></div>
+                    <div class="row check"><i class="icon icon-check"></i><p>已预约</p></div>
+                    <div class="row circle"><i class="icon icon-round"></i><p>当前选择</p></div>
                 </div>
-            </template>
-        </v-calendar>
-        <p class="desc">当前选择日期： {{selectedDtStr2}}</p>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
+            </v-calendar>
+            <p class="desc">当前选择日期： {{selectedDtStr}}</p>
+
+            <h2>示例</h2>
+            <p class="desc">日期带数据，日期内的数据放在datas中，并可设定以"星期一"开头展示</p>
+            <pre v-highlightjs @touchend.stop><code class="html">
+            < v-calendar v-model="selectedDtStr" :datas="calendarDatas" :selectedDt="selectedDt" enableMonthLabel :firstDay="1" @chooseDate="handleChooseDate" @selectedDtChanged="selectedDtChanged">
+                <日期内数据插槽 slot="day-content" slot-scope="props">
+                <点击某一天的内容插槽 slot="week-content" slot-scope="props">
+            </ v-calendar>
+            </code></pre>
+            <br />
+            <v-calendar v-model="selectedDtStr2"
+                :datas="calendarDatas"
+                :selectedDt="selectedDt2"
+                enableMonthLabel
+                :firstDay="1"
+                :minDt="minDt"
+                :maxDt="maxDt"
+                @chooseDate="handleChooseDate"
+                @selectedDtChanged="selectedDtChanged"
+            >
+                <!--右上角操作区-->
+                <!--<template slot="day-header" slot-scope="props">-->
+                    <!--<p>新建排课{{props.data.day}}</p>-->
+                <!--</template>-->
+                <!--日期内的数据list-->
+                <template slot="day-content" slot-scope="props">
+                    <div class="day-item" v-if="props.data.datas && props.data.datas.length" v-for="item in props.data.datas">
+                        <p>{{item.time}}</p>
+                        <!--<p>{{item.name}}</p>-->
+                        <v-text :limit="2" :value="item.name"></v-text>
+                    </div>
+                </template>
+                <!--点击某一天显示的详情-->
+                <template slot="week-content" slot-scope="props">
+                    <div class="week-item" v-if="props.data && props.data.length" v-for="item in props.data">
+                        <p>{{item.time}}</p>
+                        <p><span class="tit">课程名称</span><span>{{item.name}}</span></p>
+                        <p><span class="tit">教练姓名</span><span>{{item.name}}</span></p>
+                        <p><span class="tit">上课场馆</span><span>{{item.name}}</span></p>
+                        <p><span class="tit">场馆地址</span><span>{{item.name}}</span></p>
+                    </div>
+                </template>
+            </v-calendar>
+            <p class="desc">当前选择日期： {{selectedDtStr2}}</p>
+            <br/>
+
+            <h2>示例</h2>
+            <p class="desc">套上v-popup弹出选择</p>
+            <pre v-highlightjs @touchend.stop><code class="html">
+            <ul class="listview listview-form">
+                <li>
+                    < v-cell title="选择日期" :value="selectedDtFormated" is-link @click.native="popupVisible = true">< /v-cell>
+                </li>
+            </ul>
+            </code></pre>
+            <ul class="listview listview-form">
+                <li>
+                    <v-cell title="选择日期" :value="selectedDtFormated" is-link @click.native="popupVisible = true"></v-cell>
+                </li>
+            </ul>
+
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+        </div>
+        <div class="popup-con">
+            <v-popup v-model="popupVisible" class="v-popup" toolbar :closeEnable="closeEnable" @handleConfirm="handleConfirm">
+                <!--<span class="v-popup-action v-popup-cancel" @click="popupVisible4 = false">取消</span>-->
+                <!--<span class="v-popup-action v-popup-confirm" @click="confirm">确定</span>-->
+                <v-calendar v-model="selectedDtStr3" :selectedDt="selectedDt3" :minDt="minDt" :maxDt="maxDt">
+                </v-calendar>
+            </v-popup>
+        </div>
     </div>
 </template>
 <script>
     import vRow from '../vendor/v-row.vue';
     import vCol from '../vendor/v-col.vue';
+    import vCell from '../vendor/v-cell.vue';
     import vButton from '../vendor/v-button';
     import vCalendar from '../vendor/v-calendar';
+    import vText from '../vendor/v-text';
+    import vPopup from '../vendor/v-popup';
     import * as api from '../js/core/api.js';
+    import * as utils from '../js/utils/utils.js';
 
     export default {
-        components: { vCalendar, vButton, vRow, vCol },
+        components: { vCalendar, vText, vButton, vRow, vCol, vCell, vPopup },
         data () {
             return {
                 calendarAttributes: [],     // 日历内每天的样式
@@ -104,7 +136,12 @@
                 minDt: null,
                 maxDt: null,
                 selectedDt2: null,
-                selectedDtStr2: ''
+                selectedDtStr2: '',
+                selectedDt3: null,
+                selectedDtStr3: '',
+                selectedDtFormated: '',
+                closeEnable: true,
+                popupVisible: false
             };
         },
         created: function () {
@@ -123,6 +160,14 @@
             },
             selectedDtStr2 (val) { // 监听组件日期变化
                 this.$logger.log('calendar.watch.selectedDtStr2: ', val);
+            },
+            selectedDt3 (val) {
+                this.$logger.log('calendar.watch.selectedDt3: ', val);
+            },
+            selectedDtStr3 (val) { // 监听组件日期变化，判断是否可关闭popup组件
+                this.$logger.log('calendar.watch.selectedDtStr3: ', val);
+                if (val.length && val.length > 8) this.closeEnable = true;
+                else this.closeEnable = false;
             }
         },
         mounted () {
@@ -224,6 +269,14 @@
                     //     }
                     // ]);
                 });
+            },
+            handleConfirm (val) { // 监听
+                this.$logger.log('calendar.handleConfirm: ', val);
+                if (val) { // 正常关闭：赋值
+                    this.selectedDtFormated = utils.formatTime(this.selectedDtStr3, 'yyyy年MM月dd日');
+                } else {
+                    this.$toast('请选择日期~');
+                }
             }
         }
     };
@@ -231,6 +284,11 @@
 <style lang="scss">
     @import "../scss/variables";
     @import "../scss/_mixins";
+
+    .page-calendar__frm {
+        height: 100%;
+        overflow: hidden;
+    }
 
     .page-calendar{
         // padding: 0 ($grid-gutter-width / 2);
@@ -247,12 +305,29 @@
                     }
 
                     .day-content { // 日期中内容数据的样式
+                        width: 100%;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
 
                         .day-item {
+                            width: pxTorem(48);
+                            height: pxTorem(46);
                             padding: pxTorem(2);
                             margin: 0 pxTorem(2) pxTorem(3);
                             background: #F8F9F8;
                             border-left: #FDD108 pxTorem(2) solid;
+
+                            .v-text {
+                                font-size: pxTorem(12);
+                            }
+                            /*p {*/
+                                /*text-align: left;*/
+                                /*overflow: hidden;*/
+                                /*text-overflow: ellipsis;*/
+                                /*-webkit-line-clamp: 2;*/
+                            /*}*/
                         }
                     }
                 }

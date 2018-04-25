@@ -9,6 +9,8 @@
                     <tr><th>参数</th><th>说明</th><th>类型</th><th>可选</th><th>默认</th></tr>
                     <tr><td>value</td><td>是否显示</td><td>Boolean</td><td>-</td><td>false</td></tr>
                     <tr><td>position</td><td>显示位置</td><td>String</td><td>middle<br>top<br>bottom</td><td>bottom</td></tr>
+                    <tr><td>toolbar</td><td>是否显示顶部按钮【2018-04-25】</td><td>Boolean</td><td>-</td><td>false</td></tr>
+                    <tr><td>closeEnable</td><td>是否可以关闭当前v-popup的外部条件【2018-04-25】</td><td>Boolean</td><td>-</td><td>true</td></tr>
                 </table>
             </div>
 

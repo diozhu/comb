@@ -1,6 +1,12 @@
 <template>
     <transition :name="currentTransition" v-on:after-enter="afterEnter" v-on:enter="enter" v-on:enter-cancelled="enterCancelled">
         <div v-show="currentValue" class="v-popup" :class="[position ? 'v-popup-' + position : '']">
+            <div v-if="toolbar" class="v-popup__toolbar">
+                <slot name="toolbar">
+                    <span class="v-popup__action v-popup__cancel" @click="currentValue = false">取消</span>
+                    <span class="v-popup__action v-popup__confirm" @click="confirm">确定</span>
+                </slot>
+            </div>
             <slot ref="slotor"></slot>
         </div>
     </transition>
@@ -24,7 +30,14 @@
                 type: Boolean,
                 default: false
             },
-
+            toolbar: {              // 是否显示操作按钮。 Author by Dio Zhu. on 2018.4.25
+                type: Boolean,
+                default: false
+            },
+            closeEnable: {          // 是否可以关闭当前组件的外部条件。 Author by Dio Zhu. on 2018.4.25
+                type: Boolean,
+                default: true
+            },
             modal: {
                 default: true
             },
@@ -108,6 +121,15 @@
         },
 
         methods: {
+            confirm () {
+                this.$logger.log('v-popup.methods.confirm: ', ...arguments);
+                if (this.closeEnable) { // 查看外部条件是否允许关闭当前组件
+                    this.$emit('handleConfirm', this.currentValue);
+                    this.currentValue = false;
+                } else {
+                    this.$emit('handleConfirm', false);
+                }
+            },
             touchHandler (e) {
                 this.$logger.log('v-popup.methods.touchHandler: ', e);
 //                e.preventDefault();
@@ -232,5 +254,17 @@
     .popup-fade-enter-to { // 解决ios渲染问题。 Mod by Keming Wen. on 2017.6.28
         transform: translateY(0);
         opacity: 1;
+    }
+    .v-popup__toolbar { // 操作栏
+        height: pxTorem(40);
+        border-bottom: #e3e3e3 1px solid;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .v-popup__action {
+            margin: 0 pxTorem(15);
+            font-size: pxTorem(15);
+        }
     }
 </style>
