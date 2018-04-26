@@ -15,6 +15,9 @@
                     <td>limit</td><td>限定行数，0：不限制，1：限定一行，超出省略，以此类推</td><td>Number</td><td>0 - 5</td><td>0</td>
                 </tr>
                 <tr>
+                    <td>length</td><td>限定文字长度，多余的会被剪切，避免出现省略号</td><td>Number</td><td>-</td><td>0</td>
+                </tr>
+                <tr>
                     <td>expandEnabled</td><td>展开标识</td><td>Boolean</td><td>true, <br>false</td><td>false</td>
                 </tr>
             </table>
@@ -51,6 +54,20 @@
         <ul class="desc">
             <li>
                 <v-text :limit.Number="1" value="这一天还是来了，科比亲自宣布本赛季结束后退役。科比在退役文章中这样写道：亲爱的篮球：当我还“树雄心创伟业为江山添色，立壮志写春秋与日月争辉，祝21岁生日快乐；"></v-text>
+            </li>
+        </ul>
+        <pre v-highlightjs @touchend.stop><code class="html">
+        &lt;ul&gt;
+            &lt;li&gt;
+                &lt;v-text :limit.Number="1" value="这一天还是来了，科比亲自宣布本赛季结束后退役。科比在退役文章中这样写道：亲爱的篮球：当我还“树雄心创伟业为江山添色，立壮志写春秋与日月争辉，祝21岁生日快乐；"&gt;&lt;/v-text&gt;
+            &lt;/li&gt;
+        &lt;/ul&gt;
+        </code></pre>
+
+        <h2>限定字数</h2>
+        <ul class="desc">
+            <li>
+                <v-text :limit.Number="1" :length="7" value="这一天还是来了，科比亲自宣布本赛季结束后退役。科比在退役文章中这样写道：亲爱的篮球：当我还“树雄心创伟业为江山添色，立壮志写春秋与日月争辉，祝21岁生日快乐；"></v-text>
             </li>
         </ul>
         <pre v-highlightjs @touchend.stop><code class="html">

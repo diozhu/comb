@@ -14,6 +14,7 @@
                 type: Number,
                 default: 0
             },
+            length: Number,     // 限定内容长度，按此剪切，目的是不显示省略号
             expandEnabled: {    // 展开标识
                 type: Boolean,
                 default: false
@@ -50,7 +51,8 @@
             return createElement(
                 'p',
                 prop,
-                this.value
+                // this.value
+                (this.length ? this.value.substring(0, this.length) : this.value)
             );
         }
     };
