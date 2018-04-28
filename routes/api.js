@@ -990,14 +990,14 @@ router.use('/comment', comment);
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-    res.json({'code': 0, 'msg': 'ok'});
+    res.json({'errcode': 0, 'errmsg': 'ok'});
 });
 
 router.post('/getRandomList', function (req, res, next) {
     console.log('getRandomList: ', req.body);
     var rtn = {
-            'code': 0,
-            'msg': 'ok',
+            'errcode': 0,
+            'errmsg': 'ok',
             'data': []
         },
         limit,
@@ -1018,8 +1018,8 @@ router.post('/getRandomList', function (req, res, next) {
 router.post('/getInfiniteList', function (req, res, next) {
     console.log('getInfiniteList: ', req.body);
     var rtn = {
-            'code': 0,
-            'msg': 'ok',
+            'errcode': 0,
+            'errmsg': 'ok',
             'data': []
         },
         limit,
@@ -1047,6 +1047,7 @@ router.post('/getInfiniteList', function (req, res, next) {
 router.post('/getImgList', function (req, res, next) {
     console.log('getImgList: ', req.body);
     var rtn = {
+            'errcode': 0,
             'meta': {'code': 0, 'message': '通讯成功'},
             'data': []
         },
@@ -1074,8 +1075,8 @@ router.post('/getImgList', function (req, res, next) {
 router.post('/addUser', function (req, res, next) {
     console.log('addUser: ', req.body);
     var rtn = {
-        'code': 0,
-        'msg': 'ok',
+        'errcode': 0,
+        'errmsg': 'ok',
         'data': []
     };
     userDao.set(req.body);
@@ -1085,8 +1086,8 @@ router.post('/addUser', function (req, res, next) {
 router.post('/getUserList', function (req, res, next) {
     console.log('getUserList: ', req.body);
     var rtn = {
-            'code': 0,
-            'msg': 'ok',
+            'errcode': 0,
+            'errmsg': 'ok',
             'data': []
         },
         ids = req.body.userIds || [],
