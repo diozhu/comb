@@ -52,7 +52,7 @@
                 'p',
                 prop,
                 // this.value
-                (this.length ? this.value.substring(0, this.length) : this.value)
+                ((this.length && this.value) ? this.value.substring(0, this.length) : this.value)
             );
         }
     };
