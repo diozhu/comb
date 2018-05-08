@@ -203,6 +203,7 @@ let getComputedStyle = Vue.prototype.$isServer ? {} : document.defaultView.getCo
 export function getScrollEventTarget (element) {
     var currentNode = element;
     // bugfix, see http://w3help.org/zh-cn/causes/SD9013 and http://stackoverflow.com/questions/17016740/onscroll-function-is-not-working-for-chrome
+    // console.log('【dom.js】getScrollEventTarget: ', currentNode, currentNode.tagName, currentNode.tagName, currentNode.nodeType);
     while (currentNode && currentNode.tagName !== 'HTML' && currentNode.tagName !== 'BODY' && currentNode.nodeType === 1) {
         var overflowY = getComputedStyle(currentNode).overflowY;
         // console.log('!!!dom ===>>> ', currentNode.className, overflowY);

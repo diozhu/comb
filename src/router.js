@@ -92,8 +92,16 @@ const scrollBehavior = (to, from, savedPosition) => { //eslint-disable-line
             }, 0);
         }
     } */
-    return false;
     // return { x: 0, y: 0 };
+    // if (to.hash) {
+    //     return {
+    //         // 這個是透過 to.hash 的值來找到對應的元素
+    //         // 照你的 html 來看是不用多加處理這樣就可以了
+    //         // 例如你按下 #3 的連結，就會變成 querySelector('#3')，自然會找到 id = 3 的元素
+    //         selector: to.hash
+    //     };
+    // }
+    return false;
 };
 
 /* eslint-disable no-new */
@@ -105,6 +113,7 @@ const router = new VueRouter({
     // base: '/app/', // 这个是设置根目录路径，默认'/'
     base: '/app/', // 根目录路径，配合./config/index.js中的设置，目的在build后，能顺利部署到服务端，与后台文件不冲突。。。Author by Dio Zhu. on 2017.3.28
     // scrollBehavior, // 还原滚动条位置 // 使用v-scroll-postion记录、还原滚动位置，此方式不用了。Author by Dio Zhu. on 2017.5.19
+    // scrollBehavior, // 锚点。Author by Dio Zhu. on 2018.5.7
     routes // 挂载路由集合
 });
 
