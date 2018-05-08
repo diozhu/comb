@@ -1,28 +1,30 @@
 <template>
-    <div class="page page-char-indexes">
-        <h2>api</h2>
+    <div class="page-char-indexes">
+        <div class="page">
+            <h2>api</h2>
 
-        <p class="desc">字符索引</p>
+            <p class="desc">字符索引</p>
 
-        <div class="attributes">
-            <h2>API</h2>
-            <table>
-                <tr><th>参数</th><th>说明</th><th>类型</th><th>可选</th><th>默认</th></tr>
-                <tr><td>{}</td><td>接口需要参数</td><td>Object</td><td>-</td><td>-</td></tr>
-            </table>
+            <div class="attributes">
+                <h2>API</h2>
+                <table>
+                    <tr><th>参数</th><th>说明</th><th>类型</th><th>可选</th><th>默认</th></tr>
+                    <tr><td>{}</td><td>接口需要参数</td><td>Object</td><td>-</td><td>-</td></tr>
+                </table>
+            </div>
+
+            <h2>示例</h2>
+            <p class="desc"></p>
+            <ul class="listview simple">
+                <li v-for="(item, index) in list" :key="index">
+                    <p v-if="index == 0 || index > 0 && item.first_letter != list[index - 1].first_letter" :ref="item.first_letter">
+                        <a :id="item.first_letter">{{item.first_letter}}</a>
+                    </p>
+                    {{item.name}}
+                </li>
+            </ul>
         </div>
-
-        <h2>示例</h2>
-        <p class="desc"></p>
-        <v-char-indexes v-model="currentLetter"></v-char-indexes>
-        <ul class="listview simple">
-            <li v-for="(item, index) in list" :key="index">
-                <p v-if="index == 0 || index > 0 && item.first_letter != list[index - 1].first_letter" :ref="item.first_letter">
-                    <a :id="item.first_letter">{{item.first_letter}}</a>
-                </p>
-                {{item.name}}
-            </li>
-        </ul>
+        <v-char-indexes v-model="currentLetter" :letters="letters"></v-char-indexes>
     </div>
 </template>
 
@@ -41,6 +43,7 @@
 
         data () {
             return {
+                letters: ['#', 'B', 'D', 'Z'],
                 list: [{}],
                 currentLetter: ''
             };
@@ -64,6 +67,9 @@
                 api.getDelay({delay: 500}).then(res => {
                     this.$logger.log('char-indexes.init.success...');
                     this.$set(this, 'list', [
+                        {'first_letter': '#', 'name': '阿斯蒂芬'},
+                        {'first_letter': '#', 'name': '阿斯顿发送到发'},
+                        {'first_letter': '#', 'name': '粗大的司法所'},
                         {'first_letter': 'B', 'name': '博士A'},
                         {'first_letter': 'B', 'name': '博士B'},
                         {'first_letter': 'B', 'name': '博士后A'},
@@ -154,9 +160,9 @@
                 this.$logger.log('char-indexes.scrollTo: ', val);
                 if (this.$refs[val] && this.$refs[val].length) {
                     let target = dom.getScrollEventTarget(this.$refs[val][0]),
-                        th = target.offsetHeight,
+                        // th = target.offsetHeight,
                         t = this.$refs[val][0].offsetTop;
-                    this.$logger.log('char-indexes.scrollTo: ', val, target, th, t);
+                    // this.$logger.log('char-indexes.scrollTo: ', val, target, th, t);
                     // if (t > th) {
                     // }
                     target.scrollTop = t;
@@ -171,6 +177,7 @@
     @import "../scss/mixins";
 
     .page-char-indexes {
+        height: 100%;
         padding: 0 ($grid-gutter-width / 2);
 
     }

@@ -1,7 +1,12 @@
 <template>
     <div class="v-char-indexes" ref="container" @touchmove="handleMove">
-        <div v-for="(item, index) in keys" :key="index" class="v-char-indexes__frm" :class="{'cur fade': item == value}">
-            <p class="v-char-indexes__con" @click="handleClick(item)">
+        <div v-for="(item, index) in letters"
+             :key="index"
+             class="v-char-indexes__frm"
+             :class="{'cur fade': item == value}"
+             @click="handleClick(item)"
+        >
+            <p class="v-char-indexes__con">
                 {{item}}
             </p>
             <p v-show="item == value" class="label">{{item}}</p>
@@ -23,12 +28,16 @@
             value: {        // 当前选择字符
                 type: String,
                 default: ''
+            },
+            letters: {
+                type: Array,
+                default: () => ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
             }
         },
 
         data () {
             return {
-                keys: [] // 26个大写字母
+                // keys: [] // 26个大写字母
             };
         },
 
@@ -46,19 +55,25 @@
         methods: {
             init () { // 初始化
                 this.$logger.log('v-char-indexes.init...');
-                for (let i = 0, len = 26;i < len;i++) this.keys.push(String.fromCharCode(65 + i));
+                // for (let i = 0, len = 26;i < len;i++) this.keys.push(String.fromCharCode(65 + i));
             },
             handleClick (item) {
                 // this.$logger.log('v-char-indexes.handleClick...', item);
                 this.$emit('input', item);
             },
             handleMove (e) {
-                let h = parseInt(this.$refs.container.offsetHeight / 26),
-                    t = this.$refs.container.offsetTop,
+                // let h = parseInt(this.$refs.container.offsetHeight / 26),
+                let c = (this.$refs.container.childNodes && this.$refs.container.childNodes.length) ? this.$refs.container.childNodes[0] : null,
+                    h = c ? c.offsetHeight : window.lib.flexible.dpr * 20,
+                    // t = this.$refs.container.offsetTop,
+                    t = c ? c.offsetTop : 0,
                     y = e.touches[0].clientY,
                     idx = parseInt((y - t) / h),
-                    letter = this.keys[idx] || this.keys[0];
-                // this.$logger.log('v-char-indexes.handleMove...', idx, letter);
+                    // letter = this.letters[idx] || this.letters[0];
+                    letter = this.letters[idx] || '';
+                // this.$logger.log('v-char-indexes.handleMove... =========>>> ', idx, letter);
+                e.preventDefault();
+                e.stopPropagation();
                 if (this.value !== letter) this.$emit('input', letter);
             }
         }
@@ -69,51 +84,62 @@
     @import "../scss/mixins";
     .v-char-indexes {
         /*border: red 1px solid;*/
-        width: pxTorem(20);
-        height: pxTorem(520);
-        text-align: center;
+        width: pxTorem(40);
+        /*height: pxTorem(520);*/
+        height: 100%;
+        padding: 0;
         position: fixed;
         right: pxTorem(12);
+/*
+        text-align: center;
         top: 50%;
         display: block;
-        /*margin-top: -50%;*/
+        !*margin-top: -50%;*!
         margin-top: pxTorem(-260);
+*/
+        top: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
     }
 
     .v-char-indexes__frm {
+        width: pxTorem(40);
         position: relative;
+        display: block;
 
         .label {
             position: absolute;
-            font-size: pxTorem(14);
-            top: pxTorem(2);
+            font-size: pxTorem(18);
+            top: pxTorem(-2);
             left: pxTorem(-20);
+            color: #FDD108;
+            opacity: 0;
         }
     }
 
     .v-char-indexes__con {
-        width: pxTorem(20);
-        height: pxTorem(20);
-        /*width: 4vh;*/
-        /*height: 4vh;*/
+        display: block;
+        /*width: pxTorem(20);*/
+        /*height: pxTorem(20);*/
+        /*padding: pxTorem(1) pxTorem(4);*/
+        /*margin: 0 pxTorem(10);*/
+        text-align: center;
         font-size: pxTorem(12);
         line-height: pxTorem(20);
     }
 
     .v-char-indexes__frm {
 
-        .v-char-indexes__con {
-
-            .label {
-                opacity: 0;
-            }
-        }
-
         &.cur {
 
             .v-char-indexes__con {
-                border: #cccccc 1px solid;
-                border-radius: 50%;
+                /*border: #cccccc 1px solid;*/
+                /*border-radius: 50%;*/
+                font-size: pxTorem(14);
+                color: #FDD108;
+                font-weight: 700;
             }
 
             .label {
