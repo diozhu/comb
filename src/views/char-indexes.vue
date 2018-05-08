@@ -1,15 +1,18 @@
 <template>
     <div class="page-char-indexes">
         <div class="page">
-            <h2>api</h2>
+            <h2>字符索引</h2>
 
-            <p class="desc">字符索引</p>
+            <p class="desc">默认显示A ~ Z的26个字母，可通过letters参数进行定制；</p>
+            <p class="desc">滑动、点击组件内的字母，都触发input事件，返回value值，外层可直接通过v-model进行绑定，然后watch value的变化进行滚动处理；</p>
+            <p class="desc">组件定位使用fixed，使用组件时，需要把组件放在滚动容器（.page）之外;</p>
 
             <div class="attributes">
                 <h2>API</h2>
                 <table>
                     <tr><th>参数</th><th>说明</th><th>类型</th><th>可选</th><th>默认</th></tr>
-                    <tr><td>{}</td><td>接口需要参数</td><td>Object</td><td>-</td><td>-</td></tr>
+                    <tr><td>letters</td><td>定制的字符串数组</td><td>Array</td><td>-</td><td>['A', ~ , 'Z']</td></tr>
+                    <tr><td>value</td><td>当前选择的字符</td><td>String</td><td>-</td><td>-</td></tr>
                 </table>
             </div>
 
