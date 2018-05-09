@@ -1,6 +1,6 @@
 <template>
     <div class="page-char-indexes">
-        <div class="page">
+        <div class="page" ref="page">
             <h2>字符索引</h2>
 
             <p class="desc">默认显示A ~ Z的26个字母，可通过letters参数进行定制；</p>
@@ -20,7 +20,10 @@
             <p class="desc"></p>
             <ul class="listview simple">
                 <li v-for="(item, index) in list" :key="index">
-                    <p v-if="index == 0 || index > 0 && item.first_letter != list[index - 1].first_letter" :ref="item.first_letter">
+                    <p v-if="index == 0 || index > 0 && item.first_letter != list[index - 1].first_letter"
+                       :key = "item.first_letter"
+                       :ref="item.first_letter"
+                    >
                         <a :id="item.first_letter">{{item.first_letter}}</a>
                     </p>
                     {{item.name}}
@@ -36,37 +39,39 @@
     import vCol from '../vendor/v-col.vue';
     import vButton from '../vendor/v-button';
     import vCharIndexes from '../vendor/v-char-indexes';
-    // import * as utils from '../js/utils/utils.js';
+    import * as utils from '../js/utils/utils.js';
     import * as dom from '../js/utils/dom.js';
     import * as api from '../js/core/api.js';
     import Trans from '../js/core/trans.js';
 
     export default {
         components: { vButton, vRow, vCol, vCharIndexes },
-
         data () {
             return {
                 letters: ['#', 'B', 'D', 'Z'],
                 list: [{}],
-                currentLetter: ''
+                currentLetter: '',
+                target: null
             };
         },
-
         mounted () {
             this.$logger.log('char-indexes.mounted...');
             this.init();
         },
-
         watch: {
             currentLetter (val) {
                 // this.$logger.log('char-indexes.watch.currentLetter: ', val);
                 this.scrollTo(val);
             }
         },
-
         methods: {
             init () {
-                this.$logger.log('char-indexes.init...');
+                // 找到滚动容器，并监听滚动事件
+                this.target = dom.getScrollEventTarget(this.$refs.page);
+                if (this.target) this.target.addEventListener('scroll', utils.throttle(this.scrollHandle, 20));
+                this.$logger.log('char-indexes.init...', this.target);
+
+                // 模拟数据
                 api.getDelay({delay: 500}).then(res => {
                     this.$logger.log('char-indexes.init.success...');
                     this.$set(this, 'list', [
@@ -159,17 +164,22 @@
                     ]);
                 }).catch(e => this.$toast(Trans(e)));
             },
-            scrollTo (val) {
+            scrollTo (val) { // 当前key变化时，重置滚动容器中滚动条的位置。 Author by Dio Zhu. on 2018.5.9
                 this.$logger.log('char-indexes.scrollTo: ', val);
                 if (this.$refs[val] && this.$refs[val].length) {
-                    let target = dom.getScrollEventTarget(this.$refs[val][0]),
-                        // th = target.offsetHeight,
-                        t = this.$refs[val][0].offsetTop;
-                    // this.$logger.log('char-indexes.scrollTo: ', val, target, th, t);
-                    // if (t > th) {
-                    // }
-                    target.scrollTop = t;
+                    if (!this.target) this.target = dom.getScrollEventTarget(this.$refs[val][0]);
+                    let t = this.$refs[val][0].offsetTop;
+                    this.target.scrollTop = t;
                 }
+            },
+            scrollHandle () { // 监听滚动容器滚动，计算当前是哪个字符。 Author by Dio Zhu. on 2018.5.9
+                let t = this.target.scrollTop,
+                    k = '';
+                for (let key in this.$refs) {
+                    if (this.$refs.hasOwnProperty(key) && this.$refs[key][0] && this.$refs[key][0].offsetTop < t) k = key;
+                }
+                this.$logger.log('char-indexes.scrollHandle: ', k);
+                // this.currentLetter = k; // 会与上面的逻辑冲突。。。
             }
         }
     };

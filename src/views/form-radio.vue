@@ -15,6 +15,12 @@
             </table>
         </div>
 
+        <h2>doing项目样式</h2>
+        <v-radio class="doing" v-model="doingVal" :options="doingOpts" radioClasses="disk" mode="cards"></v-radio>
+        <p class="desc">当前选择：{{ doingVal }}</p>
+        <br />
+        <br />
+
         <h2>示例</h2>
         <ul class="listview listview-form">
             <li class="height-auto">
@@ -131,7 +137,13 @@ export default {
             radioValue2: '当前位置的值',
             radioValue3: '选项A',
             radioValue4: '选项A',
-            radioValue5: '选项A'
+            radioValue5: '选项A',
+            doingOpts: [
+                {label: '中教培训课', value: 1},
+                {label: '外教培训课', value: 2},
+                {label: '超级球队[已预约]', value: 3, disabled: true}
+            ],
+            doingVal: 2
         };
     },
     created: function () {
@@ -166,6 +178,10 @@ export default {
     @import "../scss/mixins";
 
     .page-form {
+
+        .doing {
+            padding: 0 pxTorem(22);
+        }
 
         .v-radio.position .v-radio__r{
             height: pxTorem(64px);

@@ -1,33 +1,23 @@
 <template>
-    <!--<ul :class="['v-radio', classes]" @change="$emit('change', currentValue)">-->
-        <!--<li class="v-radio__r" v-for="option in options">-->
-            <!--<label class="v-radio__r_c">-->
-                <!--<i v-if="!classes" :class="['v-radio__icon', 'icon app', {'icon-disk-check': (currentValue == option || currentValue == option.value)}, { 'icon-disk': (currentValue != option && currentValue != option.value)}]"></i>-->
-                <!--<i v-if="classes" :class="['v-radio__icon', 'icon app', {'icon-check': currentValue == option || currentValue == option.value }]"></i>-->
-                <!--<span class="v-radio__r_c_c">{{ option.label || option }}<p class="v-radio__r_c_s" v-if="option.labelSub">{{ option.labelSub }}</p></span>-->
-                <!--<input type="radio" name="radios" class="v-radio__input" v-model="currentValue" :disabled="option.disabled" :value="option.value || option">-->
-            <!--</label>-->
-        <!--</li>-->
-    <!--</ul>-->
     <dl class="v-radio"
         :class="[
             {list: mode === 'list'},
+            {cards: mode === 'cards'},
             {tags: mode === 'tags'}]"
         @change="$emit('change', currentValue)"
     >
         <dt class="v-radio__title" v-if="label" :class="[labelClasses]">{{ label }}</dt>
-        <dd class="v-radio__value" :class="[{'m-l': !label}]">
+        <!--<dd class="v-radio__value" :class="[{'m-l': !label}]">-->
+        <dd class="v-radio__value">
             <label v-for="(option, idx) in options"
                    v-if="!limit || idx < limit"
                    :class="[
                        {slot: $slots['slot' + idx]},
                        {reverse: reverse},
-                       {checked: (option.value || option) === currentValue}
+                       {checked: (option.value || option) === currentValue},
+                       {disabled: option.disabled}
                        ]"
             >
-                <!--<i v-if="!classes" :class="['v-radio__icon', 'icon app', {'icon-disk-check': (currentValue == option || currentValue == option.value)}, { 'icon-disk': (currentValue != option && currentValue != option.value)}]"></i>-->
-                <!--<i v-if="classes" :class="['v-radio__icon', 'icon app', {'icon-check': currentValue == option || currentValue == option.value }]"></i>-->
-                <!--<span class="v-radio__r_c_c">{{ option.label || option }}<p class="v-radio__r_c_s" v-if="option.labelSub">{{ option.labelSub }}</p></span>-->
                 <input type="radio"
                        class="v-radio__input"
                        v-model="currentValue"
@@ -39,7 +29,7 @@
                     <!--<slot :name="'slot' + idx"><span>{{ option.label || option }}</span></slot>-->
                     <slot :name="'link' + idx"></slot>
                 </div>
-                <i v-if="mode === 'list'"
+                <i v-if="mode != 'tags'"
                     class="v-radio__icon icon icon-check" :class="[radioClasses, {right: reverse}]"></i>
             </label>
         </dd>
@@ -71,7 +61,7 @@
                 type: Boolean,
                 default: false
             },
-            mode: {             // 是否使用标签形式
+            mode: {             // 是否使用标签形式: list、tags、cards
                 type: String,
                 default: 'list'
             },
@@ -107,7 +97,7 @@
     @import "../scss/variables";
     @import "../scss/mixins";
 
-    $line-height: pxTorem(36px);
+    $line-height: pxTorem(41px);
     $line-height-double: pxTorem(64px);
     $tit-color: #000;
     $tit-color-light: #737373;
@@ -158,15 +148,16 @@
                 }
 
                 &.disk {
-                    width: pxTorem(23px);
-                    height: pxTorem(23px);
+                    width: pxTorem(20);
+                    height: pxTorem(20);
                     text-align: center;
-                    font-size: pxTorem(14px);
-                    line-height: pxTorem(23px);
-                    color: #FFF;
+                    font-size: pxTorem(16);
+                    font-weight: 700;
+                    line-height: pxTorem(20);
+                    color: transparent;
                     background: transparent;
-                    border: $icon-color pxTorem(1px) solid;
-                    margin-top: pxTorem(-1px);
+                    border: #D2D2D2 pxTorem(1) solid;
+                    margin-top: pxTorem(-1);
                     -webkit-border-radius: 50%;
                     -moz-border-radius: 50%;
                     border-radius: 50%;
@@ -174,8 +165,11 @@
             }
 
         }
+    }
 
-        &.list {
+    .v-radio {
+
+        &.list, &.cards {
 
             label {
                 /*flex-grow: 1;*/
@@ -214,11 +208,12 @@
 
                 .v-radio__input:checked ~ .v-radio__icon {
                     /*display: block;*/
-                    color: $icon-color;
+                    color: #7ED321;
 
                     &.disk {
                         color: #FFF;
-                        background: $icon-color;
+                        background: #7ED321;
+                        border: #7ED321 pxTorem(1) solid;
                     }
 
                     &::after {
@@ -277,6 +272,27 @@
                 }
             }
         }
+
+        &.cards {
+
+            label {
+                background: #F8F9F8;
+                border-radius: pxTorem(6);
+                margin: 0 0 pxTorem(5) 0;
+
+                .v-radio__label {
+                    padding: 0 pxTorem(15px);
+                    font-weight: 700;
+                }
+            }
+        }
+    }
+
+    .v-radio.cards {
+
+        .disabled {
+            .v-radio__label, .v-radio__icon { opacity: .3; }
+        }
     }
 
     .v-radio__title {
@@ -284,80 +300,24 @@
         font-size: pxTorem(15px);
     }
     .v-radio__value {
-        padding: pxTorem(15px) pxTorem(6px) pxTorem(6px);
+        /*padding: pxTorem(15px) pxTorem(6px) pxTorem(6px);*/
     }
     .v-radio__label {
         min-height: $line-height;
         /*line-height: $line-height;*/
-        font-size: pxTorem(15px);
+        font-size: pxTorem(14px);
     }
     .v-radio__icon {
-        margin-right: pxTorem(15px);
-        font-size: pxTorem(23px);
+        margin-right: pxTorem(13px);
+        font-size: pxTorem(20px);
         color: #007AFF;
 
         &.icon-check {
-            font-size: pxTorem(14px);
+            font-size: pxTorem(15px);
         }
         &.show {
             display: block;
         }
     }
-
-    /*.v-radio__r {
-        padding-left: pxTorem(15px);
-    }
-    .v-radio__r_c {
-        height: 100%;
-        border-bottom: #DDDEE3 1px solid;
-        @include box_flex;
-        @include align_items(center);
-        @include justify-content(space-between);
-    }*/
-/*
-    .v-radio__input {
-        !*width: pxTorem(20px);*!
-        !*height: pxTorem(20px);*!
-        !*border: #007aff 1px solid;*!
-        !*-webkit-appearance: radio;*!
-        @include flex_grow(1);
-        @include flex_shrink(1);
-        @include flex_basis(auto);
-    }
-*/
-    /*.v-radio__r_c_c {
-        font-size: pxTorem(15px);
-        line-height: pxTorem(20px);
-        @include flex_grow(0);
-        @include flex_shrink(0);
-        @include flex_basis(auto);
-    }
-    .v-radio__r_c_s {
-        font-size: pxTorem(14px);
-        line-height: pxTorem(20px);
-        color: #777E8C;
-    }*/
-    /*.v-radio__icon {
-        !*display: none;*!
-        margin-right: pxTorem(15px);
-        font-size: pxTorem(23px);
-        color: #007AFF;
-
-        &.show {
-            display: block;
-        }
-    }*/
-    /*.check,.position {
-
-        .v-radio__icon {
-            font-size: pxTorem(14px);
-            order: 9;
-        }
-
-        !*&.right {*!
-            !*.v-radio__icon {*!
-            !*}*!
-        !*}*!
-    }*/
 
 </style>
