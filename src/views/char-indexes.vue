@@ -169,7 +169,7 @@
                 }).catch(e => this.$toast(Trans(e)));
             },
             scrollTo (val) { // 当前key变化时，重置滚动容器中滚动条的位置。 Author by Dio Zhu. on 2018.5.9
-                this.$logger.log('char-indexes.scrollTo: ', val);
+                // this.$logger.log('char-indexes.scrollTo: ', val);
                 if (this.$refs[val] && this.$refs[val].length) {
                     if (!this.target) this.target = dom.getScrollEventTarget(this.$refs[val][0]);
                     let t = this.$refs[val][0].offsetTop;
