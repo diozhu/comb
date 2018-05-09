@@ -13,28 +13,34 @@
         <h2>必填项</h2>
         <ul class="listview listview-form custom">
             <li>
-                <v-field v-model="value1" title="标题" placeholder="必填..." :validator="validator1"></v-field>
+                <v-field v-model="value1" field="txt1" title="标题" placeholder="必填..." :validator="validator1"></v-field>
             </li>
             <li>
                 <v-cell title="标题文字"></v-cell>
             </li>
             <li>
-                <v-field v-model="value2" placeholder="必填文字.." type="textarea" rows="2" :limit="20" :validator="validator2"></v-field>
+                <v-field v-model="value2" field="txt2" placeholder="必填文字.." type="textarea" rows="2" :limit="20" :validator="validator2"></v-field>
             </li>
         </ul>
+        <div class="form-buttons">
+            <v-button size="small" @click="handleSubmitRequire">必填验证</v-button>
+        </div>
 
         <h2>输入字数校验</h2>
         <ul class="listview listview-form custom">
             <li>
-                <v-field v-model="value3" title="标题" placeholder="限长2~5..." :limit="10" :validator="validator3"></v-field>
+                <v-field v-model="value3" field="txt3" title="标题" placeholder="限长2~5..." :limit="10" :validator="validator3"></v-field>
             </li>
             <li>
                 <v-cell title="标题文字"></v-cell>
             </li>
             <li>
-                <v-field v-model="value4" placeholder="限长5~10.." type="textarea" rows="2" :limit="20" :validator="validator4"></v-field>
+                <v-field v-model="value4" field="txt4" placeholder="限长5~10.." type="textarea" rows="2" :limit="20" :validator="validator4"></v-field>
             </li>
         </ul>
+        <div class="form-buttons">
+            <v-button size="small" @click="handleSubmitLength">长度验证</v-button>
+        </div>
 
         <h2>其他类型校验</h2>
         <ul class="listview listview-form custom">
@@ -56,7 +62,11 @@
             <li>
                 <v-field v-model="value10" title="过滤" placeholder="不能输入特殊字符..." :validator="validator10"></v-field>
             </li>
+            <li>
+                <v-field v-model="value11" field="username" title="姓名" placeholder="全中文5个字、全英文20个字..." :validator="validator11"></v-field>
+            </li>
         </ul>
+        <p class="desc red">{{validator11Desc}}</p>
 
         <v-row :gutter.Number="30" v-sticky.bottom="0">
             <v-button size="full" styles="rectangle" @click="onSubmit">submit</v-button>
@@ -79,7 +89,8 @@ export default {
     components: { vRow, vCell, vField, vButton },
     data () {
         return {
-            validator: this.$validator,
+            // validator: {username: {username: ''}},
+            validator: this.$validation,
             value1: '',
             validator1: {
                 required: {
@@ -150,6 +161,14 @@ export default {
                 }
             },
             value11: '',
+            validator11: {
+                username: {
+                    rule: 1,
+                    message: 'value11用户名全中文或全英文哦~'
+                },
+                warnFunc: this.showDesc
+            },
+            validator11Desc: '',
             value12: '',
             value13: '',
             valueDisabled: '被禁用'
@@ -157,8 +176,55 @@ export default {
     },
     mounted () {
         this.$logger.log('form-field mounted... ');
+        this.init();
+    },
+    watch: {
+        // '$validation.username.username' (val) {
+        //     this.$logger.log('form-field.watch.validation... ', val);
+        // },
+        // 'validator.username.username' (val) {
+        //     this.$logger.log('form-field.watch.validation.username... ', val);
+        //     if (val) this.validator11Desc = val;
+        //     else this.validator11Desc = '';
+        // }
     },
     methods: {
+        init () {
+            this.$logger.log('form-field.init... ');
+            // this.validator = this.$validation;
+        },
+        showDesc (msg) {
+            this.$logger.log('form-field.showDesc... ', ...arguments);
+            this.validator11Desc = msg;
+        },
+        handleSubmitRequire () { // 必填验证
+            this.$logger.log('form-field.handleSubmitRequire... ', this.$validation);
+            let v1 = this.$validation['txt1'].required,
+                v2 = this.$validation['txt2'].required;
+            if (v1) {
+                this.$toast(typeof v1 === 'string' ? v1 : '请填写value1~');
+                return false;
+            }
+            if (v2) {
+                this.$toast(typeof v2 === 'string' ? v2 : '自定义：请填写value2~');
+                return false;
+            }
+            this.$toast('必填项校验完啦~');
+        },
+        handleSubmitLength () { // 长度验证
+            this.$logger.log('form-field.handleSubmitLength... ', this.$validation);
+            let v1 = this.$validation['txt3'].minLength || this.$validation['txt3'].maxLength,
+                v2 = this.$validation['txt4'].minLength;
+            if (v1) {
+                this.$toast(typeof v1 === 'string' ? v1 : '长度不对~');
+                return false;
+            }
+            if (v2) {
+                this.$toast(typeof v2 === 'string' ? v2 : '自定义：长度不对~');
+                return false;
+            }
+            this.$toast('长度校验完啦~');
+        },
         onSubmit () {
             // this.$logger.log('form-validator.onSubmit: ', this.$validation);
             if (this.validate()) {
@@ -203,6 +269,11 @@ export default {
 
         .v-cell__value {
             margin-left: 0;
+        }
+
+        .form-buttons {
+            text-align: right;
+            padding: pxTorem(10) pxTorem(22);
         }
 
         .custom {

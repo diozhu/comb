@@ -482,6 +482,12 @@ export function validatePassport (val) {
     let re = /^\s*[a-zA-Z]\d{7,8}\s*$/;
     return re.test(val);
 };
+// 用户姓名格式验证：中文五个、英文30个、不能特殊字符、不能中英混排。 Author by Dio Zhu. on 2018.5.9
+export function validateUsername (val) {
+    let ch = /^[\u4e00-\u9fa5]{1,5}$/g,
+        en = /^[a-zA-Z]{1,6}$/g;
+    return ch.test(val) || en.test(val);
+};
 // 外国人永久居留证验证--孙硕---2017-12-15；
 export function permitForForeigners (val) {
     // 暂时不做校验

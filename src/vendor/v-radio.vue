@@ -1,9 +1,10 @@
 <template>
+    <!--:class="[-->
+    <!--{list: mode === 'list'},-->
+    <!--{cards: mode === 'cards'},-->
+    <!--{tags: mode === 'tags'}]"-->
     <dl class="v-radio"
-        :class="[
-            {list: mode === 'list'},
-            {cards: mode === 'cards'},
-            {tags: mode === 'tags'}]"
+        :class="[mode]"
         @change="$emit('change', currentValue)"
     >
         <dt class="v-radio__title" v-if="label" :class="[labelClasses]">{{ label }}</dt>
@@ -284,6 +285,16 @@
                     padding: 0 pxTorem(15px);
                     font-weight: 700;
                 }
+            }
+        }
+
+        &.horizontal {
+            dd {
+                display: flex;
+                flex-direction: row;
+            }
+            .v-radio__icon {
+                margin: 0 pxTorem(12);
             }
         }
     }

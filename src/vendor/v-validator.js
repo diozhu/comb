@@ -18,7 +18,10 @@ const ctx = '@@Validator'; //eslint-disable-line
 // === base ===
 
 let doUpdate = function () {
+        console.log(`【validator】${this.vm._uid}.doUpdate！！！ `, JSON.stringify(this.expression));
         if (!this) return;
+        if (this.watchs && this.watchs.length) [].forEach.call(this.watchs, v => { v(); });
+        this.watchs = []; // 清除所有绑定事件，这个不能删，避免重复绑定多次执行。。。mod by Dio Zhu. on 2018.5.9
         this.field = this.vm['field'] || this.vm._uid;
         if (this.field) {
             if (!Vue.$validation[this.field]) Vue.$validation[this.field] = Vue.prototype.$validation[this.field] = {}; // 初始化
@@ -38,6 +41,7 @@ let doUpdate = function () {
             if (this.expression.houseHoldRegister) _initHouseHoldRegister.call(this);
             if (this.expression.interimId) _initInterimId.call(this);
             if (this.expression.passport) _initPassport.call(this);
+            if (this.expression.username) _initUsername.call(this);
         }
     },
     _getMsg = function (tag, def) {
@@ -81,7 +85,7 @@ let doUpdate = function () {
         }
         if (newVal && this.expression.maxLength) {
             let max = typeof this.expression.maxLength === 'number' ? this.expression.maxLength : this.expression.maxLength.rule;
-            if (newVal.length && newVal.length < max) {
+            if (newVal.length && newVal.length <= max) {
                 delete Vue.$validation[this.field]['maxLength'];
                 delete Vue.prototype.$validation[this.field]['maxLength'];
             } else {
@@ -304,6 +308,27 @@ let doUpdate = function () {
             } else {
                 let msg = _getMsg.call(this, 'passport', '护照格式不对哦~');
                 Vue.$validation[this.field]['passport'] = Vue.prototype.$validation[this.field]['passport'] = msg;
+            }
+        }
+    },
+    // 用户名规则：中文五个、英文30个、不能特殊字符、不能中英混排。 Author by Dio Zhu. on 2018.5.9
+    _initUsername = function () { // 初始化
+        _watchUsername.call(this, this.vm.value); // 初始化
+        // this.vm.$watch('value', _watchUsername.bind(this)); // 监听v-field的value
+        // this.watchs.push(this.vm.$watch('value', _watchUsername.bind(this))); // 监听v-field的value
+        // console.log(`【v-validator】${this.vm._uid}._initUsername: `, this.watchs);
+    },
+    _watchUsername = function (newVal, oldVal) { // 监听输入长度
+        // console.log(`【v-validator】${this.vm._uid}._watchUsername................. `, newVal);
+        if (newVal && this.expression.username) {
+            if (utils.validateUsername(newVal)) {
+                delete Vue.$validation[this.field]['username'];
+                delete Vue.prototype.$validation[this.field]['username'];
+                if (this.expression.warnFunc && typeof this.expression.warnFunc === 'function') this.expression.warnFunc('');
+            } else {
+                let msg = _getMsg.call(this, 'username', '请输入正确姓名格式~');
+                Vue.$validation[this.field]['username'] = Vue.prototype.$validation[this.field]['username'] = msg;
+                if (this.expression.warnFunc && typeof this.expression.warnFunc === 'function') this.expression.warnFunc(msg);
             }
         }
     };
