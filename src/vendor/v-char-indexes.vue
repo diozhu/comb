@@ -3,13 +3,13 @@
         <div v-for="(item, index) in letters"
              :key="index"
              class="v-char-indexes__frm"
-             :class="{'cur fade': item == value}"
+             :class="{'cur fade': item == currentValue || item == showValue}"
              @click="handleClick(item)"
         >
             <p class="v-char-indexes__con">
                 {{item}}
             </p>
-            <p v-show="item == value" class="label">{{item}}</p>
+            <p v-show="item == currentValue" class="label">{{item}}</p>
         </div>
     </div>
 </template>
@@ -32,12 +32,18 @@
             letters: {
                 type: Array,
                 default: () => ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+            },
+            showLetter: {   // 当前需要显示的字符，不参与位置逻辑返回，避免冲突
+                type: String,
+                default: ''
             }
         },
 
         data () {
             return {
                 // keys: [] // 26个大写字母
+                currentValue: this.value,
+                showValue: this.showLetter
             };
         },
 
@@ -45,6 +51,14 @@
         },
 
         watch: {
+            value (val) {
+                this.showValue = '';
+                this.currentValue = val;
+            },
+            showLetter (val) {
+                this.currentValue = '';
+                this.showValue = val;
+            }
         },
 
         created () {
@@ -59,9 +73,11 @@
             },
             handleClick (item) {
                 // this.$logger.log('v-char-indexes.handleClick...', item);
+                this.showValue = ''; // 清除显示字符
                 this.$emit('input', item);
             },
             handleMove (e) {
+                this.showValue = ''; // 清除显示字符
                 // let h = parseInt(this.$refs.container.offsetHeight / 26),
                 let c = (this.$refs.container.childNodes && this.$refs.container.childNodes.length) ? this.$refs.container.childNodes[0] : null,
                     h = c ? c.offsetHeight : window.lib.flexible.dpr * 20,
