@@ -4,12 +4,14 @@
  */
 // 修改说明---孙硕--2018，2，27
 // 先前的验证是通过bind的时候执行一次验证条件的筛选，然后全部加入观察者（$watch）--在触发正则条件的时候讲文案统一加入到$validation
-// 中,然后在使用的页面通过遍历validation的方式逐一弹出提示，现在由于有判断条件根据用户交互而改变的需求，因此只执行一次的bind无法满足，
-// 这里我使用componentUpdated的钩子来刷新$validation的方式来实现，而采取这种形式后需要处理一些问题
-// 1，bind钩子还是要有，因为如果页面没有任何输入的话不会触发componentUpdated,因此没有验证条件，导致可以提交，所以要保留bind钩子
-// 2，componentUpdated钩子执行的时候由于会多次执行bind中的方法，因此要对一些重复的操作进行优化和替换
-// 3，先前的验证都加入到一个自定义的watchs数组，而此数组的作用仅是在解绑的时候在重复执行一次$watch,因此我给注释掉
-// 4，当解绑的时候回情况清空validation，所有当有某一个field切换隐藏显示的时候，会导致验证条件消失，这里将unbind钩子去掉
+// 中,然后在使用的页面通过遍历validation的方式逐一弹出提示，现在由于有判断条件根据用户交互而改变的需求，因此只执行一次的bind无法满足
+// 更改如下
+//     页面初始化---》inserted钩子中，将所有元素绑定一次。
+//     切换某个元素的时候----》unbind解绑
+//     切换显示的时候----》inserted单独绑定该元素
+//     页面销毁---》unbind钩子，所有元素解绑
+//     改变焦点，和输入，不触发任何钩子函数。
+
 import Vue from 'vue';
 import * as utils from '../js/utils/utils.js';
 
@@ -17,12 +19,12 @@ const ctx = '@@Validator'; //eslint-disable-line
 
 // === base ===
 
-let doUpdate = function () {
+let dobind = function () {
         console.log(`【validator】${this.vm._uid}.doUpdate！！！ `, JSON.stringify(this.expression));
         if (!this) return;
         if (this.watchs && this.watchs.length) [].forEach.call(this.watchs, v => { v(); });
         this.watchs = []; // 清除所有绑定事件，这个不能删，避免重复绑定多次执行。。。mod by Dio Zhu. on 2018.5.9
-        this.field = this.vm['field'] || this.vm._uid;
+        this.field = this['validate_id'] || this.vm._uid;
         if (this.field) {
             if (!Vue.$validation[this.field]) Vue.$validation[this.field] = Vue.prototype.$validation[this.field] = {}; // 初始化
             if (this.expression.required) _initRequired.call(this);
@@ -317,18 +319,28 @@ let doUpdate = function () {
         // this.vm.$watch('value', _watchUsername.bind(this)); // 监听v-field的value
         // this.watchs.push(this.vm.$watch('value', _watchUsername.bind(this))); // 监听v-field的value
         // console.log(`【v-validator】${this.vm._uid}._initUsername: `, this.watchs);
+        this.vm.$watch('value', _watchUsername.bind(this));
     },
     _watchUsername = function (newVal, oldVal) { // 监听输入长度
         // console.log(`【v-validator】${this.vm._uid}._watchUsername................. `, newVal);
+        // if (newVal && this.expression.username) {
+        //     if (utils.validateUsername(newVal)) {
+        //         delete Vue.$validation[this.field]['username'];
+        //         delete Vue.prototype.$validation[this.field]['username'];
+        //         if (this.expression.warnFunc && typeof this.expression.warnFunc === 'function') this.expression.warnFunc('');
+        //     } else {
+        //         let msg = _getMsg.call(this, 'username', '请输入正确姓名格式~');
+        //         Vue.$validation[this.field]['username'] = Vue.prototype.$validation[this.field]['username'] = msg;
+        //         if (this.expression.warnFunc && typeof this.expression.warnFunc === 'function') this.expression.warnFunc(msg);
+        //     }
+        // }
         if (newVal && this.expression.username) {
             if (utils.validateUsername(newVal)) {
                 delete Vue.$validation[this.field]['username'];
                 delete Vue.prototype.$validation[this.field]['username'];
-                if (this.expression.warnFunc && typeof this.expression.warnFunc === 'function') this.expression.warnFunc('');
             } else {
-                let msg = _getMsg.call(this, 'username', '请输入正确姓名格式~');
+                let msg = _getMsg.call(this, 'username', '用户名输入有误~');
                 Vue.$validation[this.field]['username'] = Vue.prototype.$validation[this.field]['username'] = msg;
-                if (this.expression.warnFunc && typeof this.expression.warnFunc === 'function') this.expression.warnFunc(msg);
             }
         }
     };
@@ -336,40 +348,25 @@ let doUpdate = function () {
 // === init ===
 
 let Validator = {
-        bind (el, binding, vnode) {
+        inserted (el, binding, vnode) {
             if (typeof binding.value === 'undefined') return;
             el[ctx] = {
                 el,
                 vm: vnode.context,
-                expression: binding.value
+                expression: binding.value,
+                validate_id: binding.value.key || vnode.context._uid
             };
             const args = arguments;
-            el[ctx].vm.$nextTick(() => {
-                setTimeout(() => { doUpdate.call(el[ctx], args); }, 0);
-                return;
-            });
+            dobind.call(el[ctx], args);
+            // el[ctx].vm.$nextTick(() => {
+            //     setTimeout(() => { ; }, 0);
+            // });
         },
-        componentUpdated (el, binding, vnode) {
+        unbind (el, binding, vnode) {
             if (typeof binding.value === 'undefined') return;
-            el[ctx] = {
-                el,
-                vm: vnode.context,
-                expression: binding.value
-            };
-            const args = arguments;
-            el[ctx].vm.$nextTick(() => {
-                let validate = Vue.$validation;
-                Vue.$validation = Vue.prototype.$validation = {};
-                doUpdate.call(el[ctx], args);
-                Object.assign(validate, Vue.$validation);
-                Vue.$validation = Vue.prototype.$validation = validate;
-                return;
-            });
+            let field = binding.value.key || vnode.context._uid;
+            Vue.$validation[field] = {};
         }
-        // unbind (el, binding) {
-        //     if (typeof binding.value === 'undefined') return;
-        //     Vue.$validation = Vue.prototype.$validation = {};
-        // }
     },
     validation = {
     };
