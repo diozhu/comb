@@ -98,11 +98,13 @@ const PopupManager = {
             removeClass(modalDom, 'v-modal-enter');
         }, 200);
 
-        if (dom && dom.parentNode && dom.parentNode.nodeType !== 11) {
-            dom.parentNode.appendChild(modalDom);
-        } else {
-            document.body.appendChild(modalDom);
-        }
+        // console.log('【popup-manager】openModal: ', dom);
+        // if (dom && dom.parentNode && dom.parentNode.nodeType !== 11) {
+        //     dom.parentNode.appendChild(modalDom);
+        // } else {
+        //     document.body.appendChild(modalDom);
+        // }
+        document.body.appendChild(modalDom); // 不考虑dom位置，直接在body中创建。 mod by Dio Zhu. on 2018.5.10
 
         if (zIndex) {
             modalDom.style.zIndex = zIndex;

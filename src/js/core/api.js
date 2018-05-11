@@ -208,3 +208,9 @@ export const postTest2 = (params, opts) => request(CONFIG.URL + '/activity_sales
 export const getTest = (params, opts) => request(CONFIG.URL + '/wap/city/get_city_list', params, opts);
 /** 【测试】根据手机号获取token，仅用于测试 -- Author by Dio Zhu. on 2018.4.13 */
 export const bindPhone = (params, opts) => request(CONFIG.URL + '/wap/user/bind_phone', params, opts);
+
+/** 【公共】获取省、市、区列表 -- Author by Dio Zhu. on 2018.5.10 */
+export const getProvinceList = (params, opts) => request(CONFIG.URL + '/wap/city/get_province_list', params, opts);
+export const getCityLists = (params, opts) => request(CONFIG.URL + '/wap/city/get_city_list_by_province_id', params, opts);
+export const getCountyList = (params, opts) => request(CONFIG.URL + '/wap/city/get_county_list_by_city_id', params, opts);
+
