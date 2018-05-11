@@ -6,68 +6,54 @@
             <h2>API</h2>
             <table>
                 <tr><th>参数</th><th>说明</th><th>类型</th><th>可选</th><th>默认</th></tr>
-                <tr><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+                <tr>
+                    <td>validator: {}</td>
+                    <td>
+                        <p>1,key：string 必填</p>
+                        <p>2,required：boolean 可选 验证是否必填</p>
+                    </td>
+                    <td>object</td>
+                    <td>false</td>
+                    <td>{}</td>
+                </tr>
             </table>
         </div>
 
-        <h2>必填项</h2>
+        <h2>示例</h2>
         <ul class="listview listview-form custom">
-            <li>
-                <v-field v-model="value1" field="txt1" title="标题" placeholder="必填..." :validator="validator1"></v-field>
+            <!--验证开头元素切换显示-->
+            <li v-if="show1">
+                <v-field v-model="value4" title="验证长度(必)" placeholder="限长2~5..." :limit="10" :validator="validator4"></v-field>
             </li>
             <li>
-                <v-cell title="标题文字"></v-cell>
+                <v-field v-model="value5" title="验证邮箱" placeholder="邮箱校验..." :validator="validator5"></v-field>
+            </li>
+            <li >
+                <v-field v-model="value6" title="验证手机(必)" placeholder="手机号码校验: 1开头的11位数字..." :validator="validator6"></v-field>
+            </li>
+            <!--验证中间元素切换显示-->
+            <li v-if="show2">
+                <v-field v-model="value7" title="验证电话" placeholder="电话号码校验: 010-88889999..." :validator="validator7"></v-field>
             </li>
             <li>
-                <v-field v-model="value2" field="txt2" placeholder="必填文字.." type="textarea" rows="2" :limit="20" :validator="validator2"></v-field>
+                <v-field v-model="value8" title="验证身份证" placeholder="身份证校验..." :validator="validator8"></v-field>
+            </li>
+            <li>
+                <v-field v-model="value9" title="验证数字(必)" placeholder="只能输入数字..." :validator="validator9"></v-field>
+            </li>
+            <li>
+                <v-field v-model="value10" title="验证过滤" placeholder="不能输入特殊字符..." :validator="validator10"></v-field>
+            </li>
+            <!--验证结尾元素切换显示-->
+            <li v-if="show3">
+                <v-field v-model="value11" title="验证用户名" placeholder="全中文5个字、全英文20个字..." :validator="validator11"></v-field>
             </li>
         </ul>
-        <div class="form-buttons">
-            <v-button size="small" @click="handleSubmitRequire">必填验证</v-button>
+        <div style="display:flex;flex-flow:row nowrap;justify-content: space-around;align-items: center">
+            <v-button style="margin:10px;" @click="show1 = !show1">切换验证长度隐藏显示</v-button>
+            <v-button style="margin:10px;" @click="show2 = !show2">切换验证电话隐藏显示</v-button>
+            <v-button style="margin:10px;" @click="show3 = !show3">切换验证用户名隐藏显示</v-button>
         </div>
-
-        <h2>输入字数校验</h2>
-        <ul class="listview listview-form custom">
-            <li>
-                <v-field v-model="value3" field="txt3" title="标题" placeholder="限长2~5..." :limit="10" :validator="validator3"></v-field>
-            </li>
-            <li>
-                <v-cell title="标题文字"></v-cell>
-            </li>
-            <li>
-                <v-field v-model="value4" field="txt4" placeholder="限长5~10.." type="textarea" rows="2" :limit="20" :validator="validator4"></v-field>
-            </li>
-        </ul>
-        <div class="form-buttons">
-            <v-button size="small" @click="handleSubmitLength">长度验证</v-button>
-        </div>
-
-        <h2>其他类型校验</h2>
-        <ul class="listview listview-form custom">
-            <li>
-                <v-field v-model="value5" title="邮箱" placeholder="邮箱校验..." :validator="validator5"></v-field>
-            </li>
-            <li>
-                <v-field v-model="value6" title="手机" placeholder="手机号码校验: 1开头的11位数字..." :validator="validator6"></v-field>
-            </li>
-            <li>
-                <v-field v-model="value7" title="电话" placeholder="电话号码校验: 010-88889999..." :validator="validator7"></v-field>
-            </li>
-            <li>
-                <v-field v-model="value8" title="身份证" placeholder="身份证校验..." :validator="validator8"></v-field>
-            </li>
-            <li>
-                <v-field v-model="value9" title="数字" placeholder="只能输入数字..." :validator="validator9"></v-field>
-            </li>
-            <li>
-                <v-field v-model="value10" title="过滤" placeholder="不能输入特殊字符..." :validator="validator10"></v-field>
-            </li>
-            <li>
-                <v-field v-model="value11" field="username" title="姓名" placeholder="全中文5个字、全英文20个字..." :validator="validator11"></v-field>
-            </li>
-        </ul>
-        <p class="desc red">{{validator11Desc}}</p>
-
         <v-row :gutter.Number="30" v-sticky.bottom="0">
             <v-button size="full" styles="rectangle" @click="onSubmit">submit</v-button>
         </v-row>
@@ -89,89 +75,85 @@ export default {
     components: { vRow, vCell, vField, vButton },
     data () {
         return {
-            // validator: {username: {username: ''}},
+            show1: true,
+            show2: true,
+            show3: true,
             validator: this.$validation,
-            value1: '',
-            validator1: {
-                required: {
-                    rule: true,
-                    message: '亲~value1得填~'
-                }
-            },
-            value2: '',
-            validator2: {
-                required: true
-            },
-            value3: '',
-            validator3: {
+            value4: '',
+            validator4: {
+                key: 'validator4',
+                required: true,
                 minLength: {
                     rule: 2,
-                    message: 'value3最少输入2个字哦~'
+                    message: '长度最少输入2个字哦~'
                 },
                 maxLength: {
                     rule: 5,
-                    message: 'value3最多输入5个字哦~'
+                    message: '长度最多输入5个字哦~'
                 }
-            },
-            value4: '',
-            validator4: {
-                minLength: 5,
-                maxLength: 10
             },
             value5: '',
             validator5: {
+                key: 'validator5',
                 mail: {
                     rule: 1,
-                    message: 'value5请输入正确邮箱~'
+                    message: '请输入正确邮箱~'
                 }
             },
             value6: '',
             validator6: {
+                key: 'validator6',
+                required: {
+                    message: '手机为必选项，不能为空'
+                },
                 mobile: {
                     rule: 1,
-                    message: 'value6请输入正确手机号码~'
+                    message: '请输入正确手机号码~'
                 }
             },
             value7: '',
             validator7: {
+                key: 'validator7',
                 tel: {
                     rule: 1,
-                    message: 'value7请输入正确电话号码~'
+                    message: '请输入正确电话号码~'
                 }
             },
             value8: '',
             validator8: {
+                key: 'validator8',
                 card: {
                     rule: 1,
-                    message: 'value8请输入正确身份证号码~'
+                    message: '请输入正确身份证号码~'
                 }
             },
             value9: '',
             validator9: {
+                key: 'validator9',
+                required: {
+                    message: '验证数字不能为空'
+                },
                 numbers: {
                     rule: 1,
-                    message: 'value9只能输入数字~'
+                    message: '只能输入数字~'
                 }
             },
             value10: '',
             validator10: {
+                key: 'validator10',
                 text: {
                     rule: 1,
-                    message: 'value10不能输入特殊字符~'
+                    message: '不能输入特殊字符~'
                 }
             },
             value11: '',
             validator11: {
+                key: 'validator11',
                 username: {
                     rule: 1,
-                    message: 'value11用户名全中文或全英文哦~'
-                },
-                warnFunc: this.showDesc
-            },
-            validator11Desc: '',
-            value12: '',
-            value13: '',
-            valueDisabled: '被禁用'
+                    message: '用户名全中文或全英文哦~'
+                }
+            }
         };
     },
     mounted () {
@@ -179,72 +161,18 @@ export default {
         this.init();
     },
     watch: {
-        // '$validation.username.username' (val) {
-        //     this.$logger.log('form-field.watch.validation... ', val);
-        // },
-        // 'validator.username.username' (val) {
-        //     this.$logger.log('form-field.watch.validation.username... ', val);
-        //     if (val) this.validator11Desc = val;
-        //     else this.validator11Desc = '';
-        // }
     },
     methods: {
         init () {
-            this.$logger.log('form-field.init... ');
-            // this.validator = this.$validation;
-        },
-        showDesc (msg) {
-            this.$logger.log('form-field.showDesc... ', ...arguments);
-            this.validator11Desc = msg;
-        },
-        handleSubmitRequire () { // 必填验证
-            this.$logger.log('form-field.handleSubmitRequire... ', this.$validation);
-            let v1 = this.$validation['txt1'].required,
-                v2 = this.$validation['txt2'].required;
-            if (v1) {
-                this.$toast(typeof v1 === 'string' ? v1 : '请填写value1~');
-                return false;
-            }
-            if (v2) {
-                this.$toast(typeof v2 === 'string' ? v2 : '自定义：请填写value2~');
-                return false;
-            }
-            this.$toast('必填项校验完啦~');
-        },
-        handleSubmitLength () { // 长度验证
-            this.$logger.log('form-field.handleSubmitLength... ', this.$validation);
-            let v1 = this.$validation['txt3'].minLength || this.$validation['txt3'].maxLength,
-                v2 = this.$validation['txt4'].minLength;
-            if (v1) {
-                this.$toast(typeof v1 === 'string' ? v1 : '长度不对~');
-                return false;
-            }
-            if (v2) {
-                this.$toast(typeof v2 === 'string' ? v2 : '自定义：长度不对~');
-                return false;
-            }
-            this.$toast('长度校验完啦~');
         },
         onSubmit () {
-            // this.$logger.log('form-validator.onSubmit: ', this.$validation);
             if (this.validate()) {
-                this.$toast('全部校验完毕，可以提交了~');
+                this.$toast('验证全部通过');
             }
         },
         validate () { // 校验。 Author by Dio Zhu on 2017.8.16
-            this.$logger.log('form-validator.validate: ', this.$validation);
-            /** 方法一：自定每个校验项的返回，如果要用此方式，必须传入：field="value1"来作为标识，否则会用默认的_uid作为标识 */
-            // let v1 = this.$validation['value1'].required,
-            //     v2 = this.$validation['value2'].required;
-            // if (v1) {
-            //     this.$toast(typeof v1 === 'string' ? v1 : '请填写value1~');
-            //     return false;
-            // }
-            // if (v2) {
-            //     this.$toast(typeof v2 === 'string' ? v2 : '自定义：请填写value2~');
-            //     return false;
-            // }
-            /** 方法二：统一返回校验信息，要求每个校验项都有message，如果没有，用统一话术 */
+            console.error(this.$validation, '当前全局validation对象');
+            /** 调用方法：统一返回校验信息，要求每个校验项都有message，如果没有，用统一话术 */
             for (let key in this.$validation) {
                 if (this.$validation.hasOwnProperty(key)) {
                     for (let k in this.$validation[key]) {

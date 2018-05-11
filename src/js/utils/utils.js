@@ -398,43 +398,71 @@ export const getNextMonthComps = (month, year) => {
  */
 export function validateEmail (val) {
     let re = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/; // (字母、数字、下划线、-、. )@(字母、数字、-)
-    return re.test(val);
+    if (val) {
+        return re.test(val);
+    } else {
+        return true;
+    }
 };
 export function validateTel (val) {
     let re = /^0\d{2,3}-?\d{7,8}$/; // 0开头2~3位区号，可以加-（也可不加），加上7~8位数字
-    return re.test(val);
+    if (val) {
+        return re.test(val);
+    } else {
+        return true;
+    }
 };
 export function validateMobile (val) {
     let re = /^1\d{10}$/; // 1开头的11位数字
-    return re.test(val);
+    if (val) {
+        return re.test(val);
+    } else {
+        return true;
+    }
 };
 /**
  * 不允许输入特殊字符
  * */
 export function validateText (val) {
     let re = /^[a-zA-Z0-9\u4e00-\u9fa5]+$/;
-    return re.test(val);
+    if (val) {
+        return re.test(val);
+    } else {
+        return true;
+    }
 };
 /**
  * 输入手机号的校验
  * */
 export function validatePhone (val) {
     let re = /^0?1[3|4|5|7|8|9]\d{9}$/;
-    return re.test(val);
+    if (val) {
+        return re.test(val);
+    } else {
+        return true;
+    }
 };
 /**
  * 数字
  * */
 export function validateNumbers (val) {
     let re = /^[0-9]*$/;
-    return re.test(val);
+    if (val) {
+        return re.test(val);
+    } else {
+        return true;
+    }
 };
 /**
  * 输入身份证号的校验
  * */
 export function validateCard (val) {
     let re = /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
-    return re.test(val);
+    if (val) {
+        return re.test(val);
+    } else {
+        return true;
+    }
 };
 /**
  * 银行卡号校验
@@ -450,43 +478,75 @@ export function getComputedStyle (el) {
 // 军人身份证验证--8位数字--孙硕---2017-12-15；
 export function validateSorderIdenty (val) {
     let re = /^\s*\d{8}\s*$/;
-    return re.test(val);
+    if (val) {
+        return re.test(val);
+    } else {
+        return false;
+    }
 };
 // 社会保障卡验证--10位数字--孙硕---2017-12-15；
 export function validateSocialSecurityCard (val) {
     let re = /^\s*\d{10}\s*$/;
-    return re.test(val);
+    if (val) {
+        return re.test(val);
+    } else {
+        return true;
+    }
 };
 // 港澳通行证验证--字母c后面跟8位数字--孙硕---2017-12-15；
 export function validateHongKongMacauPasser (val) {
     let re = /^\s*[a-zA-Z]\d{8,12}\s*$/ig;
-    return re.test(val);
+    if (val) {
+        return re.test(val);
+    } else {
+        return true;
+    }
 };
 // 台湾居民来往大陆通行证验证--8位数字--孙硕---2017-12-15；
 export function validateTaiwanPasser (val) {
     let re = /^\s*\d{8}\s*$/;
-    return re.test(val);
+    if (val) {
+        return re.test(val);
+    } else {
+        return true;
+    }
 };
 // 户口本验证--9位数字--孙硕---2017-12-15；
 export function validateHouseHoldRegister (val) {
     let re = /^\s*\d{9}\s*$/;
-    return re.test(val);
+    if (val) {
+        return re.test(val);
+    } else {
+        return true;
+    }
 };
 // 临时居民身份证验证--18位数字--孙硕---2017-12-15；
 export function validateInterimId (val) {
     let re = /^\s*\d{18}\s*$/;
-    return re.test(val);
+    if (val) {
+        return re.test(val);
+    } else {
+        return true;
+    }
 };
 // 护照验证---孙硕---2017-12-15；
 export function validatePassport (val) {
     let re = /^\s*[a-zA-Z]\d{7,8}\s*$/;
-    return re.test(val);
+    if (val) {
+        return re.test(val);
+    } else {
+        return true;
+    }
 };
 // 用户姓名格式验证：中文五个、英文30个、不能特殊字符、不能中英混排。 Author by Dio Zhu. on 2018.5.9
 export function validateUsername (val) {
     let ch = /^[\u4e00-\u9fa5]{1,5}$/g,
-        en = /^[a-zA-Z]{1,6}$/g;
-    return ch.test(val) || en.test(val);
+        en = /^[a-zA-Z | \. | \s*]{1,30}$/g;
+    if (val) {
+        return ch.test(val) || en.test(val);
+    } else {
+        return true;
+    }
 };
 // 外国人永久居留证验证--孙硕---2017-12-15；
 export function permitForForeigners (val) {
