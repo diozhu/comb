@@ -541,34 +541,36 @@
         .dayStr{
             padding-right:pxTorem(20px);
         }
-    }
-    .v-datetime-action {
-        display: inline-block;
-        width: 50%;
-        text-align: center;
-        line-height: pxTorem(40px);
-        font-size: pxTorem(16px);
-        color: #007AFF;
-    }
-    .v-datetime-cancel {
-        float: left;
-        text-align: left;
-        padding-left: pxTorem(15px);
-    }
-    .v-datetime-confirm{
-        text-align: right;
-        padding-right: pxTorem(15px);
-    }
-    .picker-item{
-        font-size: pxTorem(21px);
-    }
-    .picker-toolbar{
-        height: pxTorem(44px);
-    }
-    .date-time-msg-box{width:100%;}
-    .concel-confirm-button {
-        height: pxTorem(40px);
-        display: flex;
-        justify-content: space-between;
+
+        .v-datetime-action {
+            display: inline-block;
+            width: 50%;
+            text-align: center;
+            line-height: pxTorem(40px);
+            font-size: pxTorem(16px);
+            color: #007AFF;
+        }
+        .v-datetime-cancel {
+            float: left;
+            text-align: left;
+            padding-left: pxTorem(15px);
+        }
+        .v-datetime-confirm{
+            text-align: right;
+            padding-right: pxTorem(15px);
+        }
+        .picker-item{
+            font-size: pxTorem(16px);
+            font-weight: 300;
+        }
+        .picker-toolbar{
+            height: pxTorem(44px);
+        }
+        .date-time-msg-box{width:100%;}
+        .concel-confirm-button {
+            height: pxTorem(40px);
+            display: flex;
+            justify-content: space-between;
+        }
     }
 </style>

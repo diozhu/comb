@@ -216,6 +216,10 @@
 
         span {
             font-size: pxTorem(15px);
+
+            &:first-child { // 兼容input样式。 mod by Dio Zhu. on 2018.5.10
+                padding: 0 pxTorem(10);
+            }
         }
 
         > div {
