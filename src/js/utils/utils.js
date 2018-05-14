@@ -398,71 +398,43 @@ export const getNextMonthComps = (month, year) => {
  */
 export function validateEmail (val) {
     let re = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/; // (字母、数字、下划线、-、. )@(字母、数字、-)
-    if (val) {
-        return re.test(val);
-    } else {
-        return true;
-    }
+    return re.test(val);
 };
 export function validateTel (val) {
     let re = /^0\d{2,3}-?\d{7,8}$/; // 0开头2~3位区号，可以加-（也可不加），加上7~8位数字
-    if (val) {
-        return re.test(val);
-    } else {
-        return true;
-    }
+    return re.test(val);
 };
 export function validateMobile (val) {
     let re = /^1\d{10}$/; // 1开头的11位数字
-    if (val) {
-        return re.test(val);
-    } else {
-        return true;
-    }
+    return re.test(val);
 };
 /**
  * 不允许输入特殊字符
  * */
 export function validateText (val) {
     let re = /^[a-zA-Z0-9\u4e00-\u9fa5]+$/;
-    if (val) {
-        return re.test(val);
-    } else {
-        return true;
-    }
+    return re.test(val);
 };
 /**
  * 输入手机号的校验
  * */
 export function validatePhone (val) {
     let re = /^0?1[3|4|5|7|8|9]\d{9}$/;
-    if (val) {
-        return re.test(val);
-    } else {
-        return true;
-    }
+    return re.test(val);
 };
 /**
  * 数字
  * */
 export function validateNumbers (val) {
     let re = /^[0-9]*$/;
-    if (val) {
-        return re.test(val);
-    } else {
-        return true;
-    }
+    return re.test(val);
 };
 /**
  * 输入身份证号的校验
  * */
 export function validateCard (val) {
     let re = /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
-    if (val) {
-        return re.test(val);
-    } else {
-        return true;
-    }
+    return re.test(val);
 };
 /**
  * 银行卡号校验
@@ -478,111 +450,46 @@ export function getComputedStyle (el) {
 // 军人身份证验证--8位数字--孙硕---2017-12-15；
 export function validateSorderIdenty (val) {
     let re = /^\s*\d{8}\s*$/;
-    if (val) {
-        return re.test(val);
-    } else {
-        return false;
-    }
+    return re.test(val);
 };
 // 社会保障卡验证--10位数字--孙硕---2017-12-15；
 export function validateSocialSecurityCard (val) {
     let re = /^\s*\d{10}\s*$/;
-    if (val) {
-        return re.test(val);
-    } else {
-        return true;
-    }
+    return re.test(val);
 };
 // 港澳通行证验证--字母c后面跟8位数字--孙硕---2017-12-15；
 export function validateHongKongMacauPasser (val) {
     let re = /^\s*[a-zA-Z]\d{8,12}\s*$/ig;
-    if (val) {
-        return re.test(val);
-    } else {
-        return true;
-    }
+    return re.test(val);
 };
 // 台湾居民来往大陆通行证验证--8位数字--孙硕---2017-12-15；
 export function validateTaiwanPasser (val) {
     let re = /^\s*\d{8}\s*$/;
-    if (val) {
-        return re.test(val);
-    } else {
-        return true;
-    }
+    return re.test(val);
 };
 // 户口本验证--9位数字--孙硕---2017-12-15；
 export function validateHouseHoldRegister (val) {
     let re = /^\s*\d{9}\s*$/;
-    if (val) {
-        return re.test(val);
-    } else {
-        return true;
-    }
+    return re.test(val);
 };
 // 临时居民身份证验证--18位数字--孙硕---2017-12-15；
 export function validateInterimId (val) {
     let re = /^\s*\d{18}\s*$/;
-    if (val) {
-        return re.test(val);
-    } else {
-        return true;
-    }
+    return re.test(val);
 };
 // 护照验证---孙硕---2017-12-15；
 export function validatePassport (val) {
     let re = /^\s*[a-zA-Z]\d{7,8}\s*$/;
-    if (val) {
-        return re.test(val);
-    } else {
-        return true;
-    }
+    return re.test(val);
 };
 // 用户姓名格式验证：中文五个、英文30个、不能特殊字符、不能中英混排。 Author by Dio Zhu. on 2018.5.9
 export function validateUsername (val) {
     let ch = /^[\u4e00-\u9fa5]{1,5}$/g,
         en = /^[a-zA-Z | \. | \s*]{1,30}$/g;
-    if (val) {
-        return ch.test(val) || en.test(val);
-    } else {
-        return true;
-    }
+    return ch.test(val) || en.test(val);
 };
 // 外国人永久居留证验证--孙硕---2017-12-15；
 export function permitForForeigners (val) {
     // 暂时不做校验
     return true;
 };
-// 通过id返回验证条件
-export function findValidate (id) {
-    if (id === '0') {
-        return validateCard;
-    };
-    if (id === '1') {
-        return validateCard;
-    };
-    if (id === '2') {
-        return validatePassport;
-    };
-    if (id === '3') {
-        return validateSorderIdenty;
-    };
-    if (id === '4') {
-        return validateSocialSecurityCard;
-    };
-    if (id === '5') {
-        return validateHongKongMacauPasser;
-    };
-    if (id === '6') {
-        return validateTaiwanPasser;
-    };
-    if (id === '7') {
-        return validateHouseHoldRegister;
-    };
-    if (id === '8') {
-        return validateInterimId;
-    };
-    if (id === '9') {
-        return permitForForeigners;
-    };
-}
