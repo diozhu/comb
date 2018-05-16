@@ -20,7 +20,7 @@ const ctx = '@@Validator'; //eslint-disable-line
 // === base ===
 
 let dobind = function () {
-        console.log(`【validator】${this.vm._uid}.doUpdate！！！ `, JSON.stringify(this.expression));
+        // console.log(`【validator】${this.vm._uid}.doUpdate！！！ `, JSON.stringify(this.expression));
         if (!this) return;
         if (this.watchs && this.watchs.length) [].forEach.call(this.watchs, v => { v(); });
         this.watchs = []; // 清除所有绑定事件，这个不能删，避免重复绑定多次执行。。。mod by Dio Zhu. on 2018.5.9
@@ -69,6 +69,7 @@ let dobind = function () {
             let msg = _getMsg.call(this, 'required', '您有未录入的数据哦~');
             Vue.$validation[this.field]['required'] = Vue.prototype.$validation[this.field]['required'] = msg;
         }
+        console.log(`【validator】${this.vm._uid}.doUpdate！！！ `, Vue.prototype.$validation);
     },
     _initLength = function () { // 初始化
         _watchLength.call(this, this.vm.value); // 初始化

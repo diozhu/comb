@@ -1,11 +1,13 @@
 <template>
-    <div class="v-form-item">
+    <div class="v-form-item" v-show="!option['hidden']">
         <!--:value="option['type'] == 'picker' ? currentValue[option['valueKey']] : currentValue"-->
         <v-cell
             :title="option['label'] || ''"
             :is-link="(option['isLink']) || (option['type'] == 'picker' || option['type'] == 'datetime-picker')"
             @click.native="handleClick(attr)"
             :value="defaultTxt"
+            :class="{'noborder': placeholderRemark}"
+            v-clickoutside="doCloseActive"
         >
             <v-radio
                 v-if="option['type'] == 'radio'"
@@ -13,15 +15,48 @@
                 :mode="option['mode'] || 'list'"
                 :radioClasses="option['radioClasses'] || ''"
                 v-model="currentValue"
+                :disabled="option['disabled']"
+                :readonly="option['readonly']"
+                :field="option['field'] || idx + '_' + attr"
+                v-validator="validator"
             ></v-radio>
+
             <input
-                v-if="(option['type'] == 'text' || option['type'] == 'number')"
-                :type="option['type'] == 'mobile' ? 'tel' : option['type']"
+                v-if="(option['type'] == 'text' || option['type'] == 'number' || option['type'] == 'tel')"
+                :type="(option['type'] == 'mobile' || option['type'] == 'tel') ? 'tel' : option['type']"
                 class="v-field__core input"
                 v-model="currentValue"
+                :disabled="option['disabled']"
+                :readonly="option['readonly']"
                 :placeholder="option['placeholder'] || '请输入'"
+                @focus="active = true"
+                :field="option['field'] || idx + '_' + attr"
+                v-validator="validator"
             />
+            <i v-if="clearEnable && active"
+               class="icon icon-error"
+               @click="handleClear"
+            ></i>
+
+            <textarea v-if="option['type'] == 'textarea'"
+                      class="v-field__core textarea"
+                      :placeholder="option['placeholder'] || '请输入'"
+                      :rows="option['rows']"
+                      :disabled="option['disabled']"
+                      :readonly="option['readonly']"
+                      v-model="currentValue"
+                      @change="$emit('change', currentValue)"
+                      :field="option['field'] || idx + '_' + attr"
+                      v-validator="validator"
+            ></textarea>
+            <div v-if="option['type'] == 'textarea' && option['limit']"
+                 class="v-field__limit"
+                 :class="{'alarm': currentValue.length && option['alarm'] && option['limit'] && option['limit'] - currentValue.length < option['alarm']}"
+            >
+                {{currentValue.length || 0}}/{{option['limit']}}
+            </div>
         </v-cell>
+        <p v-if="placeholderRemark" class="v-form-item__desc">{{option['placeholderRemark']}}</p>
         <!--弹框-->
         <v-popup
             v-if="option['type'] == 'picker'"
@@ -30,7 +65,7 @@
             @handleConfirm="(val) => handlePickerConfirm(attr, val)"
         >
             <v-picker
-                :ref="attr"
+                :ref="'picker' + attr"
                 :slots="option['slots']"
                 :valueKey="option['valueKey'] || 'values'"
                 @change="(o, v) => handlePickerChange(attr, o, v)"
@@ -43,6 +78,7 @@
             v-if="option['type'] == 'datetime-picker'"
             ref="pickerDatetime"
             :type="option['pickerType'] || 'smart'"
+            :value="currentValueDt"
             :visibleItemCount="5"
             @confirm="(val) => handlePickerDatetime(attr, val)"
         ></v-datetime-picker>
@@ -68,9 +104,14 @@
         components: { vCell, vRadio, vPopup, vPicker, vDatetimePicker },
         directives: { clickoutside },
         props: {
-            value: String | Object,
-            attr: String,       // 传入当前的属性名
-            option: {
+            value: String | Object, // 绑定表单字段对象的默认值
+            idx: Number,            // 传入当前字段的序号
+            attr: String,           // 传入当前的属性名
+            option: {               // 各字段对象的组件类型声明，及组件的各种依赖参数
+                type: Object,
+                default: () => {}
+            },
+            validator: {            // 各字段对象的校验规则
                 type: Object,
                 default: () => {}
             }
@@ -78,10 +119,14 @@
 
         data () {
             return {
-                defaultCompleted: false,          // 初始化结束标识
+                timmer: null,        // 计时器
+                defaultCompleted: true,          // 初始化结束标识
                 currentValue: this.value,
+                currentValueDt: null,
                 popupVisibles: {},   // popup是否显示的缓存对象
-                pickerValue: {}      // picker值的缓存
+                pickerValue: {},     // picker值的缓存
+                old: '',
+                active: false        // 清除图标的标识
             };
         },
 
@@ -92,11 +137,11 @@
 
             currentValue (val) {
                 // this.len = val ? val.length : 0;
-                // if (this.limit && this.len > this.limit) {
-                //     this.currentValue = this.old;
-                //     return;
-                // }
-                // this.old = this.currentValue;
+                if (this.option['limit'] && val.length > this.option['limit']) {
+                    this.currentValue = this.old;
+                    return;
+                }
+                this.old = this.currentValue;
                 this.$emit('input', val);
             }
         },
@@ -104,16 +149,22 @@
         computed: {
             defaultTxt () {
                 let str = this.currentValue;
-                if (this.option['pickerType'] === 'region') {
+                if (this.option['pickerType'] === 'region') { // 省市区格式
                     let k = this.option['valueKey'],
                         pr = this.currentValue[0] && this.currentValue[0][k],
                         ci = this.currentValue[1] && this.currentValue[1][k],
                         co = this.currentValue[2] && this.currentValue[2][k];
                     str = pr + '  ' + ci + '  ' + co;
-                } else if (this.option['type'] === 'picker') {
+                } else if (this.option['type'] === 'picker') { // picker格式
                     str = this.currentValue[this.option['valueKey']];
                 }
                 return str;
+            },
+            placeholderRemark () { // 是否显示placeholderRemark
+                return this.option['placeholderRemark'] && !this.currentValue.length;
+            },
+            clearEnable () {
+                return this.option['type'] !== 'radio' || this.option['type'] !== 'textarea' || this.option['type'] !== 'checkbox' || this.option['type'] !== 'picker';
             }
         },
 
@@ -126,30 +177,46 @@
                 // this.$logger.log(`【v-form-item】${this._uid}.init... `);
                 // [].forEach.call(this.currentValue, v => {});
                 if (this.option && this.option['pickerType'] === 'region') this.initRegion();
-                if (this.option && this.option['pickerType'] === 'region' && this.currentValue) this.initRegionDefaults();
+                if (this.option && this.option['pickerType'] === 'region' && this.currentValue) this.$nextTick(() => { this.initRegionDefaults(); });
+                if (this.option && this.option['pickerType'] === 'date' && this.currentValue) this.$nextTick(() => { this.initDatetimeDefaults(); });
             },
             initRegion () { // 初始化地区选择数据，联动。 Author by Dio Zhu. on 2018.5.10
                 this.$logger.log(`【v-form-item】${this._uid}.initRegion... `);
                 api.getProvinceList().then(res => {
-                    this.$logger.log(`【v-form-item】${this._uid}.getProvinceList.response: `, res);
-                    if (!res) return;
+                    // this.$logger.log(`【v-form-item】${this._uid}.getProvinceList.response: `, res);
+                    if (!res || !res.length) return;
                     this._changeDatas(res, 0, 'province_id');
-                }).catch(e => this.$toast(trans(e)));
+                }).catch(e => {
+                    this.$toast(trans(e));
+                    if (this.timmer) clearTimeout(this.timmer);
+                });
             },
             initRegionDefaults () { // 区域设定默认值
-                // this.$logger.log(`【v-form-item】${this._uid}.initRegionDefaults... `);
+                this.$logger.log(`【v-form-item】${this._uid}.initRegionDefaults... `, this.attr, this.$refs, this);
                 if (!this.option.slots || !this.option.slots[2].values || !this.option.slots[2].values.length) { // 异步初始化如果未完成，递归。。。Author by Dio Zhu. on 2018.5.11
-                    setTimeout(() => { return this.initRegionDefaults(); }, 500);
+                    this.timmer = setTimeout(() => { return this.initRegionDefaults(); }, 500);
                     return;
                 }
-                this.defaultCompleted = true; // 设定默认值标识
+                this.defaultCompleted = false; // 设定默认值标识
                 // 设定省的默认值
                 if (this.currentValue && this.currentValue[0] && this.currentValue[0][this.option.key || 'key']) {
-                    this.$refs[this.attr].setSlotValue(0, {key: this.currentValue[0][this.option.key || 'key'], values: this.currentValue[0][this.option.valueKey || 'valueKey']});
+                    this.$refs['picker' + this.attr].setSlotValue(0, {key: this.currentValue[0][this.option.key || 'key'], values: this.currentValue[0][this.option.valueKey || 'valueKey']});
                 } else {
-                    this.$refs[this.attr].setSlotValue(0, {key: '1', values: '北京'});
+                    this.$refs['picker' + this.attr].setSlotValue(0, {key: '1', values: '北京'});
                 }
-                this.$logger.log(`【v-form-item】${this._uid}.initRegionDefaults... ----------->>> done!!!`);
+                this.$logger.log(`【v-form-item】${this._uid}.initRegionDefaults... ==================>>> region init done!!! start setting default...`);
+            },
+            initDatetimeDefaults () { // 时间picker的默认值
+                this.$logger.log(`【v-form-item】${this._uid}.initDatetimeDefaults...`, this.currentValue);
+                if (this.currentValue) this.$set(this, 'currentValueDt', new Date(this.currentValue));
+            },
+            handleClear () { // 点击input后面的清除图标
+                if (this.option['disabled'] || this.option['readonly']) return;
+                this.currentValue = '';
+                if (this.$refs[this.attr]) this.$refs[this.attr].focus();
+            },
+            doCloseActive () { // 点击外部区域，重置清除图标的显示标识
+                this.active = false;
             },
             // 改变省市区，数据格式变成key->value格式 -----v1.0.5 修改地区选择默认值  -by dinglei 2018.3.26
             _changeDatas (data, num, sty) {
@@ -168,56 +235,35 @@
                 }
             },
             handlePickerChange (key, obj, val) { // 缓存picker的值
-                this.$logger.log(`【v-form-item】${this._uid}.onPickerChange: `, key, JSON.stringify(val), this.currentValue);
+                // this.$logger.log(`【v-form-item】${this._uid}.onPickerChange: --------->>> `, key, JSON.stringify(val), this.currentValue);
                 if (key === 'region') { // 地区组件的change
-                    if (val[2] && val[2].key) this.$set(this.pickerValue, 2, val[2]);
-                    if ((val[0] && this.pickerValue[0] && this.pickerValue[0]['key'] !== val[0]['key']) || (val[0] && !val[1])) { // 省变化，拉取市信息
-                        this.$logger.log(`【v-form-item】${this._uid}.onPickerChange: =======>>> province!!!`);
+                    let sameProvince = !!(val[0] && this.pickerValue[0] && this.pickerValue[0]['key'].toString() === val[0]['key'].toString() && this.pickerValue[0]['values'].toString() === val[0]['values'].toString()),
+                        sameCity = !!(val[1] && this.pickerValue[1] && this.pickerValue[1]['key'].toString() === val[1]['key'].toString() && this.pickerValue[1]['values'].toString() === val[1]['values'].toString()),
+                        sameCounty = !!(val[2] && this.pickerValue[2] && this.pickerValue[2]['key'].toString() === val[2]['key'].toString() && this.pickerValue[2]['values'].toString() === val[2]['values'].toString()),
+                        provinceTag = !!((val[0] && !sameProvince) || (val[0] && !val[1])),
+                        cityTag = !!((val[1] && !sameCity) || (val[1] && !val[2])),
+                        countyTag = !!(!this.defaultCompleted && this.currentValue[2] && this.currentValue[2]['key']),
+                        hasCityDefault = !this.defaultCompleted && (val[1] && this.currentValue[1] && this.currentValue[1]['key'].toString() !== val[1]['key'].toString() && this.currentValue[1]['values'] !== val[1]['values']);
+                    // this.$logger.log(`【v-form-item】${this._uid}.onPickerChange: sameProvince: ${sameProvince}, sameCity: ${sameCity}, sameCounty: ${sameCounty}, hasCityDefault: ${hasCityDefault}`);
+                    // this.$logger.log(`【v-form-item】${this._uid}.onPickerChange: provinceTag: ${provinceTag}, cityTag: ${cityTag}, countyTag: ${countyTag}`);
+                    if (!sameProvince && provinceTag) {
+                        // this.$logger.log(`【v-form-item】${this._uid}.onPickerChange: => province!!!`);
                         this.$set(this.pickerValue, 0, val[0]);
-                        api.getCityLists({province_id: val[0].key}).then(res => {
-                            this.$logger.log(`【v-form-item】${this._uid}.onPickerChange.getCityLists.success: `, res);
-                            if (!res) return;
-                            this._changeDatas(res, 1, 'city_id');   // 修改数据格式变成key->values格式
-                        }).catch(e => {
-                            this.$toast(trans(e));
-                            if (e.data) {
-                                console.log(e.data);
-                            }
-                        });
-                    } else if ((val[1] && this.pickerValue[1] && this.pickerValue[1]['key'] !== val[1]['key']) || (val[1] && !val[2])) { // 市变化，拉取区信息
-                        this.$logger.log(`【v-form-item】${this._uid}.onPickerChange: =======>>> city!!!`, this.currentValue[1]['key'], val[1]['key']);
-                        if (this.defaultCompleted && this.currentValue[1] && this.currentValue[1]['key'] !== val[1]['key']) { // 如果有默认值，直接赋值返回，再次进来触发市变化拉区信息。。。
-                            // this.$set(this.pickerValue, '1', this.currentValue[1]);
-                            this.$set(this.pickerValue, 1, Object.assign({}, this.currentValue[1]));
-                            this._changeDatas([], 2, 'county_id');
-                            this.$refs[this.attr].setSlotValue(1, {key: this.currentValue[1]['key'], values: this.currentValue[1][this.option.valueKey || 'valueKey']});
-                            return;
-                        }
+                        this.getCitiesByProvince(val[0].key); // 根据省id获取市列表
+                    } else if (!sameCity && cityTag && hasCityDefault) {
+                        // this.$logger.log(`【v-form-item】${this._uid}.onPickerChange: => city: set default!!!`);
+                        this.$refs['picker' + this.attr].setSlotValue(1, {key: this.currentValue[1]['key'], values: this.currentValue[1][this.option.valueKey || 'valueKey']});
+                    } else if (!sameCity && cityTag) {
+                        // this.$logger.log(`【v-form-item】${this._uid}.onPickerChange: => city!!!`);
                         this.$set(this.pickerValue, 1, val[1]);
-                        api.getCountyList({city_id: val[1].key}).then(res => {
-                            this.$logger.log(`【v-form-item】${this._uid}.onPickerChange.getCountyList.success: `, res);
-                            if (!res) return;
-                            this._changeDatas(res, 2, 'county_id');
-                        }).catch(e => {
-                            this.$toast(trans(e));
-                            if (e.data) {
-                                console.log(e.data);
-                            }
-                        });
-                    // } else if ((val[2] && this.pickerValue[2] && this.pickerValue[2]['key'] !== val[2]['key']) || (val[2])) {
-                    // } else if (val[2]) {
-                    } else if (this.defaultCompleted && this.currentValue[2] && this.currentValue[2]['key']) {
-                        this.$logger.log(`【v-form-item】${this._uid}.onPickerChange: =======>>> county!!!`);
-                        // if (this.defaultCompleted && this.currentValue[2] && this.currentValue[2]['key'] !== val[2]['key']) {
-                        // this.$set(this.pickerValue, 2, this.currentValue[2]);
+                        this.getCountiesByCity(val[1].key); // 根据市，拉区信息
+                    } else if (!sameCounty && countyTag) {
+                        this.$logger.log(`【v-form-item】${this._uid}.onPickerChange: => county: default value complete!!!`);
                         this.$set(this.pickerValue, 2, Object.assign({}, this.currentValue[2]));
-                        this.defaultCompleted = false; // 还原默认值标识
-                        this.$refs[this.attr].setSlotValue(2, {key: this.currentValue[2]['key'], values: this.currentValue[2][this.option.valueKey || 'valueKey']});
-                        //     return;
-                        // }
-                        // this.$set(this.pickerValue, '2', val[2]);
+                        this.defaultCompleted = true; // 还原默认值标识
+                        this.$refs['picker' + this.attr].setSlotValue(2, {key: this.currentValue[2]['key'], values: this.currentValue[2][this.option.valueKey || 'valueKey']});
                     }
-                } else {
+                } else { // 普通picker的change
                     this.$set(this, 'pickerValue', val);
                 }
             },
@@ -236,6 +282,20 @@
             handlePickerDatetime (key, dt) {
                 this.$logger.log(`【v-form-item】${this._uid}.handlePickerDatetime: `, ...arguments);
                 this.$set(this, 'currentValue', utils.formatTime(dt, 'yyyy-MM-dd'));
+            },
+            getCitiesByProvince (id) { // 根据省id获取市列表
+                api.getCityLists({province_id: id}).then(res => { // 根据省，拉市信息
+                    // this.$logger.log(`【v-form-item】${this._uid}.onPickerChange.getCityLists.success: `, res);
+                    if (!res || !res.length) return;
+                    this._changeDatas(res, 1, 'city_id');   // 修改数据格式变成key->values格式
+                }).catch(e => { this.$toast(trans(e)); });
+            },
+            getCountiesByCity (id) { // 根据省id获取市列表
+                api.getCountyList({city_id: id}).then(res => { // 根据市，拉区信息
+                    // this.$logger.log(`【v-form-item】${this._uid}.onPickerChange.getCountyList.success: `, res);
+                    if (!res || !res.length) return;
+                    this._changeDatas(res, 2, 'county_id');
+                }).catch(e => { this.$toast(trans(e)); });
             }
         }
     };
@@ -251,7 +311,8 @@
         textarea {
             &::-webkit-input-placeholder {/* WebKit browsers */
                 color: #bebebe;
-                font-size:pxTorem(14px);
+                font-size:pxTorem(14);
+                font-weight: 300;
             }
         }
 
@@ -266,9 +327,48 @@
     }
     .v-form-item {
 
-        input {
-            /*border: #00aeff 1px solid;*/
+        .v-field__core {
+
+            &.textarea {
+                width: 100%;
+                min-height: pxTorem(68);
+                appearance: none;
+                /*overflow: auto;*/
+                resize: none;
+                vertical-align: top;
+                /*display: block;*/
+                /*background: #FFF;*/
+                margin: pxTorem(15) 0;
+                font-size: pxTorem(15);
+                line-height: pxTorem(22);
+                color: #1B1B20;
+            }
+
+            &.input {
+                width: 100%;
+                height: 100%;
+                font-size: pxTorem(15px);
+                color: #1B1B20;
+                padding-right: pxTorem(15px);
+            }
         }
+
+        .v-form-item__desc {
+            margin: 0 0 0 pxTorem(15);
+            padding: 0 0 pxTorem(6) pxTorem(84);
+            border-bottom: #DDDEE3 1px solid;
+        }
+
+        .v-field__limit {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            font-size: pxTorem(14px);
+            color: #777E8C;
+            text-align: right;
+            padding: pxTorem(2) 0;
+        }
+
     }
 
     /*.v-field {*/

@@ -84,7 +84,7 @@
                  */
 //                let touchObj = document.getElementById('container');
                 let touchObj = document.getElementsByClassName('page')[0];
-                this.$logger.log('v-popup.watch.currentValue: ', val, touchObj);
+                // this.$logger.log('v-popup.watch.currentValue: ', val, touchObj);
                 if (val && touchObj) {
 //                    touchObj.style.height = '100%';
                     // touchObj.style.overflow = 'hidden';
@@ -102,7 +102,7 @@
             value (val) {
                 this.currentValue = val;
                 // this.$set(this, 'currentValue', val);
-                console.log('v-popup.watch.value: ', val);
+                // console.log('v-popup.watch.value: ', val);
             }
         },
 
@@ -122,7 +122,7 @@
 
         methods: {
             confirm () {
-                this.$logger.log('v-popup.methods.confirm: ', ...arguments);
+                // this.$logger.log('v-popup.methods.confirm: ', ...arguments);
                 if (this.closeEnable) { // 查看外部条件是否允许关闭当前组件
                     this.$emit('handleConfirm', this.currentValue);
                     this.currentValue = false;
