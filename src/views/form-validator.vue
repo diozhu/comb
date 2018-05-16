@@ -38,15 +38,21 @@
             <li>
                 <v-field v-model="value8" title="验证身份证" placeholder="身份证校验..." :validator="validator8"></v-field>
             </li>
-            <li>
-                <v-field v-model="value9" title="验证数字(必)" placeholder="只能输入数字..." :validator="validator9"></v-field>
+            <li  @click="open('picker1')">
+                <v-field is-link title="证件类型(必)" placeholder="请选择学员证件类型" :validator="validatorStudentIdengy" v-model="studentIdengyType"></v-field>
             </li>
             <li>
-                <v-field v-model="value10" title="验证过滤" placeholder="不能输入特殊字符..." :validator="validator10"></v-field>
+                <v-field v-model="studentIdenty" title="证件号码(必)" placeholder="请输入学员证件号码"  :validator="validatorStudentNumber"></v-field>
+            </li>
+            <li>
+                <v-field v-model="value11" title="验证数字(必)" placeholder="只能输入数字..." :validator="validator11"></v-field>
+            </li>
+            <li>
+                <v-field v-model="value12" title="验证过滤" placeholder="不能输入特殊字符..." :validator="validator12"></v-field>
             </li>
             <!--验证结尾元素切换显示-->
             <li v-if="show3">
-                <v-field v-model="value11" title="验证用户名" placeholder="全中文5个字、全英文20个字..." :validator="validator11"></v-field>
+                <v-field v-model="value13" title="验证用户名" placeholder="全中文5个字、全英文20个字..." :validator="validator13"></v-field>
             </li>
         </ul>
         <div style="display:flex;flex-flow:row nowrap;justify-content: space-around;align-items: center">
@@ -59,6 +65,13 @@
         </v-row>
 
         <div class="blank"></div>
+        <v-popup v-model="popupStudent" ref='picker1' class="v-popup-4">
+            <div class="picker-button">
+                <span class="picker-cancel" @click="pickerClose('picker1')">取消</span>
+                <span class="picker-confirm" @click="confirm('picker1')">确定</span>
+            </div>
+        <v-picker ref='vpicker1' :slots="cardSlots"  valueKey="values" @change="onPicker1Change" :visible-item-count="5" :show-toolbar="true"></v-picker>
+        </v-popup>
     </div>
 </template>
 
@@ -67,12 +80,14 @@ import vField from '../vendor/v-field';
 import vRow from '../vendor/v-row.vue';
 import vCell from '../vendor/v-cell.vue';
 import vButton from '../vendor/v-button.vue';
+import vPicker from '../vendor/v-picker';
+import vPopup from '../vendor/v-popup';
 import Vue from 'vue';
 import sticky from '../vendor/v-sticky.js';
 Vue.use(sticky);
 
 export default {
-    components: { vRow, vCell, vField, vButton },
+    components: { vRow, vCell, vField, vButton, vPicker, vPopup },
     data () {
         return {
             show1: true,
@@ -127,9 +142,9 @@ export default {
                     message: '请输入正确身份证号码~'
                 }
             },
-            value9: '',
-            validator9: {
-                key: 'validator9',
+            value11: '',
+            validator11: {
+                key: 'validator11',
                 required: {
                     message: '验证数字不能为空'
                 },
@@ -138,22 +153,146 @@ export default {
                     message: '只能输入数字~'
                 }
             },
-            value10: '',
-            validator10: {
-                key: 'validator10',
+            value12: '',
+            validator12: {
+                key: 'validator12',
                 text: {
                     rule: 1,
                     message: '不能输入特殊字符~'
                 }
             },
-            value11: '',
-            validator11: {
-                key: 'validator11',
+            value13: '',
+            validator13: {
+                key: 'validator13',
                 username: {
                     rule: 1,
                     message: '用户名全中文或全英文哦~'
                 }
-            }
+            },
+//                证件类型部分（包括监护人部分，备用监护人不验证）
+            valstudentIdengyTypeId: '',
+            studentIdengyTypeId: '',
+            studentIdengyType: '',
+            validatorStudentIdengy: {
+                key: 'validator9',
+                required: {
+                    rule: true,
+                    message: '请选择学员证件类型'
+                }
+            },
+            studentIdenty: '',
+            validatorStudentNumber: {
+                key: 'validator10',
+                required: {
+                    rule: true,
+                    message: '请填写学生证件号码'
+                }
+            },
+//                身份证验证
+            validatorCard: {
+                key: 'validator10',
+                required: {
+                    rule: true,
+                    message: '请填写身份证号码'
+                },
+                card: {
+                    message: '请输入正确的身份证号'
+                }
+            },
+//                护照验证
+            validatorPassport: {
+                key: 'validator10',
+                required: {
+                    rule: true,
+                    message: '请填写护照号码'
+                },
+                passport: {
+                    message: '请输入正确的护照号码'
+                }
+            },
+//                军人身份证验证
+            validatorSorderIdenty: {
+                key: 'validator10',
+                required: {
+                    rule: true,
+                    message: '请填写军人身份证号'
+                },
+                sorderIdenty: {
+                    message: '请输入正确的军人身份证号'
+                }
+            },
+//                社保卡验证
+            validatorSocialSecurity: {
+                key: 'validator10',
+                required: {
+                    rule: true,
+                    message: '请填写社保卡号'
+                },
+                socialSecurityCard: {
+                    message: '请输入正确的社保卡号'
+                }
+            },
+//                港澳通行证验证
+            validatorHongKongMacauPasser: {
+                key: 'validator10',
+                required: {
+                    rule: true,
+                    message: '请填写港澳通行证号'
+                },
+                hongKongMacauPasser: {
+                    message: '请填写正确的港澳通行证号'
+                }
+            },
+//                台湾往来大陆通行证
+            validatorTaiwanPasser: {
+                key: 'validator10',
+                required: {
+                    rule: true,
+                    message: '请填写台湾往来大陆通行证号'
+                },
+                taiwanPasser: {
+                    message: '请填写正确的台湾往来大陆通行证号'
+                }
+            },
+//                户口簿验证
+            validatorHouseHoldRegister: {
+                key: 'validator10',
+                required: {
+                    rule: true,
+                    message: '请填写户口簿号码'
+                },
+                taiwanPasser: {
+                    message: '请填写正确的户口簿号码'
+                }
+            },
+//                临时居民身份证验证
+            validatorInterimId: {
+                key: 'validator10',
+                required: {
+                    rule: true,
+                    message: '请填写临时居民身份证号码'
+                },
+                taiwanPasser: {
+                    message: '请填写正确的临时居民身份证号码'
+                }
+            },
+            popupStudent: false,
+            cardSlots: [
+                {
+                    flex: 1,
+                    values: [
+                    {key: '1', values: '身份证'},
+                    {key: '2', values: '护照'},
+                    {key: '3', values: '军人身份证'},
+                    {key: '4', values: '社会保障卡'},
+                    {key: '5', values: '港澳通行证'},
+                    {key: '6', values: '台湾居民来往大陆通行证'},
+                    {key: '7', values: '户口薄'},
+                    {key: '8', values: '临时居民身份证'},
+                    {key: '9', values: '外国人永久居留证'}
+                    ]
+                }
+            ]
         };
     },
     mounted () {
@@ -161,7 +300,15 @@ export default {
         this.init();
     },
     watch: {
+        studentIdengyTypeId () {
+            if (this.studentIdengyTypeId === '0') {
+                this.studentIdengyType = '';
+            } else {
+                this.studentIdengyType = this.cardSlots[0].values[this.studentIdengyTypeId - 1].values;
+            }
+        }
     },
+
     methods: {
         init () {
         },
@@ -184,6 +331,65 @@ export default {
                 }
             }
             return true;
+        },
+        // 通过id返回验证条件
+        findValidate (id) {
+            if (id === '0') {
+                return this.validatorCard;
+            };
+            if (id === '1') {
+                return this.validatorCard;
+            };
+            if (id === '2') {
+                return this.validatorPassport;
+            };
+            if (id === '3') {
+                return this.validatorSorderIdenty;
+            };
+            if (id === '4') {
+                return this.validatorSocialSecurity;
+            };
+            if (id === '5') {
+                return this.validatorHongKongMacauPasser;
+            };
+            if (id === '6') {
+                return this.validatorTaiwanPasser;
+            };
+            if (id === '7') {
+                return this.validatorHouseHoldRegister;
+            };
+            if (id === '8') {
+                return this.validatorInterimId;
+            };
+        },
+        open (picker) {
+            let slotValue = {
+                key: this.studentIdengyTypeId || '1',
+                values: this.studentIdengyType || '身份证'
+            };
+            if (picker === 'picker1') this.$refs['v' + picker].setSlotValue(0, slotValue);
+            this.$refs[picker].open();
+        },
+        onPicker1Change (picker, values) {
+            if (values[0] > values[1]) {
+                picker.setSlotValue(1, values[0]);
+            }
+            this.valstudentIdengyTypeId = values[0].key;
+        },
+        confirm () {
+            this.studentIdengyTypeId = this.valstudentIdengyTypeId;
+//       这个逻辑是为了处理点开拨盘后没有滑动直接点击确定后，没有显示的问题
+            if (this.studentIdengyTypeId === '0') {
+                this.studentIdengyTypeId = '1';
+            }
+            this.validatorStudentNumber = this.findValidate(this.studentIdengyTypeId);
+            let that = this;
+            console.error(that.validatorStudentNumber, '切换了证件类型，当前选择的验证条件是');
+            console.error(that.$validation, '切换了证件类型，当前全局validation为');
+            this.pickerClose('picker1');
+        },
+        pickerClose (picker) {
+            this.$refs[picker].close();
         }
     }
 };
