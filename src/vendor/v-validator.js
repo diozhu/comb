@@ -13,11 +13,7 @@ const ctx = '@@Validator'; //eslint-disable-line
 
 // === base ===
 
-<<<<<<< HEAD
-let dobind = function () {
-=======
 let validate = function () {
->>>>>>> 2b23167b4bb86d55aba1755573a6eb3851b1efaa
         // console.log(`【validator】${this.vm._uid}.doUpdate！！！ `, JSON.stringify(this.expression));
         if (!this) return;
         // if (this.watchs && this.watchs.length) [].forEach.call(this.watchs, v => { v(); });
