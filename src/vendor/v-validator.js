@@ -16,7 +16,7 @@ const ctx = '@@Validator'; //eslint-disable-line
 let validate = function () {
         console.log(`【validator】${this.vm._uid}.doUpdate！！！ `, JSON.stringify(this.expression), this);
         if (!this) return;
-        if (this.watchs && this.watchs.length) [].forEach.call(this.watchs, v => { v(); });
+        // if (this.watchs && this.watchs.length) [].forEach.call(this.watchs, v => { v(); });
         // this.watchs = []; // 清除所有绑定事件，这个不能删，避免重复绑定多次执行。。。mod by Dio Zhu. on 2018.5.9
         this.field = this['validate_id'] || this.vm._uid;
         Vue.$validation[this.field] = {};
