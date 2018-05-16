@@ -94,9 +94,6 @@
             },
             currentOptions (val) {
                 this.$emit('handleChangeOptions', val);
-            },
-            'currentValue.studentIdengyType' (val) {
-                this.$logger.log('【v-form】watch.currentValue.studentIdengyType: ', val);
             }
         },
 
@@ -107,23 +104,24 @@
         methods: {
             init () {
                 this.$logger.log('【v-form】init... ');
-                for (let key in this.options) { // 自定义显示条件
+                for (let key in this.options) { // 自定义显示条件，根据传入的表达式对象进行显示判断。
                     if (this.options.hasOwnProperty(key) && this.options[key]['displayExpr']) {
                         this.bindWatcher(key, this.options[key]['displayExpr']);
                     }
                 }
+                this.checkValidator(); // 检测默认特定逻辑的校验规则，比如证件类型、证件号
             },
             bindWatcher (attr, expr) { // 根据自定义显示条件，添加watcher~ Author by Dio Zhu. on 2018.5.15
                 if (!expr || !expr.exp || !expr.key || !expr.val) return;
                 let key = 'currentValue.' + expr.key;
-                let fn = (v) => {
-                    this.$logger.log('【v-form】bindWatcher.fn: ', v);
+                let fn = (k, v, o) => {
+                    this.$logger.log('【v-form】bindWatcher.fn: ', k, v, o);
                     if (expr.exp === '!==') {
                         if (expr.val !== v) this.$set(this.options[attr], 'hidden', false);
                         else this.$set(this.options[attr], 'hidden', true);
                     }
                 };
-                this.$watch(key, fn.bind(this));
+                this.$watch(key, fn.bind(this, expr.key));
                 let arr = expr.key.split('.'), obj = null;
                 [].forEach.call(arr, (v, i) => {
                     if (i === 0) obj = this.currentValue[v];
@@ -131,10 +129,42 @@
                 });
                 fn(obj);
                 this.$logger.log('【v-form】bindWatcher: ', expr, expr.key, obj);
+            },
+            checkValidator () { // 检测默认特定逻辑的校验规则，比如证件类型、证件号~ Author by Dio Zhu. on 2018.5.15
+                this.$logger.log('【v-form】checkValidator: ');
+                if (!this.validators) return;
+                let fn = (k, v, o) => { // 根据证类型校验证件号的合法性
+                    let attr = k.replace('IdentyType', 'IdentyNo'), // 根据证件类型，找到证件号码的字段名
+                        key = this.options[k] && this.options[k]['key'] || 'key', // 取出options中指定的key标识
+                        val = v[key],   // 按标识取出当前证件对象的key值
+                        vid = this.validators && this.validators[attr] && this.validators[attr]['key']; // 取出之前validator的key值，用于还原提示顺序
+                    this.$logger.log('【v-form】checkValidator.fn: ', k, attr, val, vid);
+                    if (parseInt(val) === 0 || parseInt(val) === 1) { // 身份证
+                        this.$set(this.validators, attr, { key: vid, required: { rule: true, message: '请填写身份证号码' }, card: { message: '请输入正确的身份证号' } });
+                    } else if (parseInt(val) === 2) { // 护照验证
+                        this.$set(this.validators, attr, { key: vid, required: { rule: true, message: '请填写护照号码' }, passport: { message: '请输入正确的护照号码' } });
+                    } else if (parseInt(val) === 3) { // 军人身份证验证
+                        this.$set(this.validators, attr, { key: vid, required: { rule: true, message: '请填写军人身份证号' }, sorderIdenty: { message: '请输入正确的军人身份证号' } });
+                    } else if (parseInt(val) === 4) { // 社保卡验证
+                        this.$set(this.validators, attr, { key: vid, required: { rule: true, message: '请填写社保卡号' }, socialSecurityCard: { message: '请输入正确的社保卡号' } });
+                    } else if (parseInt(val) === 5) { // 港澳通行证验证
+                        this.$set(this.validators, attr, { key: vid, required: { rule: true, message: '请填写港澳通行证号' }, hongKongMacauPasser: { message: '请填写正确的港澳通行证号' } });
+                    } else if (parseInt(val) === 6) { // 台湾往来大陆通行证
+                        this.$set(this.validators, attr, { key: vid, required: { rule: true, message: '请填写台湾往来大陆通行证号' }, taiwanPasser: { message: '请填写正确的台湾往来大陆通行证号' } });
+                    } else if (parseInt(val) === 7) { // 户口簿验证
+                        this.$set(this.validators, attr, { key: vid, required: { rule: true, message: '请填写户口簿号码' }, taiwanPasser: { message: '请填写正确的户口簿号码' } });
+                    } else if (parseInt(val) === 8) { // 临时居民身份证验证
+                        this.$set(this.validators, attr, { key: vid, required: { rule: true, message: '请填写临时居民身份证号码' }, taiwanPasser: { message: '请填写正确的临时居民身份证号码' } });
+                    } else if (parseInt(val) === 9) { // 外国人永久居留证
+                        this.$set(this.validators, attr, { key: vid, required: { rule: true, message: '请填写永久居留证号码' } });
+                    }
+                };
+                for (let k in this.validators) {
+                    if (k.indexOf('IdentyType') >= 0) {
+                        this.$watch('currentValue.' + k, fn.bind(this, k));
+                    }
+                }
             }
-            // checkLogic () {
-            //     this.$logger.log('【v-form】checkLogic... ');
-            // }
         }
     };
 </script>

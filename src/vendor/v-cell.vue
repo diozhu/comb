@@ -66,7 +66,7 @@
         },
 
         created () {
-            this.$logger.log('v-cell.created: ');
+            // this.$logger.log('v-cell.created: ');
         },
 
         methods: {

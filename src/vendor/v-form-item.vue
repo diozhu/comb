@@ -175,13 +175,14 @@
         methods: {
             init () {
                 // this.$logger.log(`【v-form-item】${this._uid}.init... `);
-                // [].forEach.call(this.currentValue, v => {});
                 if (this.option && this.option['pickerType'] === 'region') this.initRegion();
+                if (this.option && this.option['type'] === 'picker' && this.currentValue) this.$nextTick(() => { this.initPickerDefaults(); });
                 if (this.option && this.option['pickerType'] === 'region' && this.currentValue) this.$nextTick(() => { this.initRegionDefaults(); });
-                if (this.option && this.option['pickerType'] === 'date' && this.currentValue) this.$nextTick(() => { this.initDatetimeDefaults(); });
+                // if (this.option && this.option['pickerType'] === 'date' && this.currentValue) this.$nextTick(() => { this.initDatetimeDefaults(); });
+                if (this.option && this.option['pickerType'] === 'date' && this.currentValue) this.initDatetimeDefaults();
             },
             initRegion () { // 初始化地区选择数据，联动。 Author by Dio Zhu. on 2018.5.10
-                this.$logger.log(`【v-form-item】${this._uid}.initRegion... `);
+                // this.$logger.log(`【v-form-item】${this._uid}.initRegion... `);
                 api.getProvinceList().then(res => {
                     // this.$logger.log(`【v-form-item】${this._uid}.getProvinceList.response: `, res);
                     if (!res || !res.length) return;
@@ -191,8 +192,14 @@
                     if (this.timmer) clearTimeout(this.timmer);
                 });
             },
+            initPickerDefaults () { // 初始化picker默认值。 Author by Dio Zhu. on 2018.5.16
+                // this.$logger.log(`【v-form-item】${this._uid}.initPickerDefaults... `, this.attr, this.currentValue, this.$refs['picker' + this.attr]);
+                if (this.currentValue && this.currentValue[this.option.key || 'key']) {
+                    this.$refs['picker' + this.attr].setSlotValue(0, {key: this.currentValue[this.option.key || 'key'], values: this.currentValue[this.option.valueKey || 'valueKey']});
+                }
+            },
             initRegionDefaults () { // 区域设定默认值
-                this.$logger.log(`【v-form-item】${this._uid}.initRegionDefaults... `, this.attr, this.$refs, this);
+                // this.$logger.log(`【v-form-item】${this._uid}.initRegionDefaults... `, this.attr, this.$refs, this);
                 if (!this.option.slots || !this.option.slots[2].values || !this.option.slots[2].values.length) { // 异步初始化如果未完成，递归。。。Author by Dio Zhu. on 2018.5.11
                     this.timmer = setTimeout(() => { return this.initRegionDefaults(); }, 500);
                     return;
@@ -207,7 +214,7 @@
                 this.$logger.log(`【v-form-item】${this._uid}.initRegionDefaults... ==================>>> region init done!!! start setting default...`);
             },
             initDatetimeDefaults () { // 时间picker的默认值
-                this.$logger.log(`【v-form-item】${this._uid}.initDatetimeDefaults...`, this.currentValue);
+                // this.$logger.log(`【v-form-item】${this._uid}.initDatetimeDefaults...`, this.currentValue);
                 if (this.currentValue) this.$set(this, 'currentValueDt', new Date(this.currentValue));
             },
             handleClear () { // 点击input后面的清除图标

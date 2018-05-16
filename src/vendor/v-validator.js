@@ -14,7 +14,7 @@ const ctx = '@@Validator'; //eslint-disable-line
 // === base ===
 
 let validate = function () {
-        // console.log(`【validator】${this.vm._uid}.doUpdate！！！ `, JSON.stringify(this.expression));
+        console.log(`【validator】${this.vm._uid}.doUpdate！！！ `, JSON.stringify(this.expression), this);
         if (!this) return;
         // if (this.watchs && this.watchs.length) [].forEach.call(this.watchs, v => { v(); });
         // this.watchs = []; // 清除所有绑定事件，这个不能删，避免重复绑定多次执行。。。mod by Dio Zhu. on 2018.5.9
@@ -327,7 +327,7 @@ let validate = function () {
 
 let Validator = {
         bind (el, binding, vnode) {
-            console.error('执行一次bind钩子，全局validation为', Vue.$validation);
+            // console.warn('执行一次bind钩子，全局validation为', Vue.$validation, vnode.context);
             if (typeof binding.value === 'undefined') return;
             el[ctx] = {
                 el,
@@ -355,7 +355,7 @@ let Validator = {
         //     });
         // },
         componentUpdated (el, binding, vnode) {
-            console.error('组件更新了，当前的全局validation为', Vue.$validation);
+            // console.warn('组件更新了，当前的全局validation为', Vue.$validation);
             if (typeof binding.value === 'undefined') return;
             el[ctx] = {
                 el,
@@ -369,7 +369,7 @@ let Validator = {
             });
         },
         unbind (el, binding, vnode) {
-            console.error('执行了unbind钩子,全局validation为', Vue.$validation);
+            // console.warn('执行了unbind钩子,全局validation为', Vue.$validation);
             if (typeof binding.value === 'undefined') return;
             let field = binding.value.key || vnode.context._uid;
             Vue.$validation[field] = {};
