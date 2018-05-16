@@ -60,6 +60,7 @@ let validate = function () {
             let msg = _getMsg.call(this, 'required', '您有未录入的数据哦~');
             Vue.$validation[this.field]['required'] = Vue.prototype.$validation[this.field]['required'] = msg;
         }
+        console.log(`【validator】${this.vm._uid}.doUpdate！！！ `, Vue.prototype.$validation);
     },
     _validateLength = function (newVal, oldVal) { // 监听输入长度
         if (newVal && this.expression.minLength) {

@@ -99,6 +99,13 @@
         &:last-child {
             border-bottom: 0;
         }
+
+        &.noborder {
+
+            .v-cell__wrapper {
+                border: none;
+            }
+        }
     }
     .v-cell img {
         vertical-align:middle;
@@ -120,17 +127,18 @@
         /*background-repeat: no-repeat;*/
         /*background-position: top left;*/
         /*background-origin: content-box;*/
+        /*width: 100%;*/
+        height: 100%;
         box-sizing: border-box;
         display: flex;
         align-items: stretch;
         justify-content: flex-start;
-        font-size: pxTorem(15px);
+        font-size: pxTorem(14);
         line-height: 1;
         min-height: inherit;
         overflow: hidden;
         padding: 0 pxTorem(15px) 0 0;
         margin: 0 0 0 pxTorem(15px);
-        /*width: 100%;*/
     }
     .v-cell__mask {}
     .v-cell__mask::after {
@@ -148,7 +156,9 @@
     }
     .v-cell__text {
         vertical-align: middle;
-        font-size: pxTorem(15px);
+        font-size: pxTorem(14);
+        font-weight: 500;
+        color: #3E3A39;
     }
     .v-cell__label {
         color: #888;
@@ -158,7 +168,7 @@
     }
     .v-cell__title {
         text-align: left;
-        min-width: pxTorem(60px);
+        min-width: pxTorem(76px);
         /*-webkit-box-flex: 1;*/
         /*-ms-flex: 1;*/
         /*flex: 1;*/
@@ -174,7 +184,7 @@
 
         .icon {
             margin-right: pxTorem(8px);
-            font-size: pxTorem(15px);
+            font-size: pxTorem(14);
 
             &.disk {
                 width: pxTorem(30px);
@@ -215,10 +225,10 @@
         flex-basis: auto;
 
         span {
-            font-size: pxTorem(15px);
+            font-size: pxTorem(14);
 
             &:first-child { // 兼容input样式。 mod by Dio Zhu. on 2018.5.10
-                padding: 0 pxTorem(10);
+                padding: 0 pxTorem(10) 0 0;
             }
         }
 
@@ -229,7 +239,7 @@
         input {
             width: 100%;
             min-height: pxTorem(30px);
-            padding-left: pxTorem(10px);
+            /*padding-left: pxTorem(10px);*/
             font-size: pxTorem(15px);
             line-height: 1;
             overflow: hidden;

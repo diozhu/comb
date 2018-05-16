@@ -29,7 +29,6 @@
 
 <script type="text/babel">
     import vPickerSlot from './v-picker-slot.vue';
-    import logger from '../js/utils/logger';
 
     export default {
         name: 'v-picker',
@@ -93,11 +92,11 @@
                     values[slot.valueIndex] = (slot.values || [])[slot.defaultIndex || 0];
                 }
             });
-            this.$logger.log(`v-picker[${this._uid}].created: `, values);
+            // this.$logger.log(`v-picker[${this._uid}].created: `, values);
         },
 
         mounted () {
-            logger.log('picker.mounted: ');
+            // this.$logger.log('picker.mounted: ');
         },
         methods: {
             slotValueChange () {

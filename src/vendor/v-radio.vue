@@ -15,7 +15,7 @@
                    :class="[
                        {slot: $slots['slot' + idx]},
                        {reverse: reverse},
-                       {checked: (option.value || option) === currentValue},
+                       {checked:  option == currentValue || option.value == currentValue || option.value == currentValue.value},
                        {disabled: option.disabled}
                        ]"
             >
@@ -23,7 +23,7 @@
                        class="v-radio__input"
                        v-model="currentValue"
                        :disabled="option.disabled"
-                       :value="option.value || option"
+                       :value="option.value != undefined ? option.value : option"
                 >
                 <div class="v-radio__label">
                     <slot :name="'slot' + idx">{{ option.label || option }}<p v-if="option.sublabel">{{option.sublabel}}</p></slot>
@@ -46,6 +46,8 @@
      *      或
      *      ['ab', 'cd', 'ef']
      *              -- Author by Dio Zhu. on 2017.1.11
+     * 修改input的value绑定条件，如果值是0，以前的逻辑不识别。。。
+     *              -- Author by Dio Zhu. on 2018.5.16
      */
     export default {
         name: 'v-radio',
