@@ -1,7 +1,7 @@
 <template>
     <div v-show="!option['hidden']"
          class="v-form-item"
-         :class="{'required': validator && validator['required']}"
+         :class="{'required': validator && validator['required'], 'disabled': option && option['disabled']}"
     >
         <!--:value="option['type'] == 'picker' ? currentValue[option['valueKey']] : currentValue"-->
         <v-cell
@@ -88,6 +88,13 @@
     </div>
 </template>
 <script>
+    /**
+     * v-form-item
+     * 现支持组件类型：radio、text（tel等input类型）、textarea、picker、datetime-picker
+     * 支持各组件默认值赋值；
+     * 支持地址三级联动；
+     *              -- Author by Dio Zhu. on 2018.5.17
+     */
     import vCell from '../vendor/v-cell';
     import vRadio from '../vendor/v-radio';
     import clickoutside from '../js/utils/clickoutside';

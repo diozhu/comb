@@ -37,6 +37,14 @@
     </div>
 </template>
 <script>
+    /**
+     * v-form
+     * @param value Object 传入的绑定对象，规定表单中有多少字段；
+     * @param options Object 传入的字段描述对象，描述每个字段为什么类型的组件，及disabled等限制条件；
+     * @param dividers Object 传入的分隔对象，可按位置和字段放置，提供slot；
+     * @param validators Object 传入的校验对象；
+     *              -- Author by Dio Zhu. on 2018.5.17
+     */
     import vFormItem from '../vendor/v-form-item';
     import vCell from '../vendor/v-cell';
     import vRadio from '../vendor/v-radio';

@@ -1,18 +1,25 @@
 <template>
     <div class="page page-form">
-        <!--<h2>表单</h2>-->
+        <h2>表单组件</h2>
 
-        <!--<div class="attributes">-->
-            <!--<h2>API</h2>-->
-            <!--<table>-->
-                <!--<tr><th>参数</th><th>说明</th><th>类型</th><th>可选</th><th>默认</th></tr>-->
-                <!--<tr><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>-->
-            <!--</table>-->
-        <!--</div>-->
+        <div class="attributes">
+            <h2>API</h2>
+            <table>
+                <tr><th>参数</th><th>说明</th><th>类型</th><th>可选</th><th>默认</th></tr>
+                <tr><td>value</td><td>传入的绑定对象，规定表单中有多少字段</td><td>Object</td><td>-</td><td>-</td></tr>
+                <tr><td>options</td><td>传入的字段描述对象，描述每个字段为什么类型的组件，及disabled等限制条件</td><td>Object</td><td>-</td><td>-</td></tr>
+                <tr><td>dividers</td><td>传入的分隔对象，可按位置和字段放置，提供slot</td><td>Object</td><td>-</td><td>-</td></tr>
+                <tr><td>validators</td><td>传入的校验对象</td><td>Object</td><td>-</td><td>-</td></tr>
+            </table>
+        </div>
+        <br/>
+        <p class="desc"><b>必填项*的显示：</b>组件依据validators中是否包含required对象来决定*的显示与否；</p>
+        <p class="desc"><b>关于组件的禁用：</b>组件依据options中的disabled针对组件内元素进行禁用；</p>
+        <p class="desc"><b>地址联动：</b>组件封装了地址三级联动，并提供默认值赋值功能，需要指定options的type=picker、pickerType=region，注意picker类绑定值的时候要处理成picker对应的对象，而不是值！</p>
+        <p class="desc"><b>组件的动态显示及隐藏：</b>通过options中的displayExpr对象指定，该对象通过指定字段及条件依据，组件据此进行显示、隐藏；</p>
+        <p class="desc"><b>根据证件类型判断证件号：</b>需要在validators中指定证件类型和证件号为必填项，组件才会受理后续验证；字段名必须依照规则包含'IdentyType'及'IdentyNo'，组件会以此查找字段并进行watch绑定；</p>
 
-        <h2>默认</h2>
-        <!--<div class="blank"></div>-->
-
+        <h2>示例</h2>
         <v-form v-model="detail" :options="options" :dividers="dividers" :validators="validators"></v-form>
         <!--<div class="blank"></div>-->
         <div class="form-buttons">
