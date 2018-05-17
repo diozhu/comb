@@ -14,7 +14,7 @@
         <!--<div class="blank"></div>-->
 
         <v-form v-model="detail" :options="options" :dividers="dividers" :validators="validators"></v-form>
-        <div class="blank"></div>
+        <!--<div class="blank"></div>-->
         <div class="form-buttons">
             <v-button size="small" @click="handleSubmit">必填验证</v-button>
         </div>
@@ -62,7 +62,16 @@ export default {
                 address: '',
                 begin_time: '2018-05-20',
                 // 分隔符
-                mobile: '',
+                mainName: '',
+                mainIdentyType: {key: 1, values: '身份证'},
+                mainIdentyNo: '',
+                mainPhone: '',
+                // 分隔符
+                standbyName: '张三',
+                standbyIdentyType: {key: 1, values: '身份证'},
+                standbyIdentyNo: '110222199009090099',
+                standbyPhone: '18600000002',
+                // 分隔符
                 desc: ''
             });
             // 初始化组件类型。Author by Dio Zhu. on 2018.5.11
@@ -75,13 +84,24 @@ export default {
             this.$set(this.options, 'address', { label: '详细地址', type: 'text', placeholder: '请输入您的通讯地址', placeholderRemark: '＊此地址会用于赠品邮寄，请您仔细填写' });
             this.$set(this.options, 'begin_time', { label: '课程有效期', type: 'datetime-picker', pickerType: 'date', placeholder: '请选择课程开始时间' });
             // 分隔符
-            this.$set(this.options, 'mobile', { label: '电话', type: 'tel', placeholder: '请输入电话号码' });
+            this.$set(this.options, 'mainName', { label: '主监护人', type: 'text', placeholder: '请输入监护人姓名' });
+            this.$set(this.options, 'mainIdentyType', { label: '证件类型', type: 'picker', key: 'key', valueKey: 'values', slots: [ { flex: 1, values: [ {key: 1, values: '身份证'}, {key: 2, values: '护照'}, {key: 3, values: '军人身份证'}, {key: 4, values: '社会保障卡'}, {key: 5, values: '港澳通行证'}, {key: 6, values: '台湾居民来往大陆通行证'}, {key: 7, values: '户口薄'}, {key: 8, values: '临时居民身份证'}, {key: 9, values: '外国人永久居留证'} ] } ] });
+            this.$set(this.options, 'mainIdentyNo', { label: '证件号码', type: 'text', placeholder: '请输入证件号码' });
+            this.$set(this.options, 'mainPhone', { label: '手机号', type: 'tel', placeholder: '请输入电话号码' });
+            // 分隔符
+            this.$set(this.options, 'standbyName', { disabled: true, label: '备用监护人', type: 'text', placeholder: '请输入监护人姓名' });
+            this.$set(this.options, 'standbyIdentyType', { disabled: true, label: '证件类型', type: 'picker', key: 'key', valueKey: 'values', slots: [ { flex: 1, values: [ {key: 1, values: '身份证'}, {key: 2, values: '护照'}, {key: 3, values: '军人身份证'}, {key: 4, values: '社会保障卡'}, {key: 5, values: '港澳通行证'}, {key: 6, values: '台湾居民来往大陆通行证'}, {key: 7, values: '户口薄'}, {key: 8, values: '临时居民身份证'}, {key: 9, values: '外国人永久居留证'} ] } ] });
+            this.$set(this.options, 'standbyIdentyNo', { disabled: true, label: '证件号码', type: 'text', placeholder: '请输入证件号码' });
+            this.$set(this.options, 'standbyPhone', { disabled: true, label: '手机号', type: 'tel', placeholder: '请输入电话号码' });
+            // 分隔符
             this.$set(this.options, 'desc', { label: '备注', type: 'textarea', placeholder: '请输入您的备注', limit: 10, alarm: 5 });
 
             // 设定表单分割
             this.$set(this, 'dividers', {
                 0: {label: '必填项'}, // 根据位置分割，按照对象的下标数，放在字段前面
-                begin_time: {}       // 放在某个字段之后
+                begin_time: {},       // 放在某个字段之后
+                mainPhone: {},       // 放在某个字段之后
+                standbyPhone: {}       // 放在某个字段之后
             });
 
             // 设定校验规则，通过key指定validator指令提示的顺序。Author by Dio Zhu. on 2018.5.16
@@ -131,6 +151,11 @@ export default {
                     color: darkred;
                 }
             }
+        }
+
+        .form-buttons {
+            padding: pxTorem(20);
+            text-align: right;
         }
 
         .blank {

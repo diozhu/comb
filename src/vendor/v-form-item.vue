@@ -1,9 +1,12 @@
 <template>
-    <div class="v-form-item" v-show="!option['hidden']">
+    <div v-show="!option['hidden']"
+         class="v-form-item"
+         :class="{'required': validator && validator['required']}"
+    >
         <!--:value="option['type'] == 'picker' ? currentValue[option['valueKey']] : currentValue"-->
         <v-cell
             :title="option['label'] || ''"
-            :is-link="(option['isLink']) || (option['type'] == 'picker' || option['type'] == 'datetime-picker')"
+            :is-link="isLink"
             @click.native="handleClick(attr)"
             :value="defaultTxt"
             :class="{'noborder': placeholderRemark}"
@@ -147,7 +150,7 @@
         },
 
         computed: {
-            defaultTxt () {
+            defaultTxt () { // 如果是picker，显示的内容需要转换
                 let str = this.currentValue;
                 if (this.option['pickerType'] === 'region') { // 省市区格式
                     let k = this.option['valueKey'],
@@ -159,6 +162,9 @@
                     str = this.currentValue[this.option['valueKey']];
                 }
                 return str;
+            },
+            isLink () {
+                return (this.option['isLink'] || this.option['type'] === 'picker' || this.option['type'] === 'datetime-picker') && !this.option['disabled'];
             },
             placeholderRemark () { // 是否显示placeholderRemark
                 return this.option['placeholderRemark'] && !this.currentValue.length;
@@ -233,6 +239,7 @@
                 // this.$logger.log(`【v-form-item】${this._uid}._changeDatas: `, data, num, sty, this.option.slots[num]);
             },
             handleClick (key) {
+                if (!this.isLink) return;
                 this.$logger.log(`【v-form-item】${this._uid}.handleClick: `, key, this.$refs);
                 if (this.option && this.option['type'] === 'datetime-picker') {
                     // this.$set(this.popupVisibles, key, true);
@@ -312,6 +319,16 @@
     @import "../scss/mixins";
 
     .v-form-item {
+        position: relative;
+
+        &.required::after {
+            content: '*';
+            font-size: pxTorem(14);
+            position: absolute;
+            top: 50%;
+            left: pxTorem(6);
+            margin-top: pxTorem(-7);
+        }
 
         input{opacity:1;} /*统一颜色*/
         input,
