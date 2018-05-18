@@ -23,7 +23,8 @@ const FormCheckbox = resolve => require(['./views/form-checkbox.vue'], resolve);
 const FormField = resolve => require(['./views/form-field.vue'], resolve);
 const FormValidator = resolve => require(['./views/form-validator.vue'], resolve);
 
-const Spinner = resolve => require(['./views/spinner.vue'], resolve);
+const Animat = resolve => require(['./views/animat.vue'], resolve);
+const AnimatSpinner = resolve => require(['./views/animat-spinner.vue'], resolve);
 const Toast = resolve => require(['./views/toast.vue'], resolve);
 const MessageBox = resolve => require(['./views/message-box.vue'], resolve);
 const Picker = resolve => require(['./views/picker.vue'], resolve);
@@ -122,7 +123,10 @@ const routes = [
     { name: 'form-checkbox', path: '/form-checkbox', meta: {title: '多选', requiresAuth: true}, component: FormCheckbox },
     { name: 'form-field', path: '/form-field', meta: {title: 'field', requiresAuth: true}, component: FormField },
     { name: 'form-validator', path: '/form-validator', meta: {title: '输入校验', requiresAuth: true}, component: FormValidator },
-    { name: 'spinner', path: '/spinner', meta: {title: '动画', requiresAuth: true}, component: Spinner },
+
+    { name: 'animat', path: '/animat', meta: {title: '动画', requiresAuth: true}, component: Animat },
+    { name: 'animat-spinner', path: '/animat-spinner', meta: {title: '动画', requiresAuth: true}, component: AnimatSpinner },
+
     { name: 'toast', path: '/toast', meta: {title: '提示', requiresAuth: true}, component: Toast },
     { name: 'message-box', path: '/message-box', meta: {title: '弹出框', requiresAuth: true}, component: MessageBox },
     { name: 'feed', path: '/feed', meta: {title: 'feed', requiresAuth: true}, component: Feed },

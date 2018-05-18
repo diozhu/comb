@@ -49,7 +49,7 @@
         <p>动画</p>
         <div class="listview simple">
             <ul>
-                <router-link :to="{ path: '/spinner', query: { subjectId: 61 } }" tag="li">加载（spinner）<i class="icon icon-arrow-r"></i></router-link>
+                <router-link :to="{ path: '/animat-spinner', query: { subjectId: 62 } }" tag="li">加载（spinner）<i class="icon icon-arrow-r"></i></router-link>
             </ul>
         </div>
 
@@ -75,6 +75,7 @@
         <p>开发中...</p>
         <div class="listview simple">
             <ul>
+                <router-link :to="{ path: '/animat', query: { subjectId: 61 } }" tag="li">动画（animat）<i class="icon icon-arrow-r"></i></router-link>
                 <router-link :to="{ path: '/form', query: { subjectId: 47 } }" tag="li">表单（v-form）<i class="icon icon-arrow-r"></i></router-link>
                 <router-link :to="{ path: '/char-indexes', query: { subjectId: 47 } }" tag="li">字符索引（v-char-indexes）<i class="icon icon-arrow-r"></i></router-link>
                 <router-link :to="{ path: '/calendar', query: { subjectId: 47 } }" tag="li">日历（v-calendar）<i class="icon icon-arrow-r"></i></router-link>
