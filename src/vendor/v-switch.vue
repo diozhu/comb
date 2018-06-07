@@ -9,48 +9,48 @@
     </label>
 </template>
 <script>
-    import logger from '../js/utils/logger';
+import logger from '../js/utils/logger';
 
-    /**
-     * radio组件
-     * @param {string[], object[]} options - 选项数组，格式：
-     *      [{label: 'label', labelSub: 'sub title', value: 'value', disabled: true}]
-     *      或
-     *      ['ab', 'cd', 'ef']
-     *              -- Author by Dio Zhu. on 2017.1.11
-     */
-    export default {
-        name: 'v-switch',
-        props: {
-            id: String,
-            label: String,
-            classes: String,
-            options: Object,
-            value: Boolean
-        },
-        data () {
-            return {
-            };
-        },
-        computed: {
-            currentValue: {
-                get () {
-                    return this.value;
-                },
-                set (val) {
-                    this.$emit('input', val);
-                }
-            }
-        },
-        methods: {
-            onClick: function () {
-                logger.log('v-radio.onClick: ');
-                if (this.cb && typeof this.cb === 'function') {
-                    this.cb();
-                }
+/**
+ * radio组件
+ * @param {string[], object[]} options - 选项数组，格式：
+ *      [{label: 'label', labelSub: 'sub title', value: 'value', disabled: true}]
+ *      或
+ *      ['ab', 'cd', 'ef']
+ *              -- Author by Dio Zhu. on 2017.1.11
+ */
+export default {
+    name: 'v-switch',
+    props: {
+        id: String,
+        label: String,
+        classes: String,
+        options: Object,
+        value: Boolean
+    },
+    data () {
+        return {
+        };
+    },
+    computed: {
+        currentValue: {
+            get () {
+                return this.value;
+            },
+            set (val) {
+                this.$emit('input', val);
             }
         }
-    };
+    },
+    methods: {
+        onClick: function () {
+            logger.log('v-radio.onClick: ');
+            if (this.cb && typeof this.cb === 'function') {
+                this.cb();
+            }
+        }
+    }
+};
 </script>
 <style rel="stylesheet/scss" lang="scss">
     @import "../scss/variables";

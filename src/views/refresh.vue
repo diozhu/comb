@@ -14,7 +14,7 @@
 
             <v-scroll v-model="listData" :func="getList" func-type="section">
                 <ul>
-                    <li v-for="item in listData" @click="goDetail(item)">
+                    <li v-for="(item, index) in listData" :key="index" @click="goDetail(item)">
                         <v-feed
                             :feedId="item.userInfo.feedId"
                             :imgUrl="item.userInfo.avatar"
@@ -31,78 +31,78 @@
 </template>
 
 <script>
-    import * as api from '../js/core/api';
-    import vRefresh from '../vendor/v-refresh.vue';
-    import vScroll from '../vendor/v-scroll.vue';
-    import vFeed from '../vendor/v-feed.vue';
-    import vText from '../vendor/v-text.vue';
-    import { mapGetters } from 'vuex';
+import * as api from '../js/core/api';
+import vRefresh from '../vendor/v-refresh.vue';
+import vScroll from '../vendor/v-scroll.vue';
+import vFeed from '../vendor/v-feed.vue';
+import vText from '../vendor/v-text.vue';
+import { mapGetters } from 'vuex';
 
-    export default {
-        components: { vRefresh, vScroll, vFeed, vText },
-//         components: {
-// //            vRefresh,
-// //            vScroll,
-//             vRefresh (resolve) { setTimeout(() => { resolve(require('../vendor/v-refresh.vue')); }); },
-//             vScroll (resolve) { setTimeout(() => { resolve(require('../vendor/v-scroll.vue')); }); },
-//             vFeed (resolve) { setTimeout(() => { resolve(require('../vendor/v-feed.vue')); }); },
-//             vText (resolve) { setTimeout(() => { resolve(require('../vendor/v-text.vue')); }); }
-//         },
+export default {
+    components: { vRefresh, vScroll, vFeed, vText },
+    //         components: {
+    // //            vRefresh,
+    // //            vScroll,
+    //             vRefresh (resolve) { setTimeout(() => { resolve(require('../vendor/v-refresh.vue')); }); },
+    //             vScroll (resolve) { setTimeout(() => { resolve(require('../vendor/v-scroll.vue')); }); },
+    //             vFeed (resolve) { setTimeout(() => { resolve(require('../vendor/v-feed.vue')); }); },
+    //             vText (resolve) { setTimeout(() => { resolve(require('../vendor/v-text.vue')); }); }
+    //         },
 
-        data () {
-            return {
-                info: '',
-                listData: [],
-                isMounted: false
-            };
-        },
+    data () {
+        return {
+            info: '',
+            listData: [],
+            isMounted: false
+        };
+    },
 
-        computed: {
-            ...mapGetters(['userInfo', 'follows'])     // 从store中获取当前登陆用户信息
-        },
+    computed: {
+        ...mapGetters(['userInfo', 'follows'])     // 从store中获取当前登陆用户信息
+    },
 
-        watch: {
-            '$root._isMounted' (val) {
-                this.isMounted = val;
-            }
-        },
-
-        mounted () {
-            this.$logger.log('refresh.mounted... ');
-            // this.init();
-        },
-
-        activated () {
-            this.$logger.log('refresh.activated... ');
-            if (this.$router.direct()) { // in
-                this.init();
-            } else { // back
-                // do nothing...
-            }
-        },
-
-        methods: {
-            init () { // refresh组件如果用在单独详情页，也可通过此函数进行页面数据加载
-                this.$logger.log('refresh.init...');
-
-                return api.getDelay({delay: 500}).then(res => { // 拉取详情信息
-                    this.info = res;
-                    return Promise.resolve(res);
-                });
-
-//                return Promise.resolve({}); // 如果不需要接口，但想要下拉效果，也可直接返回一个空的promise对象
-            },
-
-            getList ({ offset, limit }) {
-                return api.getRandomList({offset: offset, limit: limit});
-            },
-
-            goDetail (item) {
-                this.$logger.log('refresh.goDetail:', item);
-                this.$router.push({name: 'refresh-two'});
-            }
+    watch: {
+        '$root._isMounted' (val) {
+            this.isMounted = val;
         }
-    };
+    },
+
+    mounted () {
+        this.$logger.log('refresh.mounted... ');
+        // this.init();
+    },
+
+    activated () {
+        this.$logger.log('refresh.activated... ');
+        if (this.$router.direct()) { // in
+            this.init();
+        } else { // back
+            // do nothing...
+        }
+    },
+
+    methods: {
+        init () { // refresh组件如果用在单独详情页，也可通过此函数进行页面数据加载
+            this.$logger.log('refresh.init...');
+
+            return api.getDelay({delay: 500}).then(res => { // 拉取详情信息
+                this.info = res;
+                return Promise.resolve(res);
+            });
+
+            // return Promise.resolve({}); // 如果不需要接口，但想要下拉效果，也可直接返回一个空的promise对象
+        },
+
+        getList ({ offset, limit }) {
+            return api.getRandomList({offset: offset, limit: limit});
+        },
+
+        goDetail (item) {
+            this.$logger.log('refresh.goDetail:', item);
+            this.$router.push({name: 'refresh-two'});
+        }
+    }
+};
 </script>
 
 <style rel="stylesheet/scss" lang="scss">

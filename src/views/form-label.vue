@@ -100,37 +100,37 @@
 </template>
 
 <script>
-    import logger from '../js/utils/logger';
-    import vLabel from '../vendor/v-label';
+import logger from '../js/utils/logger';
+import vLabel from '../vendor/v-label';
 
-    export default {
-        data () {
-            return {
-                deletedId: ''    //  返回删除的id标识
-            };
+export default {
+    data () {
+        return {
+            deletedId: ''    //  返回删除的id标识
+        };
+    },
+    created: function () {
+        console.log('created');
+    },
+    mounted () {
+        logger.log('form mounted... ');
+    },
+    components: {
+        'v-label': vLabel
+    },
+    methods: {
+        selectDemo () {
+            logger.log('form.selectDemo: ');
         },
-        created: function () {
-            console.log('created');
+        handleChange (e) {
+            logger.log('form.handleChange: ', e);
         },
-        mounted () {
-            logger.log('form mounted... ');
-        },
-        components: {
-            'v-label': vLabel
-        },
-        methods: {
-            selectDemo () {
-                logger.log('form.selectDemo: ');
-            },
-            handleChange (e) {
-                logger.log('form.handleChange: ', e);
-            },
-            delFunc (id, e) {
-                this.deletedId = id;
-                logger.log('form.delFunc: ', id, e);
-            }
+        delFunc (id, e) {
+            this.deletedId = id;
+            logger.log('form.delFunc: ', id, e);
         }
-    };
+    }
+};
 </script>
 
 <style rel="stylesheet/scss" lang="scss">

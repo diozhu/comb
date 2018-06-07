@@ -10,7 +10,7 @@
         > </v-feed>
 
         <ul class="image-list">
-            <li v-for="img in images">
+            <li v-for="(img, index) in images" :key="index">
                 <!--<img :src="img.url | thumb">-->
                 <img v-lazy="img.url">
             </li>

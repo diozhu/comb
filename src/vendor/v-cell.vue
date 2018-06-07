@@ -32,51 +32,51 @@
     </a>
 </template>
 <script type="text/ecmascript-6">
-    /**
-     * v-cell
-     */
-    export default {
-        name: 'v-cell',
+/**
+ * v-cell
+ */
+export default {
+    name: 'v-cell',
 
-        props: {
-            to: [String, Object],   // 路由对象或href
-            icon: String,           // 可传入iconfont名称不包含'icon-'部分
-            reverse: Boolean,       // 图标反转标识
-            title: String,          // 标题
-            label: String,          // 子标题
-            isLink: Boolean,        // 右侧箭头图标显示
-            value: {},              // 右侧内容
-            desc: String            // 右侧注释，会被value覆盖
-        },
-        computed: {
-            href () {
-                if (this.to && !this.added && this.$router) {
-                    const resolved = this.$router.match(this.to);
-                    this.$logger.log('v-cell.computed.href: ', resolved);
-                    if (!resolved.matched.length) return this.to;
+    props: {
+        to: [String, Object],   // 路由对象或href
+        icon: String,           // 可传入iconfont名称不包含'icon-'部分
+        reverse: Boolean,       // 图标反转标识
+        title: String,          // 标题
+        label: String,          // 子标题
+        isLink: Boolean,        // 右侧箭头图标显示
+        value: {},              // 右侧内容
+        desc: String            // 右侧注释，会被value覆盖
+    },
+    computed: {
+        href () {
+            if (this.to && !this.added && this.$router) {
+                const resolved = this.$router.match(this.to);
+                this.$logger.log('v-cell.computed.href: ', resolved);
+                if (!resolved.matched.length) return this.to;
 
-                    this.$nextTick(() => {
-                        this.added = true;
-                        this.$el.addEventListener('click', this.handleClick);
-                    });
-                    return resolved.path;
-                }
-                return this.to;
+                this.$nextTick(() => {
+                    this.added = true; //eslint-disable-line
+                    this.$el.addEventListener('click', this.handleClick);
+                });
+                return resolved.path;
             }
-        },
-
-        created () {
-            // this.$logger.log('v-cell.created: ');
-        },
-
-        methods: {
-            handleClick ($event) {
-                this.$logger.log('v-cell.handleClick: ');
-                $event.preventDefault();
-                this.$router.push(this.to);
-            }
+            return this.to;
         }
-    };
+    },
+
+    created () {
+        // this.$logger.log('v-cell.created: ');
+    },
+
+    methods: {
+        handleClick ($event) {
+            this.$logger.log('v-cell.handleClick: ');
+            $event.preventDefault();
+            this.$router.push(this.to);
+        }
+    }
+};
 </script>
 <style rel="stylesheet/scss" lang="scss">
     @import "../scss/variables";

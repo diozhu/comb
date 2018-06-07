@@ -53,13 +53,13 @@
         <h2>限定单行</h2>
         <ul class="desc">
             <li>
-                <v-text :limit.Number="1" value="这一天还是来了，科比亲自宣布本赛季结束后退役。科比在退役文章中这样写道：亲爱的篮球：当我还“树雄心创伟业为江山添色，立壮志写春秋与日月争辉，祝21岁生日快乐；"></v-text>
+                <v-text :limit="1" value="这一天还是来了，科比亲自宣布本赛季结束后退役。科比在退役文章中这样写道：亲爱的篮球：当我还“树雄心创伟业为江山添色，立壮志写春秋与日月争辉，祝21岁生日快乐；"></v-text>
             </li>
         </ul>
         <pre v-highlightjs @touchend.stop><code class="html">
         &lt;ul&gt;
             &lt;li&gt;
-                &lt;v-text :limit.Number="1" value="这一天还是来了，科比亲自宣布本赛季结束后退役。科比在退役文章中这样写道：亲爱的篮球：当我还“树雄心创伟业为江山添色，立壮志写春秋与日月争辉，祝21岁生日快乐；"&gt;&lt;/v-text&gt;
+                &lt;v-text :limit="1" value="这一天还是来了，科比亲自宣布本赛季结束后退役。科比在退役文章中这样写道：亲爱的篮球：当我还“树雄心创伟业为江山添色，立壮志写春秋与日月争辉，祝21岁生日快乐；"&gt;&lt;/v-text&gt;
             &lt;/li&gt;
         &lt;/ul&gt;
         </code></pre>
@@ -67,13 +67,13 @@
         <h2>限定字数</h2>
         <ul class="desc">
             <li>
-                <v-text :limit.Number="1" :length="7" value="这一天还是来了，科比亲自宣布本赛季结束后退役。科比在退役文章中这样写道：亲爱的篮球：当我还“树雄心创伟业为江山添色，立壮志写春秋与日月争辉，祝21岁生日快乐；"></v-text>
+                <v-text :limit="1" :length="7" value="这一天还是来了，科比亲自宣布本赛季结束后退役。科比在退役文章中这样写道：亲爱的篮球：当我还“树雄心创伟业为江山添色，立壮志写春秋与日月争辉，祝21岁生日快乐；"></v-text>
             </li>
         </ul>
         <pre v-highlightjs @touchend.stop><code class="html">
         &lt;ul&gt;
             &lt;li&gt;
-                &lt;v-text :limit.Number="1" value="这一天还是来了，科比亲自宣布本赛季结束后退役。科比在退役文章中这样写道：亲爱的篮球：当我还“树雄心创伟业为江山添色，立壮志写春秋与日月争辉，祝21岁生日快乐；"&gt;&lt;/v-text&gt;
+                &lt;v-text :limit="1" value="这一天还是来了，科比亲自宣布本赛季结束后退役。科比在退役文章中这样写道：亲爱的篮球：当我还“树雄心创伟业为江山添色，立壮志写春秋与日月争辉，祝21岁生日快乐；"&gt;&lt;/v-text&gt;
             &lt;/li&gt;
         &lt;/ul&gt;
         </code></pre>
@@ -81,13 +81,13 @@
         <h2>限定多行</h2>
         <ul class="desc">
             <li>
-                <v-text :limit.Number="3" value="这一天还是来了，科比亲自宣布本赛季结束后退役。科比在退役文章中这样写道：亲爱的篮球：当我还“树雄心创伟业为江山添色，立壮志写春秋与日月争辉，祝21岁生日快乐；"></v-text>
+                <v-text :limit="3" value="这一天还是来了，科比亲自宣布本赛季结束后退役。科比在退役文章中这样写道：亲爱的篮球：当我还“树雄心创伟业为江山添色，立壮志写春秋与日月争辉，祝21岁生日快乐；"></v-text>
             </li>
         </ul>
         <pre v-highlightjs @touchend.stop><code class="html">
         &lt;ul&gt;
             &lt;li&gt;
-                &lt;v-text :limit.Number="3" value="这一天还是来了，科比亲自宣布本赛季结束后退役。科比在退役文章中这样写道：亲爱的篮球：当我还“树雄心创伟业为江山添色，立壮志写春秋与日月争辉，祝21岁生日快乐；"&gt;&lt;/v-text&gt;
+                &lt;v-text :limit="3" value="这一天还是来了，科比亲自宣布本赛季结束后退役。科比在退役文章中这样写道：亲爱的篮球：当我还“树雄心创伟业为江山添色，立壮志写春秋与日月争辉，祝21岁生日快乐；"&gt;&lt;/v-text&gt;
             &lt;/li&gt;
         &lt;/ul&gt;
         </code></pre>
@@ -95,13 +95,13 @@
         <h2>单击展开</h2>
         <ul class="desc">
             <li>
-                <v-text :limit.Number="3" :expandEnabled="true" value="这一天还是来了，科比亲自宣布本赛季结束后退役。科比在退役文章中这样写道：亲爱的篮球：当我还“树雄心创伟业为江山添色，立壮志写春秋与日月争辉，祝21岁生日快乐；"></v-text>
+                <v-text :limit="3" :expandEnabled="true" value="这一天还是来了，科比亲自宣布本赛季结束后退役。科比在退役文章中这样写道：亲爱的篮球：当我还“树雄心创伟业为江山添色，立壮志写春秋与日月争辉，祝21岁生日快乐；"></v-text>
             </li>
         </ul>
         <pre v-highlightjs @touchend.stop><code class="html">
         &lt;ul&gt;
             &lt;li&gt;
-                &lt;v-text :limit.Number="3" :expandEnabled="true" value="这一天还是来了，科比亲自宣布本赛季结束后退役。科比在退役文章中这样写道：亲爱的篮球：当我还“树雄心创伟业为江山添色，立壮志写春秋与日月争辉，祝21岁生日快乐；"&gt;&lt;/v-text&gt;
+                &lt;v-text :limit="3" :expandEnabled="true" value="这一天还是来了，科比亲自宣布本赛季结束后退役。科比在退役文章中这样写道：亲爱的篮球：当我还“树雄心创伟业为江山添色，立壮志写春秋与日月争辉，祝21岁生日快乐；"&gt;&lt;/v-text&gt;
             &lt;/li&gt;
         &lt;/ul&gt;
         </code></pre>
@@ -127,7 +127,6 @@
         ..."></v-text>
             </li>
         </ul>
-
 
         <h2>相册组件 v-album</h2>
         <h2>单张竖图</h2>
@@ -169,127 +168,127 @@
     </div>
 </template>
 <script>
-    import vText from '../vendor/v-text.vue';
-    import vAlbum from '../vendor/v-album.vue';
-    import vLi from '../vendor/v-li.vue';
-    import vImageList from '../vendor/v-image-list.vue';
+import vText from '../vendor/v-text.vue';
+import vAlbum from '../vendor/v-album.vue';
+import vLi from '../vendor/v-li.vue';
+import vImageList from '../vendor/v-image-list.vue';
 
-    export default {
-        components: { vText, vAlbum, vLi, vImageList },
-        data () {
-            return {
-                title: '拼搏创新',
-                img1: [
-                    {
-                        url: 'http://apr.qiniu.mobi/FmXTkxsW6lyvwYYph3Z_9OcuTdH-',
-                        width: 2448,
-                        height: 3264
-                    }
-                ],
-                img2: [
-                    {
-                        url: 'http://apr.qiniu.mobi/FmXTkxsW6lyvwYYph3Z_9OcuTdH-',
-                        width: 2448,
-                        height: 3264
-                    },
-                    {
-                        url: 'http://apr.qiniu.mobi/FsFj1WAycSZm65jGvE_vvMdFiMmm',
-                        width: 2448,
-                        height: 3264
-                    }
-                ],
-                img3: [
-                    {
-                        url: 'http://apr.qiniu.mobi/FmXTkxsW6lyvwYYph3Z_9OcuTdH-',
-                        width: 2448,
-                        height: 3264
-                    },
-                    {
-                        url: 'http://apr.qiniu.mobi/FsFj1WAycSZm65jGvE_vvMdFiMmm',
-                        width: 2448,
-                        height: 3264
-                    },
-                    {
-                        url: 'http://apr.qiniu.mobi/FqvlnzdAtya7MWSoqq68QE-O5q49',
-                        width: 3264,
-                        height: 2448
-                    },
-                    {
-                        url: 'http://apr.qiniu.mobi/Fuj_9AkRYImxjEKwYWO5zuuQm5Po',
-                        width: 2448,
-                        height: 3264
-                    }
-                ],
+export default {
+    components: { vText, vAlbum, vLi, vImageList },
+    data () {
+        return {
+            title: '拼搏创新',
+            img1: [
+                {
+                    url: 'http://apr.qiniu.mobi/FmXTkxsW6lyvwYYph3Z_9OcuTdH-',
+                    width: 2448,
+                    height: 3264
+                }
+            ],
+            img2: [
+                {
+                    url: 'http://apr.qiniu.mobi/FmXTkxsW6lyvwYYph3Z_9OcuTdH-',
+                    width: 2448,
+                    height: 3264
+                },
+                {
+                    url: 'http://apr.qiniu.mobi/FsFj1WAycSZm65jGvE_vvMdFiMmm',
+                    width: 2448,
+                    height: 3264
+                }
+            ],
+            img3: [
+                {
+                    url: 'http://apr.qiniu.mobi/FmXTkxsW6lyvwYYph3Z_9OcuTdH-',
+                    width: 2448,
+                    height: 3264
+                },
+                {
+                    url: 'http://apr.qiniu.mobi/FsFj1WAycSZm65jGvE_vvMdFiMmm',
+                    width: 2448,
+                    height: 3264
+                },
+                {
+                    url: 'http://apr.qiniu.mobi/FqvlnzdAtya7MWSoqq68QE-O5q49',
+                    width: 3264,
+                    height: 2448
+                },
+                {
+                    url: 'http://apr.qiniu.mobi/Fuj_9AkRYImxjEKwYWO5zuuQm5Po',
+                    width: 2448,
+                    height: 3264
+                }
+            ],
 
-                img11: [
-                    {
-                        url: 'http://apr.qiniu.mobi/FqvlnzdAtya7MWSoqq68QE-O5q49',
-                        width: 3264,
-                        height: 2448
-                    }
-                ],
-                img12: [
-                    {
-                        url: 'http://apr.qiniu.mobi/FqvlnzdAtya7MWSoqq68QE-O5q49',
-                        width: 3264,
-                        height: 2448
-                    },
-                    {
-                        url: 'http://apr.qiniu.mobi/FsFj1WAycSZm65jGvE_vvMdFiMmm',
-                        width: 2448,
-                        height: 3264
-                    }
-                ],
-                img13: [
-                    {
-                        url: 'http://apr.qiniu.mobi/FqvlnzdAtya7MWSoqq68QE-O5q49',
-                        width: 3264,
-                        height: 2448
-                    },
-                    {
-                        url: 'http://apr.qiniu.mobi/FmXTkxsW6lyvwYYph3Z_9OcuTdH-',
-                        width: 2448,
-                        height: 3264
-                    },
-                    {
-                        url: 'http://apr.qiniu.mobi/FsFj1WAycSZm65jGvE_vvMdFiMmm',
-                        width: 2448,
-                        height: 3264
-                    },
-                    {
-                        url: 'http://apr.qiniu.mobi/Fuj_9AkRYImxjEKwYWO5zuuQm5Po',
-                        width: 2448,
-                        height: 3264
-                    }
-                ],
-                currentUrls: [],
-                showType: 0
-            };
+            img11: [
+                {
+                    url: 'http://apr.qiniu.mobi/FqvlnzdAtya7MWSoqq68QE-O5q49',
+                    width: 3264,
+                    height: 2448
+                }
+            ],
+            img12: [
+                {
+                    url: 'http://apr.qiniu.mobi/FqvlnzdAtya7MWSoqq68QE-O5q49',
+                    width: 3264,
+                    height: 2448
+                },
+                {
+                    url: 'http://apr.qiniu.mobi/FsFj1WAycSZm65jGvE_vvMdFiMmm',
+                    width: 2448,
+                    height: 3264
+                }
+            ],
+            img13: [
+                {
+                    url: 'http://apr.qiniu.mobi/FqvlnzdAtya7MWSoqq68QE-O5q49',
+                    width: 3264,
+                    height: 2448
+                },
+                {
+                    url: 'http://apr.qiniu.mobi/FmXTkxsW6lyvwYYph3Z_9OcuTdH-',
+                    width: 2448,
+                    height: 3264
+                },
+                {
+                    url: 'http://apr.qiniu.mobi/FsFj1WAycSZm65jGvE_vvMdFiMmm',
+                    width: 2448,
+                    height: 3264
+                },
+                {
+                    url: 'http://apr.qiniu.mobi/Fuj_9AkRYImxjEKwYWO5zuuQm5Po',
+                    width: 2448,
+                    height: 3264
+                }
+            ],
+            currentUrls: [],
+            showType: 0
+        };
+    },
+    created: function () {
+        this.$logger.log('list.created');
+    },
+    mounted () {
+        this.$logger.log('list.mounted... ');
+    },
+    methods: {
+        goToViewImage () {
+            this.$root.img = arguments[0];
+            this.$router.push({path: 'viewImage'});
         },
-        created: function () {
-            this.$logger.log('list.created');
-        },
-        mounted () {
-            this.$logger.log('list.mounted... ');
-        },
-        methods: {
-            goToViewImage () {
-                this.$root.img = arguments[0];
-                this.$router.push({path: 'viewImage'});
-            },
 
-            goViewer (e, idx) {
-                this.$logger.log('list.goViewer: ', e, idx);
-//                e.stopPropagation();
-//                e.preventDefault();
-                this.$root.swipes = {list: this.img13, idx: idx}; // swipe
-                this.$root.img = this.img13; // viewer
-                this.$router.push({name: 'viewer', query: {idx: idx}});
-                // this.$router.push({name: 'swipe'});
-                return;
-            }
+        goViewer (e, idx) {
+            this.$logger.log('list.goViewer: ', e, idx);
+            //                e.stopPropagation();
+            //                e.preventDefault();
+            this.$root.swipes = {list: this.img13, idx: idx}; // swipe
+            this.$root.img = this.img13; // viewer
+            this.$router.push({name: 'viewer', query: {idx: idx}});
+            // this.$router.push({name: 'swipe'});
+            return;
         }
-    };
+    }
+};
 </script>
 <style rel="stylesheet/scss" lang="scss">
     @import "../scss/variables";
@@ -318,6 +317,4 @@
         }
 
     }
-
-
 </style>

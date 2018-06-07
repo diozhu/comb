@@ -31,15 +31,15 @@
         <div class="v-sticky" v-sticky.top="100">
             <v-button size="full" styles="rectangle">距顶部100px</v-button>
         </div>
-        <div class="num"><p v-for="n in 100">模拟数据{{n}}</p></div>
+        <div class="num"><p v-for="n in 100" :key="n">模拟数据{{n}}</p></div>
         <div class="v-sticky" v-sticky.top>
             <v-button size="full" styles="rectangle">中间吸顶</v-button>
         </div>
-        <div class="num"><p v-for="n in 100">模拟数据{{n}}</p></div>
+        <div class="num"><p v-for="n in 100" :key="n">模拟数据{{n}}</p></div>
         <div class="v-sticky" v-sticky.bottom="50">
             <v-button size="full" styles="rectangle">距底部50px</v-button>
         </div>
-        <div class="num"><p v-for="n in 50">模拟数据{{n}}</p></div>
+        <div class="num"><p v-for="n in 50" :key="n">模拟数据{{n}}</p></div>
      <div class="blank">end</div>
     </div>
 </template>

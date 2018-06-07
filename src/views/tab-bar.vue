@@ -14,11 +14,10 @@
             </table>
         </div>
 
-
         <h2>示例</h2>
 
         <v-tabbar v-bind:tabs='tabs' @change = "changeFn">
-            <p slot="con" v-for="(item, index) in tabs.tabCons"  v-if='tabs.selectNum==index'>
+            <p slot="con" v-for="(item, index) in tabs.tabCons" :key="index" v-if='tabs.selectNum==index'>
                 {{item}}
             </p>
             <p slot="customTpl" v-if='tabs.selectNum==0'>{{template}}</p>
@@ -32,62 +31,62 @@
     </div>
 </template>
 <script>
-    /**
-     * <p slot="con">自定义分发内容
-     * <p slot="customTpl">自定义分发模板
-     * es6模板样例this.template = `${this.selected}我是标签模板第一项.`;
-     * @param {boolean} [fixed=true] - 导航固底显示
-     * @param {number} [selectNum=0] - 首次进入默认选中的标签
-     * @example
-     * <v-tabbar v-bind:tabs='tabs'>
-     * </v-tabbar>
-     *
-     * @example（自定义）
-     * <v-tabbar v-bind:tabs='tabs'>
-     *     <p slot="con" v-for="item in tabs.tabCons">{{item}}</p>
-     *     <p slot="customTpl" v-if='tabs.selectNum==0'>{{template}}</p>
-     * </v-tabbar>
-     */
-    import vTabbar from '../vendor/v-tab-bar.vue';
-    export default {
-        components: { vTabbar },
+/**
+ * <p slot="con">自定义分发内容
+ * <p slot="customTpl">自定义分发模板
+ * es6模板样例this.template = `${this.selected}我是标签模板第一项.`;
+ * @param {boolean} [fixed=true] - 导航固底显示
+ * @param {number} [selectNum=0] - 首次进入默认选中的标签
+ * @example
+ * <v-tabbar v-bind:tabs='tabs'>
+ * </v-tabbar>
+ *
+ * @example（自定义）
+ * <v-tabbar v-bind:tabs='tabs'>
+ *     <p slot="con" v-for="item in tabs.tabCons">{{item}}</p>
+ *     <p slot="customTpl" v-if='tabs.selectNum==0'>{{template}}</p>
+ * </v-tabbar>
+ */
+import vTabbar from '../vendor/v-tab-bar.vue';
+export default {
+    components: { vTabbar },
 
-        data () {
-            return {
-                tabs: {
-                    fixed: false,
-                    customTpl: true,
-                    selectNum: 0,
-                    tabCons: ['我初始化的000月度内容', '我初始化的111月度内容', '我初始化的222季度内容'], // 可改为ES6模板
-                    tabNavs: ['年度', '月度', '季度']
-                },
-                selected: '年度',
-                template: ''
-            };
-        },
-        mounted () {
-            this.$logger.log('shaolingtabbar.mounted...');
-            this.template = `<h1>${this.selected}我是标签模板第一项.</h1>`;
-            this.template1 = `${this.selected}我是标签模板第二项.`;
-            this.template2 = `${this.selected}我是标签模板第三项.`;
-            this.$refs.testTpl.innerHTML = `<h1>${this.selected}我是标签模板第一项.</h1>`;
-        },
-        created () {
-        },
-        computed: {
-            selectNav: function () {
-                return this.selected.split('度')[0];
-            }
-        },
-        methods: {
-            changeFn: function (item, index) {
-                this.selected = item; // 得到值的后续操作
+    data () {
+        return {
+            tabs: {
+                fixed: false,
+                customTpl: true,
+                selectNum: 0,
+                tabCons: ['我初始化的000月度内容', '我初始化的111月度内容', '我初始化的222季度内容'], // 可改为ES6模板
+                tabNavs: ['年度', '月度', '季度']
             },
-            selectNav1: function () {
-                return this.selected.split('度')[0];
-            }
+            selected: '年度',
+            template: ''
+        };
+    },
+    mounted () {
+        this.$logger.log('shaolingtabbar.mounted...');
+        this.template = `<h1>${this.selected}我是标签模板第一项.</h1>`;
+        this.template1 = `${this.selected}我是标签模板第二项.`;
+        this.template2 = `${this.selected}我是标签模板第三项.`;
+        this.$refs.testTpl.innerHTML = `<h1>${this.selected}我是标签模板第一项.</h1>`;
+    },
+    created () {
+    },
+    computed: {
+        selectNav: function () {
+            return this.selected.split('度')[0];
         }
-    };
+    },
+    methods: {
+        changeFn: function (item, index) {
+            this.selected = item; // 得到值的后续操作
+        },
+        selectNav1: function () {
+            return this.selected.split('度')[0];
+        }
+    }
+};
 </script>
 <style rel="stylesheet/scss" lang="scss">
     @import "../scss/variables";

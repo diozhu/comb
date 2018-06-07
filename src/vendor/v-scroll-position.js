@@ -126,6 +126,7 @@ let throttle = function (fn, delay) { //eslint-disable-line
                 _self.el.scrollTop = parseInt(moveY);
                 setTimeout(m, 10);
             }
+
             m();
         })(pos[1], Date.now());
     },
@@ -146,7 +147,7 @@ let throttle = function (fn, delay) { //eslint-disable-line
             targets = directive.querySelectorAll('[scroll-position]');
         // console.log(`[v-scroll-position].${this.vm._uid}.doInserted: `, targets);
         if (targets.length > 0) {
-            for (let i = 0, len = targets.length;i < len;i++) {
+            for (let i = 0, len = targets.length; i < len; i++) {
                 resetPosition.call(this, targets[i]);
             }
         } else {
@@ -180,7 +181,7 @@ let throttle = function (fn, delay) { //eslint-disable-line
         let directive = this.el,
             targets = directive.querySelectorAll('[scroll-position]');
         if (targets.length > 0) {
-            for (let i = 0, len = targets.length;i < len;i++) {
+            for (let i = 0, len = targets.length; i < len; i++) {
                 targets[i].removeAttribute('scroll-position');
             }
         } else {
@@ -210,7 +211,9 @@ let ScrollPosition = {
             }
 
             if (isAttached(el)) {
-                setTimeout(() => { doBind.call(el[ctx], args); }, 0);
+                setTimeout(() => {
+                    doBind.call(el[ctx], args);
+                }, 0);
                 return; // Add by Dio Zhu. on 2017.2.14
             }
 

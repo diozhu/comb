@@ -13,156 +13,149 @@
 </template>
 
 <script type="text/babel">
-    import Popup from '../js/utils/popup';
+import Popup from '../js/utils/popup';
 
-    /**
-     *  因为在v-picker中加了mask蒙版，使用了线性背景（gradient）
-     *  transition的slide中的translate3d在低版本系统中会对线性渲染有兼容性问题，所以这里默认用了fade模式。
-     *              -- Author by Dio Zhu. on 2017.3.3.
-     */
-    export default {
-        name: 'mt-popup',
+/**
+ *  因为在v-picker中加了mask蒙版，使用了线性背景（gradient）
+ *  transition的slide中的translate3d在低版本系统中会对线性渲染有兼容性问题，所以这里默认用了fade模式。
+ *              -- Author by Dio Zhu. on 2017.3.3.
+ */
+export default {
+    name: 'mt-popup',
 
-        mixins: [Popup],
+    mixins: [Popup],
 
-        props: {
-            value: {
-                type: Boolean,
-                default: false
-            },
-            toolbar: {              // 是否显示操作按钮。 Author by Dio Zhu. on 2018.4.25
-                type: Boolean,
-                default: false
-            },
-            closeEnable: {          // 是否可以关闭当前组件的外部条件。 Author by Dio Zhu. on 2018.4.25
-                type: Boolean,
-                default: true
-            },
-            modal: {
-                default: true
-            },
-
-            modalFade: {
-                default: true
-            },
-
-            lockScroll: {
-                default: false
-            },
-
-            closeOnClickModal: {
-                default: true
-            },
-
-            popupTransition: {
-                type: String,
-                default: 'popup-fade' // popup-fade、popup-slide
-            },
-
-            position: {
-                type: String,
-                default: 'bottom'
-            }
+    props: {
+        value: {
+            type: Boolean,
+            default: false
+        },
+        toolbar: {              // 是否显示操作按钮。 Author by Dio Zhu. on 2018.4.25
+            type: Boolean,
+            default: false
+        },
+        closeEnable: {          // 是否可以关闭当前组件的外部条件。 Author by Dio Zhu. on 2018.4.25
+            type: Boolean,
+            default: true
+        },
+        modal: {
+            default: true
         },
 
-        data () {
-            return {
-                currentValue: false,
-                currentTransition: this.popupTransition
-            };
+        modalFade: {
+            default: true
         },
 
-        watch: {
-            currentValue (val) {
-                /**
-                 * 取消滚动，避免弹出层响应window的scroll事件
-                 * 由于默认使用的window的滚动条，只有列表页才会使用容器滚动条，而window滚动条无法被屏蔽。
-                 * 所以在此打开了内容器，使得滚动失效。如果一直打开内容器，会造成页面内的input焦点时页面无法上推，被键盘挡住，所以关闭时取消内容器设定。
-                 *              -- Author by Dio Zhu. on 2017.4.6
-                 * 修改了滚动条容器，以前是window滚动条，后因为需要在滚动条中fixed，所以改成了div容器滚动条。
-                 *              -- Author by Dio Zhu. on 2017.5.16
-                 */
-//                let touchObj = document.getElementById('container');
-                let touchObj = document.getElementsByClassName('page')[0];
-                // this.$logger.log('v-popup.watch.currentValue: ', val, touchObj);
-                if (val && touchObj) {
-//                    touchObj.style.height = '100%';
-                    // touchObj.style.overflow = 'hidden';
-                    touchObj.style.overflowX = 'hidden';
-                    touchObj.style.overflowY = 'hidden';
-                } else if (touchObj) {
-//                    touchObj.style.height = 'initial';
-                    // touchObj.style.overflow = 'auto';
-                    touchObj.style.overflowY = 'auto';
-                    touchObj.style.overflowX = 'hidden';
-                }
-                this.$emit('input', val);
-            },
-
-            value (val) {
-                this.currentValue = val;
-                // this.$set(this, 'currentValue', val);
-                // console.log('v-popup.watch.value: ', val);
-            }
+        lockScroll: {
+            default: false
         },
 
-        beforeMount () {
-            if (this.popupTransition !== 'popup-fade') {
-                this.currentTransition = `popup-slide-${this.position}`;
-            }
+        closeOnClickModal: {
+            default: true
         },
 
-        mounted () {
-            if (this.value) {
-                this.rendered = true;
-                this.currentValue = true;
-                this.open();
-            }
+        popupTransition: {
+            type: String,
+            default: 'popup-fade' // popup-fade、popup-slide
         },
 
-        methods: {
-            confirm () {
-                // this.$logger.log('v-popup.methods.confirm: ', ...arguments);
-                if (this.closeEnable) { // 查看外部条件是否允许关闭当前组件
-                    this.$emit('handleConfirm', this.currentValue);
-                    this.currentValue = false;
-                } else {
-                    this.$emit('handleConfirm', false);
-                }
-            },
-            touchHandler (e) {
-                this.$logger.log('v-popup.methods.touchHandler: ', e);
-//                e.preventDefault();
-//                e.stopPropagation();
-//                return false;
-                e = e || window.event;
-                if (e && e.preventDefault) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                } else {
-                    e.returnvalue = false;
-                    return false;
-                }
-            },
-
-            enter: function (el, done) {
-                // console.log('v-popup.enter: ', el, done);
-                let maskor = this.$el.querySelectorAll('.picker-center-mask')[0];
-
-                if (maskor && maskor.style) {
-                    maskor.style.top = 0;
-                }
-                // console.log('v-popup.enter: ');
-            },
-            afterEnter (el) {
-                // console.log('v-popup.afterEnter: ');
-            },
-            enterCancelled: function (el) {
-//                this.eventbus;
-                // console.log('v-popup.enterCancelled: ');
-            }
+        position: {
+            type: String,
+            default: 'bottom'
         }
-    };
+    },
+
+    data () {
+        return {
+            currentValue: false,
+            currentTransition: this.popupTransition
+        };
+    },
+
+    watch: {
+        currentValue (val) {
+            /**
+             * 取消滚动，避免弹出层响应window的scroll事件
+             * 由于默认使用的window的滚动条，只有列表页才会使用容器滚动条，而window滚动条无法被屏蔽。
+             * 所以在此打开了内容器，使得滚动失效。如果一直打开内容器，会造成页面内的input焦点时页面无法上推，被键盘挡住，所以关闭时取消内容器设定。
+             *              -- Author by Dio Zhu. on 2017.4.6
+             * 修改了滚动条容器，以前是window滚动条，后因为需要在滚动条中fixed，所以改成了div容器滚动条。
+             *              -- Author by Dio Zhu. on 2017.5.16
+             */
+            let touchObj = document.getElementsByClassName('page')[0];
+            // this.$logger.log('v-popup.watch.currentValue: ', val, touchObj);
+            if (val && touchObj) {
+                // touchObj.style.overflow = 'hidden';
+                touchObj.style.overflowX = 'hidden';
+                touchObj.style.overflowY = 'hidden';
+            } else if (touchObj) {
+                // touchObj.style.overflow = 'auto';
+                touchObj.style.overflowY = 'auto';
+                touchObj.style.overflowX = 'hidden';
+            }
+            this.$emit('input', val);
+        },
+
+        value (val) {
+            this.currentValue = val;
+            // this.$set(this, 'currentValue', val);
+            // console.log('v-popup.watch.value: ', val);
+        }
+    },
+
+    beforeMount () {
+        if (this.popupTransition !== 'popup-fade') {
+            this.currentTransition = `popup-slide-${this.position}`;
+        }
+    },
+
+    mounted () {
+        if (this.value) {
+            this.rendered = true;
+            this.currentValue = true;
+            this.open();
+        }
+    },
+
+    methods: {
+        confirm () {
+            // this.$logger.log('v-popup.methods.confirm: ', ...arguments);
+            if (this.closeEnable) { // 查看外部条件是否允许关闭当前组件
+                this.$emit('handleConfirm', this.currentValue);
+                this.currentValue = false;
+            } else {
+                this.$emit('handleConfirm', false);
+            }
+        },
+        touchHandler (e) {
+            this.$logger.log('v-popup.methods.touchHandler: ', e);
+            e = e || window.event;
+            if (e && e.preventDefault) {
+                e.preventDefault();
+                e.stopPropagation();
+            } else {
+                e.returnvalue = false;
+                return false;
+            }
+        },
+
+        enter: function (el, done) {
+            // console.log('v-popup.enter: ', el, done);
+            let maskor = this.$el.querySelectorAll('.picker-center-mask')[0];
+
+            if (maskor && maskor.style) {
+                maskor.style.top = 0;
+            }
+            // console.log('v-popup.enter: ');
+        },
+        afterEnter (el) {
+            // console.log('v-popup.afterEnter: ');
+        },
+        enterCancelled: function (el) {
+            // console.log('v-popup.enterCancelled: ');
+        }
+    }
+};
 </script>
 
 <style rel="stylesheet/scss" lang="scss">

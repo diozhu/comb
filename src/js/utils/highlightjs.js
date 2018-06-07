@@ -20,7 +20,7 @@ Vue.directive('highlightjs', {
             ol = document.createElement('ol');
         code.innerHTML = ''; // 先清除，再替换
         ol.start = 1;   // 利用ol加入行号
-        for (let i = 0, len = lines.length;i < len;i++) {
+        for (let i = 0, len = lines.length; i < len; i++) {
             let li = document.createElement('li');
             li.innerHTML = lines[i].replace(/</g, '&lt;').replace(/>/g, '&gt;');
             ol.appendChild(li);

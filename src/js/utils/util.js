@@ -48,7 +48,7 @@ export function assign (target, varArgs) { // .length of function is 2
 
     var to = Object(target);
 
-    for (var index = 1;index < arguments.length;index++) {
+    for (var index = 1; index < arguments.length; index++) {
         var nextSource = arguments[index];
 
         if (nextSource) { // Skip over if undefined or null
@@ -72,7 +72,7 @@ export function inView (el, preLoad = 1) {
 }
 
 export function find (arr, handler) {
-    for (let i = 0, len = arr.length;i < len;i++) {
+    for (let i = 0, len = arr.length; i < len; i++) {
         if (handler(arr[i], i)) {
             return arr[i];
         }

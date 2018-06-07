@@ -6,7 +6,6 @@ var path = require('path');
 var fs = require('fs');
 var app = express();
 var api = require('../routes/api');
-// var history = require('connect-history-api-fallback'); // -- Author by Dio Zhu. on 2017.2.10
 var bodyParser = require('body-parser'); // -- Author by Dio Zhu. on 2017.2.10
 
 var static_path = path.join(__dirname, "../dist");
@@ -17,9 +16,6 @@ app.use(function(req, res, next) {
     console.log('%s %s %s', req.method, req.url, req.path);
     next();
 });
-
-// handle fallback for HTML5 history API
-// app.use(require('connect-history-api-fallback')())
 
 console.log("static_path %s %s", static_path, fs.existsSync(static_path));
 
@@ -35,9 +31,6 @@ app.use(bodyParser.urlencoded({extended: false})); // -- Author by Dio Zhu. on 2
 // app.use(staticPath, express.static('./static'))
 
 app.use('/api', api);
-// app.use(history({
-//     index: 'index.html'
-// })); // -- Author by Dio Zhu. on 2017.2.10
 
 app.use("/" + PROJECT_NAME, function (req, res) {
     res.sendFile(path.join(static_path, "/" + PROJECT_NAME + "/index.html"))

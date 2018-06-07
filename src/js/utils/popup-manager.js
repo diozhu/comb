@@ -2,7 +2,7 @@
  * Created by diozhu on 2017/2/6.
  */
 import Vue from 'vue';
-import { addClass, removeClass } from './dom';
+import {addClass, removeClass} from './dom';
 
 let hasModal = false;
 
@@ -77,7 +77,7 @@ const PopupManager = {
 
         const modalStack = this.modalStack;
 
-        for (let i = 0, j = modalStack.length;i < j;i++) {
+        for (let i = 0, j = modalStack.length; i < j; i++) {
             const item = modalStack[i];
             if (item.id === id) {
                 return;
@@ -111,7 +111,7 @@ const PopupManager = {
         }
         modalDom.style.display = '';
 
-        this.modalStack.push({ id: id, zIndex: zIndex, modalClass: modalClass });
+        this.modalStack.push({id: id, zIndex: zIndex, modalClass: modalClass});
     },
 
     closeModal: function (id) {
@@ -131,7 +131,7 @@ const PopupManager = {
                     modalDom.style.zIndex = modalStack[modalStack.length - 1].zIndex;
                 }
             } else {
-                for (let i = modalStack.length - 1;i >= 0;i--) {
+                for (let i = modalStack.length - 1; i >= 0; i--) {
                     if (modalStack[i].id === id) {
                         modalStack.splice(i, 1);
                         break;

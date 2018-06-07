@@ -31,133 +31,133 @@
     </div>
 </template>
 <script type="text/ecmascript-6">
-    import vField from '../vendor/v-field.vue';
-    import Vue from 'vue';
-    import vFocus from '../vendor/v-focus.js';
-    Vue.use(vFocus);
+import vField from '../vendor/v-field.vue';
+import Vue from 'vue';
+import vFocus from '../vendor/v-focus.js';
+Vue.use(vFocus);
 
-    /**
-     *
-     *              -- Author by Dio Zhu. on 2017.1.11
-     */
-    export default {
-        name: 'v-search',
-        components: { vField },
+/**
+ *
+ *              -- Author by Dio Zhu. on 2017.1.11
+ */
+export default {
+    name: 'v-search',
+    components: { vField },
 
-        props: {
-            id: String,
-            value: String,
-            autofocus: {
-                type: Boolean,
-                default: false
-            },
-            cancelText: {
-                default: '取消'
-            },
-            placeholder: {
-                default: '搜索'
-            },
-            result: Array
+    props: {
+        id: String,
+        value: String,
+        autofocus: {
+            type: Boolean,
+            default: false
         },
-        data () {
-            return {
-                visible: false,
-                currentValue: this.value,
-                isLock: false
-            };
+        cancelText: {
+            default: '取消'
         },
+        placeholder: {
+            default: '搜索'
+        },
+        result: Array
+    },
+    data () {
+        return {
+            visible: false,
+            currentValue: this.value,
+            isLock: false
+        };
+    },
 
-        watch: {
-            value (val) {
-                this.$logger.log(`v-search.watch.value: ${val}`);
-                this.currentValue = val;
-            },
-
-            currentValue (val) {
-                this.$logger.log(`v-search.watch.currentValue: ${val}`);
-                this.$emit('input', val);
-            },
-
-            visible (val) {
-                this.$logger.log(`v-search.watch.visible: ${val}`);
-//                this.currentValue = '';
-//                if (val) this.$refs.input.focus(); // use v-focus
-            }
+    watch: {
+        value (val) {
+            this.$logger.log(`v-search.watch.value: ${val}`);
+            this.currentValue = val;
         },
 
-        activated () {
-//            this.autofocus && this.$refs.input.focus();
-            this.$logger.log('v-search.activated!');
-            if (this.autofocus) {
-                this.visible = true;
-//                this.$refs.input.focus();
-//                this.$nextTick(() => {  // use v-focus
-//                    this.$refs.input.focus();
-//                });
-            }
+        currentValue (val) {
+            this.$logger.log(`v-search.watch.currentValue: ${val}`);
+            this.$emit('input', val);
         },
 
-        mounted () {
-            this.$logger.log('v-search.mounted!');
-//            this.autofocus && this.$refs.input.focus();
-            if (this.autofocus) {
-                this.visible = true;
-//                this.$refs.input.focus();
-//                this.$nextTick(() => { // use v-focus
-//                    this.$refs.input.focus();
-//                });
-            }
-        },
-
-        methods: {
-            searchFocus () {
-                this.visible = true;
-                this.$logger.log('v-search.searchFocus: ', this.visible, this.placeholder);
-            },
-            onClick () {
-                this.$logger.log('v-search.onClick: ');
-                this.visible = true;
-//                this.$refs.input.focus();
-//                this.$nextTick().then(() => { // use v-focus
-//                    this.$refs.input.focus();
-//                });
-            },
-//            onFocus () {
-//                this.$logger.log('v-search.onFocus: ');
-//                this.visible = true;
-// //                this.$refs.input.focus();
-//                this.$nextTick(() => { // use v-focus
-//                    this.$refs.input.focus();
-//                });
-//            },
-            onBlur () {
-                this.$logger.log('v-search.onBlur: ');
-                this.visible = false;
-            },
-            onEnter () {
-                this.$logger.log('v-search.onEnter: ');
-                this.$emit('handle-search', this.currentValue);
-            },
-            /**
-             * 个别ios输入中文的时候（ios10.3.2），会触发三次，第一次和第三次是中文，第二次是空。造成的结果在高德api中，连续三次调用了搜索，有时最后结果是空。。。
-             * 在此通过键盘加锁的方式进行判断，不让中文状态的拼音去检索，选定中文后再执行，避免重复赋值的问题。
-             *              -- Author by Dio Zhu. on 2017.6.18
-             */
-            onInput (e) {
-                if (this.isLock) return;
-                this.currentValue = e.target.value;
-            },
-            onCcompositionStart (e) {
-                this.$logger.log('v-search.onCcompositionStart: ', e.target.value);
-                this.isLock = true;
-            },
-            onCompositionEnd (e) {
-                this.$logger.log('v-search.onCompositionEnd: ', e.target.value);
-                this.isLock = false;
-                this.currentValue = e.target.value;
-            }
+        visible (val) {
+            this.$logger.log(`v-search.watch.visible: ${val}`);
+            // this.currentValue = '';
+            // if (val) this.$refs.input.focus(); // use v-focus
         }
-    };
+    },
+
+    activated () {
+        //            this.autofocus && this.$refs.input.focus();
+        this.$logger.log('v-search.activated!');
+        if (this.autofocus) {
+            this.visible = true;
+        // this.$refs.input.focus();
+        // this.$nextTick(() => {  // use v-focus
+        //     this.$refs.input.focus();
+        // });
+        }
+    },
+
+    mounted () {
+        this.$logger.log('v-search.mounted!');
+        //            this.autofocus && this.$refs.input.focus();
+        if (this.autofocus) {
+            this.visible = true;
+        // this.$refs.input.focus();
+        // this.$nextTick(() => { // use v-focus
+        //     this.$refs.input.focus();
+        // });
+        }
+    },
+
+    methods: {
+        searchFocus () {
+            this.visible = true;
+            this.$logger.log('v-search.searchFocus: ', this.visible, this.placeholder);
+        },
+        onClick () {
+            this.$logger.log('v-search.onClick: ');
+            this.visible = true;
+            // this.$refs.input.focus();
+            // this.$nextTick().then(() => { // use v-focus
+            //     this.$refs.input.focus();
+            // });
+        },
+        //            onFocus () {
+        // this.$logger.log('v-search.onFocus: ');
+        // this.visible = true;
+        // // this.$refs.input.focus();
+        // this.$nextTick(() => { // use v-focus
+        //     this.$refs.input.focus();
+        // });
+        //            },
+        onBlur () {
+            this.$logger.log('v-search.onBlur: ');
+            this.visible = false;
+        },
+        onEnter () {
+            this.$logger.log('v-search.onEnter: ');
+            this.$emit('handle-search', this.currentValue);
+        },
+        /**
+         * 个别ios输入中文的时候（ios10.3.2），会触发三次，第一次和第三次是中文，第二次是空。造成的结果在高德api中，连续三次调用了搜索，有时最后结果是空。。。
+         * 在此通过键盘加锁的方式进行判断，不让中文状态的拼音去检索，选定中文后再执行，避免重复赋值的问题。
+         *              -- Author by Dio Zhu. on 2017.6.18
+         */
+        onInput (e) {
+            if (this.isLock) return;
+            this.currentValue = e.target.value;
+        },
+        onCcompositionStart (e) {
+            this.$logger.log('v-search.onCcompositionStart: ', e.target.value);
+            this.isLock = true;
+        },
+        onCompositionEnd (e) {
+            this.$logger.log('v-search.onCompositionEnd: ', e.target.value);
+            this.isLock = false;
+            this.currentValue = e.target.value;
+        }
+    }
+};
 </script>
 <style rel="stylesheet/scss" lang="scss">
     @import "../scss/variables";

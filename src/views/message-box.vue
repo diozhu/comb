@@ -115,65 +115,65 @@
 </template>
 
 <script>
-    import vCell from '../vendor/v-cell.vue';
-    import Messagebox from '../vendor/v-message-box.js';
+import vCell from '../vendor/v-cell.vue';
+import Messagebox from '../vendor/v-message-box.js';
 
-    export default {
-        components: { vCell },
-        data () {
-            return { };
+export default {
+    components: { vCell },
+    data () {
+        return { };
+    },
+    mounted () {
+        this.$logger.log('message-box.mounted... ');
+    },
+
+    beforeRouteLeave (to, from, next) {
+        this.$logger.log('message-box.beforeRouteLeave... ');
+        try {
+            Messagebox.close(); // 离开前关闭
+        } catch (e) {}
+        next();
+    },
+    methods: {
+        openAlert: function () {
+            Messagebox.alert('请检查你的网络设置', '发送申请失败');
         },
-        mounted () {
-            this.$logger.log('message-box.mounted... ');
+        openAlertMulti: function () {
+            Messagebox.alert('请检查你的网络设置请检查你的网络设置请检查你的网络设置请检查你的网络设置');
+        },
+        openAlertCus: function () {
+            Messagebox({title: '标题', message: '内容', confirmButtonText: '知道了'});
         },
 
-        beforeRouteLeave (to, from, next) {
-            this.$logger.log('message-box.beforeRouteLeave... ');
-            try {
-                Messagebox.close(); // 离开前关闭
-            } catch (e) {}
-            next();
+        openConfirm () {
+            Messagebox.confirm('确定执行此操作?', '提示').then(act => {
+                this.$toast('您点击了确认~');
+            }).catch(act => {
+                this.$toast('您点击了取消~');
+            });
         },
-        methods: {
-            openAlert: function () {
-                Messagebox.alert('请检查你的网络设置', '发送申请失败');
-            },
-            openAlertMulti: function () {
-                Messagebox.alert('请检查你的网络设置请检查你的网络设置请检查你的网络设置请检查你的网络设置');
-            },
-            openAlertCus: function () {
-                Messagebox({title: '标题', message: '内容', confirmButtonText: '知道了'});
-            },
+        openConfirmLimit: function () {
+            Messagebox.confirm('',
+                `退出群聊后，
+将不再接受此群聊消息`
+            ).then(act => {
+                this.$toast('您点击了确认~');
+            }).catch(act => {
+                this.$toast('您点击了取消~');
+            });
+        },
 
-            openConfirm () {
-                Messagebox.confirm('确定执行此操作?', '提示').then(act => {
-                    this.$toast('您点击了确认~');
-                }).catch(act => {
-                    this.$toast('您点击了取消~');
-                });
-            },
-            openConfirmLimit: function () {
-                Messagebox.confirm('',
-                    `退出群聊后，
-    将不再接受此群聊消息`
-                ).then(act => {
-                    this.$toast('您点击了确认~');
-                }).catch(act => {
-                    this.$toast('您点击了取消~');
-                });
-            },
-
-            openPrompt () {
-                Messagebox.prompt('请填写邀请码或者邀请者的手机号可以获得10个通宝', '', {
-                    inputPlaceholder: '输入邀请码或邀请人手机号'
-                }).then(({ value }) => {
-                    if (value) {
-                        this.$toast(`您输入的是：${value}`);
-                    }
-                }).catch(() => {});
-            }
+        openPrompt () {
+            Messagebox.prompt('请填写邀请码或者邀请者的手机号可以获得10个通宝', '', {
+                inputPlaceholder: '输入邀请码或邀请人手机号'
+            }).then(({ value }) => {
+                if (value) {
+                    this.$toast(`您输入的是：${value}`);
+                }
+            }).catch(() => {});
         }
-    };
+    }
+};
 </script>
 
 <style rel="stylesheet/scss" lang="scss">

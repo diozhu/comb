@@ -84,7 +84,7 @@ export function addClass (el, cls) {
     var curClass = el.className,
         classes = (cls || '').split(' ');
 
-    for (let i = 0, j = classes.length;i < j;i++) {
+    for (let i = 0, j = classes.length; i < j; i++) {
         let clsName = classes[i];
         if (!clsName) continue;
 
@@ -107,7 +107,7 @@ export function removeClass (el, cls) {
     var classes = cls.split(' '),
         curClass = ' ' + el.className + ' ';
 
-    for (let i = 0, j = classes.length;i < j;i++) {
+    for (let i = 0, j = classes.length; i < j; i++) {
         let clsName = classes[i];
         if (!clsName) continue;
 
@@ -134,14 +134,14 @@ export const getStyle = ieVersion < 9 ? function (element, styleName) {
     }
     try {
         switch (styleName) {
-        case 'opacity':
-            try {
-                return element.filters.item('alpha').opacity / 100;
-            } catch (e) {
-                return 1.0;
-            }
-        default:
-            return (element.style[styleName] || element.currentStyle ? element.currentStyle[styleName] : null);
+            case 'opacity':
+                try {
+                    return element.filters.item('alpha').opacity / 100;
+                } catch (e) {
+                    return 1.0;
+                }
+            default:
+                return (element.style[styleName] || element.currentStyle ? element.currentStyle[styleName] : null);
         }
     } catch (e) {
         return element.style[styleName];
@@ -200,6 +200,7 @@ export function isAttached (element) {
 };
 
 let getComputedStyle = Vue.prototype.$isServer ? {} : document.defaultView.getComputedStyle;
+
 export function getScrollEventTarget (element) {
     var currentNode = element;
     // bugfix, see http://w3help.org/zh-cn/causes/SD9013 and http://stackoverflow.com/questions/17016740/onscroll-function-is-not-working-for-chrome

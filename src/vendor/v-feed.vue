@@ -13,71 +13,71 @@
     </div>
 </template>
 <script type="text/ecmascript-6">
-    import * as utils from '../js/utils/utils';
+import * as utils from '../js/utils/utils';
 
-    /**
-     * feed组件
-     *              -- Author by Dio Zhu. on 2017.2.8
-     */
-    export default {
-        name: 'v-feed',
+/**
+ * feed组件
+ *              -- Author by Dio Zhu. on 2017.2.8
+ */
+export default {
+    name: 'v-feed',
 
-        props: {
-            id: String,
-            feedId: String,
-            imgUrl: String,     // 头像地址
-            msgNum: String,     // 头像右上角标识数字
-            title: String,      // 用户名
-            subtitle: String,   // 推广语
-            sex: String,        // 性别: 0未知，1男，2女
-            age: String,        // 年龄
-            desc: String,        // 右上角备注，时间（13:00）或者距离（1.1km以内）
-            classes: String,     // 附加class
-            iconFunc: Function  // 点击头像的回调函数
+    props: {
+        id: String,
+        feedId: String,
+        imgUrl: String,     // 头像地址
+        msgNum: String,     // 头像右上角标识数字
+        title: String,      // 用户名
+        subtitle: String,   // 推广语
+        sex: String,        // 性别: 0未知，1男，2女
+        age: String,        // 年龄
+        desc: String,        // 右上角备注，时间（13:00）或者距离（1.1km以内）
+        classes: String,     // 附加class
+        iconFunc: Function  // 点击头像的回调函数
+    },
+
+    data () {
+        return {
+        };
+    },
+
+    computed: {
+        feedImg () {
+            return utils.thumb(this.imgUrl);
         },
-
-        data () {
-            return {
-            };
-        },
-
-        computed: {
-            feedImg () {
-                return utils.thumb(this.imgUrl);
-            },
-            /**
-             * 根据feedid判断来源, 显示不同形式头像.
-             * o、s方的，其他圆的, g是群组,六边形, 暂时不考虑.
-             *              -- Author by Dio Zhu. on 2016.12.2
-             */
-            feedClass () {
-                let rtn = '';
-                if (/^o_/.test(this.feedId) || /^s_/.test(this.feedId)) {
-                    rtn = 'square';
-                } else if (/^g_/.test(this.feedId)) {
-                    rtn = 'hexagon';
-                } else {
-                    rtn = 'circle';
-                }
-                return rtn;
+        /**
+         * 根据feedid判断来源, 显示不同形式头像.
+         * o、s方的，其他圆的, g是群组,六边形, 暂时不考虑.
+         *              -- Author by Dio Zhu. on 2016.12.2
+         */
+        feedClass () {
+            let rtn = '';
+            if (/^o_/.test(this.feedId) || /^s_/.test(this.feedId)) {
+                rtn = 'square';
+            } else if (/^g_/.test(this.feedId)) {
+                rtn = 'hexagon';
+            } else {
+                rtn = 'circle';
             }
-        },
+            return rtn;
+        }
+    },
 
-        created () {
-//            this.$logger.log('v-feed created...');
-        },
+    created () {
+        // this.$logger.log('v-feed created...');
+    },
 
-        methods: {
-            handleClick (e) {
-                if (this.iconFunc && typeof this.iconFunc === 'function') {
-                    e.stopPropagation();
-                    e.preventDefault();
-                    this.iconFunc();
-                    this.$toast({message: '您是不是想去个人中心？', duration: 1000, position: 'bottom'});
-                }
+    methods: {
+        handleClick (e) {
+            if (this.iconFunc && typeof this.iconFunc === 'function') {
+                e.stopPropagation();
+                e.preventDefault();
+                this.iconFunc();
+                this.$toast({message: '您是不是想去个人中心？', duration: 1000, position: 'bottom'});
             }
         }
-    };
+    }
+};
 </script>
 <style rel="stylesheet/scss" lang="scss">
     @import "../scss/variables";

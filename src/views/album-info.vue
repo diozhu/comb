@@ -22,106 +22,106 @@
 </template>
 
 <script>
-    import vLabel from '../vendor/v-label.vue';
-    import vAlbum from '../vendor/v-album.vue';
-    import logger from '../js/utils/logger';
+import vLabel from '../vendor/v-label.vue';
+import vAlbum from '../vendor/v-album.vue';
+import logger from '../js/utils/logger';
 
-    export default {
-        name: 'page-album-info',
+export default {
+    name: 'page-album-info',
 
-        components: { 'v-label': vLabel, 'v-album': vAlbum },
+    components: { 'v-label': vLabel, 'v-album': vAlbum },
 
-        data () {
-            return {
-                imgList1: [],
-                imgList2: [],
-                imgList3: [],
-                imgList4: [],
-                imgList5: []
-            };
-        },
+    data () {
+        return {
+            imgList1: [],
+            imgList2: [],
+            imgList3: [],
+            imgList4: [],
+            imgList5: []
+        };
+    },
 
-        mounted () {
-            logger.log('album-info activated... ');
+    mounted () {
+        logger.log('album-info activated... ');
 
-            // 单横图
-            this.imgList1 = [
-                {
-                    'url': 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
-                    'width': 402,
-                    'height': 242
-                }
-            ];
-            // 双图：横排
-            this.imgList2 = [
-                {
-                    'url': 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
-                    'width': 362,
-                    'height': 644
-                },
-                {
-                    'url': 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
-                    'width': 362,
-                    'height': 644
-                }
-            ];
+        // 单横图
+        this.imgList1 = [
+            {
+                'url': 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
+                'width': 402,
+                'height': 242
+            }
+        ];
+        // 双图：横排
+        this.imgList2 = [
+            {
+                'url': 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
+                'width': 362,
+                'height': 644
+            },
+            {
+                'url': 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
+                'width': 362,
+                'height': 644
+            }
+        ];
 
-            // 双图：纵排
-            this.imgList3 = [
-                {
-                    'url': 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
-                    'width': 402,
-                    'height': 242
-                },
-                {
-                    'url': 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
-                    'width': 402,
-                    'height': 242
-                }
-            ];
+        // 双图：纵排
+        this.imgList3 = [
+            {
+                'url': 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
+                'width': 402,
+                'height': 242
+            },
+            {
+                'url': 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
+                'width': 402,
+                'height': 242
+            }
+        ];
 
-            // 多图：纵排
-            this.imgList4 = [
-                {
-                    'url': 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
-                    'width': 362,
-                    'height': 644
-                },
-                {
-                    'url': 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
-                    'width': 362,
-                    'height': 644
-                },
-                {
-                    'url': 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
-                    'width': 362,
-                    'height': 644
-                }
-            ];
-            // 多图：横排
-            this.imgList5 = [
-                {
-                    'url': 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
-                    'width': 402,
-                    'height': 242
-                },
-                {
-                    'url': 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
-                    'width': 402,
-                    'height': 242
-                },
-                {
-                    'url': 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
-                    'width': 402,
-                    'height': 242
-                }
-            ];
-        },
+        // 多图：纵排
+        this.imgList4 = [
+            {
+                'url': 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
+                'width': 362,
+                'height': 644
+            },
+            {
+                'url': 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
+                'width': 362,
+                'height': 644
+            },
+            {
+                'url': 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
+                'width': 362,
+                'height': 644
+            }
+        ];
+        // 多图：横排
+        this.imgList5 = [
+            {
+                'url': 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
+                'width': 402,
+                'height': 242
+            },
+            {
+                'url': 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
+                'width': 402,
+                'height': 242
+            },
+            {
+                'url': 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
+                'width': 402,
+                'height': 242
+            }
+        ];
+    },
 
-        methods: {
+    methods: {
 
-        }
-    };
+    }
+};
 </script>
 
 <style rel="stylesheet/scss" lang="scss">

@@ -17,7 +17,6 @@ var webpackConfig = require('./webpack.dev.conf')
 
 var api = require('../routes/api'); // -- Author by Dio Zhu. on 2017.2.10
 var bodyParser = require('body-parser'); // -- Author by Dio Zhu. on 2017.2.10
-var history = require('connect-history-api-fallback'); // -- Author by Dio Zhu. on 2017.2.10
 
 // default port where dev server listens for incoming traffic
 var port = process.env.PORT || config.dev.port
@@ -57,7 +56,6 @@ Object.keys(proxyTable).forEach(function (context) {
 
 app.use(bodyParser.json()); // -- Author by Dio Zhu. on 2017.2.10
 app.use(bodyParser.urlencoded({extended: false})); // -- Author by Dio Zhu. on 2017.2.10
-// app.use(history()); // -- Author by Dio Zhu. on 2017.2.10
 
 /**
  * 本地接口模拟
@@ -77,9 +75,6 @@ app.use('/api', function (req, res, next) {
     next();
 });
 app.use('/api', api);
-
-// handle fallback for HTML5 history API
-app.use(require('connect-history-api-fallback')())
 
 // serve webpack bundle output
 app.use(devMiddleware)

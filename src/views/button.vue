@@ -1,8 +1,6 @@
 <template>
     <div class="page page-button">
         <h2>Button for H5</h2>
-
-
         <div class="attributes">
             <h2>参数</h2>
             <table>
@@ -72,11 +70,11 @@
 
         <br>
         <p class="desc">通屏按钮的样式需要与当前按钮的容器配合，如果使用了栅格布局容器，可以这样实现：</p>
-        <v-row :gutter.Number="30">
+        <v-row :gutter="30">
             <v-button size="full" styles="rectangle">default.full</v-button>
         </v-row>
         <pre v-highlightjs @touchend.stop><code class="html">
-        &lt;v-row :gutter.Number="30"&gt;
+        &lt;v-row :gutter="30"&gt;
             &lt;v-button size="full" styles="rectangle"&gt;default.full&lt;/v-button&gt;
         &lt;/v-row&gt;
         </code></pre>
@@ -99,7 +97,7 @@
         <br>
         <h2>布局示例</h2>
         <p class="desc">左右平均布局</p>
-        <v-row :gutter.Number="30" :avg="true">
+        <v-row :gutter="30" :avg="true">
             <v-col :span="6">
                 <v-button>default</v-button>
             </v-col>
@@ -108,7 +106,7 @@
             </v-col>
         </v-row>
         <pre v-highlightjs @touchend.stop><code class="html">
-        &lt;v-row :gutter.Number="30" :avg="true"&gt;
+        &lt;v-row :gutter="30" :avg="true"&gt;
             &lt;v-col :span="6"&gt;
                 &lt;v-button&gt;default&lt;/v-button&gt;
             &lt;/v-col&gt;
@@ -119,20 +117,20 @@
         </code></pre>
 
         <p class="desc">左右通屏布局</p>
-        <v-row :gutter.Number="30">
-            <v-col :span="6" :gutter.Number="0">
+        <v-row :gutter="30">
+            <v-col :span="6" :gutter="0">
                 <v-button styles="rectangle">default</v-button>
             </v-col>
-            <v-col :span="6" :gutter.Number="0">
+            <v-col :span="6" :gutter="0">
                 <v-button type="info" styles="rectangle">info</v-button>
             </v-col>
         </v-row>
         <pre v-highlightjs @touchend.stop><code class="html">
-        &lt;v-row :gutter.Number="30"&gt;
-            &lt;v-col :span="6" :gutter.Number="0"&gt;
+        &lt;v-row :gutter="30"&gt;
+            &lt;v-col :span="6" :gutter="0"&gt;
                 &lt;v-button styles="rectangle"&gt;default&lt;/v-button&gt;
             &lt;/v-col&gt;
-            &lt;v-col :span="6" :gutter.Number="0"&gt;
+            &lt;v-col :span="6" :gutter="0"&gt;
                 &lt;v-button type="info" styles="rectangle"&gt;info&lt;/v-button&gt;
             &lt;/v-col&gt;
         &lt;/v-row&gt;
@@ -141,27 +139,27 @@
     </div>
 </template>
 <script>
-    import vRow from '../vendor/v-row.vue';
-    import vCol from '../vendor/v-col.vue';
-    import vButton from '../vendor/v-button';
+import vRow from '../vendor/v-row.vue';
+import vCol from '../vendor/v-col.vue';
+import vButton from '../vendor/v-button';
 
-    export default {
-        components: { vButton, vRow, vCol },
-        data () {
-            return {
-                disableClass: 'background: #DDDEE3;'
-            };
-        },
-        created: function () {
-            console.log('created');
-        },
-        mounted () {
-            this.$logger.log('button.mounted... ');
-        },
-        methods: {
+export default {
+    components: { vButton, vRow, vCol },
+    data () {
+        return {
+            disableClass: 'background: #DDDEE3;'
+        };
+    },
+    created: function () {
+        console.log('created');
+    },
+    mounted () {
+        this.$logger.log('button.mounted... ');
+    },
+    methods: {
 
-        }
-    };
+    }
+};
 </script>
 <style lang="scss">
     @import "../scss/variables";
@@ -216,7 +214,5 @@
     .margin-right-15{
         margin-right: pxTorem(15px);
     }
-
-
 </style>
 

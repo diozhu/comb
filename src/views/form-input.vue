@@ -13,8 +13,6 @@
         </div>
 
         <h2>示例</h2>
-
-
         <div class="listview listview-form">
             <!--普通样式-->
             <ul>

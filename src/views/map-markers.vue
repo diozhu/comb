@@ -6,7 +6,7 @@
 
         <br>
         <v-row>
-            <v-col :gutter.Number="30">
+            <v-col :gutter="30">
                 <v-button size="small" @click="handle1">张三</v-button>
                 <v-button type="danger" size="small" @click="handle2">李四</v-button>
                 <v-button type="primary" size="small" @click="handle3">王五</v-button>
@@ -17,80 +17,80 @@
 </template>
 
 <script type="text/ecmascript-6">
-    import vMap from '../vendor/v-map.vue';
+import vMap from '../vendor/v-map.vue';
 
-    export default {
-        components: { vMap },
+export default {
+    components: {vMap},
 
-        data () {
-            return {
-                lng: '116.4514501384251588', // 经度
-                lat: '39.9951573546932124', // 纬度
-                markers: []
-            };
+    data () {
+        return {
+            lng: '116.4514501384251588', // 经度
+            lat: '39.9951573546932124', // 纬度
+            markers: []
+        };
+    },
+
+    created () {
+        this.$logger.log('layout.mounted... ');
+    },
+
+    methods: {
+        handle1 () {
+            this.$logger.log('map-markers.handle1: ');
+            this.markers = [
+                {
+                    position: ['116.4524501384251588', '39.9961573546932124'],
+                    icon: 1
+                },
+                {
+                    position: ['116.4514501384251588', '39.9961573546932124'],
+                    icon: 1
+                }
+            ];
         },
-
-        created () {
-            this.$logger.log('layout.mounted... ');
+        handle2 () {
+            this.$logger.log('map-markers.handle2: ');
+            this.markers = [{
+                position: ['116.4524501384251588', '39.9951573546932124'],
+                icon: 1
+            }];
         },
-
-        methods: {
-            handle1 () {
-                this.$logger.log('map-markers.handle1: ');
-                this.markers = [
-                    {
-                        position: ['116.4524501384251588', '39.9961573546932124'],
-                        icon: 1
-                    },
-                    {
-                        position: ['116.4514501384251588', '39.9961573546932124'],
-                        icon: 1
-                    }
-                ];
-            },
-            handle2 () {
-                this.$logger.log('map-markers.handle2: ');
-                this.markers = [{
+        handle3 () {
+            this.$logger.log('map-markers.handle3: ');
+            this.markers = [
+                {
+                    position: ['116.4524501384251588', '39.9961573546932124'],
+                    icon: 1
+                },
+                {
                     position: ['116.4524501384251588', '39.9951573546932124'],
                     icon: 1
-                }];
-            },
-            handle3 () {
-                this.$logger.log('map-markers.handle3: ');
-                this.markers = [
-                    {
-                        position: ['116.4524501384251588', '39.9961573546932124'],
-                        icon: 1
-                    },
-                    {
-                        position: ['116.4524501384251588', '39.9951573546932124'],
-                        icon: 1
-                    },
-                    {
-                        position: ['116.4514501384251588', '39.9961573546932124'],
-                        icon: 1
-                    }
-                ];
-            },
-            handle4 () {
-                this.$logger.log('map-markers.handle4: ');
-                this.markers = [
-                    {
-                        position: ['116.4524501384251588', '39.9961573546932124'],
-                        icon: 1
-                    },
-                    {
-                        position: ['116.4534501384251588', '39.9961573546932124'],
-                        icon: 1
-                    },
-                    {
-                        position: ['116.4514501384251588', '39.9961573546932124'],
-                        icon: 1
-                    }
-                ];
-            }
+                },
+                {
+                    position: ['116.4514501384251588', '39.9961573546932124'],
+                    icon: 1
+                }
+            ];
+        },
+        handle4 () {
+            this.$logger.log('map-markers.handle4: ');
+            this.markers = [
+                {
+                    position: ['116.4524501384251588', '39.9961573546932124'],
+                    icon: 1
+                },
+                {
+                    position: ['116.4534501384251588', '39.9961573546932124'],
+                    icon: 1
+                },
+                {
+                    position: ['116.4514501384251588', '39.9961573546932124'],
+                    icon: 1
+                }
+            ];
         }
-    };
+    }
+};
 </script>
 
 <style rel="stylesheet/scss" lang="scss">

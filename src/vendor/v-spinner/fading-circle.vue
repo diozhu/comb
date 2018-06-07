@@ -1,43 +1,43 @@
 <template>
     <div :class="['v-spinner__fading-circle circle-color-' + _uid]">
-        <div v-for="n in 12" :class="['is-circle' + n]" class="circle"></div>
+        <div v-for="n in 12" :key="n" :class="['is-circle' + n]" class="circle"></div>
     </div>
 </template>
 
 <script>
-    export default {
-        name: 'fading-circle',
+export default {
+    name: 'fading-circle',
 
-        props: {
-            size: Number,
-            color: String
-        },
+    props: {
+        size: Number,
+        color: String
+    },
 
-        computed: {
-            spinnerColor () {
-                return this.color || this.$parent.color || '#007AFF';
-            }
-        },
-
-        created () {
-//            this.$logger.log('fading-circle.created: ', this._uid);
-            if (this.$isServer) return;
-            this.styleNode = document.createElement('style');
-            const css = `.circle-color-${this._uid} > div::before { background-color: ${this.spinnerColor}; }`;
-
-            this.styleNode.type = 'text/css';
-            this.styleNode.rel = 'stylesheet';
-            this.styleNode.title = 'fading circle style';
-            document.getElementsByTagName('head')[0].appendChild(this.styleNode);
-            this.styleNode.appendChild(document.createTextNode(css));
-        },
-
-        destroyed () {
-            if (this.styleNode) {
-                this.styleNode.parentNode.removeChild(this.styleNode);
-            }
+    computed: {
+        spinnerColor () {
+            return this.color || this.$parent.color || '#007AFF';
         }
-    };
+    },
+
+    created () {
+        //            this.$logger.log('fading-circle.created: ', this._uid);
+        if (this.$isServer) return;
+        this.styleNode = document.createElement('style');
+        const css = `.circle-color-${this._uid} > div::before { background-color: ${this.spinnerColor}; }`;
+
+        this.styleNode.type = 'text/css';
+        this.styleNode.rel = 'stylesheet';
+        this.styleNode.title = 'fading circle style';
+        document.getElementsByTagName('head')[0].appendChild(this.styleNode);
+        this.styleNode.appendChild(document.createTextNode(css));
+    },
+
+    destroyed () {
+        if (this.styleNode) {
+            this.styleNode.parentNode.removeChild(this.styleNode);
+        }
+    }
+};
 </script>
 
 <style rel="stylesheet/scss" lang="scss">

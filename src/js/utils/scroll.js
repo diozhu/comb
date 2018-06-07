@@ -8,11 +8,13 @@ function getScrollTop (scrollTop = 0, bodyScrollTop = 0, documentScrollTop = 0) 
     scrollTop = document.querySelector(selector).scrollTop;
     return scrollTop;
 }
+
 // 文档的总高度
 function getScrollHeight (scrollHeight = 0, bodyScrollHeight = 0, documentScrollHeight = 0) {
     scrollHeight = document.querySelector(selector).scrollHeight;
     return scrollHeight;
 }
+
 // 浏览器视口的高度
 function getWindowHeight (windowHeight = 0) {
     if (document.compatMode === 'CSS1Compat') {

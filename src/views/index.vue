@@ -53,7 +53,6 @@
             </ul>
         </div>
 
-
         <p>案例</p>
         <div class="listview simple">
             <ul>
@@ -103,25 +102,25 @@
 
 <script>
 
-    export default {
-        name: 'page-index',
+export default {
+    name: 'page-index',
 
-        data () {
-            return { };
-        },
+    data () {
+        return { };
+    },
 
-        mounted () {
-            this.$logger.log('index.mounted... ');
-        },
+    mounted () {
+        this.$logger.log('index.mounted... ');
+    },
 
-        activated () {
-            this.$logger.log('index.activated... ');
-        },
+    activated () {
+        this.$logger.log('index.activated... ');
+    },
 
-        deactivated () {
-            this.$logger.log('index.deactivated... ');
-        }
-    };
+    deactivated () {
+        this.$logger.log('index.deactivated... ');
+    }
+};
 </script>
 <style lang="scss" rel="stylesheet/scss">
     @import "../scss/variables";

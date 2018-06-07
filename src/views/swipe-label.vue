@@ -24,7 +24,7 @@
 
         <h2>示例</h2>
         <v-swipe-label :fixed="true" class="label-swipe">
-            <div v-for="item in labs"
+            <div v-for="(item, index) in labs" :key="index"
                  :class="['itm', {cur: currentLab==item.id}]"
                  @click="clickLabel(item)"
             >{{item.txt}}</div>
@@ -78,7 +78,6 @@ export default {
             > </v-feed>
         </v-swipe-label>
 
-
         <p class="desc auto-height">组件需要根据slot内容的实际宽度计算左滑、右划的边界。
             如果slot为子组件，可能会发生组件渲染先后顺序问题，造成swipe组件无法获取真实宽度进行算，导致滑动失效。
             如遇此情况，请在子组件的mounted或created中通过init()方法进行rebuild。
@@ -90,7 +89,7 @@ export default {
         </code></pre>
 
         <div class="num">
-            <p v-for="n in 300">模拟数据{{n}}</p>
+            <p v-for="n in 300" :key="n">模拟数据{{n}}</p>
         </div>
         <div class="blank"></div>
     </div>

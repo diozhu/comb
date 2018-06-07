@@ -23,186 +23,186 @@
 </template>
 
 <script>
-    import Popup from '../js/utils/popup';
+import Popup from '../js/utils/popup';
 
-    let CONFIRM_TEXT = '确定',
-        CANCEL_TEXT = '取消';
+let CONFIRM_TEXT = '确定',
+    CANCEL_TEXT = '取消';
 
-    export default {
-        mixins: [ Popup ],
+export default {
+    mixins: [ Popup ],
 
-        props: {
-            modal: {
-                default: true
-            },
-            showClose: {
-                type: Boolean,
-                default: true
-            },
-            lockScroll: {
-                type: Boolean,
-                default: false
-            },
-            closeOnClickModal: {
-                default: true
-            },
-            closeOnPressEscape: {
-                default: true
-            },
-            inputType: {
-                type: String,
-                default: 'text'
+    props: {
+        modal: {
+            default: true
+        },
+        showClose: {
+            type: Boolean,
+            default: true
+        },
+        lockScroll: {
+            type: Boolean,
+            default: false
+        },
+        closeOnClickModal: {
+            default: true
+        },
+        closeOnPressEscape: {
+            default: true
+        },
+        inputType: {
+            type: String,
+            default: 'text'
+        }
+    },
+    data () {
+        return {
+            title: '',
+            message: '',
+            type: '',
+            showInput: false,
+            inputValue: null,
+            inputPlaceholder: '',
+            inputPattern: null,
+            inputValidator: null,
+            inputErrorMessage: '',
+            showConfirmButton: true,
+            showCancelButton: false,
+            confirmButtonText: CONFIRM_TEXT,
+            cancelButtonText: CANCEL_TEXT,
+            confirmButtonClass: '',
+            confirmButtonDisabled: false,
+            cancelButtonClass: '',
+            editorErrorMessage: null,
+            callback: null
+        };
+    },
+
+    computed: {
+        confirmButtonClasses () {
+            let classes = 'v-msgbox-btn v-msgbox-confirm ' + this.confirmButtonClass;
+            if (this.confirmButtonHighlight) {
+                classes += ' v-msgbox-confirm-highlight';
             }
+            return classes;
         },
-        data () {
-            return {
-                title: '',
-                message: '',
-                type: '',
-                showInput: false,
-                inputValue: null,
-                inputPlaceholder: '',
-                inputPattern: null,
-                inputValidator: null,
-                inputErrorMessage: '',
-                showConfirmButton: true,
-                showCancelButton: false,
-                confirmButtonText: CONFIRM_TEXT,
-                cancelButtonText: CANCEL_TEXT,
-                confirmButtonClass: '',
-                confirmButtonDisabled: false,
-                cancelButtonClass: '',
-                editorErrorMessage: null,
-                callback: null
-            };
-        },
-
-        computed: {
-            confirmButtonClasses () {
-                let classes = 'v-msgbox-btn v-msgbox-confirm ' + this.confirmButtonClass;
-                if (this.confirmButtonHighlight) {
-                    classes += ' v-msgbox-confirm-highlight';
-                }
-                return classes;
-            },
-            cancelButtonClasses () {
-                let classes = 'v-msgbox-btn v-msgbox-cancel ' + this.cancelButtonClass;
-                if (this.cancelButtonHighlight) {
-                    classes += ' v-msgbox-cancel-highlight';
-                }
-                return classes;
+        cancelButtonClasses () {
+            let classes = 'v-msgbox-btn v-msgbox-cancel ' + this.cancelButtonClass;
+            if (this.cancelButtonHighlight) {
+                classes += ' v-msgbox-cancel-highlight';
             }
-        },
+            return classes;
+        }
+    },
 
-        watch: {
-            inputValue () {
-                if (this.$type === 'prompt') {
-                    this.validate();
-                }
-            },
-
-            value (val) {
-                this.handleInputType(this.inputType);
-                if (val && this.$type === 'prompt') {
-                    setTimeout(() => {
-                        if (this.$refs.input) {
-                            this.$refs.input.focus();
-                        }
-                    }, 500);
-                }
-            },
-
-            inputType (val) {
-                this.handleInputType(val);
-            },
-
-            '$route.name' (val) {
-                this.$logger.log(`v-message.${this._uid}.watch: $route!!!`, val, this._inactive, this.$router.direct());
-                this.$nextTick(() => {
-                    this.$logger.log(`v-message.${this._uid}.watch: $route!!!`, val, this._inactive, this.$router.direct());
-                    if (!this._inactive) { // 激活时重新加载
-//                        this.isEnabled = this.enabled;
-//                        if (this.$router.direct()) { // in
-//                            this.init(); // 如果当前页面是keep-alive的，这里重新初始化
-//                        } else { // back
-//                            // do nothing ...
-//                        }
-                    } else {
-//                        this.isEnabled = false;
-                    }
-                });
+    watch: {
+        inputValue () {
+            if (this.$type === 'prompt') {
+                this.validate();
             }
         },
 
-        mounted () {
-            this.$logger.log(`v-message.${this._uid}.mounted: `, this.message);
-        },
-
-        methods: {
-            doClose () {
-                this.value = false;
-                this._closing = true;
-
-                this.onClose && this.onClose();
-
+        value (val) {
+            this.handleInputType(this.inputType);
+            if (val && this.$type === 'prompt') {
                 setTimeout(() => {
-                    if (this.modal && this.bodyOverflow !== 'hidden') {
-                        document.body.style.overflow = this.bodyOverflow;
-                        document.body.style.paddingRight = this.bodyPaddingRight;
+                    if (this.$refs.input) {
+                        this.$refs.input.focus();
                     }
-                    this.bodyOverflow = null;
-                    this.bodyPaddingRight = null;
-                }, 200);
-                this.opened = false;
+                }, 500);
+            }
+        },
 
-                if (!this.transition) {
-                    this.doAfterClose();
+        inputType (val) {
+            this.handleInputType(val);
+        }
+
+        // '$route.name' (val) {
+        //     this.$logger.log(`v-message.${this._uid}.watch: $route!!!`, val, this._inactive, this.$router.direct());
+        //     this.$nextTick(() => {
+        //         this.$logger.log(`v-message.${this._uid}.watch: $route!!!`, val, this._inactive, this.$router.direct());
+        //         if (!this._inactive) { // 激活时重新加载
+        //             // this.isEnabled = this.enabled;
+        //             // if (this.$router.direct()) { // in
+        //             //     this.init(); // 如果当前页面是keep-alive的，这里重新初始化
+        //             // } else { // back
+        //             //     // do nothing ...
+        //             // }
+        //         } else {
+        //             // this.isEnabled = false;
+        //         }
+        //     });
+        // }
+    },
+
+    mounted () {
+        this.$logger.log(`v-message.${this._uid}.mounted: `, this.message);
+    },
+
+    methods: {
+        doClose () {
+            this.value = false;
+            this._closing = true;
+
+            this.onClose && this.onClose();
+
+            setTimeout(() => {
+                if (this.modal && this.bodyOverflow !== 'hidden') {
+                    document.body.style.overflow = this.bodyOverflow;
+                    document.body.style.paddingRight = this.bodyPaddingRight;
                 }
-            },
+                this.bodyOverflow = null;
+                this.bodyPaddingRight = null;
+            }, 200);
+            this.opened = false;
 
-            handleAction (action) {
-                if (this.$type === 'prompt' && action === 'confirm' && !this.validate()) {
-                    return;
+            if (!this.transition) {
+                this.doAfterClose();
+            }
+        },
+
+        handleAction (action) {
+            if (this.$type === 'prompt' && action === 'confirm' && !this.validate()) {
+                return;
+            }
+            var callback = this.callback;
+            this.value = false;
+            callback(action);
+        },
+
+        validate () {
+            if (this.$type === 'prompt') {
+                let inputPattern = this.inputPattern,
+                    inputValidator = this.inputValidator;
+                if (inputPattern && !inputPattern.test(this.inputValue || '')) {
+                    this.editorErrorMessage = this.inputErrorMessage || '输入的数据不合法!';
+                    this.$refs.input.classList.add('invalid');
+                    return false;
                 }
-                var callback = this.callback;
-                this.value = false;
-                callback(action);
-            },
-
-            validate () {
-                if (this.$type === 'prompt') {
-                    let inputPattern = this.inputPattern,
-                        inputValidator = this.inputValidator;
-                    if (inputPattern && !inputPattern.test(this.inputValue || '')) {
+                if (typeof inputValidator === 'function') {
+                    let validateResult = inputValidator(this.inputValue);
+                    if (validateResult === false) {
                         this.editorErrorMessage = this.inputErrorMessage || '输入的数据不合法!';
                         this.$refs.input.classList.add('invalid');
                         return false;
                     }
-                    if (typeof inputValidator === 'function') {
-                        let validateResult = inputValidator(this.inputValue);
-                        if (validateResult === false) {
-                            this.editorErrorMessage = this.inputErrorMessage || '输入的数据不合法!';
-                            this.$refs.input.classList.add('invalid');
-                            return false;
-                        }
-                        if (typeof validateResult === 'string') {
-                            this.editorErrorMessage = validateResult;
-                            return false;
-                        }
+                    if (typeof validateResult === 'string') {
+                        this.editorErrorMessage = validateResult;
+                        return false;
                     }
                 }
-                this.editorErrorMessage = '';
-                this.$refs.input.classList.remove('invalid');
-                return true;
-            },
-
-            handleInputType (val) {
-                if (val === 'range' || !this.$refs.input) return;
-                this.$refs.input.type = val;
             }
-        }
+            this.editorErrorMessage = '';
+            this.$refs.input.classList.remove('invalid');
+            return true;
+        },
 
-    };
+        handleInputType (val) {
+            if (val === 'range' || !this.$refs.input) return;
+            this.$refs.input.type = val;
+        }
+    }
+
+};
 </script>
 <style rel="stylesheet/scss" lang="scss">
 

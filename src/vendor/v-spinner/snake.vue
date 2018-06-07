@@ -8,20 +8,20 @@
 </template>
 
 <script>
-    export default {
-        name: 'snake',
+export default {
+    name: 'snake',
 
-        props: {
-            size: Number,
-            color: String
-        },
+    props: {
+        size: Number,
+        color: String
+    },
 
-        computed: {
-            spinnerColor () {
-                return this.color || this.$parent.color || '#007AFF';
-            }
+    computed: {
+        spinnerColor () {
+            return this.color || this.$parent.color || '#007AFF';
         }
-    };
+    }
+};
 </script>
 
 <style rel="stylesheet/scss" lang="scss">

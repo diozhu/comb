@@ -5,38 +5,38 @@
     </div>
 </template>
 <script>
-    export default {
-        name: 'p-banner',
+export default {
+    name: 'p-banner',
 
-        props: {
-            value: {
-                type: String,
-                default: ''
-            }
-        },
-
-        components: {
-        },
-
-        data () {
-            return {
-            };
-        },
-
-        computed: {
-
-        },
-
-        watch: {
-        },
-
-        created () {
-            this.$logger.log('p-banner.created... ', this.value);
-        },
-
-        methods: {
+    props: {
+        value: {
+            type: String,
+            default: ''
         }
-    };
+    },
+
+    components: {
+    },
+
+    data () {
+        return {
+        };
+    },
+
+    computed: {
+
+    },
+
+    watch: {
+    },
+
+    created () {
+        this.$logger.log('p-banner.created... ', this.value);
+    },
+
+    methods: {
+    }
+};
 </script>
 <style rel="stylesheet/scss" lang="scss">
     @import "../scss/variables";

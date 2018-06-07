@@ -110,45 +110,44 @@
         };
         </code></pre>
 
-
         <div class="blank"></div>
     </div>
 </template>
 
 <script type="text/ecmascript-6">
-    import vCell from '../vendor/v-cell.vue';
+import vCell from '../vendor/v-cell.vue';
 
-    export default {
-        components: { vCell },
+export default {
+    components: { vCell },
 
-        data () {
-            return {
+    data () {
+        return {
 
-            };
+        };
+    },
+    mounted () {
+        this.$logger.log('toast.mounted... ');
+    },
+    beforeRouteLeave (to, from, next) {
+        this.$logger.log('toast.beforeRouteLeave... ');
+        if (this.toast) this.toast.close(); // 离开前关闭
+        next();
+    },
+    methods: {
+        openToast: function () {
+            this.toast = this.$toast('提示文字，尽量限制在一行以内');
         },
-        mounted () {
-            this.$logger.log('toast.mounted... ');
+
+        openToastWithIcon () {
+            this.toast = this.$toast({ message: '操作成功', iconClass: 'icon icon-right' });
         },
-        beforeRouteLeave (to, from, next) {
-            this.$logger.log('toast.beforeRouteLeave... ');
-            if (this.toast) this.toast.close(); // 离开前关闭
-            next();
-        },
-        methods: {
-            openToast: function () {
-                this.toast = this.$toast('提示文字，尽量限制在一行以内');
-            },
 
-            openToastWithIcon () {
-                this.toast = this.$toast({ message: '操作成功', iconClass: 'icon icon-right' });
-            },
-
-            openBottomToast () {
-                this.toast = this.$toast({ message: '提示信息', duration: 1000, position: 'bottom' });
-            }
-
+        openBottomToast () {
+            this.toast = this.$toast({ message: '提示信息', duration: 1000, position: 'bottom' });
         }
-    };
+
+    }
+};
 </script>
 
 <style rel="stylesheet/scss" lang="scss">

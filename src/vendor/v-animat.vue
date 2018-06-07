@@ -14,60 +14,60 @@
     <!--</div>-->
 </template>
 <script type="text/ecmascript-6">
-    /**
-     * v-animat
-     */
-    export default {
-        name: 'v-animat',
+/**
+ * v-animat
+ */
+export default {
+    name: 'v-animat',
 
-        props: {
-            duration: {
-                type: Number,
-                default: 300
-            },
-            group: {
-                type: Boolean,
-                default: false
-            },
-            tag: {
-                type: String,
-                default: 'div'
-            }
+    props: {
+        duration: {
+            type: Number,
+            default: 300
         },
-        computed: {
-            type () {
-                return this.group ? 'transition-group' : 'transition';
-            },
-            hooks () {
-                return {
-                    beforeEnter: this.setDuration,
-                    afterEnter: this.cleanUpDuration,
-                    beforeLeave: this.setDuration,
-                    afterLeave: this.cleanUpDuration,
-                    leave: this.setAbsolutePosition,
-                    ...this.$listeners
-                };
-            }
+        group: {
+            type: Boolean,
+            default: false
         },
+        tag: {
+            type: String,
+            default: 'div'
+        }
+    },
+    computed: {
+        type () {
+            return this.group ? 'transition-group' : 'transition';
+        },
+        hooks () {
+            return {
+                beforeEnter: this.setDuration,
+                afterEnter: this.cleanUpDuration,
+                beforeLeave: this.setDuration,
+                afterLeave: this.cleanUpDuration,
+                leave: this.setAbsolutePosition,
+                ...this.$listeners
+            };
+        }
+    },
 
-        created () {
-            this.$logger.log('v-animat.created: ');
-        },
+    created () {
+        this.$logger.log('v-animat.created: ');
+    },
 
-        methods: {
-            setDuration (el) {
-                el.style.animationDuration = `${this.duration}ms`;
-            },
-            cleanUpDuration (el) {
-                el.style.animationDuration = '';
-            },
-            setAbsolutePosition (el) {
-                if (this.group) {
-                    el.style.position = 'absolute';
-                }
+    methods: {
+        setDuration (el) {
+            el.style.animationDuration = `${this.duration}ms`;
+        },
+        cleanUpDuration (el) {
+            el.style.animationDuration = '';
+        },
+        setAbsolutePosition (el) {
+            if (this.group) {
+                el.style.position = 'absolute';
             }
         }
-    };
+    }
+};
 </script>
 <style rel="stylesheet/scss" lang="scss">
     @import "../scss/variables";

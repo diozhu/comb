@@ -1,14 +1,14 @@
 <template>
     <div class="tab-container">
         <v-row class="tn-tabbar" :class="{'is-fixed': tabs.fixed}">
-            <div class="tn-tab-item" v-for="(item,index) in tabs.tabNavs"  @click="tabChange(item,index)">
+            <div class="tn-tab-item" v-for="(item,index) in tabs.tabNavs" :key="index" @click="tabChange(item,index)">
                 <v-col class="tn-tab-item-tit" :class="{selected:tabs.selectNum==index}">
                     {{item}}
                 </v-col>
             </div>
         </v-row>
         <div class="tn-tab-container-item" v-if ="!tabs.customTpl">
-            <v-text :limit.Number = "1"  class="tn-cell" v-for="(item,index) in tabs.tabCons" :key="index" v-if='tabs.selectNum==index'>
+            <v-text :limit= "1"  class="tn-cell" v-for="(item,index) in tabs.tabCons" :key="index" v-if='tabs.selectNum==index'>
                 {{item}}
             </v-text>
       </div>
@@ -23,54 +23,54 @@
 </template>
 
 <script>
-    import vRow from '../vendor/v-row.vue';
-    import vCol from '../vendor/v-col.vue';
-    import vText from '../vendor/v-text.vue';
+import vRow from '../vendor/v-row.vue';
+import vCol from '../vendor/v-col.vue';
+import vText from '../vendor/v-text.vue';
 /**
- * vTabbar
- * @module vendor/v-tab-bar.vue
- * @param {boolean} [fixed=true] - 固底
- * @param {boolean} [customTpl=true] - 自定义内容区显示模板
- *
- * @example
- * <v-tabbar v-bind:tabs='tabs'>
- * </v-tabbar>
- *
- * @example（自定义）
- * <v-tabbar v-bind:tabs='tabs'>
- *     <p slot="con" v-for="item in tabs.tabCons">{{item}}</p>
- *     <p slot="customTpl" v-if='tabs.selectNum==0'>{{template}}</p>
- * </v-tabbar>
- */
-    export default {
-        components: { vRow, vCol, vText },
-        props: {
-            tabs: {
-                fixed: {
-                    type: Boolean,
-                    default: false
-                },
-                selectNum: Number,
-                tabNavs: Array,
-                tabCons: Array
-            }
-        },
-        data () {
-            return {
-            };
-        },
-
-        mounted () {
-            this.$logger.log('TabBar.mounted... ', this.tabs);
-        },
-
-        methods: {
-            tabChange (item, index) {
-                this.tabs.selectNum = index;
-                this.$emit('change', item, index);
-            }
+* vTabbar
+* @module vendor/v-tab-bar.vue
+* @param {boolean} [fixed=true] - 固底
+* @param {boolean} [customTpl=true] - 自定义内容区显示模板
+*
+* @example
+* <v-tabbar v-bind:tabs='tabs'>
+* </v-tabbar>
+*
+* @example（自定义）
+* <v-tabbar v-bind:tabs='tabs'>
+*     <p slot="con" v-for="item in tabs.tabCons">{{item}}</p>
+*     <p slot="customTpl" v-if='tabs.selectNum==0'>{{template}}</p>
+* </v-tabbar>
+*/
+export default {
+    components: { vRow, vCol, vText },
+    props: {
+        tabs: {
+            fixed: {
+                type: Boolean,
+                default: false
+            },
+            selectNum: Number,
+            tabNavs: Array,
+            tabCons: Array
         }
-    };
+    },
+    data () {
+        return {
+        };
+    },
+
+    mounted () {
+        this.$logger.log('TabBar.mounted... ', this.tabs);
+    },
+
+    methods: {
+        tabChange (item, index) {
+            this.tabs.selectNum = index;
+            this.$emit('change', item, index);
+        }
+    }
+};
 </script>
 
 <style rel="stylesheet/scss" lang="scss">

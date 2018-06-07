@@ -15,13 +15,13 @@
 
         <h2>示例</h2>
         <p class="desc">默认样式fff，点击此组件跳转到指定路由</p>
-        <v-row :gutter.Number="30">
+        <v-row :gutter="30">
             <router-link to="/form-search-result">
                 <v-search></v-search>
             </router-link>
         </v-row>
         <pre v-highlightjs @touchend.stop><code class="html">
-        &lt;v-row :gutter.Number="30"&gt;
+        &lt;v-row :gutter="30"&gt;
             &lt;router-link to="/form-search-result"&gt;
                 &lt;v-search&gt;&lt;/v-search&gt;
             &lt;/router-link&gt;
@@ -30,63 +30,61 @@
 
         <h2>搜索</h2>
         <p class="desc">第二页的搜索，点击有动画</p>
-        <v-row :gutter.Number="30">
+        <v-row :gutter="30">
             <v-search :autofocus="true" v-model="keywords" @handle-search="handleSearch"> </v-search>
         </v-row>
         <pre v-highlightjs @touchend.stop><code class="html">
-        &lt;v-row :gutter.Number="30"&gt;
+        &lt;v-row :gutter="30"&gt;
             &lt;v-search :autofocus="true" v-model="keywords" @handle-search="handleSearch"&gt; &lt;/v-search&gt;
         &lt;/v-row&gt;
         </code></pre>
-
-
     </div>
 </template>
 
 <script type="text/ecmascript-6">
-    import vRow from '../vendor/v-row.vue';
-    import vSearch from '../vendor/v-search.vue';
+import vRow from '../vendor/v-row.vue';
+import vSearch from '../vendor/v-search.vue';
 
-    export default {
-        components: { vRow, vSearch },
+export default {
+    components: { vRow, vSearch },
 
-        data () {
-            return {
-                keywords: '',
-                defaultResult: [
-                    'Apple',
-                    'Banana',
-                    'Orange',
-                    'Durian',
-                    'Lemon',
-                    'Peach',
-                    'Cherry',
-                    'Berry',
-                    'Core',
-                    'Fig',
-                    'Haw',
-                    'Melon',
-                    'Plum',
-                    'Pear',
-                    'Peanut',
-                    'Other'
-                ]
-            };
-        },
-        mounted () {
-            this.$logger.log('form-search.mounted... ');
-        },
-        computed: {
-            filterResult () {
-                return this.defaultResult.filter(val => new RegExp(this.keywords, 'i').test(val));
-            }
-        },
-        methods: {
-            handleSearch (val) {
-                this.$toast('搜索：' + val);
-            }
+    data () {
+        return {
+            keywords: '',
+            defaultResult: [
+                'Apple',
+                'Banana',
+                'Orange',
+                'Durian',
+                'Lemon',
+                'Peach',
+                'Cherry',
+                'Berry',
+                'Core',
+                'Fig',
+                'Haw',
+                'Melon',
+                'Plum',
+                'Pear',
+                'Peanut',
+                'Other'
+            ]
+        };
+    },
+    mounted () {
+        this.$logger.log('form-search.mounted... ');
+    },
+    computed: {
+        filterResult () {
+            return this.defaultResult.filter(val => new RegExp(this.keywords, 'i').test(val));
         }
-    };
+    },
+    methods: {
+        handleSearch (val) {
+            this.$toast('搜索：' + val);
+        }
+    }
+};
 </script>
 
 <style rel="stylesheet/scss" lang="scss">

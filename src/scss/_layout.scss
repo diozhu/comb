@@ -183,7 +183,8 @@ small,
 
 .dl-horizontal {
     //display: -webkit-box;
-    @include box-flex;
+    //@include box-flex;
+    display: flex;
 
     dt {
         display: inline-flex;

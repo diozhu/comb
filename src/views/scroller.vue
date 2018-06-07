@@ -25,7 +25,7 @@
                             <div class="con">
                                 <p>模拟数据第 {{ index }} 条</p>
                                 <!--<p v-for="n in parseInt(Math.random() * 10)">随机 {{ n }} 行</p>-->
-                                <p v-for="n in item.list">随机 {{ n }} 行</p>
+                                <p v-for="n in item.list" :key="n">随机 {{ n }} 行</p>
                             </div>
                         </div>
                         <!--<div v-else :key="index" :style="{height: (item.height || 100) + 'px'}" class="listitem tombstone"><div></div><div><p></p><p></p></div></div>-->
@@ -47,58 +47,54 @@
 </template>
 
 <script type="text/ecmascript-6">
-    import Vue from 'vue';
-    import VSticky from '../vendor/v-sticky.js';
-    import vRefresher from '../vendor/v-refresher.vue';
-    import vScroller from '../vendor/v-scroller.vue';
-    import vRow from '../vendor/v-row.vue';
-    import vCol from '../vendor/v-col.vue';
-    import vText from '../vendor/v-text.vue';
-    import vButton from '../vendor/v-button.vue';
-    import * as api from '../js/core/api';
-    import { mapGetters } from 'vuex';
-    Vue.use(VSticky);
+import Vue from 'vue';
+import VSticky from '../vendor/v-sticky.js';
+import vRefresher from '../vendor/v-refresher.vue';
+import vScroller from '../vendor/v-scroller.vue';
+import vRow from '../vendor/v-row.vue';
+import vCol from '../vendor/v-col.vue';
+import vText from '../vendor/v-text.vue';
+import vButton from '../vendor/v-button.vue';
+import * as api from '../js/core/api';
+import { mapGetters } from 'vuex';
+Vue.use(VSticky);
 
-    export default {
-        components: { vRefresher, vScroller, vRow, vCol, vText, vButton },
+export default {
+    components: { vRefresher, vScroller, vRow, vCol, vText, vButton },
 
-        data () {
-            return {
-                listData: []
-            };
+    data () {
+        return {
+            listData: []
+        };
+    },
+
+    computed: {
+        ...mapGetters(['userInfo'])     // 从store中获取当前登陆用户信息
+    },
+    mounted () {
+        this.$logger.log('scrollor.mounted... ');
+        this.init();
+    },
+
+    methods: {
+        init () {
+            return api.getDelay().then(res => {
+                this.$logger.log('scrollor.init.success: ', res);
+                return Promise.resolve({});
+            });
         },
-
-        computed: {
-            ...mapGetters(['userInfo'])     // 从store中获取当前登陆用户信息
-        },
-
-//        created () {
-//            this.$logger.log('scrollor.created... ');
-//        },
-        mounted () {
-            this.$logger.log('scrollor.mounted... ');
-            this.init();
-        },
-
-        methods: {
-            init () {
-                return api.getDelay().then(res => {
-                    this.$logger.log('scrollor.init.success: ', res);
-                    return Promise.resolve({});
+        getList ({ offset, limit }) {
+            // return api.getRandomList({offset: offset, limit: limit});
+            return api.getInfiniteList({offset: offset, limit: limit}).then(res => {
+                [].forEach.call(res, v => {
+                    if (!v.list) v.list = [];
+                    for (let i = 0, len = parseInt(Math.random() * 10); i < len; i++) v.list[i] = i;
                 });
-            },
-            getList ({ offset, limit }) {
-                // return api.getRandomList({offset: offset, limit: limit});
-                return api.getInfiniteList({offset: offset, limit: limit}).then(res => {
-                    [].forEach.call(res, v => {
-                        if (!v.list) v.list = [];
-                        for (let i = 0, len = parseInt(Math.random() * 10);i < len;i++) v.list[i] = i;
-                    });
-                    return Promise.resolve(res);
-                });
-            }
+                return Promise.resolve(res);
+            });
         }
-    };
+    }
+};
 </script>
 
 <style rel="stylesheet/scss" lang="scss">

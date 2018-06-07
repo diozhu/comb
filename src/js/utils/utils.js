@@ -16,11 +16,13 @@ export function isWechat () {
     return (ua.match(/MicroMessenger/i) == 'micromessenger'); //eslint-disable-line
     // return true;
 };
+
 export function isiOS () {
     let ua = window.navigator.userAgent.toLowerCase();
     // window.alert(ua);
     return !!ua.match(/\(i[^;]+;( u;)? cpu.+mac os x/); // ios终端
 };
+
 export function getQueryStringByName (name) {
     var result = document.location.search.match(new RegExp('[\?\&]' + name + '=([^\&]+)', 'i'));
     if (result == null || result.length < 1) {
@@ -28,6 +30,7 @@ export function getQueryStringByName (name) {
     }
     return result[1];
 };
+
 export function getPathQueryStringByName (path, name) {
     var result = path.match(new RegExp('[\?\&]' + name + '=([^\&]+)', 'i'));
     if (result == null || result.length < 1) {
@@ -35,6 +38,7 @@ export function getPathQueryStringByName (path, name) {
     }
     return result[1];
 };
+
 export function getCurrentPath (opts) {
     // var rtn = document.location.hash;
     // if (opts && opts.pathOnly) {
@@ -43,17 +47,20 @@ export function getCurrentPath (opts) {
     // return rtn;
     return document.location.pathname;
 };
+
 export function getCookie (name) {
     let reg = new RegExp('(^| )' + name + '=([^;]*)(;|$)'),
         arr = document.cookie.match(reg) || null;
     if (arr && arr.length > 2) return (unescape(arr[2]));
     return null;
 }
+
 export function setCookie (key, value, expires) {
     let exdate = new Date();
     exdate.setTime(exdate.getTime() + expires);
     document.cookie = key + '=' + escape(value) + ((expires == null) ? '' : ';expires=' + exdate.toGMTString());
 };
+
 export function delCookie (name) {
     let exp = new Date();
     exp.setTime(exp.getTime() - 1);
@@ -94,6 +101,7 @@ export let cookie = {
         return (!!encode ? v : decodeURIComponent(v)); //eslint-disable-line
     }
 };
+
 export function getLocalStorage () {
     let storage = window.localStorage,
         _uid = 'cn.hy-sport.comb';
@@ -138,6 +146,7 @@ export function getLocalStorage () {
         }
     };
 };
+
 export function getSessionStorage () {
     let storage = window.sessionStorage,
         _uid = 'cn.hy-sport.comb';
@@ -198,7 +207,8 @@ export function supportsPassive () {
             }
         });
         window.addEventListener('test', null, opts);
-    } catch (e) {}
+    } catch (e) {
+    }
     return supportsPassive;
 }
 
@@ -261,6 +271,7 @@ export function thumb (url, width, height) {
     }
     return str;
 };
+
 /** ==================== 时间函数 ==================== */
 /**
  * 时间转化
@@ -329,6 +340,7 @@ export function dateTrans (dt) {
     dt = new Date(dt);
     return dt;
 };
+
 /**
  * 时间是否同年、同月、同日的判断函数
  *              -- Author by Dio Zhu. on 2017.2.18
@@ -339,12 +351,14 @@ export function isSameYear (dt1, dt2) {
     dt2 = (dt2 instanceof Date) ? dt2 : dateTrans(dt2);
     return dt1.getFullYear() === dt2.getFullYear();
 };
+
 export function isSameMonth (dt1, dt2) {
     if (!dt1 || !dt2) return false;
     dt1 = (dt1 instanceof Date) ? dt1 : dateTrans(dt1);
     dt2 = (dt2 instanceof Date) ? dt2 : dateTrans(dt2);
     return dt1.getFullYear() === dt2.getFullYear() && dt1.getMonth() === dt2.getMonth();
 };
+
 export function isSameDay (dt1, dt2) {
     if (!dt1 || !dt2) return false;
     dt1 = (dt1 instanceof Date) ? dt1 : dateTrans(dt1);
@@ -400,14 +414,17 @@ export function validateEmail (val) {
     let re = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/; // (字母、数字、下划线、-、. )@(字母、数字、-)
     return re.test(val);
 };
+
 export function validateTel (val) {
     let re = /^0\d{2,3}-?\d{7,8}$/; // 0开头2~3位区号，可以加-（也可不加），加上7~8位数字
     return re.test(val);
 };
+
 export function validateMobile (val) {
     let re = /^1\d{10}$/; // 1开头的11位数字
     return re.test(val);
 };
+
 /**
  * 不允许输入特殊字符
  * */
@@ -415,6 +432,7 @@ export function validateText (val) {
     let re = /^[a-zA-Z0-9\u4e00-\u9fa5]+$/;
     return re.test(val);
 };
+
 /**
  * 输入手机号的校验
  * */
@@ -422,6 +440,7 @@ export function validatePhone (val) {
     let re = /^0?1[3|4|5|7|8|9]\d{9}$/;
     return re.test(val);
 };
+
 /**
  * 数字
  * */
@@ -429,6 +448,7 @@ export function validateNumbers (val) {
     let re = /^[0-9]*$/;
     return re.test(val);
 };
+
 /**
  * 输入身份证号的校验
  * */
@@ -436,6 +456,7 @@ export function validateCard (val) {
     let re = /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
     return re.test(val);
 };
+
 /**
  * 银行卡号校验
  * */
@@ -447,47 +468,56 @@ export function getComputedStyle (el) {
     // return Vue.prototype.$isServer ? {} : document.defaultView.getComputedStyle(el);
     return document.defaultView.getComputedStyle(el);
 }
+
 // 军人身份证验证--8位数字--孙硕---2017-12-15；
 export function validateSorderIdenty (val) {
     let re = /^\s*\d{8}\s*$/;
     return re.test(val);
 };
+
 // 社会保障卡验证--10位数字--孙硕---2017-12-15；
 export function validateSocialSecurityCard (val) {
     let re = /^\s*\d{10}\s*$/;
     return re.test(val);
 };
+
 // 港澳通行证验证--字母c后面跟8位数字--孙硕---2017-12-15；
 export function validateHongKongMacauPasser (val) {
     let re = /^\s*[a-zA-Z]\d{8,12}\s*$/ig;
     return re.test(val);
 };
+
 // 台湾居民来往大陆通行证验证--8位数字--孙硕---2017-12-15；
 export function validateTaiwanPasser (val) {
     let re = /^\s*\d{8}\s*$/;
     return re.test(val);
 };
+
 // 户口本验证--9位数字--孙硕---2017-12-15；
 export function validateHouseHoldRegister (val) {
     let re = /^\s*\d{9}\s*$/;
     return re.test(val);
 };
+
 // 临时居民身份证验证--18位数字--孙硕---2017-12-15；
 export function validateInterimId (val) {
     let re = /^\s*\d{18}\s*$/;
     return re.test(val);
 };
+
 // 护照验证---孙硕---2017-12-15；
 export function validatePassport (val) {
     let re = /^\s*[a-zA-Z]\d{7,8}\s*$/;
     return re.test(val);
 };
+
 // 用户姓名格式验证：中文五个、英文30个、不能特殊字符、不能中英混排。 Author by Dio Zhu. on 2018.5.9
 export function validateUsername (val) {
     let ch = /^[\u4e00-\u9fa5]{1,5}$/g,
         en = /^[a-zA-Z | \. | \s*]{1,30}$/g;
     return ch.test(val) || en.test(val);
 };
+
 // 外国人永久居留证验证--孙硕---2017-12-15；
 export function permitForForeigners (val) {
     // 暂时不做校验

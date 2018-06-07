@@ -15,47 +15,47 @@
     </button>
 </template>
 <script>
-    export default {
-        name: 'v-button',
+export default {
+    name: 'v-button',
 
-        props: {
-            nativeType: String, // 原生type属性透传
-            type: {
-                type: String,
-                default: 'default',
-                validator (value) {
-                    return ['default', 'danger', 'primary', 'info'].indexOf(value) > -1;
-                }
-            },
-            styles: { // 按钮样式：默认、平角、原型
-                type: String,
-                default: 'radius',
-                validator (value) {
-                    return ['radius', 'rectangle', 'circle'].indexOf(value) > -1;
-                }
-            },
-            cusClass: String,
-            cusStyle: String,
-            disableClass: String,
-            disabled: Boolean,
-            size: {
-                type: String,
-                default: 'normal',
-                validator (value) {
-                    return ['normal', 'small', 'full'].indexOf(value) > -1;
-                }
+    props: {
+        nativeType: String, // 原生type属性透传
+        type: {
+            type: String,
+            default: 'default',
+            validator (value) {
+                return ['default', 'danger', 'primary', 'info'].indexOf(value) > -1;
             }
         },
-        data () {
-            return {
-            };
+        styles: { // 按钮样式：默认、平角、原型
+            type: String,
+            default: 'radius',
+            validator (value) {
+                return ['radius', 'rectangle', 'circle'].indexOf(value) > -1;
+            }
         },
-        methods: {
-            handleClick (evt) {
-                this.$emit('click', evt);
+        cusClass: String,
+        cusStyle: String,
+        disableClass: String,
+        disabled: Boolean,
+        size: {
+            type: String,
+            default: 'normal',
+            validator (value) {
+                return ['normal', 'small', 'full'].indexOf(value) > -1;
             }
         }
-    };
+    },
+    data () {
+        return {
+        };
+    },
+    methods: {
+        handleClick (evt) {
+            this.$emit('click', evt);
+        }
+    }
+};
 </script>
 <style rel="stylesheet/scss" lang="scss">
     @import "../scss/variables";

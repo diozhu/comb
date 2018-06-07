@@ -1,4 +1,4 @@
-import { find } from './util';
+import {find} from './util';
 
 export default class ContentSource {
     constructor (Vue, options) {
@@ -82,7 +82,7 @@ export default class ContentSource {
                 item.inuse = false;
             },
             destroy (id, all) {
-                for (let i = 0, len = this.queue.length;i < len;i++) {
+                for (let i = 0, len = this.queue.length; i < len; i++) {
                     if (this.queue[i].id === id || all) {
                         this.queue.vm && this.queue.vm.$destroy();
                         this.queue.splice(i, 1);

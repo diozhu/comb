@@ -94,8 +94,7 @@ export default {
             type: Boolean,
             default: true
         },
-        modalClass: {
-        },
+        modalClass: {},
         lockScroll: {
             type: Boolean,
             default: true
@@ -302,4 +301,4 @@ export default {
     }
 };
 
-export { PopupManager };
+export {PopupManager};

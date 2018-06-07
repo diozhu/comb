@@ -7,22 +7,22 @@
 </template>
 
 <script>
-    export default {
-        name: 'triple-bounce',
+export default {
+    name: 'triple-bounce',
 
-        props: {
-            size: Number,
-            color: String
-        },
+    props: {
+        size: Number,
+        color: String
+    },
 
-        computed: {
-            bounceStyle () {
-                return {
-                    backgroundColor: this.spinnerColor
-                };
-            }
+    computed: {
+        bounceStyle () {
+            return {
+                backgroundColor: this.spinnerColor
+            };
         }
-    };
+    }
+};
 </script>
 
 <style rel="stylesheet/scss" lang="scss">
@@ -58,8 +58,6 @@
             animation-delay: -0.16s;
         }
     }
-
-
 
     @keyframes v-spinner__triple-bounce--scale {
         0%, 80%, 100% {

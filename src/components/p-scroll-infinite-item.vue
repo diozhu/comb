@@ -14,22 +14,22 @@
 </template>
 
 <script type="text/ecmascript-6">
-    import vFeed from '../vendor/v-feed.vue';
-    import vText from '../vendor/v-text.vue';
+import vFeed from '../vendor/v-feed.vue';
+import vText from '../vendor/v-text.vue';
 
-    export default {
-        components: { vFeed, vText },
+export default {
+    components: { vFeed, vText },
 
-        props: {
-            data: Object
-        },
-        methods: {
-            add (e) {
-                e.preventDefault();
-                this.$logger.log(this.data.name += ' 233');
-            }
+    props: {
+        data: Object
+    },
+    methods: {
+        add (e) {
+            e.preventDefault();
+            this.$logger.log(this.data.name += ' 233');
         }
-    };
+    }
+};
 </script>
 <style rel="stylesheet/scss" lang="scss">
     @import "../scss/variables";
@@ -67,7 +67,6 @@
                     width: 100%;
                 }
             }
-
 
             .version-item-intro {
                 -webkit-box-flex: 1;
@@ -110,5 +109,4 @@
             }
         }
     }
-
 </style>

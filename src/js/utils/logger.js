@@ -12,21 +12,29 @@ import * as utils from './utils';
  *          -- Author by Dio Zhu. on 2016.12.23
  */
 if (window.console && console.log && config && config.DEBUG) {
-    let ts = function () {};
-    ts.toString = function () { return '[' + utils.formatTime(new Date(), 'hh:mm:ss ms') + ']' + '[' + utils.getCurrentPath({pathOnly: true}) + '] '; };
+    let ts = function () {
+    };
+    ts.toString = function () {
+        return '[' + utils.formatTime(new Date(), 'hh:mm:ss ms') + ']' + '[' + utils.getCurrentPath({pathOnly: true}) + '] ';
+    };
     ['log', 'warn', 'error'].forEach(method => {
         console[method] = console[method].bind(console, '%s', ts);
     });
 } else {
     ['log', 'warn', 'error'].forEach(method => {
-        console[method] = () => {};
+        console[method] = () => {
+        };
     });
 }
 let logger = (() => {
-    let logFunc = function () {},
-        errorFunc = function () {},
-        warnFunc = function () {},
-        assertFunc = function () {};
+    let logFunc = function () {
+        },
+        errorFunc = function () {
+        },
+        warnFunc = function () {
+        },
+        assertFunc = function () {
+        };
 
     if (window.console && console.log && config && config.DEBUG) {
         logFunc = console.log.bind(console);

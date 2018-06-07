@@ -39,7 +39,7 @@ let request = (url, params, opts) => { //eslint-disable-line
     logger.log('---------------- REQUEST START ----------------');
     logger.log('---> api.request: ', url, params, opts);
     if (opts && opts.loading) store.commit('OPEN_LOADING'); // 显示菊花
-//     let accessSource = utils.getSessionStorage().get('access_source') || 20;  // 服务器端的指定标识，用于区分多公众号及各个下单平台的标识，默认标识：20（代表H5）。 Author by Dio Zhu. on 2017.12.22        if (opt.query) { // 处理query对象到url
+    //     let accessSource = utils.getSessionStorage().get('access_source') || 20;  // 服务器端的指定标识，用于区分多公众号及各个下单平台的标识，默认标识：20（代表H5）。 Author by Dio Zhu. on 2017.12.22        if (opt.query) { // 处理query对象到url
     let opt = opts || {},
         param = {
             url: url,
@@ -55,12 +55,16 @@ let request = (url, params, opts) => { //eslint-disable-line
     if (param.method.toLowerCase() === 'post') { // post，把参数添加到data
         // param.params = {'access_source': accessSource};
         param.data = params;
-        param.transformRequest = [function (data, headers) { return qs.stringify(data); }]; // data转换
+        param.transformRequest = [function (data, headers) {
+            return qs.stringify(data);
+        }]; // data转换
     } else { // get，参数添加到query。。。
         // param.params = {...params, 'access_source': accessSource};
         param.params = params;
     }
-    param.paramsSerializer = function (params) { return qs.stringify(params); }; // 序列化query参数
+    param.paramsSerializer = function (params) {
+        return qs.stringify(params);
+    }; // 序列化query参数
     logger.log('---> api.request: ', param);
     return Vue.http.request(param).then(res => {
         if (opts && opts.loading) store.commit('CLOSE_LOADING'); // 隐藏菊花
@@ -178,6 +182,7 @@ let _fetcher = {
         return _obj;
     }
 };
+
 export function getFetcher (fn, typ) {
     return _fetcher.getInstance(fn, typ);
 };
@@ -188,8 +193,8 @@ export function getFetcher (fn, typ) {
  */
 export function signin () {
     // demo数据
-    let data = { appId: '111', avatarId: '', feedId: '', params: [], subtitle: '幸福666', title: '寂寞红酒', userId: '111' };
-    CONFIG.loginData.userInfo = data || { userId: 1 };
+    let data = {appId: '111', avatarId: '', feedId: '', params: [], subtitle: '幸福666', title: '寂寞红酒', userId: '111'};
+    CONFIG.loginData.userInfo = data || {userId: 1};
     logger.log('api.login.loginData: ', CONFIG.loginData);
     return Promise.resolve(data);
 };
@@ -197,9 +202,18 @@ export function signin () {
 export const getRandomList = (params, opts) => request(CONFIG.URL + '/api/getRandomList', params, { ...opts, method: 'post' });
 export const getInfiniteList = (params, opts) => request(CONFIG.URL + '/api/getInfiniteList', params, { ...opts, method: 'post' });
 /** 【测试】获取图片列表信息 */
-export const getImgList = (params, opts) => request(CONFIG.URL + '/api/getImgList', params, { ...opts, method: 'post' });
+export const getImgList = (params, opts) => request(CONFIG.URL + '/api/getImgList', params, {...opts, method: 'post'});
 /** 【测试】延迟的post */
-export const getDelay = (params, opts) => request(CONFIG.URL + '/api/getDelay', params, { ...opts, method: 'post' });
+// export const getDelay = (params, opts) => request(CONFIG.URL + '/api/getDelay', params, {...opts, method: 'post'});
+export const getDelay = (params, opts) => {
+    let obj = {
+            'errcode': 0,
+            'errmsg': 'ok',
+            'data': Date.now()
+        },
+        delay = params.delay || 200;
+    return Promise.resolve(() => setTimeout(() => { return Promise.resolve(obj); }, delay));
+};
 /** 【测试】POST~-- Author by Dio sunelqing. on 2018.4.9 */
 export const postTest = (params, opts) => request(CONFIG.URL + '/wap/user/add_address', params, { ...opts, method: 'post', emulateJSON: true });
 /** 【测试】POST~-- Author by Dio sunelqing. on 2018.4.9 */

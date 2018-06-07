@@ -44,42 +44,42 @@
 </template>
 
 <script>
-    import vButton from '../vendor/v-button.vue';
-    import vAnimat from '../vendor/v-animat';
-    export default {
-        components: { vButton, vAnimat },
-        data () {
-            return {
-                list: [0, 1, 2],
-                listInline: [0, 1]
-            };
+import vButton from '../vendor/v-button.vue';
+import vAnimat from '../vendor/v-animat';
+export default {
+    components: { vButton, vAnimat },
+    data () {
+        return {
+            list: [0, 1, 2],
+            listInline: [0, 1]
+        };
+    },
+    mounted () {
+        this.$logger.log('animat.mounted... ');
+    },
+    methods: {
+        handleBtnClick () {
+            this.$logger.log('animat.handleBtnClick... ');
+            // this.$set(this.list, this.list.length, this.list.length);
+            let randomIndex = Math.floor(Math.random() * this.list.length);
+            this.list.splice(randomIndex, 0, parseInt(Math.random() * 100));
         },
-        mounted () {
-            this.$logger.log('animat.mounted... ');
+        remove (idx) {
+            this.$logger.log('animat.remove... ', idx);
+            this.list.splice(idx, 1);
         },
-        methods: {
-            handleBtnClick () {
-                this.$logger.log('animat.handleBtnClick... ');
-                // this.$set(this.list, this.list.length, this.list.length);
-                let randomIndex = Math.floor(Math.random() * this.list.length);
-                this.list.splice(randomIndex, 0, parseInt(Math.random() * 100));
-            },
-            remove (idx) {
-                this.$logger.log('animat.remove... ', idx);
-                this.list.splice(idx, 1);
-            },
-            handleBtnClick2 () {
-                this.$logger.log('animat.handleBtnClick2... ');
-                // this.$set(this.list, this.list.length, this.list.length);
-                let randomIndex = Math.floor(Math.random() * this.listInline.length);
-                this.listInline.splice(randomIndex, 0, parseInt(Math.random() * 100));
-            },
-            remove2 (idx) {
-                this.$logger.log('animat.remove2... ', idx);
-                this.listInline.splice(idx, 1);
-            }
+        handleBtnClick2 () {
+            this.$logger.log('animat.handleBtnClick2... ');
+            // this.$set(this.list, this.list.length, this.list.length);
+            let randomIndex = Math.floor(Math.random() * this.listInline.length);
+            this.listInline.splice(randomIndex, 0, parseInt(Math.random() * 100));
+        },
+        remove2 (idx) {
+            this.$logger.log('animat.remove2... ', idx);
+            this.listInline.splice(idx, 1);
         }
-    };
+    }
+};
 </script>
 
 <style rel="stylesheet/scss" lang="scss">

@@ -8,23 +8,20 @@
     </div>
 </template>
 
-<script>
-    import logger from '../js/utils/logger';
+<script type="text/ecmascript-6">
+import logger from '../js/utils/logger';
 
-    export default {
-        data () {
-            return {
-            };
-        },
+export default {
+    data () {
+        return {};
+    },
 
-        mounted () {
-            logger.log('album mounted... ');
-        },
+    mounted () {
+        logger.log('album mounted... ');
+    },
 
-        methods: {
-
-        }
-    };
+    methods: {}
+};
 </script>
 
 <style rel="stylesheet/scss" lang="scss">

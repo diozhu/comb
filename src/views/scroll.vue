@@ -14,7 +14,7 @@ getList函数需要设定形参，由滚动条组件回传当前页码，用于�
 
             </p>
             <ul>
-                <li v-for="item in listData" @click="goDetail(item)">
+                <li v-for="(item, index) in listData" :key="index" @click="goDetail(item)">
                     <v-feed
                         :feedId="item.userInfo.feedId"
                         :imgUrl="item.userInfo.avatar"
@@ -32,73 +32,62 @@ getList函数需要设定形参，由滚动条组件回传当前页码，用于�
 </template>
 
 <script type="text/ecmascript-6">
-    import vText from '../vendor/v-text.vue';
-    import vFeed from '../vendor/v-feed.vue';
-    import pFollow from '../components/p-follow.vue';
-    import vScroll from '../vendor/v-scroll.vue';
-    import config from '../config';
-    import * as api from '../js/core/api';
-    import { mapGetters } from 'vuex';
+import vText from '../vendor/v-text.vue';
+import vFeed from '../vendor/v-feed.vue';
+import pFollow from '../components/p-follow.vue';
+import vScroll from '../vendor/v-scroll.vue';
+import config from '../config';
+import * as api from '../js/core/api';
+import { mapGetters } from 'vuex';
 
-    export default {
-        components: { vText, vFeed, pFollow, vScroll },
+export default {
+    components: { vText, vFeed, pFollow, vScroll },
 
-        data () {
-            return {
-                flashTag: true, // 刷新标识
-                listData: []
-            };
+    data () {
+        return {
+            flashTag: true, // 刷新标识
+            listData: []
+        };
+    },
+
+    computed: {
+        ...mapGetters(['userInfo', 'follows']) // 从store中获取当前登陆用户信息
+    },
+
+    mounted () {
+        this.$logger.log('scroll.mounted... ');
+    },
+
+    methods: {
+        init () {
+            // this.getList();
         },
 
-        computed: {
-            ...mapGetters(['userInfo', 'follows'])     // 从store中获取当前登陆用户信息
+        getList ({ offset = 0, limit = config.LIMIT }) {
+            return api.getRandomList({
+                offset: offset,
+                limit: limit
+            }).then((res) => {
+                this.$logger.log('scroll.methods.getList: SUCCESS, ', res);
+                if (res.length && res.length > 0) {
+                    this.listData = this.listData.concat(res); // 整理list数据
+                }
+                return Promise.resolve(res);
+            });
         },
-
-//        created () {
-//            this.$logger.log('scroll.created... ');
-//        },
-        mounted () {
-            this.$logger.log('scroll.mounted... ');
+        goDetail (item) {
+            // this.$router.push({name: 'detail', query: {id: item.id}, hash: '#labDiv'});
+            this.$router.push({name: 'scroll-two', query: {subjectId: this.$route.query.subjectId, id: item.id}});
         },
-
-//        deactivated () {
-//            this.$logger.log('scroll.deactivated... ', document.body.scrollHeight);
-//        },
-    //    beforeRouteLeave (to, from, next) {
-    //        this.$logger.log(`scroll.${this._uid}.beforeRouteLeave: `, document.body.scrollHeight, this.timestamp, window.pageYOffset);
-    //        next();
-    //    },
-
-        methods: {
-//            init () {
-//    //            this.getList();
-//            },
-
-            getList ({ offset = 0, limit = config.LIMIT }) {
-                return api.getRandomList({
-                    offset: offset,
-                    limit: limit
-                }).then((res) => {
-                    this.$logger.log('scroll.methods.getList: SUCCESS, ', res);
-                    if (res.length && res.length > 0) {
-                        this.listData = this.listData.concat(res); // 整理list数据
-                    }
-                    return Promise.resolve(res);
-                });
-            },
-            goDetail (item) {
-    //            this.$router.push({name: 'detail', query: {id: item.id}, hash: '#labDiv'});
-                this.$router.push({name: 'scroll-two', query: {subjectId: this.$route.query.subjectId, id: item.id}});
-            },
-            handleTest () { // 通过enabled参数变化，控制滚动条组件刷新列表。。。用于多入参list情况
-                this.flashTag = false;
-                this.listData = [];
-                this.$nextTick(() => {
-                    this.flashTag = true;
-                });
-            }
+        handleTest () { // 通过enabled参数变化，控制滚动条组件刷新列表。。。用于多入参list情况
+            this.flashTag = false;
+            this.listData = [];
+            this.$nextTick(() => {
+                this.flashTag = true;
+            });
         }
-    };
+    }
+};
 </script>
 
 <style rel="stylesheet/scss" lang="scss">

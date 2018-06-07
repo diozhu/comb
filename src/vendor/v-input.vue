@@ -19,55 +19,55 @@
     </div>
 </template>
 <script>
-    export default {
-        props: {
-            id: String,
-            value: String,
-            type: String,
-            options: Object,
-            cb: Function,
-            attr: Object,           // 设置原生属性，例如 :attr="{ maxlength: 10 }"
-            limit: { // 字数限制
-                type: Number,
-                default: 0
+export default {
+    props: {
+        id: String,
+        value: String,
+        type: String,
+        options: Object,
+        cb: Function,
+        attr: Object,           // 设置原生属性，例如 :attr="{ maxlength: 10 }"
+        limit: { // 字数限制
+            type: Number,
+            default: 0
+        }
+    },
+
+    data () {
+        return {
+            currentValue: this.value,
+            len: 0
+        };
+    },
+
+    watch: {
+        value (val) {
+            this.currentValue = val;
+        },
+
+        currentValue (val) {
+            this.len = val.length;
+            if (this.limit && this.len > this.limit) {
+                this.currentValue = val.substr(0, this.limit);
+                return;
             }
+            this.$emit('input', val);
         },
 
-        data () {
-            return {
-                currentValue: this.value,
-                len: 0
-            };
-        },
-
-        watch: {
-            value (val) {
-                this.currentValue = val;
-            },
-
-            currentValue (val) {
-                this.len = val.length;
-                if (this.limit && this.len > this.limit) {
-                    this.currentValue = val.substr(0, this.limit);
-                    return;
-                }
-                this.$emit('input', val);
-            },
-
-            attr: {
-                immediate: true,
-                handler (attrs) {
-                    this.$nextTick(() => {
-                        const target = [this.$refs.input, this.$refs.textarea];
-                        target.forEach(el => {
-                            if (!el || !attrs) return;
-                            Object.keys(attrs).map(name => el.setAttribute(name, attrs[name]));
-                        });
+        attr: {
+            immediate: true,
+            handler (attrs) {
+                this.$nextTick(() => {
+                    const target = [this.$refs.input, this.$refs.textarea];
+                    target.forEach(el => {
+                        if (!el || !attrs) return;
+                        Object.keys(attrs).map(name => el.setAttribute(name, attrs[name]));
                     });
-                }
+                });
             }
         }
-    };
+    }
+};
 </script>
 <style rel="stylesheet/scss" lang="scss">
     @import "../scss/variables";

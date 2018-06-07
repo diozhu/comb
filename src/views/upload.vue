@@ -11,26 +11,26 @@
 </template>
 
 <script>
-    // import pComments from '../../src_old/components/p-comments.vue';
+// import pComments from '../../src_old/components/p-comments.vue';
 
-    export default {
-        // components: { 'p-comments': pComments },
-        components: {},
+export default {
+    // components: { 'p-comments': pComments },
+    components: {},
 
-        data () {
-            return {
-                subjectId: parseInt(this.$route.query.subjectId || 0)
-            };
-        },
+    data () {
+        return {
+            subjectId: parseInt(this.$route.query.subjectId || 0)
+        };
+    },
 
-        mounted () {
-            this.$logger.log('upload mounted... ');
-        },
+    mounted () {
+        this.$logger.log('upload mounted... ');
+    },
 
-        methods: {
+    methods: {
 
-        }
-    };
+    }
+};
 </script>
 
 <style rel="stylesheet/scss" lang="scss">

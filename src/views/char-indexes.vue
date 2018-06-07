@@ -37,160 +37,160 @@
 </template>
 
 <script>
-    import vRow from '../vendor/v-row.vue';
-    import vCol from '../vendor/v-col.vue';
-    import vButton from '../vendor/v-button';
-    import vCharIndexes from '../vendor/v-char-indexes';
-    import * as utils from '../js/utils/utils.js';
-    import * as dom from '../js/utils/dom.js';
-    import * as api from '../js/core/api.js';
-    import Trans from '../js/core/trans.js';
+import vRow from '../vendor/v-row.vue';
+import vCol from '../vendor/v-col.vue';
+import vButton from '../vendor/v-button';
+import vCharIndexes from '../vendor/v-char-indexes';
+import * as utils from '../js/utils/utils.js';
+import * as dom from '../js/utils/dom.js';
+import * as api from '../js/core/api.js';
+import Trans from '../js/core/trans.js';
 
-    export default {
-        components: { vButton, vRow, vCol, vCharIndexes },
-        data () {
-            return {
-                letters: ['#', 'B', 'D', 'Z'],
-                list: [{}],
-                currentLetter: '',
-                showLetter: '',
-                target: null,
-                scrolling: false
-            };
-        },
-        mounted () {
-            this.$logger.log('char-indexes.mounted...');
-            this.init();
-        },
-        watch: {
-            currentLetter (val) {
-                // this.$logger.log('char-indexes.watch.currentLetter: ', val);
-                this.scrollTo(val);
-            }
-        },
-        methods: {
-            init () {
-                // 找到滚动容器，并监听滚动事件
-                this.target = dom.getScrollEventTarget(this.$refs.page);
-                if (this.target) this.target.addEventListener('scroll', utils.throttle(this.scrollHandle, 100));
-                this.$logger.log('char-indexes.init...', this.target);
-
-                // 模拟数据
-                api.getDelay({delay: 500}).then(res => {
-                    this.$logger.log('char-indexes.init.success...');
-                    this.$set(this, 'list', [
-                        {'first_letter': '#', 'name': '阿斯蒂芬'},
-                        {'first_letter': '#', 'name': '阿斯顿发送到发'},
-                        {'first_letter': '#', 'name': '粗大的司法所'},
-                        {'first_letter': 'B', 'name': '博士A'},
-                        {'first_letter': 'B', 'name': '博士B'},
-                        {'first_letter': 'B', 'name': '博士后A'},
-                        {'first_letter': 'B', 'name': '博士后B'},
-                        {'first_letter': 'D', 'name': '大宝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'D', 'name': '大宝贝'},
-                        {'first_letter': 'Z', 'name': '张三'},
-                        {'first_letter': 'Z', 'name': '张三'},
-                        {'first_letter': 'Z', 'name': '张三'},
-                        {'first_letter': 'Z', 'name': '张三'},
-                        {'first_letter': 'Z', 'name': '张三'},
-                        {'first_letter': 'Z', 'name': '张三'},
-                        {'first_letter': 'Z', 'name': '张三'},
-                        {'first_letter': 'Z', 'name': '张三'},
-                        {'first_letter': 'Z', 'name': '张三'},
-                        {'first_letter': 'Z', 'name': '张三'},
-                        {'first_letter': 'Z', 'name': '张三'},
-                        {'first_letter': 'Z', 'name': '张三'},
-                        {'first_letter': 'Z', 'name': '张三'},
-                        {'first_letter': 'Z', 'name': '张三'},
-                        {'first_letter': 'Z', 'name': '张三'},
-                        {'first_letter': 'Z', 'name': '张三'},
-                        {'first_letter': 'Z', 'name': '张三'},
-                        {'first_letter': 'Z', 'name': '张三'},
-                        {'first_letter': 'Z', 'name': '张三'},
-                        {'first_letter': 'Z', 'name': '张三'},
-                        {'first_letter': 'Z', 'name': '张三'},
-                        {'first_letter': 'Z', 'name': '张三'},
-                        {'first_letter': 'Z', 'name': '张三'},
-                        {'first_letter': 'Z', 'name': '张三'}
-                    ]);
-                }).catch(e => this.$toast(Trans(e)));
-            },
-            scrollTo (val) { // 当前key变化时，重置滚动容器中滚动条的位置。 Author by Dio Zhu. on 2018.5.9
-                // this.$logger.log('char-indexes.scrollTo: ', val);
-                if (this.$refs[val] && this.$refs[val].length) {
-                    if (!this.target) this.target = dom.getScrollEventTarget(this.$refs[val][0]);
-                    let t = this.$refs[val][0].offsetTop;
-                    this.target.scrollTop = t;
-                    this.scrolling = true;
-                    setTimeout(() => { this.scrolling = false; }, 1000);
-                }
-            },
-            scrollHandle () { // 监听滚动容器滚动，计算当前是哪个字符。 Author by Dio Zhu. on 2018.5.9
-                if (this.scrolling) return;
-                let t = this.target.scrollTop,
-                    k = '';
-                for (let key in this.$refs) {
-                    if (this.$refs.hasOwnProperty(key) && this.$refs[key][0] && this.$refs[key][0].offsetTop < t) k = key;
-                }
-                // this.$logger.log('char-indexes.scrollHandle: ', k);
-                // this.currentLetter = k; // 会与上面的逻辑冲突。。。
-                this.showLetter = k;
-            }
+export default {
+    components: { vButton, vRow, vCol, vCharIndexes },
+    data () {
+        return {
+            letters: ['#', 'B', 'D', 'Z'],
+            list: [{}],
+            currentLetter: '',
+            showLetter: '',
+            target: null,
+            scrolling: false
+        };
+    },
+    mounted () {
+        this.$logger.log('char-indexes.mounted...');
+        this.init();
+    },
+    watch: {
+        currentLetter (val) {
+            // this.$logger.log('char-indexes.watch.currentLetter: ', val);
+            this.scrollTo(val);
         }
-    };
+    },
+    methods: {
+        init () {
+            // 找到滚动容器，并监听滚动事件
+            this.target = dom.getScrollEventTarget(this.$refs.page);
+            if (this.target) this.target.addEventListener('scroll', utils.throttle(this.scrollHandle, 100));
+            this.$logger.log('char-indexes.init...', this.target);
+
+            // 模拟数据
+            api.getDelay({delay: 500}).then(res => {
+                this.$logger.log('char-indexes.init.success...');
+                this.$set(this, 'list', [
+                    {'first_letter': '#', 'name': '阿斯蒂芬'},
+                    {'first_letter': '#', 'name': '阿斯顿发送到发'},
+                    {'first_letter': '#', 'name': '粗大的司法所'},
+                    {'first_letter': 'B', 'name': '博士A'},
+                    {'first_letter': 'B', 'name': '博士B'},
+                    {'first_letter': 'B', 'name': '博士后A'},
+                    {'first_letter': 'B', 'name': '博士后B'},
+                    {'first_letter': 'D', 'name': '大宝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'D', 'name': '大宝贝'},
+                    {'first_letter': 'Z', 'name': '张三'},
+                    {'first_letter': 'Z', 'name': '张三'},
+                    {'first_letter': 'Z', 'name': '张三'},
+                    {'first_letter': 'Z', 'name': '张三'},
+                    {'first_letter': 'Z', 'name': '张三'},
+                    {'first_letter': 'Z', 'name': '张三'},
+                    {'first_letter': 'Z', 'name': '张三'},
+                    {'first_letter': 'Z', 'name': '张三'},
+                    {'first_letter': 'Z', 'name': '张三'},
+                    {'first_letter': 'Z', 'name': '张三'},
+                    {'first_letter': 'Z', 'name': '张三'},
+                    {'first_letter': 'Z', 'name': '张三'},
+                    {'first_letter': 'Z', 'name': '张三'},
+                    {'first_letter': 'Z', 'name': '张三'},
+                    {'first_letter': 'Z', 'name': '张三'},
+                    {'first_letter': 'Z', 'name': '张三'},
+                    {'first_letter': 'Z', 'name': '张三'},
+                    {'first_letter': 'Z', 'name': '张三'},
+                    {'first_letter': 'Z', 'name': '张三'},
+                    {'first_letter': 'Z', 'name': '张三'},
+                    {'first_letter': 'Z', 'name': '张三'},
+                    {'first_letter': 'Z', 'name': '张三'},
+                    {'first_letter': 'Z', 'name': '张三'},
+                    {'first_letter': 'Z', 'name': '张三'}
+                ]);
+            }).catch(e => this.$toast(Trans(e)));
+        },
+        scrollTo (val) { // 当前key变化时，重置滚动容器中滚动条的位置。 Author by Dio Zhu. on 2018.5.9
+            // this.$logger.log('char-indexes.scrollTo: ', val);
+            if (this.$refs[val] && this.$refs[val].length) {
+                if (!this.target) this.target = dom.getScrollEventTarget(this.$refs[val][0]);
+                let t = this.$refs[val][0].offsetTop;
+                this.target.scrollTop = t;
+                this.scrolling = true;
+                setTimeout(() => { this.scrolling = false; }, 1000);
+            }
+        },
+        scrollHandle () { // 监听滚动容器滚动，计算当前是哪个字符。 Author by Dio Zhu. on 2018.5.9
+            if (this.scrolling) return;
+            let t = this.target.scrollTop,
+                k = '';
+            for (let key in this.$refs) {
+                if (this.$refs.hasOwnProperty(key) && this.$refs[key][0] && this.$refs[key][0].offsetTop < t) k = key;
+            }
+            // this.$logger.log('char-indexes.scrollHandle: ', k);
+            // this.currentLetter = k; // 会与上面的逻辑冲突。。。
+            this.showLetter = k;
+        }
+    }
+};
 </script>
 
 <style rel="stylesheet/scss" lang="scss">

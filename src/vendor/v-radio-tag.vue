@@ -1,7 +1,7 @@
 <template>
     <div class="v-radiolist" @change="$emit('change', currentValue)" :class="[{tag: mode === 'tag'}]">
         <label class="v-radiolist-title" v-text="title" v-if="title"></label>
-        <a v-for="(option, index) in options" class="v-radiolist-wrapper">
+        <a v-for="(option, index) in options" :key="index" class="v-radiolist-wrapper">
             <div class="v-radiolist-label">
                   <input
                       :id="'vRadio'+'_'+_uid+'_'+index"
@@ -16,55 +16,55 @@
     </div>
 </template>
 <script>
-    import logger from '../js/utils/logger';
+import logger from '../js/utils/logger';
 
-    /**
-     * radio-tag组件
-     * @param {string[], object[]} options - 选项数组，格式：
-     *      [{label: 'label', labelSub: 'sub title', value: 'value', disabled: true}]
-     *      或
-     *      ['ab', 'cd', 'ef']
-     *              -- Author by Dio Zhu. on 2017.2.21
-     */
-    export default {
-        name: 'v-radio-tag',
+/**
+ * radio-tag组件
+ * @param {string[], object[]} options - 选项数组，格式：
+ *      [{label: 'label', labelSub: 'sub title', value: 'value', disabled: true}]
+ *      或
+ *      ['ab', 'cd', 'ef']
+ *              -- Author by Dio Zhu. on 2017.2.21
+ */
+export default {
+    name: 'v-radio-tag',
 
-        props: {
-            title: String,
-            align: String,
-            options: {
-                type: Array,
-                required: true
-            },
-            mode: String,
-            value: String
+    props: {
+        title: String,
+        align: String,
+        options: {
+            type: Array,
+            required: true
         },
+        mode: String,
+        value: String
+    },
 
-        data () {
-            return {
-                currentValue: this.value
-            };
+    data () {
+        return {
+            currentValue: this.value
+        };
+    },
+
+    watch: {
+        value (val) {
+            this.currentValue = val;
         },
+        currentValue (val) {
+            this.$emit('input', val);
+            logger.log('v-radio.watch.currentValue: ', val, this._uid);
+        }
+    },
 
-        watch: {
-            value (val) {
-                this.currentValue = val;
-            },
-            currentValue (val) {
-                this.$emit('input', val);
-                logger.log('v-radio.watch.currentValue: ', val, this._uid);
-            }
-        },
-
-        methods: {
-            onClick: function () {
-                logger.log('v-radio.onClick: ');
-                if (this.cb && typeof this.cb === 'function') {
-                    this.cb();
-                }
+    methods: {
+        onClick: function () {
+            logger.log('v-radio.onClick: ');
+            if (this.cb && typeof this.cb === 'function') {
+                this.cb();
             }
         }
-    };
+    }
+};
 </script>
 <style rel="stylesheet/scss" lang="scss">
     @import "../scss/variables";

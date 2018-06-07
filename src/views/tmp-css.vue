@@ -12,27 +12,27 @@
 </template>
 
 <script>
-    // import '../../static/js/vendor/zepto.min';
-    import VButton from '../vendor/v-button';
-    export default {
-        name: 'page-tmp-css',
+// import '../../static/js/vendor/zepto.min';
+import VButton from '../vendor/v-button';
+export default {
+    name: 'page-tmp-css',
 
-        components: {VButton},
+    components: {VButton},
 
-        data () {
-            return {
+    data () {
+        return {
 
-            };
-        },
+        };
+    },
 
-        mounted () {
-            this.$logger.log('page-tmp-css.activated... ');
-        },
+    mounted () {
+        this.$logger.log('page-tmp-css.activated... ');
+    },
 
-        methods: {
+    methods: {
 
-        }
-    };
+    }
+};
 </script>
 
 <style rel="stylesheet/scss" lang="scss">

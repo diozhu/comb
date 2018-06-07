@@ -10,7 +10,7 @@
         <dt class="v-radio__title" v-if="label" :class="[labelClasses]">{{ label }}</dt>
         <!--<dd class="v-radio__value" :class="[{'m-l': !label}]">-->
         <dd class="v-radio__value">
-            <label v-for="(option, idx) in options"
+            <label v-for="(option, idx) in options" :key="idx"
                    v-if="!limit || idx < limit"
                    :class="[
                        {slot: $slots['slot' + idx]},
@@ -37,64 +37,64 @@
     </dl>
 </template>
 <script>
-    import logger from '../js/utils/logger';
+import logger from '../js/utils/logger';
 
-    /**
-     * radio组件
-     * @param {string[], object[]} options - 选项数组，格式：
-     *      [{label: 'label', labelSub: 'sub title', value: 'value', disabled: true}]
-     *      或
-     *      ['ab', 'cd', 'ef']
-     *              -- Author by Dio Zhu. on 2017.1.11
-     * 修改input的value绑定条件，如果值是0，以前的逻辑不识别。。。
-     *              -- Author by Dio Zhu. on 2018.5.16
-     */
-    export default {
-        name: 'v-radio',
-        props: {
-            id: String,
-            label: String,
-            labelClasses: String,   // 标题的样式
-            radioClasses: String,   // 选框的样式
-            options: {
-                type: Array,
-                required: true
-            },
-            reverse: {              // 选框的位置是否需要前置，默认在右边
-                type: Boolean,
-                default: false
-            },
-            mode: {             // 是否使用标签形式: list、tags、cards
-                type: String,
-                default: 'list'
-            },
-            value: String | Number,
-            limit: Number
+/**
+ * radio组件
+ * @param {string[], object[]} options - 选项数组，格式：
+ *      [{label: 'label', labelSub: 'sub title', value: 'value', disabled: true}]
+ *      或
+ *      ['ab', 'cd', 'ef']
+ *              -- Author by Dio Zhu. on 2017.1.11
+ * 修改input的value绑定条件，如果值是0，以前的逻辑不识别。。。
+ *              -- Author by Dio Zhu. on 2018.5.16
+ */
+export default {
+    name: 'v-radio',
+    props: {
+        id: String,
+        label: String,
+        labelClasses: String, // 标题的样式
+        radioClasses: String, // 选框的样式
+        options: {
+            type: Array,
+            required: true
         },
-        data () {
-            return {
-                currentValue: this.value,
-                className: this.classes
-            };
+        reverse: { // 选框的位置是否需要前置，默认在右边
+            type: Boolean,
+            default: false
         },
-        watch: {
-            value (val) {
-                this.currentValue = val;
-            },
-            currentValue (val) {
-                this.$emit('input', val);
-//                logger.log('v-radio.watch.currentValue: ', val, this.$parent);
-            }
+        mode: { // 是否使用标签形式: list、tags、cards
+            type: String,
+            default: 'list'
         },
-        methods: {
-            onClick: function () {
-                logger.log('v-radio.onClick: ');
-                if (this.cb && typeof this.cb === 'function') {
-                    this.cb();
-                }
+        value: String | Number,
+        limit: Number
+    },
+    data () {
+        return {
+            currentValue: this.value,
+            className: this.classes
+        };
+    },
+    watch: {
+        value (val) {
+            this.currentValue = val;
+        },
+        currentValue (val) {
+            this.$emit('input', val);
+            //                logger.log('v-radio.watch.currentValue: ', val, this.$parent);
+        }
+    },
+    methods: {
+        onClick: function () {
+            logger.log('v-radio.onClick: ');
+            if (this.cb && typeof this.cb === 'function') {
+                this.cb();
             }
         }
-    };
+    }
+};
 </script>
 <style rel="stylesheet/scss" lang="scss">
     @import "../scss/variables";

@@ -9,44 +9,44 @@
 </template>
 
 <script type="text/ecmascript-6">
-    export default {
-        name: 'v-bubble-frame',
-        props: {
-            show: {
-                type: Boolean
-            },
-            index: {
-                type: String
-            },
-            title: {
-                type: String
-            },
-            content: {
-                type: String
-            }
+export default {
+    name: 'v-bubble-frame',
+    props: {
+        show: {
+            type: Boolean
         },
-        data () {
-            return {
-            };
+        index: {
+            type: String
         },
-        computed: {
-            currentIndex () {
-                let flag = '';
-                if (this.index === '1') {
-                    flag = 'one';
-                } else if (this.index === '2') {
-                    flag = 'two';
-                } else if (this.index === '3') {
-                    flag = 'thr';
-                } else if (this.index === '4') {
-                    flag = 'four';
-                } else if (this.index === '5') {
-                    flag = 'five';
-                }
-                return flag;
-            }
+        title: {
+            type: String
+        },
+        content: {
+            type: String
         }
-    };
+    },
+    data () {
+        return {
+        };
+    },
+    computed: {
+        currentIndex () {
+            let flag = '';
+            if (this.index === '1') {
+                flag = 'one';
+            } else if (this.index === '2') {
+                flag = 'two';
+            } else if (this.index === '3') {
+                flag = 'thr';
+            } else if (this.index === '4') {
+                flag = 'four';
+            } else if (this.index === '5') {
+                flag = 'five';
+            }
+            return flag;
+        }
+    }
+};
 </script>
 <style rel="stylesheet/scss" lang="scss">
     @import "../scss/variables";

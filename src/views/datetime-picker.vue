@@ -182,118 +182,116 @@
 </template>
 
 <script type="text/babel">
-    import vCell from '../vendor/v-cell.vue';
-    import * as utils from '../js/utils/utils';
-    import {Toast} from '../vendor/index';
-    import vDatetimePicker from '../vendor/v-datetime-picker';
-    import vButton from '../vendor/v-button';
-    import logger from '../js/utils/logger';
+import vCell from '../vendor/v-cell.vue';
+import * as utils from '../js/utils/utils';
+import {Toast} from '../vendor/index';
+import vDatetimePicker from '../vendor/v-datetime-picker';
+import vButton from '../vendor/v-button';
+import logger from '../js/utils/logger';
 
-    export default {
-        components: { vCell, vDatetimePicker, vButton },
-        data () {
-            return {
-                value1: null,
-                value2: null,
-                value3: null,
-                value4: null,
-                value5: new Date(),
-                visible: false,
-                visible2: false,
-                visible3: false,
-                visible4: false,
-                visible5: false,
-                value6: null,
-                visible6: false
-            };
+export default {
+    components: { vCell, vDatetimePicker, vButton },
+    data () {
+        return {
+            value1: null,
+            value2: null,
+            value3: null,
+            value4: null,
+            value5: new Date(),
+            visible: false,
+            visible2: false,
+            visible3: false,
+            visible4: false,
+            visible5: false,
+            value6: null,
+            visible6: false
+        };
+    },
+    computed: {
+        formatedValue1 () {
+            return this.value1 ? utils.formatTime(this.value1) : '请选择日期（datetime picker）';
         },
-        computed: {
-            formatedValue1 () {
-                return this.value1 ? utils.formatTime(this.value1) : '请选择日期（datetime picker）';
-            },
-            formatedValue2 () {
-                return this.value2 ? utils.formatTime(this.value2) : '请选择日期（date picker）';
-            },
-            formatedValue3 () {
-                return this.value3 ? (this.value3) : '请选择时间（time picker）';
-            },
-            formatedValue4 () {
-                return this.value4 ? utils.formatTime(this.value4) : '自定义格式';
-            },
-            formatedValue5 () {
-                return this.value5 ? utils.formatTime(this.value5) : '设定初始值';
-            },
-            formatedValue6 () {
-                return this.value6 ? utils.formatTime(this.value6) : '请选择日期（smart picker）';
-            }
+        formatedValue2 () {
+            return this.value2 ? utils.formatTime(this.value2) : '请选择日期（date picker）';
         },
-
-        methods: {
-            open (picker) {
-                logger.log('datetime-picker.open: ');
-                this.$refs[picker].open();
-            },
-
-            handleChange (value) {
-                logger.log('datetime-picker.handleChange: ', value);
-                Toast({
-                    message: '选择: ' + utils.formatTime(value),
-                    position: 'bottom'
-                });
-            },
-
-            openPicker1 () {
-                this.$refs.picker1.open();
-            },
-            handlePicker1 (value) {
-                logger.log('datetime-picker.handlePicker1: ', value);
-                this.value1 = value;
-            },
-
-            openPicker2 () {
-                this.$refs.picker2.open();
-            },
-            handlePicker2 (value) {
-                logger.log('datetime-picker.handlePicker2: ', value);
-                this.value2 = value;
-            },
-
-            openPicker3 () {
-                this.$refs.picker3.open();
-            },
-            handlePicker3 (value) {
-                logger.log('datetime-picker.handlePicker3: ', value);
-                this.value3 = value;
-            },
-
-            openPicker4 () {
-                this.$refs.picker4.open();
-            },
-            handlePicker4 (value) {
-                logger.log('datetime-picker.handlePicker4: ', value);
-                this.value4 = value;
-            },
-
-            openPicker5 () {
-                this.$refs.picker5.open();
-            },
-            handlePicker5 (value) {
-                logger.log('datetime-picker.handlePicker5: ', value);
-                this.value5 = value;
-            },
-
-            openPicker6 () {
-                this.$refs.picker6.open();
-            },
-            handlePicker6 (value) {
-                logger.log('datetime-picker.handlePicker6: ', value);
-                this.value6 = value;
-            }
+        formatedValue3 () {
+            return this.value3 ? (this.value3) : '请选择时间（time picker）';
+        },
+        formatedValue4 () {
+            return this.value4 ? utils.formatTime(this.value4) : '自定义格式';
+        },
+        formatedValue5 () {
+            return this.value5 ? utils.formatTime(this.value5) : '设定初始值';
+        },
+        formatedValue6 () {
+            return this.value6 ? utils.formatTime(this.value6) : '请选择日期（smart picker）';
         }
-    };
+    },
+
+    methods: {
+        open (picker) {
+            logger.log('datetime-picker.open: ');
+            this.$refs[picker].open();
+        },
+
+        handleChange (value) {
+            logger.log('datetime-picker.handleChange: ', value);
+            Toast({
+                message: '选择: ' + utils.formatTime(value),
+                position: 'bottom'
+            });
+        },
+
+        openPicker1 () {
+            this.$refs.picker1.open();
+        },
+        handlePicker1 (value) {
+            logger.log('datetime-picker.handlePicker1: ', value);
+            this.value1 = value;
+        },
+
+        openPicker2 () {
+            this.$refs.picker2.open();
+        },
+        handlePicker2 (value) {
+            logger.log('datetime-picker.handlePicker2: ', value);
+            this.value2 = value;
+        },
+
+        openPicker3 () {
+            this.$refs.picker3.open();
+        },
+        handlePicker3 (value) {
+            logger.log('datetime-picker.handlePicker3: ', value);
+            this.value3 = value;
+        },
+
+        openPicker4 () {
+            this.$refs.picker4.open();
+        },
+        handlePicker4 (value) {
+            logger.log('datetime-picker.handlePicker4: ', value);
+            this.value4 = value;
+        },
+
+        openPicker5 () {
+            this.$refs.picker5.open();
+        },
+        handlePicker5 (value) {
+            logger.log('datetime-picker.handlePicker5: ', value);
+            this.value5 = value;
+        },
+
+        openPicker6 () {
+            this.$refs.picker6.open();
+        },
+        handlePicker6 (value) {
+            logger.log('datetime-picker.handlePicker6: ', value);
+            this.value6 = value;
+        }
+    }
+};
 </script>
-
-
 <style rel="stylesheet/scss" lang="scss">
     @import "../scss/variables";
     @import "../scss/mixins";

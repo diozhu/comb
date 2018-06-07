@@ -17,69 +17,64 @@
 </template>
 
 <script>
-    require('../../static/js/vendor/swiper-3.4.1.min'); // get swiper.js
-    import logger from '../js/utils/logger';
-    import Swiper from '../../static/js/vendor/swiper-3.3.1.min';
+require('../../static/js/vendor/swiper-3.4.1.min'); // get swiper.js
+import logger from '../js/utils/logger';
+import Swiper from '../../static/js/vendor/swiper-3.3.1.min';
 
-    export default {
-        name: 'v-banner',
+export default {
+    name: 'v-banner',
 
-        props: {
-            value: {
-                type: Array,
-                required: true
-            }
-        },
-
-        data () {
-            return {
-                swiper: ''
-            };
-        },
-
-        methods: {
-            /**
-             * index中用了右划翻页, 此处阻止冒泡.
-             *              -- Author by Dio Zhu. on 2017.2.14
-             */
-            swipe: function (e) {
-                logger.log('swipe in viewImage...', this.swiper.activeIndex, this.swiper.previousIndex);
-                e.srcEvent.stopPropagation();
-                if (!this.swiper.previousIndex) {
-                    this.$router.go(-1);
-                }
-            }
-        },
-
-        mounted () {
-            logger.log('v-banner.mounted: ');
-            let self = this;
-            if (self.swiper) {
-                self.swiper.destroy(false);
-                self.swiper = null;
-            }
-            this.$nextTick(() => {
-                self.swiper = new Swiper('.swiper-container', {
-                    observer: true, // 修改swiper自己或子元素时，自动初始化swiper
-                    observeParents: true, // 修改swiper的父元素时，自动初始化swiper
-                    loop: false,
-                    autoplay: 3000,
-                    autoplayDisableOnInteraction: false,
-                    pagination: '.swiper-pagination',
-                    paginationElement: 'span',
-                    paginationType: 'bullets'
-                });
-            });
-//            setTimeout(() => {
-//                this.swiper.updateSlidesSize();
-//                this.swiper.updatePagination();
-//                this.$logger.log('-------------------------');
-//            }, 3000);
-        },
-        computed: {
-
+    props: {
+        value: {
+            type: Array,
+            required: true
         }
-    };
+    },
+
+    data () {
+        return {
+            swiper: ''
+        };
+    },
+
+    methods: {
+        /**
+         * index中用了右划翻页, 此处阻止冒泡.
+         *              -- Author by Dio Zhu. on 2017.2.14
+         */
+        swipe: function (e) {
+            logger.log('swipe in viewImage...', this.swiper.activeIndex, this.swiper.previousIndex);
+            e.srcEvent.stopPropagation();
+            if (!this.swiper.previousIndex) {
+                this.$router.go(-1);
+            }
+        }
+    },
+
+    mounted () {
+        logger.log('v-banner.mounted: ');
+        let self = this;
+        if (self.swiper) {
+            self.swiper.destroy(false);
+            self.swiper = null;
+        }
+        this.$nextTick(() => {
+            self.swiper = new Swiper('.swiper-container', {
+                observer: true, // 修改swiper自己或子元素时，自动初始化swiper
+                observeParents: true, // 修改swiper的父元素时，自动初始化swiper
+                loop: false,
+                autoplay: 3000,
+                autoplayDisableOnInteraction: false,
+                pagination: '.swiper-pagination',
+                paginationElement: 'span',
+                paginationType: 'bullets'
+            });
+        });
+    },
+    computed: {
+
+    }
+};
 
 </script>
 <style rel="stylesheet/scss" lang="scss">

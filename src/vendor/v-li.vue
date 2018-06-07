@@ -7,20 +7,20 @@
     </li>
 </template>
 <script>
-    export default {
-        props: {
-            title: String
-        },
-        data () {
-            return {
-            };
-        },
-        methods: {
-            handleClick (evt) {
-                this.$emit('click', evt);
-            }
+export default {
+    props: {
+        title: String
+    },
+    data () {
+        return {
+        };
+    },
+    methods: {
+        handleClick (evt) {
+            this.$emit('click', evt);
         }
-    };
+    }
+};
 </script>
 <style rel="stylesheet/scss" lang="scss">
 

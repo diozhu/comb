@@ -99,60 +99,60 @@ export default {
 </template>
 
 <script type="text/babel">
-    import vCell from '../vendor/v-cell.vue';
-    import vPicker from '../vendor/v-picker';
-    import vPopup from '../vendor/v-popup';
-    import vButton from '../vendor/v-button';
+import vCell from '../vendor/v-cell.vue';
+import vPicker from '../vendor/v-picker';
+import vPopup from '../vendor/v-popup';
+import vButton from '../vendor/v-button';
 
-    export default {
-        components: { vCell, vPicker, vPopup, vButton },
-        data () {
-            return {
-                popupVisible1: false,
-                popupVisible2: false,
-                popupVisible3: false,
-                popupVisible4: false,
-                buttonBottom: 0,
-                dateSlots: [{
-                    flex: 1,
-                    values: ['1984', '1985', '1986', '1987', '1988', '1989', '1990', '1991', '1992', '1993', '1994', '1995'],
-                    className: 'slot1'
-                }],
-                dateValue: ''
-            };
-        },
+export default {
+    components: { vCell, vPicker, vPopup, vButton },
+    data () {
+        return {
+            popupVisible1: false,
+            popupVisible2: false,
+            popupVisible3: false,
+            popupVisible4: false,
+            buttonBottom: 0,
+            dateSlots: [{
+                flex: 1,
+                values: ['1984', '1985', '1986', '1987', '1988', '1989', '1990', '1991', '1992', '1993', '1994', '1995'],
+                className: 'slot1'
+            }],
+            dateValue: ''
+        };
+    },
 
-        watch: {
-            popupVisible2 (val) {
-                if (val) {
-                    setTimeout(() => {
-                        this.popupVisible2 = false;
-                    }, 2000);
-                }
-            }
-        },
-
-        mounted () {
-//            this.buttonBottom = this.$refs.button.$el.getBoundingClientRect().bottom;
-        },
-
-        methods: {
-            onDateChange (picker, values) {
-                console.log('values:::', values);
-
-                if (values[0] > values[1]) {
-                    picker.setSlotValue(1, values[0]);
-                }
-                this.dateValue = values[0];
-            },
-
-            confirm () {
-                this.$logger.log('popup.confirm: ');
-                this.$toast(this.dateValue);
-                this.popupVisible4 = false;
+    watch: {
+        popupVisible2 (val) {
+            if (val) {
+                setTimeout(() => {
+                    this.popupVisible2 = false;
+                }, 2000);
             }
         }
-    };
+    },
+
+    mounted () {
+        //            this.buttonBottom = this.$refs.button.$el.getBoundingClientRect().bottom;
+    },
+
+    methods: {
+        onDateChange (picker, values) {
+            console.log('values:::', values);
+
+            if (values[0] > values[1]) {
+                picker.setSlotValue(1, values[0]);
+            }
+            this.dateValue = values[0];
+        },
+
+        confirm () {
+            this.$logger.log('popup.confirm: ');
+            this.$toast(this.dateValue);
+            this.popupVisible4 = false;
+        }
+    }
+};
 </script>
 
 <style rel="stylesheet/scss" lang="scss">

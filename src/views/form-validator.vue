@@ -60,7 +60,7 @@
             <v-button style="margin:10px;" @click="show2 = !show2">切换验证电话隐藏显示</v-button>
             <v-button style="margin:10px;" @click="show3 = !show3">切换验证用户名隐藏显示</v-button>
         </div>
-        <v-row :gutter.Number="30" v-sticky.bottom="0">
+        <v-row :gutter="30" v-sticky.bottom="0">
             <v-button size="full" styles="rectangle" @click="onSubmit">submit</v-button>
         </v-row>
 
@@ -169,7 +169,7 @@ export default {
                     message: '用户名全中文或全英文哦~'
                 }
             },
-//                证件类型部分（包括监护人部分，备用监护人不验证）
+            //                证件类型部分（包括监护人部分，备用监护人不验证）
             valstudentIdengyTypeId: '',
             studentIdengyTypeId: '',
             studentIdengyType: '',
@@ -188,7 +188,7 @@ export default {
                     message: '请填写学生证件号码'
                 }
             },
-//                身份证验证
+            //                身份证验证
             validatorCard: {
                 key: 'validator10',
                 required: {
@@ -199,7 +199,7 @@ export default {
                     message: '请输入正确的身份证号'
                 }
             },
-//                护照验证
+            //                护照验证
             validatorPassport: {
                 key: 'validator10',
                 required: {
@@ -210,7 +210,7 @@ export default {
                     message: '请输入正确的护照号码'
                 }
             },
-//                军人身份证验证
+            //                军人身份证验证
             validatorSorderIdenty: {
                 key: 'validator10',
                 required: {
@@ -221,7 +221,7 @@ export default {
                     message: '请输入正确的军人身份证号'
                 }
             },
-//                社保卡验证
+            //                社保卡验证
             validatorSocialSecurity: {
                 key: 'validator10',
                 required: {
@@ -232,7 +232,7 @@ export default {
                     message: '请输入正确的社保卡号'
                 }
             },
-//                港澳通行证验证
+            //                港澳通行证验证
             validatorHongKongMacauPasser: {
                 key: 'validator10',
                 required: {
@@ -243,7 +243,7 @@ export default {
                     message: '请填写正确的港澳通行证号'
                 }
             },
-//                台湾往来大陆通行证
+            //                台湾往来大陆通行证
             validatorTaiwanPasser: {
                 key: 'validator10',
                 required: {
@@ -254,7 +254,7 @@ export default {
                     message: '请填写正确的台湾往来大陆通行证号'
                 }
             },
-//                户口簿验证
+            //                户口簿验证
             validatorHouseHoldRegister: {
                 key: 'validator10',
                 required: {
@@ -265,7 +265,7 @@ export default {
                     message: '请填写正确的户口簿号码'
                 }
             },
-//                临时居民身份证验证
+            //                临时居民身份证验证
             validatorInterimId: {
                 key: 'validator10',
                 required: {
@@ -281,15 +281,15 @@ export default {
                 {
                     flex: 1,
                     values: [
-                    {key: '1', values: '身份证'},
-                    {key: '2', values: '护照'},
-                    {key: '3', values: '军人身份证'},
-                    {key: '4', values: '社会保障卡'},
-                    {key: '5', values: '港澳通行证'},
-                    {key: '6', values: '台湾居民来往大陆通行证'},
-                    {key: '7', values: '户口薄'},
-                    {key: '8', values: '临时居民身份证'},
-                    {key: '9', values: '外国人永久居留证'}
+                        {key: '1', values: '身份证'},
+                        {key: '2', values: '护照'},
+                        {key: '3', values: '军人身份证'},
+                        {key: '4', values: '社会保障卡'},
+                        {key: '5', values: '港澳通行证'},
+                        {key: '6', values: '台湾居民来往大陆通行证'},
+                        {key: '7', values: '户口薄'},
+                        {key: '8', values: '临时居民身份证'},
+                        {key: '9', values: '外国人永久居留证'}
                     ]
                 }
             ]
@@ -378,7 +378,7 @@ export default {
         },
         confirm () {
             this.studentIdengyTypeId = this.valstudentIdengyTypeId;
-//       这个逻辑是为了处理点开拨盘后没有滑动直接点击确定后，没有显示的问题
+            //       这个逻辑是为了处理点开拨盘后没有滑动直接点击确定后，没有显示的问题
             if (this.studentIdengyTypeId === '0') {
                 this.studentIdengyTypeId = '1';
             }

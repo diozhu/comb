@@ -8,65 +8,64 @@
     </div>
 </template>
 <script>
-    import vAlbum from '../vendor/v-album.vue';
-    export default {
-        components: { vAlbum },
-        data () {
-            return {
-                title: '拼搏创新',
-                img3: [
-                    {
-                        url: 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
-                        width: 2448,
-                        height: 3264
-                    },
-                    {
-                        url: 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
-                        width: 2448,
-                        height: 3264
-                    },
-                    {
-                        url: 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
-                        width: 3264,
-                        height: 2448
-                    },
-                    {
-                        url: 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
-                        width: 2448,
-                        height: 3264
-                    }
-                ],
-                sliderinit: {
-                    currentPage: 0,
-                    thresholdTime: 500, // 滑动时间阈值判定距离
-                    thresholdDistance: 100, // 滑动距离阈值
-                    slideSpeed: 1000, // 滑动速度
-                    isPreview: true // 是否是预览
-                    // loop: false, // 是否开启无缝模式
-                    // height: 200 // 高度设置(如果是预览可以不用传)
-//                    autoplay: 1000 // 自动播放:时间[ms]
+import vAlbum from '../vendor/v-album.vue';
+export default {
+    components: { vAlbum },
+    data () {
+        return {
+            title: '拼搏创新',
+            img3: [
+                {
+                    url: 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
+                    width: 2448,
+                    height: 3264
                 },
-                currentUrls: [],
-                showType: 0
-            };
-        },
-        created: function () {
-            this.$root.pages = this.img3;
-            this.$root.sliderinit = {};
-            this.$root.sliderinit = this.sliderinit;
-            this.$logger.log(this.$root.sliderinit, 'slider-image');
-            this.$logger.log('list.created');
-        },
-        mounted () {
-            this.$logger.log('list.mounted... ');
-        },
-        methods: {
-            /* goToViewImage () {
-             this.$root.img = arguments[0];
-             this.$router.push({path: 'viewImage'});
-             } */
-        }
-    };
+                {
+                    url: 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
+                    width: 2448,
+                    height: 3264
+                },
+                {
+                    url: 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
+                    width: 3264,
+                    height: 2448
+                },
+                {
+                    url: 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
+                    width: 2448,
+                    height: 3264
+                }
+            ],
+            sliderinit: {
+                currentPage: 0,
+                thresholdTime: 500, // 滑动时间阈值判定距离
+                thresholdDistance: 100, // 滑动距离阈值
+                slideSpeed: 1000, // 滑动速度
+                isPreview: true // 是否是预览
+                // loop: false, // 是否开启无缝模式
+                // height: 200 // 高度设置(如果是预览可以不用传)
+            },
+            currentUrls: [],
+            showType: 0
+        };
+    },
+    created: function () {
+        this.$root.pages = this.img3;
+        this.$root.sliderinit = {};
+        this.$root.sliderinit = this.sliderinit;
+        this.$logger.log(this.$root.sliderinit, 'slider-image');
+        this.$logger.log('list.created');
+    },
+    mounted () {
+        this.$logger.log('list.mounted... ');
+    },
+    methods: {
+        /* goToViewImage () {
+         this.$root.img = arguments[0];
+         this.$router.push({path: 'viewImage'});
+         } */
+    }
+};
 </script>
 <style rel="stylesheet/scss" lang="scss">
     @import "../scss/variables";
@@ -95,6 +94,4 @@
         }
 
     }
-
-
 </style>

@@ -24,24 +24,24 @@
 
 </template>
 <script type="text/ecmascript-6">
-    export default {
-        components: {},
+export default {
+    components: {},
 
-        data () {
-            return {
-            };
-        },
+    data () {
+        return {
+        };
+    },
 
-        mounted () {
-            this.$logger.log('home.mounted... ');
-        },
+    mounted () {
+        this.$logger.log('home.mounted... ');
+    },
 
-        methods: {
-            go (url) {
-                document.location.href = url;
-            }
+    methods: {
+        go (url) {
+            document.location.href = url;
         }
-    };
+    }
+};
 </script>
 <style rel="stylesheet/scss" lang="scss">
 

@@ -13,7 +13,7 @@
             </div>
             <div class="v-scroll-picker-content">
                 <ul>
-                    <li v-for="option in opts">
+                    <li v-for="(option, index) in opts" :key="index">
                         <span>{{ option.name }}</span>
                     </li>
 
@@ -28,145 +28,145 @@
     </div>
 </template>
 <script>
-    import IScroll from 'iscroll';
-    import _ from '../../static/js/vendor/underscore.min';
-    import logger from '../js/utils/logger';
-    import vShade from './v-shade.vue';
+import IScroll from 'iscroll';
+import _ from '../../static/js/vendor/underscore.min';
+import logger from '../js/utils/logger';
+import vShade from './v-shade.vue';
 
-    /**
-     * v-scroll-picker组件
-     *              -- Author by Dio Zhu. on 2017.2.15
-     */
-    export default {
-        name: 'v-scroll-picker',
+/**
+ * v-scroll-picker组件
+ *              -- Author by Dio Zhu. on 2017.2.15
+ */
+export default {
+    name: 'v-scroll-picker',
 
-        components: {
-            'v-shade': vShade
+    components: {
+        'v-shade': vShade
+    },
+
+    props: {
+        id: String,
+        display: {
+            type: Boolean,
+            default: false
         },
-
-        props: {
-            id: String,
-            display: {
-                type: Boolean,
-                default: false
-            },
-            // 下拉选项数组对象
-//            options: {
-//                type: Array,
-//                default () {
-//                    let ary = [];
-//                    for (let i = 0;i < 100;i++) {
-//                        ary.push({
-//                            id: i + 1,
-//                            name: `测试数据${i}`
-//                        });
-//                    }
-//                    return ary;
-//                },
-//                coerce (options) {
-//                    options = JSON.parse(JSON.stringify(options));
-//                    for (let i = 0;i < 3;i++) {
-//                        let placeAry = {
-//                            id: null,
-//                            name: ''
-//                        };
-//                        options.unshift(placeAry);
-//                        options.push(placeAry);
-//                    }
-//                    return options;
-//                }
-//
-//            },
-            options: Array,
-            // 选中option的id
-            selectedId: {
-                type: [Number, String],
-                default: 10
-            },
-            classes: String     // 附加class
+        // 下拉选项数组对象
+        //            options: {
+        //                type: Array,
+        //                default () {
+        //                    let ary = [];
+        //                    for (let i = 0;i < 100;i++) {
+        //                        ary.push({
+        //                            id: i + 1,
+        //                            name: `测试数据${i}`
+        //                        });
+        //                    }
+        //                    return ary;
+        //                },
+        //                coerce (options) {
+        //                    options = JSON.parse(JSON.stringify(options));
+        //                    for (let i = 0;i < 3;i++) {
+        //                        let placeAry = {
+        //                            id: null,
+        //                            name: ''
+        //                        };
+        //                        options.unshift(placeAry);
+        //                        options.push(placeAry);
+        //                    }
+        //                    return options;
+        //                }
+        //
+        //            },
+        options: Array,
+        // 选中option的id
+        selectedId: {
+            type: [Number, String],
+            default: 10
         },
+        classes: String     // 附加class
+    },
 
-        data () {
-            return {
-                displayed: false,
-                currentId: 1
-            };
+    data () {
+        return {
+            displayed: false,
+            currentId: 1
+        };
+    },
+
+    watch: {
+        display () {
+            this.displayed = this.display;
         },
-
-        watch: {
-            display () {
-                this.displayed = this.display;
-            },
-            selectedId () {
-                this.currentId = this.selectedId || 1;
-            }
-        },
-
-        computed: {
-            opts () {
-                let arr = this.options;
-                for (let i = 0;i < 3;i++) {
-                    let blankObj = { id: null, name: '' };
-                    arr.unshift(blankObj);
-                    arr.push(blankObj);
-                }
-                return arr;
-            },
-            selectedOption () {
-                let _self = this;
-                return _.find(this.options, function (v) {
-                    return v.id === _self.selectedId;
-                });
-            }
-        },
-
-        created () {
-            logger.log('v-scroll-picker created...');
-            this.rem2px = lib.flexible.rem2px('1rem').replace(/px/, '') * 1;  // eslint-disable-line no-undef
-        },
-
-        mounted () {
-
-        },
-
-        methods: {
-            show () {
-                let _self = this;
-                this.displayed = true;
-                // 此处异步调用的目的是使得dom元素渲染好之后再执行scroll初始化
-                setTimeout(() => {
-                    _self.myScroll = new IScroll('.v-scroll-picker-content', {
-
-                        // 按距离滚动
-                        snap: 'li'
-                    });
-
-                    logger.log('===============>>> ', _self.myScroll, this.rem2px);
-
-                    let selectedIndex = 0;
-
-                    if (this.currentId) {
-                        selectedIndex = _.find(this.options, function (v) {
-                            return v.id === _self.currentId;
-                        });
-                    }
-
-                    this.myScroll.scrollTo(0, -1 * (selectedIndex - 3) * this.rem2px);
-                }, 0);
-            },
-            select () {
-                let selectedOptionIndex = Math.abs(this.myScroll.y) / this.rem2px;
-
-                // TODO 此处还需处理placeholder的配置数量问题
-                this.currentId = this.options[selectedOptionIndex + 3].id;
-
-                this.hide();
-            },
-            hide () {
-                this.displayed = false;
-            }
+        selectedId () {
+            this.currentId = this.selectedId || 1;
         }
-    };
+    },
+
+    computed: {
+        opts () {
+            let arr = this.options;
+            for (let i = 0; i < 3; i++) {
+                let blankObj = { id: null, name: '' };
+                arr.unshift(blankObj);
+                arr.push(blankObj);
+            }
+            return arr;
+        },
+        selectedOption () {
+            let _self = this;
+            return _.find(this.options, function (v) {
+                return v.id === _self.selectedId;
+            });
+        }
+    },
+
+    created () {
+        logger.log('v-scroll-picker created...');
+        this.rem2px = lib.flexible.rem2px('1rem').replace(/px/, '') * 1;  // eslint-disable-line no-undef
+    },
+
+    mounted () {
+
+    },
+
+    methods: {
+        show () {
+            let _self = this;
+            this.displayed = true;
+            // 此处异步调用的目的是使得dom元素渲染好之后再执行scroll初始化
+            setTimeout(() => {
+                _self.myScroll = new IScroll('.v-scroll-picker-content', {
+
+                    // 按距离滚动
+                    snap: 'li'
+                });
+
+                logger.log('===============>>> ', _self.myScroll, this.rem2px);
+
+                let selectedIndex = 0;
+
+                if (this.currentId) {
+                    selectedIndex = _.find(this.options, function (v) {
+                        return v.id === _self.currentId;
+                    });
+                }
+
+                this.myScroll.scrollTo(0, -1 * (selectedIndex - 3) * this.rem2px);
+            }, 0);
+        },
+        select () {
+            let selectedOptionIndex = Math.abs(this.myScroll.y) / this.rem2px;
+
+            // TODO 此处还需处理placeholder的配置数量问题
+            this.currentId = this.options[selectedOptionIndex + 3].id;
+
+            this.hide();
+        },
+        hide () {
+            this.displayed = false;
+        }
+    }
+};
 </script>
 <style rel="stylesheet/scss" lang="scss">
     @import "../scss/variables";
@@ -192,7 +192,6 @@
         &.v-show {
             display: block !important;
         }
-
 
         .v-scroll-picker-title {
             display: flex;

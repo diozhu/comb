@@ -7,39 +7,39 @@
     </div>
 </template>
 <script type="text/ecmascript-6">
-    /**
-     * nav组件
-     *              -- Author by Dio Zhu. on 2017.5.5
-     */
-    export default {
-        name: 'v-nav',
+/**
+ * nav组件
+ *              -- Author by Dio Zhu. on 2017.5.5
+ */
+export default {
+    name: 'v-nav',
 
-        props: {
-            value: Array,
-            min: {  // 最小显示个数
-                type: Number,
-                default: 1
-            }
-        },
-
-        data () {
-            return {
-            };
-        },
-
-        computed: {
-        },
-
-        created () {
-            this.$logger.log('v-nav.created...');
-        },
-
-        methods: {
-            onClick (obj) {
-                this.$emit('handleClick', obj);
-            }
+    props: {
+        value: Array,
+        min: {  // 最小显示个数
+            type: Number,
+            default: 1
         }
-    };
+    },
+
+    data () {
+        return {
+        };
+    },
+
+    computed: {
+    },
+
+    created () {
+        this.$logger.log('v-nav.created...');
+    },
+
+    methods: {
+        onClick (obj) {
+            this.$emit('handleClick', obj);
+        }
+    }
+};
 </script>
 <style rel="stylesheet/scss" lang="scss">
     @import "../scss/variables";

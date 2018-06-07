@@ -155,23 +155,23 @@
 </template>
 
 <script type="text/ecmascript-6">
-    import vRow from '../vendor/v-row.vue';
-    import vCol from '../vendor/v-col.vue';
-    import pColour from '../components/p-colour.vue';
+import vRow from '../vendor/v-row.vue';
+import vCol from '../vendor/v-col.vue';
+import pColour from '../components/p-colour.vue';
 
-    export default {
-        components: { vRow, vCol, pColour },
+export default {
+    components: { vRow, vCol, pColour },
 
-        data () {
-            return {};
-        },
+    data () {
+        return {};
+    },
 
-        created () {
-            this.$logger.log('colour.mounted... ');
-        },
+    created () {
+        this.$logger.log('colour.mounted... ');
+    },
 
-        methods: {}
-    };
+    methods: {}
+};
 </script>
 
 <style rel="stylesheet/scss" lang="scss">

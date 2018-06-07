@@ -2,7 +2,7 @@
     <div class="v-star">
         <div v-if="label" class="label">{{ label }}</div>
         <div class="v-star__frm">
-            <i v-for="n in 5"
+            <i v-for="n in 5" :key="n"
                class="icon"
                :class="[{'icon-star-fill': n <= currentValue}, {'icon-star': n > currentValue}]"
                @click="handleClick(n)"
@@ -12,62 +12,62 @@
     </div>
 </template>
 <script type="text/ecmascript-6">
-    /**
-     *
-     *              -- Author by Dio Zhu. on 2018.4.10
-     */
-    export default {
-        // name: 'v-star',
-        components: {},
+/**
+ *
+ *              -- Author by Dio Zhu. on 2018.4.10
+ */
+export default {
+    // name: 'v-star',
+    components: {},
 
-        props: {
-            label: {
-                type: String,
-                default: ''
-            },
-            value: {
-                type: Number,
-                default: 0
-            },
-            disabled: {
-                type: Boolean,
-                default: false
-            },
-            enableDesc: {
-                type: Boolean,
-                default: true
-            },
-            desc: {
-                type: Array,
-                default: () => ['', '非常不满意', '不满意', '一般', '满意', '非常满意']
-            }
+    props: {
+        label: {
+            type: String,
+            default: ''
         },
-        data () {
-            return {
-                currentValue: this.value
-            };
+        value: {
+            type: Number,
+            default: 0
         },
-
-        watch: {
-            value (val) {
-                this.currentValue = val;
-            },
-            currentValue (val) {
-                this.$emit('input', val);
-            }
+        disabled: {
+            type: Boolean,
+            default: false
         },
-
-        mounted () {
-            this.$logger.log('v-star.mounted!');
+        enableDesc: {
+            type: Boolean,
+            default: true
         },
-
-        methods: {
-            handleClick (val) {
-                if (this.disabled) return;
-                this.currentValue = val;
-            }
+        desc: {
+            type: Array,
+            default: () => ['', '非常不满意', '不满意', '一般', '满意', '非常满意']
         }
-    };
+    },
+    data () {
+        return {
+            currentValue: this.value
+        };
+    },
+
+    watch: {
+        value (val) {
+            this.currentValue = val;
+        },
+        currentValue (val) {
+            this.$emit('input', val);
+        }
+    },
+
+    mounted () {
+        this.$logger.log('v-star.mounted!');
+    },
+
+    methods: {
+        handleClick (val) {
+            if (this.disabled) return;
+            this.currentValue = val;
+        }
+    }
+};
 </script>
 <style rel="stylesheet/scss" lang="scss">
     @import "../scss/variables";

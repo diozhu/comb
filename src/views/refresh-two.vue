@@ -1,16 +1,16 @@
 <template>
     <div class="page page-refresh-two">
-        <v-refresh :func="init" v-model="currentLab" :swipeLength.Number="labs.length">
+        <v-refresh :func="init" v-model="currentLab" :swipeLength="labs.length">
             <h2>样例</h2>
             <div class="page-refresh__header">{{ info | specialTime }}</div>
 
             <v-swipe-label :fixed="true">
-                <div @click="clickLabel(item)" :class="['itm', {cur: currentLab==item.id}]" v-for="item in labs">{{item.txt}}</div>
+                <div @click="clickLabel(item)" :class="['itm', {cur: currentLab==item.id}]" v-for="(item, index) in labs" :key="index">{{item.txt}}</div>
             </v-swipe-label>
 
             <v-scroll v-model="listData" :func="getList" func-type="section" :enabled="currentLab === 0">
                 <ul>
-                    <li v-for="item in listData">
+                    <li v-for="(item, idx) in listData" :key="idx">
                         <v-feed
                             :feedId="item.userInfo.feedId"
                             :imgUrl="item.userInfo.avatarId"
@@ -26,7 +26,7 @@
 
             <v-scroll v-model="listDataSec" :func="getListSec" func-type="section" :enabled="currentLab === 1">
                 <ul>
-                    <li v-for="item in listDataSec">
+                    <li v-for="(item, idx) in listDataSec" :key="idx">
                         <v-feed
                             :feedId="item.userInfo.feedId"
                             :imgUrl="item.userInfo.avatar"
@@ -43,72 +43,72 @@
 </template>
 
 <script>
-    import vRefresh from '../vendor/v-refresh.vue';
-    import vScroll from '../vendor/v-scroll.vue';
-    import vFeed from '../vendor/v-feed.vue';
-    import vText from '../vendor/v-text.vue';
-    import * as api from '../js/core/api';
-    import { mapGetters } from 'vuex'; //eslint-disable-line
-    import vSwipeLabel from '../vendor/v-swipe-label.vue';
-    import vAlbum from '../vendor/v-album.vue';
+import vRefresh from '../vendor/v-refresh.vue';
+import vScroll from '../vendor/v-scroll.vue';
+import vFeed from '../vendor/v-feed.vue';
+import vText from '../vendor/v-text.vue';
+import * as api from '../js/core/api';
+import { mapGetters } from 'vuex'; //eslint-disable-line
+import vSwipeLabel from '../vendor/v-swipe-label.vue';
+import vAlbum from '../vendor/v-album.vue';
 
-    export default {
-        components: { vRefresh, vScroll, vFeed, vText, vSwipeLabel, vAlbum },
+export default {
+    components: { vRefresh, vScroll, vFeed, vText, vSwipeLabel, vAlbum },
 
-        data () {
-            return {
-                info: '',
-                labs: [
-                    {id: 0, txt: '菜单一'},
-                    {id: 1, txt: '菜单二'}
-                ],
-                currentLab: 0,
-                listData: [],
-                listDataSec: []
-            };
-        },
+    data () {
+        return {
+            info: '',
+            labs: [
+                {id: 0, txt: '菜单一'},
+                {id: 1, txt: '菜单二'}
+            ],
+            currentLab: 0,
+            listData: [],
+            listDataSec: []
+        };
+    },
 
-        computed: {
-            ...mapGetters(['userInfo', 'follows'])     // 从store中获取当前登陆用户信息
-        },
+    computed: {
+        ...mapGetters(['userInfo', 'follows']) // 从store中获取当前登陆用户信息
+    },
 
-        mounted () {
-            this.$logger.log('refresh-two.mounted... ');
+    mounted () {
+        this.$logger.log('refresh-two.mounted... ');
+        this.init();
+    },
+
+    activated () {
+        if (this.$router.direct()) { // in
             this.init();
-        },
-
-        activated () {
-            if (this.$router.direct()) { // in
-                this.init();
-            } else { // back
-                // do nothing...
-            }
-        },
-
-        methods: {
-            init () {
-                this.$logger.log('refresh-two.init...');
-
-                return api.getDelay({delay: 500}).then(res => {
-                    this.info = res;
-                    return Promise.resolve(res);
-                });
-            },
-
-            clickLabel (item) {
-                this.currentLab = item.id;
-            },
-
-            getList ({ offset, limit }) {
-//                return api.getRandomList({ offset: offset, limit: limit });
-                return api.getImgList({ offset: offset, limit: limit });
-            },
-
-            getListSec ({ offset, limit }) {
-                return api.getRandomList({ offset: offset, limit: limit });
-            }
+        } else { // back
+            // do nothing...
         }
-    };
+    },
+
+    methods: {
+        init () {
+            this.$logger.log('refresh-two.init...');
+
+            return api.getDelay({delay: 500}).then(res => {
+                this.info = res;
+                return Promise.resolve(res);
+            });
+        },
+
+        clickLabel (item) {
+            this.currentLab = item.id;
+        },
+
+        getList ({ offset, limit }) {
+            //                return api.getRandomList({ offset: offset, limit: limit });
+            return api.getImgList({ offset: offset, limit: limit });
+        },
+
+        getListSec ({ offset, limit }) {
+            return api.getRandomList({ offset: offset, limit: limit });
+        }
+    }
+};
 </script>
 
 <style rel="stylesheet/scss" lang="scss">

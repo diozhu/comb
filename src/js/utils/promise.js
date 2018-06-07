@@ -57,7 +57,7 @@ Promise.all = function all (iterable) {
             };
         }
 
-        for (let i = 0;i < iterable.length;i += 1) {
+        for (let i = 0; i < iterable.length; i += 1) {
             Promise.resolve(iterable[i]).then(resolver(i), reject);
         }
     });
@@ -65,7 +65,7 @@ Promise.all = function all (iterable) {
 
 Promise.race = function race (iterable) {
     return new Promise(function (resolve, reject) {
-        for (var i = 0;i < iterable.length;i += 1) {
+        for (var i = 0; i < iterable.length; i += 1) {
             Promise.resolve(iterable[i]).then(resolve, reject);
         }
     });

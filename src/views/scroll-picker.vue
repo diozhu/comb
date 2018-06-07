@@ -24,7 +24,7 @@ export default {
     created () {
         logger.log('feed mounted... ');
 
-        for (let i = 0;i < 50;i++) {
+        for (let i = 0; i < 50; i++) {
             this.options1.push({
                 id: i,
                 name: `测试数据${i}`
@@ -32,9 +32,7 @@ export default {
         }
     },
 
-    methods: {
-
-    }
+    methods: {}
 };
 </script>
 

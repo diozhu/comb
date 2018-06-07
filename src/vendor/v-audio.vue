@@ -7,119 +7,119 @@
     </div>
 </template>
 <script>
-    import logger from '../js/utils/logger';
-    import bus from '../vendor/eventbus';
-    export default {
-        components: { logger },
-        name: 'v-audio',
+import logger from '../js/utils/logger';
+import bus from '../vendor/eventbus';
+export default {
+    components: { logger },
+    name: 'v-audio',
 
-        props: {
-            id: String,
-            src: String,
-            desc: Boolean,
-            drt: Number
-        },
-        data () {
-            return {
-                audio: null, // 播放器对象
-                btnPlay: true, // 播放/暂停按钮
-                txtplay: '语音', // 播放文字
-                txttime: null, // 播放时间
-                cssbar: null, // 播放效果
-                paused: false // 播放标识
-            };
-        },
-        created: function () {
-            bus.$on('audio-playing', this.audioPlaying);
-        },
-        // 最好在组件销毁前
-        // 清除事件监听
-        beforeDestroy: function () {
-            bus.$off('audio-playing', this.audioPlaying);
-        },
-        mounted () {
-            this.$nextTick(() => {
-                this.txttime = this.drt + '\"';
-                this.audio = document.getElementById(this.id); // 播放按钮
-            });
-        },
-        methods: {
-            audioPlaying (id, ids) {
-                logger.log('!!!broadcast from app: v-audio: ', id, ids);
-                // if (id !== this.id) this.stop(); // 接收通知，关掉其他播放器，确保只有一个在播放。 Author by Dio Zhu. on 2017.5.11
-                if (id !== this.id && this.audio && !this.audio.paused) { // 接收通知，关掉其他播放器，确保只有一个在播放。 Author by Dio Zhu. on 2017.5.11
-                    this.audio.pause();
-                    this.btnPlay = true;
-                    this.txtplay = '语音';
-                    this.cssbar = false;
-                }
-            },
-            /**
-             * 播放\暂停的处理, 播放时调用playing修改播放时间等状态和动画...
-             *              -- Author by Dio Zhu. on 2016.11.15
-             */
-            play () {
-                logger.log('play...');
-                if (!this.audio) {
-                    logger.error('audio init error');
-                    return;
-                }
-                if (this.audio.paused) {
-                    logger.log('pause...', this.id);
-                    bus.$emit('audio-playing', this.id); // 通知其他播放器
-                    this.audio.play();
-                    this.btnPlay = false;
-                    this.txtplay = '播放中';
-                    this.playing();
-                    this.cssbar = true;
-                    return;
-                }
+    props: {
+        id: String,
+        src: String,
+        desc: Boolean,
+        drt: Number
+    },
+    data () {
+        return {
+            audio: null, // 播放器对象
+            btnPlay: true, // 播放/暂停按钮
+            txtplay: '语音', // 播放文字
+            txttime: null, // 播放时间
+            cssbar: null, // 播放效果
+            paused: false // 播放标识
+        };
+    },
+    created: function () {
+        bus.$on('audio-playing', this.audioPlaying);
+    },
+    // 最好在组件销毁前
+    // 清除事件监听
+    beforeDestroy: function () {
+        bus.$off('audio-playing', this.audioPlaying);
+    },
+    mounted () {
+        this.$nextTick(() => {
+            this.txttime = this.drt + '\"';
+            this.audio = document.getElementById(this.id); // 播放按钮
+        });
+    },
+    methods: {
+        audioPlaying (id, ids) {
+            logger.log('!!!broadcast from app: v-audio: ', id, ids);
+            // if (id !== this.id) this.stop(); // 接收通知，关掉其他播放器，确保只有一个在播放。 Author by Dio Zhu. on 2017.5.11
+            if (id !== this.id && this.audio && !this.audio.paused) { // 接收通知，关掉其他播放器，确保只有一个在播放。 Author by Dio Zhu. on 2017.5.11
                 this.audio.pause();
                 this.btnPlay = true;
                 this.txtplay = '语音';
                 this.cssbar = false;
-            },
-            /**
-             * 播放中, 修改播放时间\播放动画等...
-             *              -- Author by Dio Zhu. on 2016.11.11
-             */
-            playing () {
-                var _self = this;
-                logger.log('playing...', (new Date()), ', this.audio.ended: ', this.audio.ended);
-                if (this.audio.ended) {
-                    logger.log('is done...');
-                    this.stop();
-                }
-
-                if (this.audio.paused) {
-                    return;
-                }
-
-                if (this.desc) {
-                    this.txttime = parseInt(this.drt) - parseInt(this.audio.currentTime) + '\"';
-                } else {
-                    this.txttime = parseInt(this.audio.currentTime) + 1 + '\"';
-                }
-
-                setTimeout(() => {
-                    _self.playing();
-                }, 1000);
-            },
-            /**
-             * 播放停止, 切换图标等状态提示.
-             *              -- Author by Dio Zhu. on 2016.11.15
-             */
-            stop () {
-                logger.log('stop...', this.audio);
-                this.audio.pause();
-                this.audio.startTime = 0;
-                this.btnPlay = true;
-                this.txtplay = '语音';
-                this.cssbar = false;
-                this.txttime = parseInt(this.drt) + '\"';
             }
+        },
+        /**
+         * 播放\暂停的处理, 播放时调用playing修改播放时间等状态和动画...
+         *              -- Author by Dio Zhu. on 2016.11.15
+         */
+        play () {
+            logger.log('play...');
+            if (!this.audio) {
+                logger.error('audio init error');
+                return;
+            }
+            if (this.audio.paused) {
+                logger.log('pause...', this.id);
+                bus.$emit('audio-playing', this.id); // 通知其他播放器
+                this.audio.play();
+                this.btnPlay = false;
+                this.txtplay = '播放中';
+                this.playing();
+                this.cssbar = true;
+                return;
+            }
+            this.audio.pause();
+            this.btnPlay = true;
+            this.txtplay = '语音';
+            this.cssbar = false;
+        },
+        /**
+         * 播放中, 修改播放时间\播放动画等...
+         *              -- Author by Dio Zhu. on 2016.11.11
+         */
+        playing () {
+            var _self = this;
+            logger.log('playing...', (new Date()), ', this.audio.ended: ', this.audio.ended);
+            if (this.audio.ended) {
+                logger.log('is done...');
+                this.stop();
+            }
+
+            if (this.audio.paused) {
+                return;
+            }
+
+            if (this.desc) {
+                this.txttime = parseInt(this.drt) - parseInt(this.audio.currentTime) + '\"';
+            } else {
+                this.txttime = parseInt(this.audio.currentTime) + 1 + '\"';
+            }
+
+            setTimeout(() => {
+                _self.playing();
+            }, 1000);
+        },
+        /**
+         * 播放停止, 切换图标等状态提示.
+         *              -- Author by Dio Zhu. on 2016.11.15
+         */
+        stop () {
+            logger.log('stop...', this.audio);
+            this.audio.pause();
+            this.audio.startTime = 0;
+            this.btnPlay = true;
+            this.txtplay = '语音';
+            this.cssbar = false;
+            this.txttime = parseInt(this.drt) + '\"';
         }
-    };
+    }
+};
 </script>
 <style rel="stylesheet/scss" lang="scss">
     @import "../scss/variables";

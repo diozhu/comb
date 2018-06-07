@@ -10,7 +10,7 @@
             </div>
         </div>
 
-        <div class="listview listview-form" v-for="user in this.users">
+        <div class="listview listview-form" v-for="(user, index) in this.users" :key="index">
 
             <v-feed
                 :feedId = "user.feedId"
@@ -36,88 +36,88 @@
 </template>
 
 <script type="text/ecmascript-6">
-    import vFeed from '../vendor/v-feed';
+import vFeed from '../vendor/v-feed';
 
-    export default {
-        components: { vFeed },
+export default {
+    components: { vFeed },
 
-        data () {
-            return {
-                users: null
-            };
-        },
+    data () {
+        return {
+            users: null
+        };
+    },
 
-        mounted () {
-    //        this.$logger.log('feed mounted... ');
-            this.users = [
-                {
-                    userId: '397833',
-                    feedId: 'o_1407459100687437',
-                    avatarId: 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
-                    title: 'Dio',
-                    desc: '18:00',
-                    subtitle: 'Dio...',
-                    msgNum: '1'
-                },
-                {
-                    userId: '397833',
-                    feedId: 'c_1407459100687437',
-                    avatarId: 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
-                    title: '老朱',
-                    desc: '18:00',
-                    subtitle: '推广啦啦啦',
-                    msgNum: '2'
-                },
-                {
-                    userId: '397833',
-                    feedId: 'g_1407459100687437',
-                    avatarId: 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
-                    title: '李四',
-                    desc: '18:00',
-                    subtitle: '老李哇哈哈',
-                    msgNum: '9'
-                },
+    mounted () {
+        //        this.$logger.log('feed mounted... ');
+        this.users = [
+            {
+                userId: '397833',
+                feedId: 'o_1407459100687437',
+                avatarId: 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
+                title: 'Dio',
+                desc: '18:00',
+                subtitle: 'Dio...',
+                msgNum: '1'
+            },
+            {
+                userId: '397833',
+                feedId: 'c_1407459100687437',
+                avatarId: 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
+                title: '老朱',
+                desc: '18:00',
+                subtitle: '推广啦啦啦',
+                msgNum: '2'
+            },
+            {
+                userId: '397833',
+                feedId: 'g_1407459100687437',
+                avatarId: 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
+                title: '李四',
+                desc: '18:00',
+                subtitle: '老李哇哈哈',
+                msgNum: '9'
+            },
 
-                {
-                    userId: '397833',
-                    feedId: 'o_1407459100687437',
-                    avatarId: 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
-                    title: 'Dio',
-                    desc: '1km以内',
-                    subtitle: 'Dio...',
-                    msgNum: '11',
-                    age: '11',
-                    sex: '1'
-                },
-                {
-                    userId: '397833',
-                    feedId: 'c_1407459100687437',
-                    avatarId: 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
-                    title: '老朱',
-                    desc: '2.1km',
-                    subtitle: '推广啦啦啦',
-                    msgNum: '12',
-                    age: '22',
-                    sex: '1'
-                },
-                {
-                    userId: '397833',
-                    feedId: 'g_1407459100687437',
-                    avatarId: 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
-                    title: '李四',
-                    desc: '200km',
-                    subtitle: '老李哇哈哈',
-                    msgNum: '19',
-                    age: '33',
-                    sex: '2'
-                }
-            ];
-        },
+            {
+                userId: '397833',
+                feedId: 'o_1407459100687437',
+                avatarId: 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
+                title: 'Dio',
+                desc: '1km以内',
+                subtitle: 'Dio...',
+                msgNum: '11',
+                age: '11',
+                sex: '1'
+            },
+            {
+                userId: '397833',
+                feedId: 'c_1407459100687437',
+                avatarId: 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
+                title: '老朱',
+                desc: '2.1km',
+                subtitle: '推广啦啦啦',
+                msgNum: '12',
+                age: '22',
+                sex: '1'
+            },
+            {
+                userId: '397833',
+                feedId: 'g_1407459100687437',
+                avatarId: 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png',
+                title: '李四',
+                desc: '200km',
+                subtitle: '老李哇哈哈',
+                msgNum: '19',
+                age: '33',
+                sex: '2'
+            }
+        ];
+    },
 
-        methods: {
+    methods: {
 
-        }
-    };
+    }
+};
 </script>
 
 <style rel="stylesheet/scss" lang="scss">

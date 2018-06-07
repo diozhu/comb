@@ -17,9 +17,8 @@
                     -- Author by Dio Zhu. on 2017.3.28
         </p>
 
-
         <ul class="listview-info-img">
-            <li v-for="img in images" :style="{height: img.height && img.width ? parseInt(screenWidth / (img.width/img.height)) + 'px' : 'auto'}">
+            <li v-for="(img, index) in images" :key="index" :style="{height: img.height && img.width ? parseInt(screenWidth / (img.width/img.height)) + 'px' : 'auto'}">
                 <!--<img :src="img.url | thumb">-->
                 <img v-lazy="img.url">
             </li>

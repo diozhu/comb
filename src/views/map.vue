@@ -24,7 +24,6 @@
         &lt;v-map :lng="lng" :lat="lat" :dragEnable="true"&gt;&lt;/v-map&gt;
         </code></pre>
 
-
         <h2>静态图</h2>
         <v-map :lng="lng" :lat="lat" :img="img" :location="location"></v-map>
         <pre v-highlightjs @touchend.stop><code class="html">
@@ -45,46 +44,46 @@
 <script type="text/ecmascript-6">
 //    import AMap from 'http://webapi.amap.com/maps?v=1.3&key=7f339c48990ad1b3bac62a5338b92041';
 //    require('http://webapi.amap.com/maps?v=1.3&key=7f339c48990ad1b3bac62a5338b92041');
-    import vButton from '../vendor/v-button.vue';
-    import vMap from '../vendor/v-map.vue';
+import vButton from '../vendor/v-button.vue';
+import vMap from '../vendor/v-map.vue';
 
-    export default {
-        components: { vButton, vMap },
+export default {
+    components: { vButton, vMap },
 
-        data () {
-            return {
-                lng: '116.4514501384251588', // 经度
-                lat: '39.9951573546932124', // 纬度
-                img: '',
-                location: '北京市朝阳区望京街道望京西路150号季景·沁园',
+    data () {
+        return {
+            lng: '116.4514501384251588', // 经度
+            lat: '39.9951573546932124', // 纬度
+            img: '',
+            location: '北京市朝阳区望京街道望京西路150号季景·沁园',
 
-                address: ''
-            };
-        },
+            address: ''
+        };
+    },
 
-        activated () {
-            if (this.$router.direct()) {
-                this.$logger.log('map.activated... in');
-            } else {
-                this.$logger.log('map.activated... back', this.$root.selectedPosition);
-                this.$toast(this.$root.selectedPosition.name);
-            }
-        },
-
-        mounted () {
-            this.$logger.log('map.mounted... ', window.AMap);
-        },
-
-        methods: {
-            openMap () {
-                this.$router.push({name: 'map-selector', query: {lng: this.lng, lat: this.lat}});
-            },
-
-            goMarker () {
-                this.$router.push({name: 'map-markers'});
-            }
+    activated () {
+        if (this.$router.direct()) {
+            this.$logger.log('map.activated... in');
+        } else {
+            this.$logger.log('map.activated... back', this.$root.selectedPosition);
+            this.$toast(this.$root.selectedPosition.name);
         }
-    };
+    },
+
+    mounted () {
+        this.$logger.log('map.mounted... ', window.AMap);
+    },
+
+    methods: {
+        openMap () {
+            this.$router.push({name: 'map-selector', query: {lng: this.lng, lat: this.lat}});
+        },
+
+        goMarker () {
+            this.$router.push({name: 'map-markers'});
+        }
+    }
+};
 </script>
 
 <style rel="stylesheet/scss" lang="scss">

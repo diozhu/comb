@@ -31,7 +31,7 @@ let CONFIRM_TEXT = '确定',
         cancelButtonClass: ''
     },
     merge = function (target) {
-        for (let i = 1, j = arguments.length;i < j;i++) {
+        for (let i = 1, j = arguments.length; i < j; i++) {
             let source = arguments[i];
             for (let prop in source) {
                 if (source.hasOwnProperty(prop)) {
@@ -64,7 +64,7 @@ const defaultCallback = action => {
             if ($type === 'confirm' || $type === 'prompt') {
                 if (action === 'confirm') {
                     if (instance.showInput) {
-                        currentMsg.resolve({ value: instance.inputValue, action });
+                        currentMsg.resolve({value: instance.inputValue, action});
                     } else {
                         currentMsg.resolve(action);
                     }
@@ -135,7 +135,7 @@ var initInstance = function () {
         }
 
         if (typeof Promise !== 'undefined') {
-            return new Promise(function(resolve, reject) { // eslint-disable-line
+            return new Promise(function (resolve, reject) { // eslint-disable-line
                 msgQueue.push({
                     options: merge({}, defaults, MessageBox.defaults || {}, options),
                     callback: callback,
@@ -207,4 +207,4 @@ MessageBox.close = function () {
 };
 
 export default MessageBox;
-export { MessageBox };
+export {MessageBox};

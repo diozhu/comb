@@ -1,6 +1,6 @@
 <template>
     <div class="v-timeline" :class="[{horizontal: horizontal}, {vertical: !horizontal} , {liner: showLine}]">
-        <dl v-for="(item, idx) in flows" :class="[
+        <dl v-for="(item, idx) in flows" :key="idx" :class="[
             {start: idx === 0},
             {end: idx === flows.length - 1},
             {checked: item.value < value},
@@ -20,54 +20,53 @@
     </div>
 </template>
 <script>
-    export default {
-        name: 'v-timeline',
+export default {
+    name: 'v-timeline',
 
-        components: {},
+    components: {},
 
-        props: {
-            value: String | Number,
-            flows: {
-                type: Array,
-                default: () => { return []; }
-            },
-            horizontal: {
-                type: Boolean,
-                default: false
-            },
-            showLine: {
-                type: Boolean,
-                default: false
-            }
+    props: {
+        value: String | Number,
+        flows: {
+            type: Array,
+            default: () => { return []; }
         },
-
-        data () {
-            return {
-                currentValue: this.value
-            };
+        horizontal: {
+            type: Boolean,
+            default: false
         },
-
-        computed: {
-        },
-
-        watch: {
-            value (val) {
-                this.currentValue = val;
-            }
-        },
-
-        created () {
-            this.$logger.log('v-timeline.created... ');
-        },
-
-        methods: {
+        showLine: {
+            type: Boolean,
+            default: false
         }
-    };
+    },
+
+    data () {
+        return {
+            currentValue: this.value
+        };
+    },
+
+    computed: {
+    },
+
+    watch: {
+        value (val) {
+            this.currentValue = val;
+        }
+    },
+
+    created () {
+        this.$logger.log('v-timeline.created... ');
+    },
+
+    methods: {
+    }
+};
 </script>
 <style rel="stylesheet/scss" lang="scss">
     @import "../scss/variables";
     @import "../scss/mixins";
-
 
     .v-timeline {
         display: flex;
@@ -147,7 +146,6 @@
             }
         }
     }
-
 
     .v-timeline.horizontal {
         flex-direction: row;

@@ -17,7 +17,7 @@
  * Author surma https://github.com/surma
  * Modified by Awe @hilongjw
  */
-import { inView } from './util';
+import {inView} from './util';
 
 const MAX_COUNT = Infinity;
 const SCROLL_RUNWAY = 2000;
@@ -33,7 +33,7 @@ export default function InfiniteScroller (scroller, source, options) {
     // Number of items to instantiate beyond current view in the opposite direction.
     this.RUNWAY_ITEMS_OPPOSITE = options.remain;
     // The number of pixels of additional length to allow scrolling to.
-    this.SCROLL_RUNWAY = options.SCROLL_RUNWAY || SCROLL_RUNWAY
+    this.SCROLL_RUNWAY = options.SCROLL_RUNWAY || SCROLL_RUNWAY;
 
     // The animation interval (in ms) for fading in content from tombstones.
     this.ANIMATION_DURATION_MS = options.animation_duration_ms;
@@ -110,7 +110,7 @@ InfiniteScroller.prototype = {
 
         // Reset the cached size of items in the scroller as they may no longer be
         // correct after the item content undergoes layout.
-        for (var i = 0;i < this.items_.length;i++) {
+        for (var i = 0; i < this.items_.length; i++) {
             this.items_[i].top = -1;
             this.items_[i].height = this.items_[i].width = this.items_[i].cacheHeightCount = 0;
         }
@@ -140,9 +140,9 @@ InfiniteScroller.prototype = {
         const lastScreenItem = this.calculateAnchoredItem(this.anchorItem, this.scroller_.offsetHeight);
 
         // console.log('[infinite.onScroll_]: ', JSON.stringify(this.anchorItem), this.scroller_.offsetHeight, lastScreenItem.index, this.RUNWAY_ITEMS);
-        if (delta < 0) { // 向下滚动： 
+        if (delta < 0) { // 向下滚动：
             this.fill(this.anchorItem.index - this.RUNWAY_ITEMS, lastScreenItem.index + this.RUNWAY_ITEMS_OPPOSITE);
-        } else { // 向上滚动： 
+        } else { // 向上滚动：
             this.fill(this.anchorItem.index - this.RUNWAY_ITEMS_OPPOSITE, lastScreenItem.index + this.RUNWAY_ITEMS);
         }
     },
@@ -336,7 +336,7 @@ InfiniteScroller.prototype = {
             set (row, col, val) {
                 this.get(row)[col] = val;
             }
-        }
+        };
     },
 
     tombstoneLayout (tombstoneAnimations) {
@@ -379,7 +379,7 @@ InfiniteScroller.prototype = {
             }
             if (this.items_[i].node && this.curPos !== this.items_[i].top) {
                 if (!anim) this.items_[i].node.style.transition = '';
-                this.items_[i].node.style.webkitTransform = this.items_[i].node.style.transform = 'translate3d('+ x + 'px,' + y + 'px, 0)';
+                this.items_[i].node.style.webkitTransform = this.items_[i].node.style.transform = 'translate3d(' + x + 'px,' + y + 'px, 0)';
             }
             this.items_[i].top = y;
 
@@ -567,7 +567,7 @@ InfiniteScroller.prototype = {
             // console.log('infinite.maybeRequestContent.response: ', data);
             // this.MAX_COUNT = data.count;
             this.addContent(data);
-        })
+        });
     },
 
     /**
@@ -581,7 +581,7 @@ InfiniteScroller.prototype = {
             height: 0,
             width: 0,
             top: 0,
-        })
+        });
     },
 
     /**
@@ -595,7 +595,7 @@ InfiniteScroller.prototype = {
         if (!items.length) return;
         this.requestInProgress_ = false;
 
-        let index
+        let index;
         for (var i = 0; i < items.length; i++) {
             if (this.items_.length <= this.loadedItems_) {
                 this.addItem_();
@@ -630,4 +630,4 @@ InfiniteScroller.prototype = {
         window.removeEventListener('orientationchange', this.onResize_);
         this.clear();
     }
-}
+};

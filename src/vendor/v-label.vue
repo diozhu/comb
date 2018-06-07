@@ -12,35 +12,35 @@
 <script>
 //    import logger from '../js/utils/logger';
 
-    /**
-     * 标签（label）
-     * 关于删除功能：
-     *      须传入：options.delable=true，启用删除功能；
-     *      须传入：id，触发函数会返回这个id作为唯一标示；
-     *      须定义：调用组件的时候，使用@delFunc（函数名随意）方式接收组件$emit出去的消息；
-     *      返回值：id、$event
-     *          -- Author by Dio Zhu. on 2017.1.12
-     */
-    export default {
-        props: {
-            id: String,
-            value: String,
-            options: Object,
-            cb: Function
-        },
-        data () {
-            return {
-            };
-        },
-        methods: {
-//            onClick: function () {
-//                logger.log('v-label.onClick: ');
-//                if (this.cb && typeof this.cb === 'function') {
-//                    this.cb();
-//                }
-//            }
-        }
-    };
+/**
+ * 标签（label）
+ * 关于删除功能：
+ *      须传入：options.delable=true，启用删除功能；
+ *      须传入：id，触发函数会返回这个id作为唯一标示；
+ *      须定义：调用组件的时候，使用@delFunc（函数名随意）方式接收组件$emit出去的消息；
+ *      返回值：id、$event
+ *          -- Author by Dio Zhu. on 2017.1.12
+ */
+export default {
+    props: {
+        id: String,
+        value: String,
+        options: Object,
+        cb: Function
+    },
+    data () {
+        return {
+        };
+    },
+    methods: {
+        // onClick: function () {
+        //     logger.log('v-label.onClick: ');
+        //     if (this.cb && typeof this.cb === 'function') {
+        //         this.cb();
+        //     }
+        // }
+    }
+};
 </script>
 <style rel="stylesheet/scss" lang="scss">
     @import "../scss/variables";

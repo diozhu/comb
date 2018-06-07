@@ -5,11 +5,13 @@
 // For recommendations on resolving such conflicts, see
 // http://getbootstrap.com/getting-started/#third-box-sizing
 * {
-    @include box-sizing(border-box);
+    //@include box-sizing(border-box);
+    box-sizing: border-box;
 }
 *:before,
 *:after {
-    @include box-sizing(border-box);
+    //@include box-sizing(border-box);
+    box-sizing: border-box;
 }
 
 html {

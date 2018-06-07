@@ -27,7 +27,7 @@
         <h2>示例</h2>
         <!--swipe样式-->
         <ul class="listview listview-form">
-            <li v-for="(n, idx) in 3">
+            <li v-for="(n, idx) in 3" :key="idx">
                 <v-cell-swipe
                     :item="n"
                     :right="rightButton"
@@ -39,7 +39,7 @@
         </ul>
         <pre v-highlightjs @touchend.stop><code class="html">
         &lt;ul class="listview listview-form"&gt;
-            &lt;li v-for="(n, idx) in 3" class="height-auto"&gt;
+            &lt;li v-for="(n, idx) in 3" :key="idx" class="height-auto"&gt;
                 &lt;v-cell-swipe
                     :item="n"
                     :right="rightButton"
@@ -54,7 +54,7 @@
         <h2>slots</h2>
         <!--swipe样式-->
         <ul class="listview listview-form listview-feed">
-            <li v-for="(item, idx) in 3">
+            <li v-for="(item, idx) in 3" :key="idx">
                 <v-cell-swipe
                     :item="item"
                     class="no-border"
@@ -73,7 +73,7 @@
         </ul>
         <pre v-highlightjs @touchend.stop><code class="html">
         &lt;ul class="listview listview-form listview-feed"&gt;
-            &lt;li v-for="(item, idx) in 3"&gt;
+            &lt;li v-for="(item, idx) in 3" :key="idx"&gt;
                 &lt;v-cell-swipe
                     :item="item"
                     class="no-border"
@@ -98,49 +98,49 @@
 </template>
 
 <script type="text/ecmascript-6">
-    import vCell from '../vendor/v-cell.vue';
-    import vCellSwipe from '../vendor/v-cell-swipe.vue';
-    import vFeed from '../vendor/v-feed.vue';
-    import Messagebox from '../vendor/v-message-box.js';
+import vCell from '../vendor/v-cell.vue';
+import vCellSwipe from '../vendor/v-cell-swipe.vue';
+import vFeed from '../vendor/v-feed.vue';
+import Messagebox from '../vendor/v-message-box.js';
 
-    export default {
-        components: { vCell, vCellSwipe, vFeed },
+export default {
+    components: { vCell, vCellSwipe, vFeed },
 
-        data () {
-            return {
-                listData: []  //
-            };
-        },
+    data () {
+        return {
+            listData: []  //
+        };
+    },
 
-        created () {
-            this.rightButton = [
-                {
-                    content: '删除',
-                    handler: this.btnHandler
-                }
-            ];
-        },
-
-        mounted () {
-            this.$logger.log('cell-swipe.mounted... ');
-        },
-
-        methods: {
-            btnHandler (res) {
-                this.$logger.log('cell-swipe.methods.btnHandler: ', res);
-                return Messagebox.confirm('确定执行此操作?', '提示').then(act => {
-                    this.$toast('您点击了确认~' + res);
-                    this.$logger.log('cell-swipe.handler: ', res, act);
-                }).catch(e => {
-                    this.$toast({message: '您点击了取消~', duration: 500, position: 'bottom'});
-                });
-            },
-
-            clickSwipe (i) {
-                this.$toast(`这是第${i}条记录!`);
+    created () {
+        this.rightButton = [
+            {
+                content: '删除',
+                handler: this.btnHandler
             }
+        ];
+    },
+
+    mounted () {
+        this.$logger.log('cell-swipe.mounted... ');
+    },
+
+    methods: {
+        btnHandler (res) {
+            this.$logger.log('cell-swipe.methods.btnHandler: ', res);
+            return Messagebox.confirm('确定执行此操作?', '提示').then(act => {
+                this.$toast('您点击了确认~' + res);
+                this.$logger.log('cell-swipe.handler: ', res, act);
+            }).catch(e => {
+                this.$toast({message: '您点击了取消~', duration: 500, position: 'bottom'});
+            });
+        },
+
+        clickSwipe (i) {
+            this.$toast(`这是第${i}条记录!`);
         }
-    };
+    }
+};
 </script>
 
 <style rel="stylesheet/scss" lang="scss">
@@ -157,7 +157,6 @@
                 /*padding-right: 0;*/
             }
         }
-
 
         .blank {
             width: 100%;

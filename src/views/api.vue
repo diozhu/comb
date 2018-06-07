@@ -41,110 +41,110 @@
 </template>
 
 <script>
-    import vRow from '../vendor/v-row.vue';
-    import vCol from '../vendor/v-col.vue';
-    import vButton from '../vendor/v-button';
-    import * as utils from '../js/utils/utils.js';
-    import * as api from '../js/core/api.js';
-    import Trans from '../js/core/trans.js';
+import vRow from '../vendor/v-row.vue';
+import vCol from '../vendor/v-col.vue';
+import vButton from '../vendor/v-button';
+import * as utils from '../js/utils/utils.js';
+import * as api from '../js/core/api.js';
+import Trans from '../js/core/trans.js';
 
-    export default {
-        components: { vButton, vRow, vCol },
+export default {
+    components: { vButton, vRow, vCol },
 
-        data () {
-            return {
+    data () {
+        return {
 
-            };
-        },
+        };
+    },
 
-        mounted () {
-            this.$logger.log('api.mounted...');
-            this.init();
-        },
+    mounted () {
+        this.$logger.log('api.mounted...');
+        this.init();
+    },
 
-        methods: {
-            init () {
-                this.$logger.log('api.init...');
-                if (!utils.getSessionStorage().get('token')) {
-                    api.bindPhone({ // qa环境使用手机号获取token
-                        phone: '18612795267',
-                        validate_code: '1111'
-                    }).then(res => {
-                        this.$toast('token 获取成功~');
-                        utils.getSessionStorage().set('token', res.access_token);
-                    }).catch(e => {
-                        this.$toast(Trans(e));
-                    });
-                }
-            },
-            handleGet () {
-                this.$logger.log('api.handleGet...');
-                api.getTest().then(res => {
-                    this.$toast('success!!!');
-                    this.$logger.log('api.getTest.success: ', res);
-                }).catch(e => this.$toast(Trans(e)));
-            },
-            handleGet2 () {
-                this.$logger.log('api.handleGet2...');
-                api.getTest({}, {loading: true}).then(res => {
-                    this.$toast('success!!!');
-                    this.$logger.log('api.getTest.success: ', res);
-                }).catch(e => this.$toast(Trans(e)));
-            },
-            handlePost () {
-                this.$logger.log('api.handlePost...');
-                api.postTest({
-                    name: 'test',
+    methods: {
+        init () {
+            this.$logger.log('api.init...');
+            if (!utils.getSessionStorage().get('token')) {
+                api.bindPhone({ // qa环境使用手机号获取token
                     phone: '18612795267',
-                    province_id: '1',
-                    city_id: '1',
-                    county_id: '10',
-                    address: '蜂巢测试'
+                    validate_code: '1111'
                 }).then(res => {
-                    this.$toast('success!!!');
-                    this.$logger.log('api.postTest.success: ', res);
-                }).catch(e => { // 登录失败的判断，正常项目别这么写。。。这里只是测试。。。
+                    this.$toast('token 获取成功~');
+                    utils.getSessionStorage().set('token', res.access_token);
+                }).catch(e => {
                     this.$toast(Trans(e));
-                    this.$logger.error('api.postTest.error: ', e);
-                    if (e.errcode === 10003 || e.errcode === 10004 || e.errcode === 10005 || e.errcode === 10006 || e.errcode === 10011) {
-                        utils.getSessionStorage().set('token', '');
-                        this.init();
-                    }
                 });
-            },
-            handlePost2 () {
-                this.$logger.log('api.handlePost2...');
-                api.postTest({
-                    name: 'test',
-                    phone: '18612795267',
-                    province_id: '1',
-                    city_id: '1',
-                    county_id: '10',
-                    address: '蜂巢测试'
-                }, {loading: true}).then(res => {
-                    this.$toast('success!!!');
-                    this.$logger.log('api.getTest.success: ', res);
-                }).catch(e => this.$toast(Trans(e)));
-            },
-            handlePost3 () { // 复杂对象，不用管好不好使，直接看发送的数据格式
-                this.$logger.log('api.handlePost3...');
-                utils.getSessionStorage().set('token', '1523590804.8.1296e38ead0b230caf4e371a5837dfcc042afb1c'); // 临时~
-                api.postTest2({
-                    sales_name: '蜂巢测试~',
-                    begin_time: '2018-01-13 00:00:00',
-                    end_time: '2018-04-27 00:00:00',
-                    type: 1,
-                    city_id: 1,
-                    information: '',
-                    content: '',
-                    goods_rel: [{'sales_range': 1, 'city_id': 1, 'goods_id': '1412', 'sales_range_rel': 1, 'city_id_rel': 1, 'goods_rel_id': '1412', 'is_limit': 0, 'goods_nums': '', 'showRelationBtn': false}, {'sales_range': 1, 'city_id': 1, 'goods_id': '1408', 'sales_range_rel': 1, 'city_id_rel': 1, 'goods_rel_id': '1412', 'is_limit': 0, 'goods_nums': '', 'showRelationBtn': false}]
-                }, {loading: true}).then(res => {
-                    this.$toast('success!!!');
-                    this.$logger.log('api.getTest.success: ', res);
-                }).catch(e => this.$toast(Trans(e)));
             }
+        },
+        handleGet () {
+            this.$logger.log('api.handleGet...');
+            api.getTest().then(res => {
+                this.$toast('success!!!');
+                this.$logger.log('api.getTest.success: ', res);
+            }).catch(e => this.$toast(Trans(e)));
+        },
+        handleGet2 () {
+            this.$logger.log('api.handleGet2...');
+            api.getTest({}, {loading: true}).then(res => {
+                this.$toast('success!!!');
+                this.$logger.log('api.getTest.success: ', res);
+            }).catch(e => this.$toast(Trans(e)));
+        },
+        handlePost () {
+            this.$logger.log('api.handlePost...');
+            api.postTest({
+                name: 'test',
+                phone: '18612795267',
+                province_id: '1',
+                city_id: '1',
+                county_id: '10',
+                address: '蜂巢测试'
+            }).then(res => {
+                this.$toast('success!!!');
+                this.$logger.log('api.postTest.success: ', res);
+            }).catch(e => { // 登录失败的判断，正常项目别这么写。。。这里只是测试。。。
+                this.$toast(Trans(e));
+                this.$logger.error('api.postTest.error: ', e);
+                if (e.errcode === 10003 || e.errcode === 10004 || e.errcode === 10005 || e.errcode === 10006 || e.errcode === 10011) {
+                    utils.getSessionStorage().set('token', '');
+                    this.init();
+                }
+            });
+        },
+        handlePost2 () {
+            this.$logger.log('api.handlePost2...');
+            api.postTest({
+                name: 'test',
+                phone: '18612795267',
+                province_id: '1',
+                city_id: '1',
+                county_id: '10',
+                address: '蜂巢测试'
+            }, {loading: true}).then(res => {
+                this.$toast('success!!!');
+                this.$logger.log('api.getTest.success: ', res);
+            }).catch(e => this.$toast(Trans(e)));
+        },
+        handlePost3 () { // 复杂对象，不用管好不好使，直接看发送的数据格式
+            this.$logger.log('api.handlePost3...');
+            utils.getSessionStorage().set('token', '1523590804.8.1296e38ead0b230caf4e371a5837dfcc042afb1c'); // 临时~
+            api.postTest2({
+                sales_name: '蜂巢测试~',
+                begin_time: '2018-01-13 00:00:00',
+                end_time: '2018-04-27 00:00:00',
+                type: 1,
+                city_id: 1,
+                information: '',
+                content: '',
+                goods_rel: [{'sales_range': 1, 'city_id': 1, 'goods_id': '1412', 'sales_range_rel': 1, 'city_id_rel': 1, 'goods_rel_id': '1412', 'is_limit': 0, 'goods_nums': '', 'showRelationBtn': false}, {'sales_range': 1, 'city_id': 1, 'goods_id': '1408', 'sales_range_rel': 1, 'city_id_rel': 1, 'goods_rel_id': '1412', 'is_limit': 0, 'goods_nums': '', 'showRelationBtn': false}]
+            }, {loading: true}).then(res => {
+                this.$toast('success!!!');
+                this.$logger.log('api.getTest.success: ', res);
+            }).catch(e => this.$toast(Trans(e)));
         }
-    };
+    }
+};
 </script>
 
 <style rel="stylesheet/scss" lang="scss">

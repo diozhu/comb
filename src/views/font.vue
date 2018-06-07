@@ -112,10 +112,10 @@
     }
 </style>
 <script>
-    export default {
-        data () {
-            return {
-            };
-        }
-    };
+export default {
+    data () {
+        return {
+        };
+    }
+};
 </script>

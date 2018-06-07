@@ -1,96 +1,80 @@
 <script type="text/babel">
-    export default {
-        name: 'v-col',
+export default {
+    name: 'v-col',
 
-        props: {
-            span: {
-                type: Number,
-                default: 12
-            },
-            gutter: {
-                type: Number,
-                default: -1
-            }
+    props: {
+        span: {
+            type: Number,
+            default: 12
         },
-
-        data () {
-            return {
-            };
-        },
-
-        computed: {
-            parentGutter () {
-                return this.$parent.gutter;
-            },
-            dpr () {
-                return this.$parent.dpr;
-            },
-            ratio () {
-                return this.$parent.ratio;
-            },
-            avg () {
-                return this.$parent.avg;
-            },
-
-            style () {
-                let ret = {},
-                    gutter;
-                if (this.gutter === 0) {
-                    gutter = 0;
-                } else if (this.gutter === -1) {
-                    gutter = this.parentGutter;
-                } else {
-                    gutter = this.gutter;
-                }
-
-                if (gutter) {
-//                    ret.paddingLeft = this.gutter * this.dpr / (this.avg ? 4 : 2) + 'px';
-                    ret.paddingLeft = gutter / this.ratio / (this.avg ? 4 : 2) + 'rem';
-                    ret.paddingRight = ret.paddingLeft;
-                }
-
-                return ret;
-            }
-        },
-        render (h) {
-            let {style} = this;
-            let classList = [];
-
-            ['span', 'offset', 'pull', 'push'].forEach(prop => {
-                if (this[prop]) {
-                    classList.push(
-                        prop !== 'span'
-                            ? `v-col-${prop}-${this[prop]}`
-                            : `v-col-${this[prop]}`
-                    );
-                }
-            });
-
-//            ['xs', 'sm', 'md', 'lg'].forEach(size => {
-//                if (typeof this[size] === 'number') {
-//                    classList.push(`v-col-${size}-${this[size]}`);
-//                } else if (typeof this[size] === 'object') {
-//                    let props = this[size];
-//                    Object.keys(props).forEach(prop => {
-//                        classList.push(
-//                            prop !== 'span'
-//                                ? `v-col-${size}-${prop}-${props[prop]}`
-//                                : `v-col-${size}-${props[prop]}`
-//                        );
-//                    });
-//                }
-//            });
-
-            return (
-                <div
-                    class={['v-col', classList]}
-                    style={style}
-                >
-                    {this.$slots.default}
-                </div>
-            );
+        gutter: {
+            type: Number,
+            default: -1
         }
-    };
+    },
+
+    data () {
+        return {
+        };
+    },
+
+    computed: {
+        parentGutter () {
+            return this.$parent.gutter;
+        },
+        dpr () {
+            return this.$parent.dpr;
+        },
+        ratio () {
+            return this.$parent.ratio;
+        },
+        avg () {
+            return this.$parent.avg;
+        },
+
+        style () {
+            let ret = {},
+                gutter;
+            if (this.gutter === 0) {
+                gutter = 0;
+            } else if (this.gutter === -1) {
+                gutter = this.parentGutter;
+            } else {
+                gutter = this.gutter;
+            }
+
+            if (gutter) {
+                ret.paddingLeft = gutter / this.ratio / (this.avg ? 4 : 2) + 'rem';
+                ret.paddingRight = ret.paddingLeft;
+            }
+
+            return ret;
+        }
+    },
+    render (h) {
+        let {style} = this;
+        let classList = [];
+
+        ['span', 'offset', 'pull', 'push'].forEach(prop => {
+            if (this[prop]) {
+                classList.push(
+                    prop !== 'span'
+                        ? `v-col-${prop}-${this[prop]}`
+                        : `v-col-${this[prop]}`
+                );
+            }
+        });
+
+        return (
+            <div
+                class={['v-col', classList]}
+                style={style}
+            >
+                {this.$slots.default}
+            </div>
+        );
+    }
+};
 </script>
 <style rel="stylesheet/scss" lang="scss">
     @import "../scss/variables";

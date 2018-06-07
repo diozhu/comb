@@ -47,253 +47,253 @@
 </template>
 
 <script>
-    import wx from 'weixin-js-sdk';
-    // import Popup from '../js/utils/popup';
-    import vPopup from '../vendor/v-popup';
-    import * as api from '../js/core/api.js';
-    // import * as wechatApi from '../js/utils/wechat-api.js'; // 引入wechat-api，需要组件的引用页面混入m-wechat-api.js做微信jssdk的config！
-    import vueCoreImageUpload from 'vue-core-image-upload';
-    import vSpinner from '../vendor/v-spinner';
-    import trans from '../js/core/trans.js';
-    import * as utils from '../js/utils/utils.js';
-    import CONFIG from '../config.js';
+import wx from 'weixin-js-sdk';
+// import Popup from '../js/utils/popup';
+import vPopup from '../vendor/v-popup';
+import * as api from '../js/core/api.js';
+// import * as wechatApi from '../js/utils/wechat-api.js'; // 引入wechat-api，需要组件的引用页面混入m-wechat-api.js做微信jssdk的config！
+import vueCoreImageUpload from 'vue-core-image-upload';
+import vSpinner from '../vendor/v-spinner';
+import trans from '../js/core/trans.js';
+import * as utils from '../js/utils/utils.js';
+import CONFIG from '../config.js';
 
-    /**
-     * 上传图片组件，依赖于微信jssdk，需要组件的引用页面混入m-wechat-api.js做微信jssdk的config！
-     * 如果在微信环境，使用jssdk；
-     * 如果移动环境，
-     *              -- Author by Dio Zhu. on 2017.11.16
-     * 不用微信jssdk了，微信选择图片后，转换base64的接口wx.getLocalImgData仅在 iOS WKWebview 下提供
-     * 现使用h5的方式，引用组件：vue-core-image-upload实现
-     *              -- Author by Dio Zhu. on 2017.11.16
-     */
-    export default {
-        // mixins: [ Popup ],
+/**
+ * 上传图片组件，依赖于微信jssdk，需要组件的引用页面混入m-wechat-api.js做微信jssdk的config！
+ * 如果在微信环境，使用jssdk；
+ * 如果移动环境，
+ *              -- Author by Dio Zhu. on 2017.11.16
+ * 不用微信jssdk了，微信选择图片后，转换base64的接口wx.getLocalImgData仅在 iOS WKWebview 下提供
+ * 现使用h5的方式，引用组件：vue-core-image-upload实现
+ *              -- Author by Dio Zhu. on 2017.11.16
+ */
+export default {
+    // mixins: [ Popup ],
 
-        components: { 'v-spinner': vSpinner, vueCoreImageUpload, vPopup },
+    components: { 'v-spinner': vSpinner, vueCoreImageUpload, vPopup },
 
-        props: {
-            value: {
-                type: String,
-                default: ''
-            },
-            uploaded: {
-                type: Boolean,
-                default: false
-            },
-            lazyTag: {
-                type: Boolean,
-                default: false
-            },
-            defaultIcon: {
-                type: Boolean,
-                default: true
+    props: {
+        value: {
+            type: String,
+            default: ''
+        },
+        uploaded: {
+            type: Boolean,
+            default: false
+        },
+        lazyTag: {
+            type: Boolean,
+            default: false
+        },
+        defaultIcon: {
+            type: Boolean,
+            default: true
+        }
+
+    },
+
+    data () {
+        return {
+            uploadUrl: CONFIG.URL + '/wap/student/upload_image',
+            data: {},
+            imgDisabled: false,
+            isWechat: true,
+            currentValue: this.value,
+            uploadedStatus: this.uploaded,
+            defaultStatus: this.defaultIcon,
+            loadingStatus: false,
+            currentAvatar: '',
+            popupTag: false
+        };
+    },
+
+    computed: {
+    },
+
+    watch: {
+        value (val) {
+            this.currentValue = val;
+        },
+        uploaded (val) {
+            this.uploadedStatus = val;
+        },
+        currentValue (val) {
+            this.$emit('input', val);
+        },
+        defaultIcon (val) {
+            if (this.currentValue) {
+                this.defaultStatus = true;
             }
-
+            this.defaultStatus = val;
         },
-
-        data () {
-            return {
-                uploadUrl: CONFIG.URL + '/wap/student/upload_image',
-                data: {},
-                imgDisabled: false,
-                isWechat: true,
-                currentValue: this.value,
-                uploadedStatus: this.uploaded,
-                defaultStatus: this.defaultIcon,
-                loadingStatus: false,
-                currentAvatar: '',
-                popupTag: false
-            };
+        /**
+         * 捕获图片上传状态，可根据此标识做提交按钮的限定等动作
+         * 父页面可在组件调用时指定回调函数： @handle-uploaded-status="handleUploadedStatus"
+         *              -- Author by Dio Zhu. on 2017.2.28
+         */
+        loadingStatus (val) {
+            this.$emit('handle-uploaded-status', val);
         },
-
-        computed: {
+        currentAvatar (val) {
+            this.$emit('handle-avatar-change', val);
+        }
+    },
+    created () {
+        if (utils.isWechat()) {
+            this.isWechat = true;
+            this.$logger.log('aaaaaaaaa  weixin');
+        } else {
+            this.isWechat = false;
+            this.$logger.log('aaaaaaaaa  h5');
+        }
+    },
+    methods: {
+        handleClick () {
+            // if (utils.isWechat()) { // 微信环境，调用jssdk的图片上传接口
+            //     this.$logger.log('v-upload-image.handleClick.isWechat: ');
+            //     this.wxChooseImage();
+            // } else { // 移动环境
+            //     this.$logger.log('v-upload-image.handleClick.isMobile: ');
+            //     this.$toast('mobile');
+            //     this.h5ChooseImage();
+            // }
+            // this.$emit('handleClick');
+            this.$logger.log('v-upload-image.handleClick: ');
+            // this.open();
+            this.popupTag = true;
         },
-
-        watch: {
-            value (val) {
-                this.currentValue = val;
-            },
-            uploaded (val) {
-                this.uploadedStatus = val;
-            },
-            currentValue (val) {
-                this.$emit('input', val);
-            },
-            defaultIcon (val) {
-                if (this.currentValue) {
-                    this.defaultStatus = true;
-                }
-                this.defaultStatus = val;
-            },
-            /**
-             * 捕获图片上传状态，可根据此标识做提交按钮的限定等动作
-             * 父页面可在组件调用时指定回调函数： @handle-uploaded-status="handleUploadedStatus"
-             *              -- Author by Dio Zhu. on 2017.2.28
-             */
-            loadingStatus (val) {
-                this.$emit('handle-uploaded-status', val);
-            },
-            currentAvatar (val) {
-                this.$emit('handle-avatar-change', val);
-            }
-        },
-        created () {
-            if (utils.isWechat()) {
-                this.isWechat = true;
-                this.$logger.log('aaaaaaaaa  weixin');
-            } else {
-                this.isWechat = false;
-                this.$logger.log('aaaaaaaaa  h5');
-            }
-        },
-        methods: {
-            handleClick () {
-                // if (utils.isWechat()) { // 微信环境，调用jssdk的图片上传接口
-                //     this.$logger.log('v-upload-image.handleClick.isWechat: ');
-                //     this.wxChooseImage();
-                // } else { // 移动环境
-                //     this.$logger.log('v-upload-image.handleClick.isMobile: ');
-                //     this.$toast('mobile');
-                //     this.h5ChooseImage();
-                // }
-                // this.$emit('handleClick');
-                this.$logger.log('v-upload-image.handleClick: ');
-                // this.open();
-                this.popupTag = true;
-            },
-            h5ChooseImage (e) {
-            // window.alert(utils.getSessionStorage().get('token'));
-                let _self = this;
-                try {
-                    if (e.target) {
-                        this.uploadedStatus = true;  // loading 图片显示
-                        this.defaultStatus = false;
-                        var fileInput = e.target;
-                        console.log(fileInput.files[0]);
-                        // var _self = this;
-                        var data = new global.FormData();
-                        data.append(this.fileName, fileInput.files[0]);
-                        var xhr = new window.XMLHttpRequest();
-                        xhr.open('post', this.uploadUrl);
-                        xhr.setRequestHeader('access-token', utils.getSessionStorage().get('token'));
-                        xhr.responseType = 'json';
-                        xhr.send(data);
-                        // var _self = this;
-                        xhr.onload = function (e) {
-                            if (xhr.status === 200) {
-                                if (xhr.response.errcode === 0) {
-                              //                    请求返回后不显示默认图片；
-                                    _self.defaultStatus = false;
-                                    _self.uploadedStatus = false; // loading 图片隐藏
-                                    _self.currentValue = xhr.response.data.url + '!/both/160x160';
-                                    _self.currentAvatar = xhr.response.data.img_id;
-                                  //                                图片上传按钮状态恢复--孙硕
-                                    _self.imgDisabled = false;
-                              // self.editor.insertEmbed(self.editor.getSelection().index, 'image', xhr.response.data.url);
-                              // _self.headerfileList.push(xhr.response.data);
-                                } else {
-                                    _self.imgDisabled = false;
-                                    _self.$toast(trans(xhr.response.errcode));
-                                }
-                                _self.popupTag = false;
-                                document.querySelector('.v-modal') && document.querySelector('.v-modal').parentNode.removeChild(document.querySelector('.v-modal'));
+        h5ChooseImage (e) {
+        // window.alert(utils.getSessionStorage().get('token'));
+            let _self = this;
+            try {
+                if (e.target) {
+                    this.uploadedStatus = true;  // loading 图片显示
+                    this.defaultStatus = false;
+                    var fileInput = e.target;
+                    console.log(fileInput.files[0]);
+                    // var _self = this;
+                    var data = new global.FormData();
+                    data.append(this.fileName, fileInput.files[0]);
+                    var xhr = new window.XMLHttpRequest();
+                    xhr.open('post', this.uploadUrl);
+                    xhr.setRequestHeader('access-token', utils.getSessionStorage().get('token'));
+                    xhr.responseType = 'json';
+                    xhr.send(data);
+                    // var _self = this;
+                    xhr.onload = function (e) {
+                        if (xhr.status === 200) {
+                            if (xhr.response.errcode === 0) {
+                          //                    请求返回后不显示默认图片；
+                                _self.defaultStatus = false;
+                                _self.uploadedStatus = false; // loading 图片隐藏
+                                _self.currentValue = xhr.response.data.url + '!/both/160x160';
+                                _self.currentAvatar = xhr.response.data.img_id;
+                              //                                图片上传按钮状态恢复--孙硕
+                                _self.imgDisabled = false;
+                          // self.editor.insertEmbed(self.editor.getSelection().index, 'image', xhr.response.data.url);
+                          // _self.headerfileList.push(xhr.response.data);
+                            } else {
+                                _self.imgDisabled = false;
+                                _self.$toast(trans(xhr.response.errcode));
                             }
-                        };
-                    }
-                } catch (e) {
-                    this.popupTag = false;
-                    document.querySelector('.v-modal') && document.querySelector('.v-modal').parentNode.removeChild(document.querySelector('.v-modal'));
-                    console.log('uploadImg', e);
-                    this.$toast(trans(e.errcode));
+                            _self.popupTag = false;
+                            document.querySelector('.v-modal') && document.querySelector('.v-modal').parentNode.removeChild(document.querySelector('.v-modal'));
+                        }
+                    };
                 }
-            },
-            wxChooseImage () { // 微信jssdk上传图片
+            } catch (e) {
                 this.popupTag = false;
                 document.querySelector('.v-modal') && document.querySelector('.v-modal').parentNode.removeChild(document.querySelector('.v-modal'));
-                // return wechatApi.chooseImage().then(res => {
-                //     // this.$toast(res[0]);
-                //     this.$logger.log('v-upload-image.handleClick.chooseImage.success: ', res[0]);
-                //     // return wechatApi.getLocalImgData({localId: res[0]});
-                //     return wechatApi.uploadImage({localId: res[0]});
-                //     // }).then(rtn => {
-                //     //     this.$logger.log('v-upload-image.handleClick.uploadImage.success: ', rtn);
-                //     //     this.$set(this.currentValue, 'url', rtn);
-                //     // }).then(rtn => {
-                //     //     // this.$toast(rtn);
-                //     //     this.$logger.log('v-upload-image.handleClick.uploadImage.success: ', rtn);
-                //     //     // return Promise.resolve(wechatApi.downloadImage({serverId: res}));
-                //     //     return wechatApi.downloadImage({serverId: rtn});
-                // }).then(dat => {
-                //     // this.$toast(dat);
-                //     this.$logger.log('v-upload-image.handleClick.downloadImage.success: ', dat);
-                // }).catch(e => {
-                //     this.$logger.error('v-upload-image.handleClick.wx.error: ', e);
-                //     this.$toast(e.errMsg);
-                // });
-                let _self = this,
-                    uploadImageSuccessFunc = function (res) {
-                        console.log('v-upload-image.uploadImageSuccessFunc: ', res);
-                        // I-YHwkYGPDIHxF-kqmmj-ETgbQitgfzLJITOEwYzGZ7pepobfsfouHYLA92yJ1Yl
-                        // http://file.api.weixin.qq.com/cgi-bin/media/get?access_token=5_OYu41gF4xbrXAcuZLtTs3ZNo9OjPiK4V6g2cgUaN5uVkoe5l2MJBmN-DnvftM_B8bbuQtqq12J-eRha3yXvl7VDj7Rv6rRJCpPOmkQLS5fe0CmADzPYPCjxC4axntIz7CzebrmvbZJf32A3zMUGcAEAAIU&media_id=I-YHwkYGPDIHxF-kqmmj-ETgbQitgfzLJITOEwYzGZ7pepobfsfouHYLA92yJ1Yl
-                        // https://api.weixin.qq.com/cgi-bin/media/get?access_token=5_OYu41gF4xbrXAcuZLtTs3ZNo9OjPiK4V6g2cgUaN5uVkoe5l2MJBmN-DnvftM_B8bbuQtqq12J-eRha3yXvl7VDj7Rv6rRJCpPOmkQLS5fe0CmADzPYPCjxC4axntIz7CzebrmvbZJf32A3zMUGcAEAAIU&media_id=I-YHwkYGPDIHxF-kqmmj-ETgbQitgfzLJITOEwYzGZ7pepobfsfouHYLA92yJ1Yl
-                        // window.alert(res.serverId);
-                        // window.location.href = 'http://www.baidu.com?search=' + res.serverId;
-                        // TODO: 调后台接口，传入serverId，后台通过微信媒体下载接口，通过access_token和media_id（就是前面的serverId）获取图片，并上传云，返回url
-                        api.uploadImageFromWx({
-                            media_id: res.serverId
-                        }).then(res => {
-                            _self.$set(_self, 'uploadedStatus', false);
-                            _self.$set(_self, 'currentValue', res.url + '!/both/160x160');
-                            _self.$set(_self, 'loadingStatus', true);
-                            _self.$set(_self, 'currentAvatar', res.img_id);
-                           // window.alert(_self.currentAvatar);
-                            // _self.$toast(res.data.url);
-                            // _self.$toast('上传成功:', res.data.url);
-                        });
-                    },
-                    uploadImageFailFunc = function (res) {
-                        console.log('v-upload-image.uploadImageFailFunc: ', res);
-                    },
-                    chooseImageSuccessFunc = function (res) {
-                        // window.alert('success');
-                        console.log('v-upload-image.chooseImageSuccessFunc: ', res);
-                        _self.$set(_self, 'currentValue', false);
-                        _self.$set(_self, 'uploadedStatus', true);
-                        _self.$set(_self, 'defaultStatus', false);
-                        // if (res.localIds && res.localIds.length) _self.$set(_self, 'currentValue', res.localIds[0]);
-                        // if (res.localIds) _self.$set(_self, 'currentValue', res.localIds);
-                        let localId = res.localIds.toString();
-                        wx.uploadImage({
-                            localId: localId, // 需要上传的图片的本地ID，由chooseImage接口获得
-                            isShowProgressTips: 1, // 默认为1，显示进度提示
-                            success: uploadImageSuccessFunc,
-                            fail: uploadImageFailFunc
-                        });
-                    }, chooseImageFailFunc = function (res) {
-                        // window.alert('fail');
-                        console.log('v-upload-image.chooseImageFailFunc: ', res);
-                    };
-                wx.chooseImage({
-                    count: 1, // 默认9
-                    sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
-                    sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
-                    success: chooseImageSuccessFunc,
-                    fail: chooseImageFailFunc
-                });
-            },
-            imageuploaded (res) {
-                this.$logger.log('v-upload-image.imageuploaded: ', ...arguments);
-                if (res.errcode === 0) {
-                    // this.src = res.data.src;
-                    this.$set(this, 'currentValue', res.data.src);
-                }
-            },
-            uploadImage () {
-
+                console.log('uploadImg', e);
+                this.$toast(trans(e.errcode));
             }
+        },
+        wxChooseImage () { // 微信jssdk上传图片
+            this.popupTag = false;
+            document.querySelector('.v-modal') && document.querySelector('.v-modal').parentNode.removeChild(document.querySelector('.v-modal'));
+            // return wechatApi.chooseImage().then(res => {
+            //     // this.$toast(res[0]);
+            //     this.$logger.log('v-upload-image.handleClick.chooseImage.success: ', res[0]);
+            //     // return wechatApi.getLocalImgData({localId: res[0]});
+            //     return wechatApi.uploadImage({localId: res[0]});
+            //     // }).then(rtn => {
+            //     //     this.$logger.log('v-upload-image.handleClick.uploadImage.success: ', rtn);
+            //     //     this.$set(this.currentValue, 'url', rtn);
+            //     // }).then(rtn => {
+            //     //     // this.$toast(rtn);
+            //     //     this.$logger.log('v-upload-image.handleClick.uploadImage.success: ', rtn);
+            //     //     // return Promise.resolve(wechatApi.downloadImage({serverId: res}));
+            //     //     return wechatApi.downloadImage({serverId: rtn});
+            // }).then(dat => {
+            //     // this.$toast(dat);
+            //     this.$logger.log('v-upload-image.handleClick.downloadImage.success: ', dat);
+            // }).catch(e => {
+            //     this.$logger.error('v-upload-image.handleClick.wx.error: ', e);
+            //     this.$toast(e.errMsg);
+            // });
+            let _self = this,
+                uploadImageSuccessFunc = function (res) {
+                    console.log('v-upload-image.uploadImageSuccessFunc: ', res);
+                    // I-YHwkYGPDIHxF-kqmmj-ETgbQitgfzLJITOEwYzGZ7pepobfsfouHYLA92yJ1Yl
+                    // http://file.api.weixin.qq.com/cgi-bin/media/get?access_token=5_OYu41gF4xbrXAcuZLtTs3ZNo9OjPiK4V6g2cgUaN5uVkoe5l2MJBmN-DnvftM_B8bbuQtqq12J-eRha3yXvl7VDj7Rv6rRJCpPOmkQLS5fe0CmADzPYPCjxC4axntIz7CzebrmvbZJf32A3zMUGcAEAAIU&media_id=I-YHwkYGPDIHxF-kqmmj-ETgbQitgfzLJITOEwYzGZ7pepobfsfouHYLA92yJ1Yl
+                    // https://api.weixin.qq.com/cgi-bin/media/get?access_token=5_OYu41gF4xbrXAcuZLtTs3ZNo9OjPiK4V6g2cgUaN5uVkoe5l2MJBmN-DnvftM_B8bbuQtqq12J-eRha3yXvl7VDj7Rv6rRJCpPOmkQLS5fe0CmADzPYPCjxC4axntIz7CzebrmvbZJf32A3zMUGcAEAAIU&media_id=I-YHwkYGPDIHxF-kqmmj-ETgbQitgfzLJITOEwYzGZ7pepobfsfouHYLA92yJ1Yl
+                    // window.alert(res.serverId);
+                    // window.location.href = 'http://www.baidu.com?search=' + res.serverId;
+                    // TODO: 调后台接口，传入serverId，后台通过微信媒体下载接口，通过access_token和media_id（就是前面的serverId）获取图片，并上传云，返回url
+                    api.uploadImageFromWx({
+                        media_id: res.serverId
+                    }).then(res => {
+                        _self.$set(_self, 'uploadedStatus', false);
+                        _self.$set(_self, 'currentValue', res.url + '!/both/160x160');
+                        _self.$set(_self, 'loadingStatus', true);
+                        _self.$set(_self, 'currentAvatar', res.img_id);
+                       // window.alert(_self.currentAvatar);
+                        // _self.$toast(res.data.url);
+                        // _self.$toast('上传成功:', res.data.url);
+                    });
+                },
+                uploadImageFailFunc = function (res) {
+                    console.log('v-upload-image.uploadImageFailFunc: ', res);
+                },
+                chooseImageSuccessFunc = function (res) {
+                    // window.alert('success');
+                    console.log('v-upload-image.chooseImageSuccessFunc: ', res);
+                    _self.$set(_self, 'currentValue', false);
+                    _self.$set(_self, 'uploadedStatus', true);
+                    _self.$set(_self, 'defaultStatus', false);
+                    // if (res.localIds && res.localIds.length) _self.$set(_self, 'currentValue', res.localIds[0]);
+                    // if (res.localIds) _self.$set(_self, 'currentValue', res.localIds);
+                    let localId = res.localIds.toString();
+                    wx.uploadImage({
+                        localId: localId, // 需要上传的图片的本地ID，由chooseImage接口获得
+                        isShowProgressTips: 1, // 默认为1，显示进度提示
+                        success: uploadImageSuccessFunc,
+                        fail: uploadImageFailFunc
+                    });
+                }, chooseImageFailFunc = function (res) {
+                    // window.alert('fail');
+                    console.log('v-upload-image.chooseImageFailFunc: ', res);
+                };
+            wx.chooseImage({
+                count: 1, // 默认9
+                sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+                sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+                success: chooseImageSuccessFunc,
+                fail: chooseImageFailFunc
+            });
+        },
+        imageuploaded (res) {
+            this.$logger.log('v-upload-image.imageuploaded: ', ...arguments);
+            if (res.errcode === 0) {
+                // this.src = res.data.src;
+                this.$set(this, 'currentValue', res.data.src);
+            }
+        },
+        uploadImage () {
+
         }
-    };
+    }
+};
 </script>
 <style rel="stylesheet/scss" lang="scss">
 
