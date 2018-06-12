@@ -10,21 +10,30 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 // const ExtractTextPlugin = require('extract-text-webpack-plugin') // mod by Dio Zhu. on 2018.6.6
 const MiniCssExtractPlugin = require('mini-css-extract-plugin'); // mod by Dio Zhu. on 2018.6.6
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+// const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin'); // mod by Dio Zhu. on 2018.6.6
+
 const {VueLoaderPlugin} = require('vue-loader');
 // var HtmlCriticalPlugin = require("./html.critical.webpack.plugin"); // critical css. add by Dio Zhu. on 2017.7.27
 // const PrerenderSPAPlugin = require('prerender-spa-plugin'); // 暂时不用了，如果用也是用nuxt.js... Author by Dio Zhu. on 2018.6.6
+const glob = require('glob');
+const PurifyCSSPlugin = require('purifycss-webpack');
 
 const env = require('../config/prod.env');
 
 const webpackConfig = merge(baseWebpackConfig, {
     mode: 'production',
     module: {
-        rules: utils.styleLoaders({
-            sourceMap: config.build.productionSourceMap,
-            extract: true,
-            usePostCSS: true
-        })
+        // rules: utils.styleLoaders({ sourceMap: config.build.productionSourceMap, extract: true, usePostCSS: true })
+        rules: [
+            ...(utils.styleLoaders({sourceMap: config.build.productionSourceMap, extract: true, usePostCSS: true})),
+            // { // add happypack. mod by Dio Zhu. on 2018.6.7
+            //     test: /\.js$/,
+            //     loader: 'happypack/loader?id=happy-babel-js', // 增加新的HappyPack构建loader
+            //     include: [path.resolve('src')],
+            //     exclude: /node_modules/
+            // }
+        ]
     },
     devtool: config.build.productionSourceMap ? config.build.devtool : false,
     output: {
@@ -32,17 +41,61 @@ const webpackConfig = merge(baseWebpackConfig, {
         filename: utils.assetsPath('js/[name].[chunkhash].js'),
         chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
     },
+    // optimization: { // 升级webpack4.0后添加 mod by Dio Zhu. on 2018.6.6
+    //     splitChunks: {
+    //         cacheGroups: {
+    //             vendor: {
+    //                 test: /[\\/]node_modules[\\/]/,
+    //                 name: 'vendor',
+    //                 chunks: 'all'
+    //             },
+    //             manifest: {
+    //                 name: 'manifest',
+    //                 minChunks: Infinity
+    //             },
+    //         }
+    //     },
+    // },
     optimization: { // 升级webpack4.0后添加 mod by Dio Zhu. on 2018.6.6
+        runtimeChunk: {
+            name: 'manifest'
+        },
         splitChunks: {
+            chunks: 'all', // chunks: "initial"，"async"和"all"分别是：初始块，按需块或所有块；
+            minSize: 30000, // （默认值：30000）块的最小大小
+            minChunks: 1, // （默认值：1）分割前共享模块的最小块数
+            maxAsyncRequests: 5, // （缺省值5）按需加载时的最大并行请求数
+            maxInitialRequests: 3, // （默认值3）入口点上的最大并行请求数
+            name: true, // cacheGroups is an object where keys are the cache group names.
             cacheGroups: {
-                vendor: {
+                // components: {
+                //     test: /[\\/]components[\\/]/,
+                //     name: 'components',
+                //     chunks: 'all',
+                //     priority: -10 // 默认组的优先级为负数，以允许任何自定义缓存组具有更高的优先级（默认值为0）
+                // },
+                // utils: {
+                //     test: /[\\/]js[\\/]/,
+                //     name: 'utils',
+                //     chunks: 'all',
+                //     priority: -10 // 默认组的优先级为负数，以允许任何自定义缓存组具有更高的优先级（默认值为0）
+                // },
+                // vendor: {
+                //     test: /[\\/]vendor[\\/]/,
+                //     name: 'vendor',
+                //     chunks: 'all',
+                //     priority: -10 // 默认组的优先级为负数，以允许任何自定义缓存组具有更高的优先级（默认值为0）
+                // },
+                vendors: {
                     test: /[\\/]node_modules[\\/]/,
-                    name: 'vendor',
-                    chunks: 'all'
+                    name: 'vendors',
+                    chunks: 'all',
+                    priority: -10 // 默认组的优先级为负数，以允许任何自定义缓存组具有更高的优先级（默认值为0）
                 },
-                manifest: {
-                    name: 'manifest',
-                    minChunks: Infinity
+                default: {
+                    minChunks: 2,
+                    priority: -20, // 默认组的优先级为负数，以允许任何自定义缓存组具有更高的优先级（默认值为0）
+                    reuseExistingChunk: true
                 },
             }
         },
@@ -52,14 +105,39 @@ const webpackConfig = merge(baseWebpackConfig, {
         new webpack.DefinePlugin({
             'process.env': env
         }),
-        new UglifyJsPlugin({
-            uglifyOptions: {
+        // new UglifyJsPlugin({
+        //     uglifyOptions: {
+        //         output: {
+        //             beautify: false, // 不格式化
+        //             comments: false // 不留注释
+        //         },
+        //         compress: {
+        //             warnings: false // 删除没有用到的代码时不输出警告
+        //         }
+        //     },
+        //     sourceMap: config.build.productionSourceMap,
+        //     parallel: true
+        // }),
+        /**
+         * @desc: A faster uglifyjs plugin.(用来替代 Webpack `uglifyjs-webpack-plugin`)
+         * @reference: https://github.com/gdborton/webpack-parallel-uglify-plugin
+        */
+        new ParallelUglifyPlugin({ // 替换uglifyjs-webpack-plugin. Mod by Dio Zhu. on 2018.6.11
+            cacheDir: '.cache/',
+            uglifyJS: {
+                output: {
+                    comments: false, // 不留注释
+                    beautify: false // 不格式化
+                },
                 compress: {
-                    warnings: false
+                    warnings: false, // 删除没有用到的代码时不输出警告
+                    drop_console: true,
+                    collapse_vars: true,
+                    reduce_vars: true
                 }
             },
-            sourceMap: config.build.productionSourceMap,
-            parallel: true
+            // sourceMap: config.build.productionSourceMap,
+            // parallel: true
         }),
         // // extract css into its own file
         // new ExtractTextPlugin({ // mod by Dio Zhu. on 2018.6.6
@@ -100,7 +178,7 @@ const webpackConfig = merge(baseWebpackConfig, {
             // 静态文件采用cdn方式，直接写在index.html会影响本地开发时的调试。 Author by Dio Zhu. on 2017.6.27
             // scripts: '<script src="https://cdn.bootcss.com/vue/2.2.2/vue.min.js"></script><script src="https://cdn.bootcss.com/vue-resource/1.2.0/vue-resource.min.js"></script><script src="https://cdn.bootcss.com/vue-router/2.3.0/vue-router.min.js"></script><script src="https://cdn.bootcss.com/vuex/2.2.1/vuex.min.js"></script>'
             // scripts: '<script src="https://cdn.bootcss.com/vue/2.4.2/vue.min.js"></script><script src="https://cdn.bootcss.com/vue-resource/1.3.4/vue-resource.min.js"></script><script src="https://cdn.bootcss.com/vue-router/2.7.0/vue-router.min.js"></script><script src="https://cdn.bootcss.com/vuex/2.3.1/vuex.min.js"></script>'
-            scripts: '<script src="https://cdn.bootcss.com/vue/2.5.2/vue.min.js"></script><script src="https://cdn.bootcss.com/axios/0.18.0/axios.min.js"></script><script src="https://cdn.bootcss.com/vue-router/2.8.1/vue-router.min.js"></script><script src="https://cdn.bootcss.com/vuex/2.5.0/vuex.min.js"></script>'
+            scripts: '<script src="//cdn.bootcss.com/vue/2.5.16/vue.min.js"></script><script src="//cdn.bootcss.com/axios/0.18.0/axios.min.js"></script><script src="//cdn.bootcss.com/vue-router/3.0.1/vue-router.min.js"></script><script src="//cdn.bootcss.com/vuex/3.0.1/vuex.min.js"></script>'
         }),
         // keep module.id stable when vendor modules does not change
         new webpack.HashedModuleIdsPlugin(),
@@ -172,6 +250,10 @@ const webpackConfig = merge(baseWebpackConfig, {
         //         blockJSRequests: false,
         //     }
         // })
+        // new webpack.optimize.MinChunkSizePlugin({minChunkSize: 50000}), // 合并低于50K的小文件. mod by Dio Zhu. on 2018.6.7
+        // new PurifyCSSPlugin({ // css tree shaking, vue项目无法使用。。。 add by Dio Zhu. on 2018.6.8
+        //     paths: glob.sync(path.join(__dirname, '../dist/*/*.html'))
+        // }),
     ],
     // 添加externals，vue、vuex、vue-router等使用cdn方式，在此排除后，需要在上面的HtmlWebpackPlugin.scripts中设置外链。 Author by Dio Zhu. on 2017.6.23
     externals: {
@@ -180,6 +262,12 @@ const webpackConfig = merge(baseWebpackConfig, {
         'axios': 'axios',
         'vuex': 'Vuex',
         'vue-resource': 'VueResource'
+    },
+    performance: {
+        // hints: false
+        hints: 'warning',
+        maxEntrypointSize: 500000, // The default value is 250000 (bytes).
+        maxAssetSize: 500000 // The default value is 250000 (bytes).
     }
 });
 

@@ -1,9 +1,11 @@
 /**
  * Created by diozhu on 2017/2/6.
+ * mod by Dio Zhu. on 2018.6.12
  */
 import Vue from 'vue';
-
-const ToastConstructor = Vue.extend(require('./v-toast.vue'));
+// const ToastConstructor = Vue.extend(require('./v-toast.vue'));
+import vToast from './v-toast.vue';
+const ToastConstructor = Vue.extend(vToast);
 let toastPool = [],
     getAnInstance = () => {
         if (toastPool.length > 0) {
@@ -30,6 +32,7 @@ let toastPool = [],
         instance.position = options.position || 'middle';
         instance.className = options.className || '';
         instance.iconClass = options.iconClass || '';
+        console.warn('@@@@@@@@@@@@@@   ', duration, instance);
 
         document.body.appendChild(instance.$el);
         Vue.nextTick(function () {

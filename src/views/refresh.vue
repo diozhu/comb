@@ -86,6 +86,7 @@ export default {
             this.$logger.log('refresh.init...');
 
             return api.getDelay({delay: 500}).then(res => { // 拉取详情信息
+                this.$logger.log('refresh.init.success: ', res);
                 this.info = res;
                 return Promise.resolve(res);
             });

@@ -181,6 +181,8 @@ npm install -g generator-comb
 ```bash
 yo comb
 ```
+##升级webpack4
+修改了以前的打包及优化配置。。。mod by Dio Zhu. on 2018.6.8
 
 
 ## License

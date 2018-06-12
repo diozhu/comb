@@ -37,7 +37,8 @@
     <script src="https://cdn.bootcss.com/vue-router/2.6.0/vue-router.min.js"></script>
     <script src="https://cdn.bootcss.com/vuex/2.3.1/vuex.min.js"></script>-->
   <%= htmlWebpackPlugin.options.scripts %>
-  <script> ;(function () { var src = './static/js/vendor/eruda.min.js'; if (!/eruda=true/.test(window.location) && window.localStorage.getItem('active-eruda') !== 'true') { return; } document.write('<scr' + 'ipt src="' + src + '"></scr' + 'ipt>'); document.write('<scr' + 'ipt>eruda.init();</scr' + 'ipt>'); })(); </script>
+  <%= htmlWebpackPlugin.options.vendor %>
+  <script> ;(function () { var src = '//cdn.bootcss.com/eruda/1.4.4/eruda.js'; if (!/eruda=true/.test(window.location) && window.localStorage.getItem('active-eruda') !== 'true') { return; } document.write('<scr' + 'ipt src="' + src + '"></scr' + 'ipt>'); document.write('<scr' + 'ipt>eruda.init();</scr' + 'ipt>'); })(); </script>
   <!--<script> ;(function () { var src = './static/js/vendor/vconsole.min.js'; if (!/eruda=true/.test(window.location)) { return; } document.write('<scr' + 'ipt src="' + src + '"></scr' + 'ipt>'); document.write('<scr' + 'ipt>var vConsole = new VConsole();</scr' + 'ipt>'); })(); </script>-->
 </body>
 

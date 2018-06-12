@@ -41,8 +41,11 @@ const parseSpinner = function (index) {
  * <!-- default snake -->
  * <mt-spinner :size="30" color="#999"></mt-spinner>
  */
+import SpinnerSnake from './snake';
+import SpinnerTripleBounce from './triple-bounce';
+import SpinnerFadingCircle from './fading-circle';
 export default {
-    name: 'mt-spinner',
+    name: 'v-spinner',
 
     computed: {
         spinner () {
@@ -50,11 +53,7 @@ export default {
         }
     },
 
-    components: {
-        SpinnerSnake: require('./snake.vue'),
-        SpinnerTripleBounce: require('./triple-bounce.vue'),
-        SpinnerFadingCircle: require('./fading-circle.vue')
-    },
+    components: { SpinnerSnake, SpinnerTripleBounce, SpinnerFadingCircle },
 
     props: {
         type: {

@@ -1,10 +1,15 @@
 'use strict';
 const path = require('path');
+const chalk = require('chalk');
 const utils = require('./utils');
 const config = require('../config');
 const vueLoaderConfig = require('./vue-loader.conf');
 const webpack = require('webpack');
-// const MiniCssExtractPlugin = require('mini-css-extract-plugin'); // mod by Dio Zhu. on 2018.6.6
+const MiniCssExtractPlugin = require('mini-css-extract-plugin'); // mod by Dio Zhu. on 2018.6.6
+const HappyPack = require('happypack'); // add happypack. mod by Dio Zhu. on 2018.6.7
+const os = require('os'); // add happypack. mod by Dio Zhu. on 2018.6.7
+const happyThreadPool = HappyPack.ThreadPool({size: os.cpus().length}); // add happypack. mod by Dio Zhu. on 2018.6.7
+const ProgressBarPlugin = require('progress-bar-webpack-plugin'); // 进度条. mod by Dio Zhu. on 2018.6.8
 
 function resolve (dir) {
     return path.join(__dirname, '..', dir);
@@ -14,12 +19,26 @@ const createLintingRule = () => ({
     test: /\.(js|vue)$/,
     loader: 'eslint-loader',
     enforce: 'pre',
-    include: [resolve('src'), resolve('test')],
     options: {
         formatter: require('eslint-friendly-formatter'),
         emitWarning: !config.dev.showEslintErrorsInOverlay
-    }
+    },
+    include: [resolve('src'), resolve('test')],
+    exclude: [resolve('node_modules')],
 });
+
+const cssLoader = new MiniCssExtractPlugin({ use: [ 'happypack/loader?id=happy-css' ] });
+// inject happypack accelerate packing for vue-loader @17-08-18
+Object.assign(vueLoaderConfig.loaders, { js: 'happypack/loader?id=happy-babel-vue', css: cssLoader });
+function createHappyPlugin (id, loaders) { // add happypack. mod by Dio Zhu. on 2018.6.7
+    return new HappyPack({
+        id: id,
+        loaders: loaders,
+        threadPool: happyThreadPool,
+        // make happy more verbose with HAPPY_VERBOSE=1
+        // verbose: process.env.HAPPY_VERBOSE === '1'
+    });
+}
 
 module.exports = {
     context: path.resolve(__dirname, '../'),
@@ -38,38 +57,35 @@ module.exports = {
         alias: {
             'vue$': 'vue/dist/vue.esm.js',
             '@': resolve('src'),
-            'assets': path.resolve(__dirname, '../src/assets'),
+            '@assets': resolve('src/assets'),
+            '@static': resolve('static'),
             // 'assets': __dirname + 'src/assets'
             // 'jquery': path.resolve(__dirname, './static/js/vendor/jquery.slim.min'),
             // // '$': path.resolve(__dirname, './static/js/vendor/jquery.slim.min')
         }
     },
-    // 增加plugins。 Author by Dio Zhu. on 2017.4.7
-    plugins: [
-        new webpack.optimize.MinChunkSizePlugin({minChunkSize: 50000}), // 合并低于50K的小文件
-        // new webpack.ProvidePlugin({ // 当webpack加载到某个js模块里，出现了未定义且名称符合（字符串完全匹配）配置中key的变量时，会自动require配置中value所指定的js模块
-        //     $: "jquery",
-        //     jQuery: "jquery",
-        //     'window.jQuery': 'jquery',
-        //     'window.$': 'jquery',
-        // })
-    ],
     module: {
         rules: [
             ...(config.dev.useEslint ? [createLintingRule()] : []),
             {
                 test: /\.vue$/,
                 loader: 'vue-loader',
-                options: vueLoaderConfig
+                options: vueLoaderConfig,
+                include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')],
+                exclude: [resolve('node_modules')],
+                // loader: 'happypack/loader?id=happy-vue', // 增加新的HappyPack构建loader
             },
             {
                 test: /\.js$/,
                 loader: 'babel-loader',
-                include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')]
+                // loader: 'happypack/loader?id=happy-babel-js', // 增加新的HappyPack构建loader
+                include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')],
+                exclude: [resolve('node_modules')],
             },
-            // { // mod by Dio Zhu. on 2018.6.6
-            //     test: /\.scss$/,
-            //     use: [MiniCssExtractPlugin.loader, "css-loader?modules=true", "sass-loader"]
+            // { // 把对 .css 文件的处理转交给 id 为 css 的 HappyPack 实例
+            //     test: /.css$/,
+            //     loader: 'happypack/loader?id=happy-babel-js', // 增加新的HappyPack构建loader
+            //     include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')]
             // },
             {
                 test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
@@ -97,6 +113,59 @@ module.exports = {
             }
         ]
     },
+    // 增加plugins。 Author by Dio Zhu. on 2017.4.7
+    plugins: [
+        new webpack.DllReferencePlugin({ // dll. add by Dio Zhu. on 2018.6.11
+            context: path.resolve(__dirname, '../'),
+            manifest: require(path.join(__dirname, '..', 'static', 'manifest.dll.json')),
+        }),
+
+        // new HappyPack({ // happypack多子进程打包. mod by Dio Zhu. on 2018.6.7
+        //     id: 'happy-vue',
+        //     loaders: [{
+        //         loader: 'vue-loader?cacheDirectory=true',
+        //         options: vueLoaderConfig
+        //     }],
+        //     threadPool: happyThreadPool
+        // }),
+        // new HappyPack({ // happypack多子进程打包. mod by Dio Zhu. on 2018.6.7
+        //     id: 'happy-babel-js',
+        //     loaders: ['babel-loader?cacheDirectory=true'],
+        //     threadPool: happyThreadPool
+        // }),
+        // new HappyPack({
+        //     loaders: [{
+        //         path: 'vue-loader',
+        //         query: {
+        //             loaders: {
+        //                 scss: 'vue-style-loader!css-loader!sass-loader?indentedSyntax'
+        //             }
+        //         }
+        //     }]
+        // }),
+        createHappyPlugin('happy-babel-js', ['babel-loader?cacheDirectory=true']), // happypack多子进程打包. mod by Dio Zhu. on 2018.6.7
+        createHappyPlugin('happy-babel-vue', ['babel-loader?cacheDirectory=true']),
+        createHappyPlugin('happy-css', ['css-loader', 'vue-style-loader']),
+        new HappyPack({
+            loaders: [{
+                path: 'vue-loader',
+                query: {
+                    loaders: {
+                        scss: 'vue-style-loader!css-loader!sass-loader?indentedSyntax'
+                    }
+                }
+            }]
+        }),
+        new ProgressBarPlugin({ // 进度条. mod by Dio Zhu. on 2018.6.8
+            format: '  build [:bar] ' + chalk.green.bold(':percent') + ' (:elapsed seconds)'
+        }),
+        // new webpack.ProvidePlugin({ // 当webpack加载到某个js模块里，出现了未定义且名称符合（字符串完全匹配）配置中key的变量时，会自动require配置中value所指定的js模块
+        //     $: "jquery",
+        //     jQuery: "jquery",
+        //     'window.jQuery': 'jquery',
+        //     'window.$': 'jquery',
+        // })
+    ],
     node: {
         // prevent webpack from injecting useless setImmediate polyfill because Vue
         // source contains it (although only uses it if it's native).

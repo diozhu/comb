@@ -110,8 +110,8 @@ const router = new VueRouter({
     // mode: 'hash', // 设置路由模式 可选值: "hash" | "history" | "abstract"，默认"hash"
     mode: 'history', // 设置路由模式 可选值: "hash" | "history" | "abstract"，默认"hash"
     // linkActiveClass: 'u-link--Active', // 这是链接激活时的class
-    // base: '/app/', // 这个是设置根目录路径，默认'/'
-    base: '/app/', // 根目录路径，配合./config/index.js中的设置，目的在build后，能顺利部署到服务端，与后台文件不冲突。。。Author by Dio Zhu. on 2017.3.28
+    base: '/app/', // 这个是设置根目录路径，默认'/'
+    // base: '/', // 根目录路径，配合./config/index.js中的设置，目的在build后，能顺利部署到服务端，与后台文件不冲突。。。Author by Dio Zhu. on 2017.3.28
     // scrollBehavior, // 还原滚动条位置 // 使用v-scroll-postion记录、还原滚动位置，此方式不用了。Author by Dio Zhu. on 2017.5.19
     // scrollBehavior, // 锚点。Author by Dio Zhu. on 2018.5.7
     routes // 挂载路由集合

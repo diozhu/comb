@@ -11,6 +11,7 @@ var bodyParser = require('body-parser'); // -- Author by Dio Zhu. on 2017.2.10
 var static_path = path.join(__dirname, "../dist");
 
 var PROJECT_NAME = process.env["PROJECT_NAME"] || 'app';
+console.log('~', PROJECT_NAME);
 
 app.use(function(req, res, next) {
     console.log('%s %s %s', req.method, req.url, req.path);
@@ -20,6 +21,11 @@ app.use(function(req, res, next) {
 console.log("static_path %s %s", static_path, fs.existsSync(static_path));
 
 app.use(express.static(static_path, {
+    "index": "index.html",
+    maxAge: 360000
+}));
+
+app.use("/static", express.static(static_path + "/" + PROJECT_NAME + "/static", {
     "index": "index.html",
     maxAge: 360000
 }));
@@ -38,9 +44,10 @@ app.use("/" + PROJECT_NAME, function (req, res) {
 
 app.use(function (req, res) {
     res.redirect("/" + PROJECT_NAME);
+    // res.redirect("/");
 });
 
-var server = app.listen(3000, function () {
+var server = app.listen(8081, function () {
     var host = server.address().address;
     var port = server.address().port;
 

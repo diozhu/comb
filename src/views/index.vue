@@ -28,7 +28,6 @@
                 <router-link :to="{ path: '/picker', query: { subjectId: 28 } }" tag="li">选择器（picker）<i class="icon icon-arrow-r"></i></router-link>
                 <router-link :to="{ path: '/datetime-picker', query: { subjectId: 29 } }" tag="li">时间选择器（datetime-picker）<i class="icon icon-arrow-r"></i></router-link>
                 <router-link :to="{ path: '/form-search', query: { subjectId: 30 } }" tag="li">搜索（search）<i class="icon icon-arrow-r"></i></router-link>
-                <router-link :to="{ path: '/form-validator', query: { subjectId: 32 } }" tag="li">校验（validator）<i class="icon icon-arrow-r"></i></router-link>
             </ul>
         </div>
 
@@ -74,6 +73,7 @@
         <p>开发中...</p>
         <div class="listview simple">
             <ul>
+                <router-link :to="{ path: '/form-validator', query: { subjectId: 32 } }" tag="li">校验（validator）<i class="icon icon-arrow-r"></i></router-link>
                 <router-link :to="{ path: '/animat', query: { subjectId: 61 } }" tag="li">动画（animat）<i class="icon icon-arrow-r"></i></router-link>
                 <router-link :to="{ path: '/form', query: { subjectId: 47 } }" tag="li">表单（v-form）<i class="icon icon-arrow-r"></i></router-link>
                 <router-link :to="{ path: '/char-indexes', query: { subjectId: 47 } }" tag="li">字符索引（v-char-indexes）<i class="icon icon-arrow-r"></i></router-link>

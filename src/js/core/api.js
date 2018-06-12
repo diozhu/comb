@@ -199,20 +199,27 @@ export function signin () {
     return Promise.resolve(data);
 };
 /** 【测试】获取列表信息 */
-export const getRandomList = (params, opts) => request(CONFIG.URL + '/api/getRandomList', params, { ...opts, method: 'post' });
+// export const getRandomList = (params, opts) => request(CONFIG.URL + '/api/getRandomList', params, { ...opts, method: 'post' });
+export const getRandomList = (params, opts) => {
+    console.log('!!!!!!!!!!!!!!', params);
+    let obj = {'id': 1001, 'title': '这是一句测试的内容', 'dt': 1478655191000, 'userInfo': { 'id': 397833, 'title': '老朱', 'subtitle': '推广语', 'isfollow': 1, 'avatar': 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png' }},
+        rtn = [],
+        delay = params.delay || 200;
+    for (let i = params.offset || 0, len = params.limit || 10; i < len; i++) {
+        let o = Object.assign({}, obj, { id: obj.id + i, title: obj.title + i, subtitle: obj.subtitle + i });
+        rtn.push(o);
+    }
+    return new Promise((resolve, reject) => { setTimeout(() => { resolve(rtn); }, delay); });
+};
 export const getInfiniteList = (params, opts) => request(CONFIG.URL + '/api/getInfiniteList', params, { ...opts, method: 'post' });
 /** 【测试】获取图片列表信息 */
 export const getImgList = (params, opts) => request(CONFIG.URL + '/api/getImgList', params, {...opts, method: 'post'});
 /** 【测试】延迟的post */
 // export const getDelay = (params, opts) => request(CONFIG.URL + '/api/getDelay', params, {...opts, method: 'post'});
 export const getDelay = (params, opts) => {
-    let obj = {
-            'errcode': 0,
-            'errmsg': 'ok',
-            'data': Date.now()
-        },
+    let rtn = Date.now(),
         delay = params.delay || 200;
-    return Promise.resolve(() => setTimeout(() => { return Promise.resolve(obj); }, delay));
+    return new Promise((resolve, reject) => { setTimeout(() => { resolve(rtn); }, delay); });
 };
 /** 【测试】POST~-- Author by Dio sunelqing. on 2018.4.9 */
 export const postTest = (params, opts) => request(CONFIG.URL + '/wap/user/add_address', params, { ...opts, method: 'post', emulateJSON: true });
