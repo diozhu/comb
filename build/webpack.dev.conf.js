@@ -60,26 +60,26 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         new webpack.NamedModulesPlugin(), // HMR shows correct file names in console on update.
         new webpack.NoEmitOnErrorsPlugin(),
         // https://github.com/ampedandwired/html-webpack-plugin
-        // new HtmlWebpackPlugin({
-        //     filename: 'index.html',
-        //     template: 'index.html',
-        //     inject: true
-        // }),
         new HtmlWebpackPlugin({
-            filename: config.build.index,
+            filename: 'index.html',
             template: 'index.html',
-            // template: path.resolve(__dirname, '../src', 'index.html'),
-            // chunks: ['index', 'common'],
-            hash: true, // 防止缓存
-            // inject: true,
-            minify: { // more options: https://github.com/kangax/html-minifier#options-quick-reference
-                removeComments: true,
-                collapseWhitespace: true,
-                removeAttributeQuotes: true // 压缩 去掉引号
-            },
-            chunksSortMode: 'dependency',
-            vendor: `<script>${fs.readFileSync(path.join(__dirname, '../static/vendor.dll.js'), 'utf-8')}</script>`, // 与dll配置文件中output.fileName对齐
+            inject: true
         }),
+        // new HtmlWebpackPlugin({
+        //     filename: config.build.index,
+        //     template: 'index.html',
+        //     // template: path.resolve(__dirname, '../src', 'index.html'),
+        //     // chunks: ['index', 'common'],
+        //     hash: true, // 防止缓存
+        //     // inject: true,
+        //     minify: { // more options: https://github.com/kangax/html-minifier#options-quick-reference
+        //         removeComments: true,
+        //         collapseWhitespace: true,
+        //         removeAttributeQuotes: true // 压缩 去掉引号
+        //     },
+        //     chunksSortMode: 'dependency',
+        //     vendor: `<script>${fs.readFileSync(path.join(__dirname, '../static/vendor.dll.js'), 'utf-8')}</script>`, // 与dll配置文件中output.fileName对齐
+        // }),
         // copy custom static assets
         new CopyWebpackPlugin([{
             from: path.resolve(__dirname, '../static'),

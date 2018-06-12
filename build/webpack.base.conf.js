@@ -115,10 +115,10 @@ module.exports = {
     },
     // 增加plugins。 Author by Dio Zhu. on 2017.4.7
     plugins: [
-        new webpack.DllReferencePlugin({ // dll. add by Dio Zhu. on 2018.6.11
-            context: path.resolve(__dirname, '../'),
-            manifest: require(path.join(__dirname, '..', 'static', 'manifest.dll.json')),
-        }),
+        // new webpack.DllReferencePlugin({ // dll. add by Dio Zhu. on 2018.6.11
+        //     context: path.resolve(__dirname, '../'),
+        //     manifest: require(path.join(__dirname, '..', 'static', 'manifest.dll.json')),
+        // }),
 
         // new HappyPack({ // happypack多子进程打包. mod by Dio Zhu. on 2018.6.7
         //     id: 'happy-vue',
