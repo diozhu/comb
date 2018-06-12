@@ -72,15 +72,12 @@ const devWebpackConfig = merge(baseWebpackConfig, {
             // chunks: ['index', 'common'],
             hash: true, // 防止缓存
             // inject: true,
-            minify: {
+            minify: { // more options: https://github.com/kangax/html-minifier#options-quick-reference
                 removeComments: true,
                 collapseWhitespace: true,
                 removeAttributeQuotes: true // 压缩 去掉引号
-                // more options:
-                // https://github.com/kangax/html-minifier#options-quick-reference
             },
             chunksSortMode: 'dependency',
-            // vendor: '<script src="/static/vendor.dll.js"></script>', // 与dll配置文件中output.fileName对齐
             vendor: `<script>${fs.readFileSync(path.join(__dirname, '../static/vendor.dll.js'), 'utf-8')}</script>`, // 与dll配置文件中output.fileName对齐
         }),
         // copy custom static assets

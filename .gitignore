@@ -13,3 +13,5 @@ docs/
 src_*/*
 package-lock.json
 npm-debug.*
+static/manifest.dll.json
+static/vendor.dll.js
