@@ -48,9 +48,8 @@ export default {
 };
 </script>
 <style rel="stylesheet/scss" lang="scss">
-
-    @import "../scss/variables";
-    @import "../scss/_mixins";
+    @import "~@/scss/variables";
+    @import "~@/scss/mixins";
 
     .v-toast{
         -webkit-transform: translate3d(0, 0, 0);

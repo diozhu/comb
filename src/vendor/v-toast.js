@@ -32,7 +32,6 @@ let toastPool = [],
         instance.position = options.position || 'middle';
         instance.className = options.className || '';
         instance.iconClass = options.iconClass || '';
-        console.warn('@@@@@@@@@@@@@@   ', duration, instance);
 
         document.body.appendChild(instance.$el);
         Vue.nextTick(function () {

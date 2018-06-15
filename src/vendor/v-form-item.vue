@@ -256,7 +256,7 @@ export default {
             }
         },
         handlePickerChange (key, obj, val) { // 缓存picker的值
-            // this.$logger.log(`【v-form-item】${this._uid}.onPickerChange: --------->>> `, key, JSON.stringify(val), this.currentValue);
+            this.$logger.log(`【v-form-item】${this._uid}.onPickerChange: --------->>> `, key, obj, JSON.stringify(val), this.currentValue);
             if (key === 'region') { // 地区组件的change
                 let sameProvince = !!(val[0] && this.pickerValue[0] && this.pickerValue[0]['key'].toString() === val[0]['key'].toString() && this.pickerValue[0]['values'].toString() === val[0]['values'].toString()),
                     sameCity = !!(val[1] && this.pickerValue[1] && this.pickerValue[1]['key'].toString() === val[1]['key'].toString() && this.pickerValue[1]['values'].toString() === val[1]['values'].toString()),
@@ -265,8 +265,8 @@ export default {
                     cityTag = !!((val[1] && !sameCity) || (val[1] && !val[2])),
                     countyTag = !!(!this.defaultCompleted && this.currentValue[2] && this.currentValue[2]['key']),
                     hasCityDefault = !this.defaultCompleted && (val[1] && this.currentValue[1] && this.currentValue[1]['key'].toString() !== val[1]['key'].toString() && this.currentValue[1]['values'] !== val[1]['values']);
-                // this.$logger.log(`【v-form-item】${this._uid}.onPickerChange: sameProvince: ${sameProvince}, sameCity: ${sameCity}, sameCounty: ${sameCounty}, hasCityDefault: ${hasCityDefault}`);
-                // this.$logger.log(`【v-form-item】${this._uid}.onPickerChange: provinceTag: ${provinceTag}, cityTag: ${cityTag}, countyTag: ${countyTag}`);
+                this.$logger.log(`【v-form-item】${this._uid}.onPickerChange: sameProvince: ${sameProvince}, sameCity: ${sameCity}, sameCounty: ${sameCounty}, hasCityDefault: ${hasCityDefault}`);
+                this.$logger.log(`【v-form-item】${this._uid}.onPickerChange: provinceTag: ${provinceTag}, cityTag: ${cityTag}, countyTag: ${countyTag}`);
                 if (!sameProvince && provinceTag) {
                     // this.$logger.log(`【v-form-item】${this._uid}.onPickerChange: => province!!!`);
                     this.$set(this.pickerValue, 0, val[0]);
@@ -283,6 +283,8 @@ export default {
                     this.$set(this.pickerValue, 2, Object.assign({}, this.currentValue[2]));
                     this.defaultCompleted = true; // 还原默认值标识
                     this.$refs['picker' + this.attr].setSlotValue(2, {key: this.currentValue[2]['key'], values: this.currentValue[2][this.option.valueKey || 'valueKey']});
+                } else if (!sameCounty) {
+                    this.$set(this.pickerValue, 2, val[2]);
                 }
             } else { // 普通picker的change
                 this.$set(this, 'pickerValue', val);

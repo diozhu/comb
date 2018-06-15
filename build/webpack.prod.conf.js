@@ -6,6 +6,7 @@ const config = require('../config');
 const merge = require('webpack-merge');
 const baseWebpackConfig = require('./webpack.base.conf');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 // const ExtractTextPlugin = require('extract-text-webpack-plugin') // mod by Dio Zhu. on 2018.6.6
 const MiniCssExtractPlugin = require('mini-css-extract-plugin'); // mod by Dio Zhu. on 2018.6.6
@@ -214,6 +215,7 @@ const webpackConfig = merge(baseWebpackConfig, {
         //   minChunks: 3
         // }),
 
+        new CleanWebpackPlugin([path.resolve(__dirname, '../dist')]), // clean dist folder. Author by Dio Zhu. on 2018.6.12
         // copy custom static assets
         new CopyWebpackPlugin([
             {

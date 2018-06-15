@@ -9,7 +9,10 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin'); // mod by Dio Z
 const HappyPack = require('happypack'); // add happypack. mod by Dio Zhu. on 2018.6.7
 const os = require('os'); // add happypack. mod by Dio Zhu. on 2018.6.7
 const happyThreadPool = HappyPack.ThreadPool({size: os.cpus().length}); // add happypack. mod by Dio Zhu. on 2018.6.7
-const ProgressBarPlugin = require('progress-bar-webpack-plugin'); // 进度条. mod by Dio Zhu. on 2018.6.8
+// const ProgressBarPlugin = require('progress-bar-webpack-plugin'); // 进度条（不好看）. mod by Dio Zhu. on 2018.6.8
+const Dashboard = require('webpack-dashboard'); // 面板. mod by Dio Zhu. on 2018.6.12
+const DashboardPlugin = require('webpack-dashboard/plugin');
+const dashboard = new Dashboard();
 
 function resolve (dir) {
     return path.join(__dirname, '..', dir);
@@ -29,7 +32,7 @@ const createLintingRule = () => ({
 
 const cssLoader = new MiniCssExtractPlugin({ use: [ 'happypack/loader?id=happy-css' ] });
 // inject happypack accelerate packing for vue-loader @17-08-18
-Object.assign(vueLoaderConfig.loaders, { js: 'happypack/loader?id=happy-babel-vue', css: cssLoader });
+Object.assign(vueLoaderConfig.loaders, { js: 'happypack/loader?id=happy-vue', css: cssLoader });
 function createHappyPlugin (id, loaders) { // add happypack. mod by Dio Zhu. on 2018.6.7
     return new HappyPack({
         id: id,
@@ -47,7 +50,7 @@ module.exports = {
     },
     output: {
         path: config.build.assetsRoot,
-        filename: '[name].js',
+        filename: '[name].[hash].js',
         publicPath: process.env.NODE_ENV === 'production'
             ? config.build.assetsPublicPath
             : config.dev.assetsPublicPath
@@ -57,8 +60,7 @@ module.exports = {
         alias: {
             'vue$': 'vue/dist/vue.esm.js',
             '@': resolve('src'),
-            '@assets': resolve('src/assets'),
-            '@static': resolve('static'),
+            'static$': resolve('static'),
             // 'assets': __dirname + 'src/assets'
             // 'jquery': path.resolve(__dirname, './static/js/vendor/jquery.slim.min'),
             // // '$': path.resolve(__dirname, './static/js/vendor/jquery.slim.min')
@@ -71,16 +73,18 @@ module.exports = {
                 test: /\.vue$/,
                 loader: 'vue-loader',
                 options: vueLoaderConfig,
-                include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')],
-                exclude: [resolve('node_modules')],
+                // include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')],
+                include: [resolve('src')],
+                // exclude: [resolve('node_modules')],
                 // loader: 'happypack/loader?id=happy-vue', // 增加新的HappyPack构建loader
             },
             {
                 test: /\.js$/,
-                loader: 'babel-loader',
-                // loader: 'happypack/loader?id=happy-babel-js', // 增加新的HappyPack构建loader
-                include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')],
-                exclude: [resolve('node_modules')],
+                // loader: 'babel-loader',
+                loader: 'happypack/loader?id=happy-babel-js', // 增加新的HappyPack构建loader
+                // include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')],
+                include: [resolve('src')],
+                // exclude: [resolve('node_modules')],
             },
             // { // 把对 .css 文件的处理转交给 id 为 css 的 HappyPack 实例
             //     test: /.css$/,
@@ -115,36 +119,13 @@ module.exports = {
     },
     // 增加plugins。 Author by Dio Zhu. on 2017.4.7
     plugins: [
-        // new webpack.DllReferencePlugin({ // dll. add by Dio Zhu. on 2018.6.11
+        // new webpack.DllReferencePlugin({ // dll（然并卵）. add by Dio Zhu. on 2018.6.11
         //     context: path.resolve(__dirname, '../'),
         //     manifest: require(path.join(__dirname, '..', 'static', 'manifest.dll.json')),
         // }),
-
-        // new HappyPack({ // happypack多子进程打包. mod by Dio Zhu. on 2018.6.7
-        //     id: 'happy-vue',
-        //     loaders: [{
-        //         loader: 'vue-loader?cacheDirectory=true',
-        //         options: vueLoaderConfig
-        //     }],
-        //     threadPool: happyThreadPool
-        // }),
-        // new HappyPack({ // happypack多子进程打包. mod by Dio Zhu. on 2018.6.7
-        //     id: 'happy-babel-js',
-        //     loaders: ['babel-loader?cacheDirectory=true'],
-        //     threadPool: happyThreadPool
-        // }),
-        // new HappyPack({
-        //     loaders: [{
-        //         path: 'vue-loader',
-        //         query: {
-        //             loaders: {
-        //                 scss: 'vue-style-loader!css-loader!sass-loader?indentedSyntax'
-        //             }
-        //         }
-        //     }]
-        // }),
+        new DashboardPlugin(dashboard.setData),
         createHappyPlugin('happy-babel-js', ['babel-loader?cacheDirectory=true']), // happypack多子进程打包. mod by Dio Zhu. on 2018.6.7
-        createHappyPlugin('happy-babel-vue', ['babel-loader?cacheDirectory=true']),
+        createHappyPlugin('happy-vue', ['babel-loader?cacheDirectory=true']),
         createHappyPlugin('happy-css', ['css-loader', 'vue-style-loader']),
         new HappyPack({
             loaders: [{
@@ -156,9 +137,11 @@ module.exports = {
                 }
             }]
         }),
-        new ProgressBarPlugin({ // 进度条. mod by Dio Zhu. on 2018.6.8
-            format: '  build [:bar] ' + chalk.green.bold(':percent') + ' (:elapsed seconds)'
-        }),
+        // new ProgressBarPlugin({ // 进度条(不好看。。。). mod by Dio Zhu. on 2018.6.8
+        //     format: 'build [:bar] ' + chalk.green.bold(':percent') + ' (:elapsed seconds)',
+        //     clear: false,
+        //     // width: 100
+        // }),
         // new webpack.ProvidePlugin({ // 当webpack加载到某个js模块里，出现了未定义且名称符合（字符串完全匹配）配置中key的变量时，会自动require配置中value所指定的js模块
         //     $: "jquery",
         //     jQuery: "jquery",

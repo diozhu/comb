@@ -65,20 +65,23 @@ const devWebpackConfig = merge(baseWebpackConfig, {
             template: 'index.html',
             inject: true
         }),
-        // new HtmlWebpackPlugin({
+        // new HtmlWebpackPlugin({ // dll（然并卵）. add by Dio Zhu. on 2018.6.11
         //     filename: config.build.index,
         //     template: 'index.html',
         //     // template: path.resolve(__dirname, '../src', 'index.html'),
         //     // chunks: ['index', 'common'],
         //     hash: true, // 防止缓存
-        //     // inject: true,
+        //     inject: true,
         //     minify: { // more options: https://github.com/kangax/html-minifier#options-quick-reference
         //         removeComments: true,
         //         collapseWhitespace: true,
         //         removeAttributeQuotes: true // 压缩 去掉引号
         //     },
         //     chunksSortMode: 'dependency',
-        //     vendor: `<script>${fs.readFileSync(path.join(__dirname, '../static/vendor.dll.js'), 'utf-8')}</script>`, // 与dll配置文件中output.fileName对齐
+        //     // vendors: `<script>${fs.readFileSync(path.join(__dirname, '../static/vendors.dll.js'), 'utf-8')}</script>`, // 与dll配置文件中output.fileName对齐
+        //     // vendors: `<script src="${path.resolve(__dirname, '../static/vendors.dll.js')}"></script>`, // 与dll配置文件中output.fileName对齐
+        //     vendorCss: `<link rel='stylesheet' href='/static/vendors.dll.css'></link>`, // 与dll配置文件中output.fileName对齐
+        //     vendorJs: `<script src='/static/vendors.dll.js'></script>`, // 与dll配置文件中output.fileName对齐
         // }),
         // copy custom static assets
         new CopyWebpackPlugin([{
@@ -101,19 +104,19 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     output: {
         pathinfo: true      // dev环境下，console中可显示对应的文件位置，而不是打包后的app.js，仅可用于dev环境！   -- Author by Dio Zhu. on 2017.4.20
     },
-    optimization: { // dll. add by Dio Zhu. on 2018.6.11
-        splitChunks: {
-            cacheGroups: {
-                commons: {
-                    chunks: 'initial',
-                    name: 'common',
-                    minChunks: 2,
-                    maxInitialRequests: 5,
-                    minSize: 0
-                }
-            }
-        }
-    }
+    // optimization: { // dll. add by Dio Zhu. on 2018.6.11
+    //     splitChunks: {
+    //         cacheGroups: {
+    //             commons: {
+    //                 chunks: 'initial',
+    //                 name: 'common',
+    //                 minChunks: 2,
+    //                 maxInitialRequests: 5,
+    //                 minSize: 0
+    //             }
+    //         }
+    //     }
+    // }
 });
 
 module.exports = new Promise((resolve, reject) => {
