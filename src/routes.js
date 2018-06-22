@@ -91,6 +91,7 @@ const Star = resolve => require(['./views/star.vue'], resolve);
 const Calendar = resolve => require(['./views/calendar.vue'], resolve);
 const CharIndexes = resolve => require(['./views/char-indexes.vue'], resolve);
 const Form = resolve => require(['./views/form.vue'], resolve);
+const Chart = resolve => require(['./views/chart.vue'], resolve);
 
 // 编写路由集合
 const routes = [
@@ -222,6 +223,7 @@ const routes = [
     { name: 'calendar', path: '/calendar', meta: {title: '日历', requiresAuth: true, keepAlive: true}, component: Calendar },
     { name: 'char-indexes', path: '/char-indexes', meta: {title: '字符索引', requiresAuth: true, keepAlive: true}, component: CharIndexes },
     { name: 'form', path: '/form', meta: {title: '表单', requiresAuth: true}, component: Form },
+    { name: 'chart', path: '/chart', meta: {title: '图标插件', requiresAuth: true}, component: Chart },
     { path: '*', meta: {title: '出错啦'}, component: PageNotFound }
 ];
 // 导出路由集合
