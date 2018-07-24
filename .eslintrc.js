@@ -11,7 +11,7 @@ module.exports = {
     extends: 'standard', // 规则名称
     // required to lint *.vue files
     plugins: [
-        'html'  // EsLint允许使用第三方插件
+        'vue'  // EsLint允许使用第三方插件
     ],
     // add your custom rules here
     'rules': {
@@ -21,7 +21,7 @@ module.exports = {
         'generator-star-spacing': 0,
         // allow debugger during development
         'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
-        'semi-spacing': ["error", {"before": false, "after": false}],
+        'semi-spacing': ["error", {"before": false, "after": true}],
         'semi': ["error", "always"],// 规则名称
         'indent': ["error", 4, { "SwitchCase": 1 }],
         'space-before-function-paren': ["error", {
