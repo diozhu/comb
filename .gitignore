@@ -10,9 +10,5 @@ lib/*
 node_modules
 example/dist
 docs/
-src_*/*
 package-lock.json
 npm-debug.*
-static/*.dll.json
-static/*.dll.js
-static/*.dll.css

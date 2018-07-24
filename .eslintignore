@@ -1,10 +1,8 @@
-/build/
-/config/
-/dist/
-/docs/
-/*.js
-/node_modules/
-/static/
+docs/*.js
+build/*.js
+config/*.js
+node_modules/*.js
+static/js/vendor/*.js
 src/js/utils/dom.js
 src/js/utils/emitter.js
 src/js/utils/draggable.js
