@@ -5,15 +5,15 @@
 import toast from '../packages/v-toast.js';
 import messageBox from '../packages/v-message-box.js';
 import validator from '../packages/v-validator.js';
-import vButton from '../packages/v-button.vue';
-import vCell from '../packages/v-cell.vue';
-import vRow from '../packages/v-row.vue';
-import vCol from '../packages/v-col.vue';
-import vPopup from '../packages/v-popup.vue';
-import vPicker from '../packages/v-picker.vue';
-import vDatetimePicker from '../packages/v-datetime-picker.vue';
-import vField from '../packages/v-field.vue';
-import vSpinner from '../packages/v-spinner';
+import button from '../packages/v-button.vue';
+import cell from '../packages/v-cell.vue';
+import row from '../packages/v-row.vue';
+import col from '../packages/v-col.vue';
+import popup from '../packages/v-popup.vue';
+import picker from '../packages/v-picker.vue';
+import datetimePicker from '../packages/v-datetime-picker.vue';
+import field from '../packages/v-field.vue';
+import spinner from '../packages/v-spinner';
 // import vText from './v-text.vue';
 // import vFeed from './v-feed.vue';
 // import Refresh from './v-refresh';
@@ -34,15 +34,15 @@ const install = function (Vue) {
     Vue.$messagebox = Vue.prototype.$messagebox = messageBox;
     // Vue.$validator = Vue.prototype.$validator = validator;
 
-    Vue.component(vButton.name, vButton);
-    Vue.component(vCell.name, vCell);
-    Vue.component(vRow.name, vRow);
-    Vue.component(vCol.name, vCol);
-    Vue.component(vPopup.name, vPopup);
-    Vue.component(vPicker.name, vPicker);
-    Vue.component(vDatetimePicker.name, vDatetimePicker);
-    Vue.component(vField.name, vField);
-    Vue.component(vSpinner.name, vSpinner);
+    Vue.component(button.name, button);
+    Vue.component(cell.name, cell);
+    Vue.component(row.name, row);
+    Vue.component(col.name, col);
+    Vue.component(popup.name, popup);
+    Vue.component(picker.name, picker);
+    Vue.component(datetimePicker.name, datetimePicker);
+    Vue.component(field.name, field);
+    Vue.component(spinner.name, spinner);
     // Vue.component(vText.name, vText);
     // Vue.component(vFeed.name, vFeed);
     // Vue.component(vRefresh.name, vRefresh);
@@ -69,15 +69,15 @@ export {
     toast,
     messageBox,
     validator,
-    vButton,
-    vCell,
-    vRow,
-    vCol,
-    vPopup,
-    vPicker,
-    vDatetimePicker,
-    vField,
-    vSpinner,
+    button,
+    cell,
+    row,
+    col,
+    popup,
+    picker,
+    datetimePicker,
+    field,
+    spinner,
     // vText,
     // vFeed,
     //
@@ -92,56 +92,3 @@ export {
     //
     // Logger
 };
-
-// export default install;
-// export {
-//     version,
-//     toast,
-//     messageBox,
-//     validator,
-//     vButton,
-//     vCell,
-//     vRow,
-//     vCol,
-//     vPopup,
-//     vPicker,
-//     vDatetimePicker,
-//     vField,
-//     vSpinner,
-//     // vText,
-//     // vFeed,
-//     //
-//     // Refresh,
-//     // vRefresh,
-//     // Scroll,
-//     // vScroll,
-//     // vInfiniteScroll,
-//     // InfiniteScroll,
-//     // Swipe,
-//     // ScrollPosition,
-//     //
-//     // Logger
-// };
-
-// let Vue = (typeof window !== 'undefined' && window.Vue) ? window.Vue : null;
-
-// export default install;
-// // export class vToast;
-// // export function toast () {
-// //     Vue.$toast = Vue.prototype.$toast = vToast;
-// //     return vToast;
-// // };
-// // export const messageBox;
-// // export const validator;
-// // export const vButton;
-// export function cell () {
-//     Vue.component(vCell.name, vCell);
-//     return vCell;
-// };
-// export const vRow;
-// export const vCol;
-// export const vPopup;
-// export const vPicker;
-// export const vDatetimePicker;
-// export const vField;
-// export const vSpinner;
