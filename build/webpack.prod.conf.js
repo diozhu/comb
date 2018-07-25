@@ -11,7 +11,7 @@ const MiniCssTextPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin');
 
 const componts = {
-    'comb': './src/index.js',
+    'index': './src/index.js',
     'spinner': './packages/v-spinner',
     'button': './packages/v-button.vue',
     'cell': './packages/v-cell.vue',

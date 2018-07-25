@@ -4,7 +4,7 @@
   "description": "Simple project, created in vue2. As reference to other projects.",
   "author": "Dio Zhu <diozhu@163.com>",
   "private": true,
-  "main": "lib/comb.js",
+  "main": "lib/index.js",
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "dev:dll": "webpack --inline --progress --config build/webpack.dll.conf.js --mode development",
