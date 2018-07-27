@@ -1,13 +1,13 @@
 <template>
     <div class="v-rate">
-        <span 
-            class="v-rate__item" 
+        <span
+            class="v-rate__item"
             v-for="item in max"
             @mousemove="setCurrentValue(item, $event)"
             @mouseleave="resetCurrentValue"
             @click="selectValue(item)"
             :style="{ cursor: disabled ? 'auto' : 'pointer' }">
-            <i 
+            <i
             :class="[classes[item - 1], { 'hover': hoverIndex === item }]"
             :style="getIconStyle(item)"
             class="v-rate__icon icon-heart-o">
@@ -183,7 +183,7 @@
                 return result;
             },
             setCurrentValue (value, event) {
-                this.$logger.log(`v-search.watch.currentValue: 30`);
+                console.log(`v-search.watch.currentValue: 30`);
                 if (this.disabled) {
                     return;
                 }
@@ -214,7 +214,7 @@
                 this.hoverIndex = -1;
             },
             selectValue () {
-                this.$logger.log(`v-search.watch.currentValue: 20`);
+                console.log(`v-search.watch.currentValue: 20`);
             }
         },
         created () {

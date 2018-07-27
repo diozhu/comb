@@ -77,7 +77,7 @@ export default {
 
     // watch: {
     //     slots () {
-    //         this.$logger.warn('v-picker.watch.slots: ', this.slots, ...arguments);
+    //         console.warn('v-picker.watch.slots: ', this.slots, ...arguments);
     //     }
     // },
 
@@ -92,11 +92,11 @@ export default {
                 values[slot.valueIndex] = (slot.values || [])[slot.defaultIndex || 0];
             }
         });
-        // this.$logger.log(`v-picker[${this._uid}].created: `, values);
+        // console.log(`v-picker[${this._uid}].created: `, values);
     },
 
     mounted () {
-        // this.$logger.log('picker.mounted: ');
+        // console.log('picker.mounted: ');
     },
     methods: {
         slotValueChange () {
