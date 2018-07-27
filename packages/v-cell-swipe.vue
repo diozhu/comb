@@ -216,8 +216,8 @@
     };
 </script>
 <style rel="stylesheet/scss" lang="scss">
-    @import "../scss/variables";
-    @import "../scss/mixins";
+    @import "../src/scss/variables";
+    // @import "../src/scss/mixins";
 
     .v-cell-swipe .v-cell__wrapper, .v-cell-swipe .v-cell__left, .v-cell-swipe .v-cell__right {
         -webkit-transition: -webkit-transform 150ms ease-in-out;

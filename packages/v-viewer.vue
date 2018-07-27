@@ -177,8 +177,8 @@
     @import "~photoswipe/dist/photoswipe.css"; // get photoswipe.css
     @import "~photoswipe/dist/default-skin/default-skin.css"; // get photoswipe.css
 
-    @import "../scss/variables";
-    @import "../scss/_mixins";
+    @import "../src/scss/variables";
+    @import "../src/scss/_mixins";
 
     .v-viewer {
 

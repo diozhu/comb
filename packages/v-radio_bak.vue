@@ -97,8 +97,8 @@
     };
 </script>
 <style rel="stylesheet/scss" lang="scss">
-    @import "../scss/variables";
-    @import "../scss/mixins";
+    @import "../src/scss/variables";
+    // @import "../src/scss/mixins";
 
     $line-height: pxTorem(41px);
     $line-height-double: pxTorem(64px);

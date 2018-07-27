@@ -557,8 +557,8 @@
     };
 </script>
 <style rel="stylesheet/scss" lang="scss">
-    @import "../scss/variables";
-    @import "../scss/mixins";
+    @import "../src/scss/variables";
+    // @import "../src/scss/mixins";
     $dayContentTransitionTime: .38s ease-in-out;
     .v-calendar {
         $fadeTransition: opacity .2s ease-in-out;

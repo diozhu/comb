@@ -63,7 +63,7 @@
 </script>
 <style rel="stylesheet/scss" lang="scss">
 
-    @import "../scss/variables";
+    @import "../src/scss/variables";
 
     @mixin circle-corner($radius) {
         border-radius: $radius;

@@ -85,7 +85,7 @@
     };
 </script>
 <style rel="stylesheet/scss" lang="scss">
-    @import "../scss/variables";
+    @import "../src/scss/variables";
 
     .v-video {
         video {

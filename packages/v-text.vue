@@ -59,7 +59,7 @@ export default {
 </script>
 <style rel="stylesheet/scss" lang="scss">
     @import "../src/scss/_variables.scss";
-    // @import "../scss/mixins";
+    // // @import "../src/scss/mixins";
 
     .v-text {
         font-size: pxTorem(15px);

@@ -239,8 +239,8 @@
     };
 </script>
 <style rel="stylesheet/scss" lang="scss">
-    @import "../scss/variables";
-    @import "../scss/mixins";
+    @import "../src/scss/variables";
+    // @import "../src/scss/mixins";
     .v-rate {
     height: 20px;
     line-height: 1;
