@@ -1,83 +1,44 @@
 {
   "name": "comb",
-  "version": "2.0.1",
-  "description": "Simple project, created in vue2. As reference to other projects.",
-  "author": "Dio Zhu <diozhu@163.com>",
+  "version": "0.1.0",
   "private": true,
-  "main": "lib/index.js",
   "scripts": {
-    "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
-    "dev:dll": "webpack --inline --progress --config build/webpack.dll.conf.js --mode development",
-    "start": "npm run dev:dll && npm run dev",
-    "lint": "eslint --ext .js,.vue src",
-    "build": "node build/build.js",
-    "dist": "node build/simple.js",
-    "unit": "karma start test/unit/karma.conf.js --single-run",
-    "e2e": "node test/e2e/runner.js",
-    "test": "npm run unit && npm run e2e"
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "autoprefixer": "^8.6.0",
-    "axios": "^0.18.0",
-    "fastclick": "^1.0.6",
-    "vue": "^2.5.16",
+    "comb-ui": "git+ssh://git@git.hy-sport.cn:front/comb-ui.git#v2.0.0",
+    "register-service-worker": "^1.0.0",
+    "vue": "^2.5.17",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.0.0-beta.49",
-    "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.54",
-    "@babel/plugin-syntax-jsx": "^7.0.0-beta.47",
-    "@babel/plugin-transform-runtime": "^7.0.0-beta.54",
-    "@babel/preset-env": "^7.0.0-beta.47",
-    "@babel/runtime": "^7.0.0-beta.54",
-    "babel-eslint": "^8.2.3",
-    "babel-helper-vue-jsx-merge-props": "^2.0.3",
-    "babel-loader": "^8.0.0-beta.2",
-    "babel-plugin-transform-vue-jsx": "^4.0.1",
-    "copy-webpack-plugin": "^4.5.1",
-    "cross-env": "^5.1.5",
-    "css-hot-loader": "^1.3.9",
-    "css-loader": "^0.28.11",
-    "eslint": "^4.19.1",
-    "eslint-config-standard": "^11.0.0",
-    "eslint-friendly-formatter": "^4.0.1",
-    "eslint-loader": "^2.1.0",
-    "eslint-plugin-html": "^4.0.5",
-    "eslint-plugin-import": "^2.11.0",
-    "eslint-plugin-node": "^6.0.1",
-    "eslint-plugin-promise": "^3.7.0",
-    "eslint-plugin-standard": "^3.1.0",
-    "eslint-plugin-vue": "^4.7.1",
-    "friendly-errors-webpack-plugin": "^1.7.0",
-    "html-webpack-plugin": "^3.2.0",
-    "mini-css-extract-plugin": "^0.4.0",
-    "node-notifier": "^5.2.1",
-    "node-sass": "^4.9.2",
-    "optimize-css-assets-webpack-plugin": "^4.0.1",
-    "ora": "^2.1.0",
-    "postcss-browser-reporter": "^0.5.0",
-    "postcss-cssnext": "^3.1.0",
-    "postcss-import": "^11.1.0",
-    "postcss-loader": "^2.1.5",
-    "postcss-url": "^7.3.2",
-    "sass-loader": "^7.0.3",
-    "shelljs": "^0.8.2",
-    "url-loader": "^1.0.1",
-    "vue-loader": "^15.0.11",
-    "vue-template-compiler": "^2.5.16",
-    "webpack": "^4.8.3",
-    "webpack-cli": "^2.1.3",
-    "webpack-dev-server": "^3.1.4",
-    "webpack-merge": "^4.1.2"
+    "@vue/cli-plugin-babel": "^3.1.1",
+    "@vue/cli-plugin-eslint": "^3.1.1",
+    "@vue/cli-plugin-pwa": "^3.1.1",
+    "@vue/cli-service": "^3.1.1",
+    "@vue/eslint-config-prettier": "^4.0.0",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.8.0",
+    "eslint-plugin-vue": "^5.0.0-0",
+    "lint-staged": "^7.2.2",
+    "node-sass": "^4.9.0",
+    "sass-loader": "^7.0.1",
+    "vue-template-compiler": "^2.5.17"
   },
-  "engines": {
-    "node": ">= 6.0.0",
-    "npm": ">= 3.0.0"
+  "gitHooks": {
+    "pre-commit": "lint-staged"
   },
-  "browserslist": [
-    "> 1%",
-    "last 5 versions",
-    "not ie <= 8"
-  ]
+  "lint-staged": {
+    "*.js": [
+      "vue-cli-service lint",
+      "git add"
+    ],
+    "*.vue": [
+      "vue-cli-service lint",
+      "git add"
+    ]
+  }
 }
