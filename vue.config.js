@@ -1,33 +1,12 @@
 const path = require("path");
-const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
-    .BundleAnalyzerPlugin;
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const scripts = [
     // 打包后静态文件采用cdn方式，注意与package.json同步版本！！！ Author by Dio Zhu. on 2017.6.27
-    {
-        rel: "preload",
-        url:
-            "//dy-static-h5.oss-cn-beijing.aliyuncs.com/vendor/vue/2.5.16/vue.min.js"
-    },
-    {
-        rel: "preload",
-        url:
-            "//dy-static-h5.oss-cn-beijing.aliyuncs.com/vendor/vue-router/3.0.1/vue-router.min.js"
-    },
-    {
-        rel: "preload",
-        url:
-            "//dy-static-h5.oss-cn-beijing.aliyuncs.com/vendor/axios/0.18.0/axios.min.js"
-    },
-    {
-        rel: "preload",
-        url:
-            "//dy-static-h5.oss-cn-beijing.aliyuncs.com/vendor/vuex/3.0.1/vuex.min.js"
-    },
-    {
-        rel: "preload",
-        url:
-            "//dy-static-h5.oss-cn-beijing.aliyuncs.com/vendor/velocity/1.5.1/velocity.min.js"
-    }
+    { rel: "preload", url: "//dy-static-h5.oss-cn-beijing.aliyuncs.com/vendor/vue/2.5.16/vue.min.js" },
+    { rel: "preload", url: "//dy-static-h5.oss-cn-beijing.aliyuncs.com/vendor/vue-router/3.0.1/vue-router.min.js" },
+    { rel: "preload", url: "//dy-static-h5.oss-cn-beijing.aliyuncs.com/vendor/axios/0.18.0/axios.min.js" },
+    { rel: "preload", url: "//dy-static-h5.oss-cn-beijing.aliyuncs.com/vendor/vuex/3.0.1/vuex.min.js" },
+    { rel: "preload", url: "//dy-static-h5.oss-cn-beijing.aliyuncs.com/vendor/velocity/1.5.1/velocity.min.js" }
 ];
 const dnsPreOps = [
     // 预处理项目中的cdn地址。 Author by Dio Zhu. on 2018.9.3
@@ -64,7 +43,6 @@ module.exports = {
         // 该对象将会被 webpack-merge 合并入最终的 webpack 配置
         if (process.env.NODE_ENV === "production") {
             // 生产环境修改配置...
-            config.entry = path.resolve(__dirname, "./src/vendors/index.js");
             // console.log('------>>> ', config);
             config.optimization.splitChunks.cacheGroups.default = {
                 minSize: 0

@@ -1,0 +1,289 @@
+
+//.blank {
+//    width: 100%;
+//    height: $grid-gutter-width;
+//}
+
+/** some useful things, come from Bootstrap. Created by Dio Zhu. on 2016.9.23 */
+//body, div, span, applet, object, iframe, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary, time, mark, audio, video, input {
+* {
+    font-size: pxTorem($font-size-base);
+}
+
+body {
+    //overflow-x: hidden;
+    //overflow-y: auto;
+    overflow: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+// colors
+// -------------------------
+.bg-white {
+    background-color: #fff !important;
+}
+
+// Headings
+// -------------------------
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: $font-family;
+    font-weight: $headings-font-weight;
+    line-height: $headings-line-height;
+    color: $headings-color;
+
+    small,
+    .small {
+        font-weight: normal;
+        line-height: 1;
+        color: $gray-light;
+    }
+}
+
+//h1, .h1,
+//h2, .h2,
+//h3, .h3 {
+//    margin-top: $line-height-computed;
+//    margin-bottom: ($line-height-computed / 2);
+//}
+//
+//h4, .h4,
+//h5, .h5,
+//h6, .h6 {
+//    margin-top: ($line-height-computed / 2);
+//    margin-bottom: ($line-height-computed / 2);
+//}
+
+h1, .h1 {
+    font-size: pxTorem($font-size-h1);
+}
+
+h2, .h2 {
+    font-size: pxTorem($font-size-h2);
+}
+
+h3, .h3 {
+    font-size: pxTorem($font-size-h3);
+}
+
+h4, .h4 {
+    font-size: pxTorem($font-size-h4);
+}
+
+h5, .h5 {
+    font-size: pxTorem($font-size-h5);
+}
+
+h6, .h6 {
+    font-size: pxTorem($font-size-h6);
+}
+
+// Body text
+// -------------------------
+p {
+    //margin: 0 0 ($line-height-computed / 2);
+    font-size: pxTorem($font-size-base);
+}
+
+
+small,
+.small {
+    font-size: floor((100% * $font-size-small / $font-size-base));
+}
+
+// Alignment
+.text-left {
+    text-align: left;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-justify {
+    text-align: justify;
+}
+
+.text-nowrap {
+    white-space: nowrap;
+}
+
+// List options
+
+// [converter] extracted from `.list-unstyled` for libsass compatibility
+@mixin list-unstyled {
+    padding-left: 0;
+    list-style: none;
+}
+
+// [converter] extracted as `@mixin list-unstyled` for libsass compatibility
+.list-unstyled {
+    @include list-unstyled;
+}
+
+// Inline turns list items into inline-block
+.list-inline {
+    @include list-unstyled;
+    margin-left: -5px;
+
+    > li {
+        display: inline-block;
+        width: initial;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+}
+
+// Description Lists
+//dl {
+//    //margin-top: 0; // Remove browser default
+//    //margin-bottom: $line-height-computed;
+//}
+//
+//dt,
+//dd {
+//    line-height: $line-height-base;
+//}
+//
+//dt {
+//    font-weight: bold;
+//}
+//
+//dd {
+//    margin-left: 0; // Undo browser default
+//}
+
+// Horizontal description lists
+//
+// Defaults to being stacked without any of the below styles applied, until the
+// grid breakpoint is reached (default of ~768px).
+//.dl-horizontal {
+//    dt {
+//        float: left;
+//        width: 33.33%;
+//        clear: left;
+//        text-align: right;
+//        @include text-overflow;
+//    }
+//    dd {
+//        //@include clearfix; // Clear the floated `dt` if an empty `dd` is present
+//        margin-left: 33.33%;
+//    }
+//}
+
+
+.dl-horizontal {
+    //display: -webkit-box;
+    @include box-flex;
+
+    dt {
+        display: inline-flex;
+        @include text-overflow;
+    }
+    dd {
+        display: inline-flex;
+        flex-direction: column;
+    }
+}
+
+// 垂直居中
+.middle {
+    position: relative;
+    :first-child {
+        position: absolute;
+        top:50%;
+        margin-top: -30px;
+    }
+
+    .btn {
+        margin-top: pxToremNeg($padding-base-vertical + $font-size-base*$line-height-base/2 + 1);
+    }
+}
+
+// bootstrap的gridpadding等分处理, 只支持单个row行, 多行请不要放在同个row里... Author by Dio Zhu. on 2016.9.30
+.row {
+    &.avg {
+        [class^="col-"] {
+            padding-left: $grid-gutter-width/4;
+            padding-right: $grid-gutter-width/4;
+            &:first-child {
+                padding-left: $grid-gutter-width/2;
+                padding-right: $grid-gutter-width/4;
+            }
+            &:last-child {
+                padding-left: $grid-gutter-width/4;
+                padding-right: $grid-gutter-width/2;
+            }
+        }
+
+    }
+
+    // 用户按钮底部fixed
+    &.bottom {
+        background: #FFF;
+        padding: 20px 0;
+        margin-top: 0!important;
+        margin-bottom: 0!important;
+        &.fix {
+            position: fixed;
+            bottom: 0px;
+            width: 100%;
+            z-index: 99;
+        }
+    }
+
+}
+
+// 滚动的时候，touchstart添加此类，touchend删除，通过此方法禁用滚动时pointer事件。 Author by Dio Zhu. on 2016.12.26
+.catch-touch {
+    pointer-events:none;
+}
+
+.clearfix {
+  @include clearfix;
+}
+
+.clear-padding {
+  padding: 0 !important;
+}
+.clear-margin {
+  margin: 0 !important;
+}
+
+.center-block {
+  @include center-block();
+}
+
+.m-l {
+    margin-left: $grid-gutter-width / 2 ;
+}
+/*图片变灰滤镜*/
+.gray {
+    -webkit-filter: grayscale(100%);
+    -moz-filter: grayscale(100%);
+    -ms-filter: grayscale(100%);
+    -o-filter: grayscale(100%);
+    filter: grayscale(100%);
+    filter: gray;
+}
+
+.v-modal {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.5;
+    background: #000;
+    -webkit-transition: .5s;
+    transition: .5s;
+}

@@ -1,0 +1,384 @@
+.listview {
+    width: 100%;
+    overflow: visible;
+    //background: #fff;
+    //margin-top: pxTorem(10px);
+    margin: 0;
+    padding: 0;
+    line-height: 0;
+
+    li {
+        position: static;
+        //display: -webkit-box;
+        display: block;
+        width: 100%;
+        @include sizing;
+        line-height: 1;
+        background: #FFF;
+
+        .list-item {
+            position: static;
+        }
+
+        .iconfont {
+
+            &.icon-right {
+                position: absolute;
+                top: 50%;
+                height: auto;
+                line-height: 100%;
+                font-size: pxTorem(26px);
+            }
+        }
+    }
+
+    &.simple {
+        li {
+            min-height: pxTorem(53px);
+            padding-left: pxTorem(55px);
+            line-height: pxTorem(53px);
+            border-bottom: 1px solid #dddee3;
+            display: table;
+        }
+    }
+
+    .vertical {
+        @include box-flex;
+
+        > div {
+            @include flex_grow(0);
+            @include flex_shrink(0);
+            @include flex_basis(auto);
+        }
+    }
+}
+
+/* list单图显示逻辑 */
+.listview-images {
+    li {
+        display: inline-block;
+        box-sizing: border-box;
+        //padding-left: $grid-gutter-width/2;
+        //padding-right: $grid-gutter-width/2;
+        overflow: hidden;
+
+        > div {
+            //position: relative;
+            //width: 100%;
+            //display: inline-block;
+            overflow: hidden;
+        }
+
+        .thumb {
+            border: red 1px solid; // 演示框
+            position: relative;
+            overflow: hidden;
+            @include box-flex;
+
+            -webkit-box-pack: center;
+            -moz-justify-content: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+
+            -webkit-box-align: center;
+            -moz-align-items: center;
+            -webkit-align-items: center;
+            align-items: center;
+            line-height: 0.1;
+
+            img {
+                -webkit-flex-shrink: 0;
+                flex-shrink: 0; // 不要收缩宽度...
+
+                //position: absolute;
+                //left: 0;
+                //top: 0;
+                //max-width: 100%;
+            }
+
+            // 方图: 宽\高为屏幕宽度:50%
+            &.square {
+                width: 50%;
+                //height: calc(50vw - #{$grid-gutter-width/2});
+                //height: calc(#{pxTorem(187.5px)} - #{$grid-gutter-width/2});
+                //height: calc(#{pxTorem(187.5px)} - #{$listview-padding-width/2});
+                height: pxTorem(187.5px);
+
+                img {
+                    width: 100%;
+                }
+            }
+
+            // 超宽: width: 75%屏宽, height:13%屏高
+            &.super-wide {
+                width: 75%;
+                //height: 13vh;
+                height: pxTorem(87px);
+
+                img {
+                    //max-width: initial;
+                    //min-width: 100%;
+                    height: 100%;
+                }
+            }
+
+            //宽矩形: width: 67%屏宽, height: 44%屏宽
+            &.wide-rectangle {
+                width: 67%;
+                //height: 44vw;
+                //height: calc(44vw - #{$grid-gutter-width/2});
+                //height: calc(#{pxTorem(165px)} - #{$grid-gutter-width/2});
+                //height: calc(#{pxTorem(165px)} - #{$listview-padding-width/2});
+                height: pxTorem(165px);
+
+                img {
+                    height: 100%;
+                }
+            }
+
+            //超长: width: 50%屏宽, height: 33%屏高
+            &.super-high {
+                width: 50%;
+                //height: 33vh;
+                height: pxTorem(220px);
+
+                img {
+                    width: 100%;
+                }
+            }
+
+            // 长矩形: width: 50%屏宽, height: 33%屏高
+            &.high-rectangle {
+                width: 50%;
+                //height: 33vh;
+                height: pxTorem(220px);
+
+                img {
+                    width: 100%;
+                }
+            }
+
+            // 修正宽度
+            &.fixWidth {
+                img {
+                    width: 100%;
+                    height: initial;
+                }
+            }
+            // 修正高度
+            &.fixHeight img {
+                width: initial;
+                height: 100%;
+            }
+
+            // "长图"标识
+            &.super-tag {
+                &:after {
+                    position: absolute;
+                    content: "长图";
+                    padding: pxTorem(2px) pxTorem(4px);
+                    /* height: 20px; */
+                    font-size: pxTorem(10px);
+                    line-height: 1;
+                    color: #FFF;
+                    background: #5896db;
+                    right: 0;
+                    bottom: 0;
+                    opacity: .9;
+                    border-radius: pxTorem(2px) 0 0 0;
+                }
+            }
+            //&.small {
+            //    width: initial;
+            //    height: initial;
+            //
+            //    img {
+            //        position:relative;
+            //        width: initial;
+            //        height: initial;
+            //    }
+            //}
+        }
+
+    }
+}
+
+.listview-info{
+
+    li {
+        position: relative;
+        display: inline-block;
+
+        > div {
+            position: relative;
+            //padding-left: $grid-gutter-width/2;
+            //padding-right: $grid-gutter-width/2;
+            width: 100%;
+        }
+
+        .user {
+            padding-top: pxTorem(10px);
+            @include box_flex;
+            @include align_items(center);
+
+            div {
+                font-size: pxTorem(14px);
+                color: #12418e;
+            }
+
+            p {
+                font-size: pxTorem(12px);
+                color: #777E8C;
+                line-height: 1;
+                margin-top: pxTorem(7px);
+            }
+
+            .user-icon {
+                position: relative;
+                margin-right: pxTorem(10px);
+                width: pxTorem(32px);
+                height: pxTorem(32px);
+                overflow: hidden;
+                @include flex_grow(0);
+                @include flex_shrink(0);
+                @include flex_basis(auto);
+
+                img {
+                    width: 100%;
+                    @include borderRadius(50%);
+                }
+            }
+
+            .title {
+                @include flex_grow(1);
+                @include flex_shrink(1);
+                @include flex_basis(auto);
+
+                .name {
+                    font-size: pxTorem(14px);
+                    color: #12418e;
+                    margin-left: pxTorem(6px);
+                }
+
+                .to {
+                    font-size: pxTorem(12px);
+                    color: #777E8C;
+                    line-height: 1;
+                    margin-top: pxTorem(7px);
+                    margin-left: pxTorem(6px);
+                }
+            }
+
+        }
+
+
+        .content {
+            display: table; // v-scroller会造成盒模型崩塌?
+            table-layout: fixed; // 不加上这个如果内部标签有一大串url, 此父级会被撑开
+            width: 100%;
+
+            //padding-bottom: pxTorem(12px);
+            font-size: pxTorem(16px);
+            line-height: pxTorem(22px);
+            color: #000;
+
+            p {
+                padding-top: pxTorem(6px);
+                font-size: pxTorem(16px);
+                line-height: pxTorem(22px);
+                color: #000;
+                text-align: justify; // 两边对齐...
+                word-break: break-all; // 强制换行, 避免超长url
+            }
+
+            &.limit {
+                max-height: pxTorem(78px);
+                overflow: hidden;
+                -ms-text-overflow: ellipsis;
+                text-overflow: ellipsis;
+
+                >p {
+                    text-align: left;
+                    max-height: pxTorem(78px);
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    // 限定三行, 后面加..., 此方式为-webkit私有方法...存在一定的兼容性问题, 并非最佳方案. Author by Dio Zhu. on 2016.12.15
+                    display: -webkit-box;
+                    -webkit-line-clamp: 3;
+                    -webkit-box-orient: vertical;
+                }
+            }
+        }
+
+        .footer {
+            font-size: pxTorem(13px);
+            line-height: 1;
+            color: #8E8E93;
+            //height: pxTorem(28px);
+            margin-top: pxTorem(3px);
+            @include box_flex;
+            @include align_items(flex-start);
+            @include justify-content(space-between);
+
+            .price {
+                font-size: pxTorem(18px);
+                line-height: 1;
+                color: #FF477C;
+            }
+
+            p {
+                font-size: pxTorem(13px);
+                line-height: 1;
+                @include box_flex;
+                @include flex-direction-row;
+                @include align_items(center);
+            }
+
+            .icon {
+                font-size: pxTorem(14px);
+                line-height: 1;
+                //margin-top: pxTorem(2px);
+                margin-left: pxTorem(5px);
+                margin-right: pxTorem(5px);
+
+                &.icon-listen, &.icon-listen-o {
+                    font-size: pxTorem(15px);
+                }
+            }
+
+            &.v-center {
+                height: pxTorem(43px);
+                @include align_items(center);
+            }
+        }
+
+    }
+}
+
+.listview-info-img {
+    li {
+        /*border: darkcyan 1px solid;*/
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        /*min-height: pxTorem(300px);*/
+
+        //img[lazy=loading] {
+        //    width: pxTorem(20px);
+        //    height: pxTorem(20px);
+        //    margin: pxTorem(100px) 0;
+        //}
+        //img[lazy=loaded] {
+        //    width: 100%;
+        //    height: 100%;
+        //    margin: 0 0 pxTorem(3px) 0;
+        //}
+        //img[lazy=error] {
+        //    width: pxTorem(34px);
+        //    height: pxTorem(28px);
+        //    margin: pxTorem(100px) 0;
+        //}
+    }
+}
+
+

@@ -1,0 +1,151 @@
+@charset "utf-8";
+// Reset the box-sizing
+//
+// Heads up! This reset may cause conflicts with some third-party widgets.
+// For recommendations on resolving such conflicts, see
+// http://getbootstrap.com/getting-started/#third-box-sizing
+* {
+    @include box-sizing(border-box);
+}
+*:before,
+*:after {
+    @include box-sizing(border-box);
+}
+
+html {
+    height: 100%;
+    //min-height: 100%;
+    //font-size: $browser-default-font-size;
+    //-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    //-moz-tap-highlight-color: rgba(0, 0, 0, 0);
+    //-ms-tap-highlight-color: rgba(0, 0, 0, 0);
+    //-o-tap-highlight-color: rgba(0, 0, 0, 0);
+    tap-highlight-color: transparent;
+    //background: #fff;
+    //overflow-y: scroll;
+    //-webkit-text-size-adjust: 100%;
+    //-ms-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    user-select: none;
+}
+
+
+html * {
+    outline:none;
+    //-webkit-text-size-adjust: none;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    //min-height: 100%;
+    background: #FFF;
+    font-family: $font-family;
+    font-weight: $font-weight;
+    line-height: $line-height;
+
+    user-select: none;
+    text-size-adjust: 100%;
+    //-ms-text-size-adjust: 100%;
+    //-moz-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+}
+
+//html, body, div, p, h1, h2, h3, h4, h5, h6, a, span, input ,form, select, button, img, dl, dt, dd, ul, ol, li, video {}
+/* 内外边距通常让各个浏览器样式的表现位置不同 */
+//html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary, time, mark, audio, video, input,button {
+* {
+    margin: 0;
+    padding: 0;
+    border: none;
+    outline: 0;
+    ////font-family: $font-family;
+    //font: inherit;
+    ////font-size:$font-size-base;
+    vertical-align: baseline;
+    //-webkit-overflow-scrolling: touch;
+    font-family: Arial;
+}
+
+//html, body, form, fieldset, p, div, h1, h2, h3, h4, h5, h6 {
+//    //-webkit-text-size-adjust: none;
+//}
+
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+
+//body {
+//    font-family: $font-family;
+//    font-weight: $font-weight;
+//    line-height: $line-height;
+//}
+
+ol, ul {
+    list-style: none;
+
+    &.disc {
+        list-style: disc;
+    }
+    &.decimal {
+        list-style-type: decimal;
+    }
+}
+
+blockquote, q {
+    quotes: none;
+}
+
+blockquote:before, blockquote:after, q:before, q:after {
+    content: '';
+    content: none;
+}
+
+ins, a {
+    text-decoration: none;
+}
+
+del {
+    text-decoration: line-through;
+}
+
+/* 去掉各 Table  cell 的边距并让其边重合 */
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/* 去除默认边框 */
+fieldset, img {
+    border: 0;
+}
+img {
+    display: inline-block;
+}
+
+input, select, textarea {
+    font-size: 100%;
+    border: none;
+    background: none;
+    outline: none;
+    -webkit-appearance: none;
+    resize: none;
+}
+
+input:focus::-webkit-input-placeholder {
+    color: transparent;
+}
+
+textarea:focus::-webkit-input-placeholder {
+    color: transparent;
+}
+
+input[type="search"] {
+    -webkit-appearance: none;
+}
+
+input::-webkit-search-cancel-button {
+    display: none;
+}
+
