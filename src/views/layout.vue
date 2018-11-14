@@ -282,8 +282,8 @@
 </template>
 
 <script type="text/ecmascript-6">
-    // import vRow from '../vendor/v-row.vue';
-    // import vCol from '../vendor/v-col.vue';
+    // import vRow from 'comb-ui/src/vendors/v-row.vue';
+    // import vCol from 'comb-ui/src/vendors/v-col.vue';
     import { vRow, vCol } from 'comb-ui';
     //    require('highlight.js/styles/default.css');
     //    import 'highlight.js';

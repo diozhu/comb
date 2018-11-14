@@ -12,9 +12,9 @@ const routeList = [
         title: 'CSS Components',
         list: [
             { name: 'Layout', path: '/layout' },
-            { name: 'Spinner', path: '/404' },
-            { name: 'Icon', path: '/404' },
-            { name: 'Button', path: '/404' },
+            { name: 'Spinner', path: '/spinner' },
+            { name: 'Icon', path: '/icon' },
+            { name: 'Button', path: '/button' },
             { name: 'Text', path: '/404' },
             // { name: 'Album', path: '/404' },
             { name: 'Animat', path: '/404' },

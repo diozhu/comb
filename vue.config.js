@@ -1,4 +1,5 @@
 const path = require("path");
+const merge = require('webpack-merge');
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const scripts = [
     // 打包后静态文件采用cdn方式，注意与package.json同步版本！！！ Author by Dio Zhu. on 2017.6.27
@@ -31,6 +32,7 @@ module.exports = {
     runtimeCompiler: undefined,
     productionSourceMap: false,
     // parallel: undefined,
+    transpileDependencies: ['comb-ui'],
 
     // css: {
     //     // extract: true, // 将组件内的 CSS 提取到一个单独的 CSS 文件 (只用在生产环境中)
@@ -87,8 +89,12 @@ module.exports = {
         }
     },
 
-    chainWebpack: config => {
+    chainWebpack: config => { // https://github.com/mozilla-neutrino/webpack-chain
         // webpack 原始配置的上层抽象，可以添加、修改loader、修改plugin选项
+        // config.module.rule('vue').use('vue-loader').tap(options => { // 修改vue-loader选项
+        //     return options;
+        // });
+        // config.module.rule('vue').include.add('comb-ui');
         if (process.env.NODE_ENV === "production") {
             // 生产环境修改配置...
             config.plugin("html").tap(args => {
@@ -97,6 +103,11 @@ module.exports = {
                 return args;
             });
         }
+        // config.module.rule('vue').include.add('node_modules/comb-ui').end();
+        // config.module.rule('vue').pre().include.add(path.resolve(__dirname, "./src")).add(path.resolve(__dirname, "./node_modules/comb-ui")).end();
+        // config.module.rule('scss').use('sass-loader').tap(options => merge(options, { includePaths: [path.resolve(__dirname, 'node_modules')] }));
+        config.module.rule('scss').oneOf('vue-modules').use('sass-loader').tap(options => merge(options, { includePaths: [path.resolve(__dirname, 'node_modules')] }));
+        config.module.rule('vue').use('vue-loader').loader('vue-loader').tap(options => merge(options, { includePaths: [path.resolve(__dirname, 'node_modules')] }));
     },
 
     pwa: {
