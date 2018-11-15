@@ -23,7 +23,7 @@ module.exports = {
     // 是否在保存的时候使用 `eslint-loader` 进行检查
     lintOnSave: undefined,
 
-    baseUrl: process.env.NODE_ENV === "production" ? "/comb-ui/" : "/",
+    baseUrl: process.env.NODE_ENV === "production" ? "/" + process.env.VUE_APP_PROJECT_NAME : "/",
     outputDir:
         process.env.NODE_ENV === "production"
             ? path.resolve(__dirname, "./lib")
@@ -32,7 +32,7 @@ module.exports = {
     runtimeCompiler: undefined,
     productionSourceMap: false,
     // parallel: undefined,
-    transpileDependencies: ['comb-ui'],
+    // transpileDependencies: ['comb-ui'],
 
     // css: {
     //     // extract: true, // 将组件内的 CSS 提取到一个单独的 CSS 文件 (只用在生产环境中)
@@ -106,8 +106,8 @@ module.exports = {
         // config.module.rule('vue').include.add('node_modules/comb-ui').end();
         // config.module.rule('vue').pre().include.add(path.resolve(__dirname, "./src")).add(path.resolve(__dirname, "./node_modules/comb-ui")).end();
         // config.module.rule('scss').use('sass-loader').tap(options => merge(options, { includePaths: [path.resolve(__dirname, 'node_modules')] }));
-        config.module.rule('scss').oneOf('vue-modules').use('sass-loader').tap(options => merge(options, { includePaths: [path.resolve(__dirname, 'node_modules')] }));
-        config.module.rule('vue').use('vue-loader').loader('vue-loader').tap(options => merge(options, { includePaths: [path.resolve(__dirname, 'node_modules')] }));
+        config.module.rule('scss').oneOf('vue-modules').use('sass-loader').tap(options => merge(options, { includePaths: [path.resolve(__dirname, 'node_modules/comb-ui')] }));
+        config.module.rule('vue').use('vue-loader').loader('vue-loader').tap(options => merge(options, { includePaths: [path.resolve(__dirname, 'node_modules/comb-ui')] }));
     },
 
     pwa: {

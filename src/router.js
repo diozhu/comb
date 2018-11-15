@@ -11,7 +11,8 @@ const router = new VueRouter({
     mode: 'history', // 设置路由模式 可选值: "hash" | "history" | "abstract"，默认"hash"
     // mode: 'abstract', // 设置路由模式 可选值: "hash" | "history" | "abstract"，默认"hash"
     // linkActiveClass: 'u-link--Active', // 这是链接激活时的class
-    base: '/doing/', // 这个是设置根目录路径，默认'/'
+    // base: '/comb/', // 这个是设置根目录路径，默认'/'
+    base: '/' + process.env.VUE_APP_PROJECT_NAME, // 这个是设置根目录路径，默认'/'
     // base: '/', // 根目录路径，配合./config/index.js中的设置，目的在build后，能顺利部署到服务端，与后台文件不冲突。。。Author by Dio Zhu. on 2017.3.28
     routes // 挂载路由集合
 });

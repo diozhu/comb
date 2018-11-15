@@ -244,4 +244,43 @@
         filter:alpha(Opacity=70)!important;
         opacity: 0.7!important;
     }
+
+    .page {
+
+        h2 {
+            padding-top: pxTorem(15px);
+            padding-left: pxTorem(15px);
+            line-height: pxTorem(40px);
+        }
+
+        .desc {
+            /*height: pxTorem(28px);*/
+            font-size: pxTorem(14px);
+            line-height: 1.5;
+            padding: 0 pxTorem(15px);
+            color: #777E8C;
+            /*background: #f2f2f4;*/
+
+            /*display: table; // v-scroller会造成盒模型崩塌?*/
+            table-layout: fixed; // 不加上这个如果内部标签有一大串url, 此父级会被撑开
+            text-align: justify; // 两边对齐...
+            word-break: break-all; // 强制换行, 避免超长url
+            white-space: pre-wrap;
+        }
+
+        ul.desc {
+            width: 100%;
+
+            li {
+                padding: pxTorem(5px);
+                background: rgba(86,61,124,0.15);
+                border: 1px solid rgba(86,61,124,0.2);
+            }
+        }
+
+        .attributes {
+            /*padding: 0 pxTorem(6px);*/
+        }
+    }
+
 </style>

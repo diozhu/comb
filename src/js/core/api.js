@@ -9,384 +9,273 @@
  * 打包时webpack的tree-shaking会只处理被引用的方法；
  *              -- Author by Dio Zhu. on 2017.6.26
  *
- * 添加了axios的替换方案
+ * 添加了Axios的替换方案
  *              -- Author by Dio Zhu. on 2017.6.26
  */
-
-import Vue from 'vue';
-import VueResource from 'vue-resource';
 import CONFIG from '../../config';
 import logger from '../utils/logger';
 import _promise from '../utils/promise';
 import store from '../../store/';
-// import { toonCall } from '../../js/core/core.js';
+import * as utils from '../utils/utils.js';
+import router from '../../router';
+import qs from 'qs';
+import Vue from 'vue';
+import Axios from 'axios';
+import originJsonp from 'jsonp';
 
-// 注册vue-resource
-Vue.use(VueResource);
-// Vue.http.options.emulateJSON = true; // post 提交时，以表单形式提交
+// 图片上传走的原生AJAX请求，需要添加虚路径 刘俊俊 2018.10.10
+export const path = process.env.NODE_ENV === 'development' ? '/virtual' : '';
 
-// import axios from 'axios'; // 可替换vue-resource
-// Vue.http = axios;
+if (process.env.NODE_ENV === 'development') Axios.defaults.baseURL = '/virtual'; // 添加虚路径，避免开发时api与proxy冲突。 Author by Dio Zhu. on 2018.10.9
+Vue.$http = Vue.prototype.$http = Axios;
 
 if (typeof Promise === 'undefined') {
     var Promise = _promise;
 }
 
-let post = (uri, params, opts) => {
-        // logger.log('in post: ', uri, params, opts);
-        if (opts && opts.loading) {
-            logger.log('api.post: START LOADING ... ');
-            store.commit('OPEN_LOADING'); // 显示菊花
-        }
-        // logger.log('POST START...');
-        return Vue.http.post(uri, params).then(function (res) {
-            // // logger.log('POST: ', uri, params);
-            // // logger.log('RESULT: ', res);
-            if (opts && opts.loading) {
-                logger.log('api.post: CLOSE LOADING ... ');
-                store.dispatch('CLOSE_LOADING'); // 隐藏菊花
-            }
-            // var result = res.json();
-            var result = res.data;
-            logger.log('RESULT: ', res);
-            if (result.code === 0 || result.meta.code === 0) {
-                // logger.log('POST SUCCESS', uri, JSON.stringify(result.data));
-                return Promise.resolve(result.data);
-            } else {
-                // logger.warn('POST ERROR-1', uri, JSON.stringify(result.msg));
-                return Promise.reject(result.meta || result.msg || result.Msg || result.meta.message);
-            }
-        }, function (err) {
-            logger.error('POST ERROR-2', uri, err);
-            if (opts && opts.loading) {
-                logger.log('api.post: CLOSE LOADING ... ');
-                store.dispatch('CLOSE_LOADING'); // 菊花
-            }
-            // 通过toon协议判断断网的处理
-            // toonCall({functionType: 1}, 'mwap/network', function (res) {
-            //     console.log('toon back: ', res, router);
-            // });
-            return Promise.reject(err);
-        }).catch(function (err) {
-            logger.error('POST ERROR-3', err);
-            if (opts && opts.loading) {
-                logger.log('api.post: CLOSE LOADING ... ');
-                store.dispatch('CLOSE_LOADING'); // 菊花
-            }
-            return Promise.reject(err);
-        });
-    }, get = function (uri, params, opts) {
-        // logger.log('GET START...', uri, params, opts);
-        if (opts && opts.loading) {
-            logger.log('api.get: START LOADING ... ');
-            store.commit('OPEN_LOADING'); // 显示菊花
-        }
-        return Vue.http.get(uri, params).then(function (res) {
-            // logger.log('GET: ', uri, JSON.stringify(params));
-            // logger.log('RESULT: ', JSON.stringify(res));
-            if (opts && opts.loading) {
-                logger.log('api.get: CLOSE LOADING ... ');
-                store.dispatch('CLOSE_LOADING'); // 隐藏菊花
-            }
-            // let result = res.json();
-            let result = res.data;
-            if (result.code === 0 || result.code === '001' || (result.meta && result.meta.code === 0) || result.Code === 0) {
-                // logger.log('GET SUCCESS', uri, JSON.stringify(result.data));
-                return Promise.resolve(result.data);
-            } else {
-                // logger.warn('GET ERROR-1', uri, JSON.stringify(result.msg));
-                return Promise.reject(result.meta || result.msg || result.Msg || result.meta.message);
-            }
-        }, function (err) {
-            // logger.error('GET ERROR-2', uri, err.message);
-            if (opts && opts.loading) {
-                logger.log('api.get: CLOSE LOADING ... ');
-                store.dispatch('CLOSE_LOADING'); // 隐藏加载框
-            }
-            return Promise.reject(err);
-        }).catch(function (err) {
-            logger.error(err);
-            if (opts && opts.loading) {
-                logger.log('api.get: CLOSE LOADING ... ');
-                store.dispatch('CLOSE_LOADING'); // 隐藏加载框
-            }
-            return Promise.reject(err);
-        });
-    }, _fetch = function (fn, typ) { //eslint-disable-line
-        logger.log('[api.fetch]: start...');
+// console.error(process.env);
+// const CONFIG = {
+//     url: process.env.VUE_APP_URL
+// };
+CONFIG.URL = process.env.VUE_APP_URL;
 
-        let func = null,
-            _offset = 0,                  // 当前页数(nodejs)
-            _limit = CONFIG.LIMIT,        // 每页显示记录数(nodejs)
-            getListBySection = function () {
-                logger.log(`[api.fetch].getListBySection...`, _offset, _limit);
-                try {
-                    let offset = _offset,
-                        limit = _offset + _limit;
+// 线上地址
+// CONFIG.URL = 'http://api-dongyin.hy-sport.cn/';
 
+// q1地址
+// CONFIG.URL = 'http://q1-s-doing.hy-sport.cn';
+// CONFIG.URL = 'http://qh.test.doing.hy-sport.cn';
+
+/*
+ * 封装Axios
+ * @param string url 请求的URL地址
+ * @param Object params post发送的数据/get的参数
+ * @param Object opts 请求的设置项
+ *      loading:设置是否现实loading菊花
+ *      method：设置get|post提交，默认是get
+ *      emulateJSON：设置是否转为表单提交模式
+ * @return Promise 返回Promise对象
+ *          Author By 刘俊俊 2018.9.12
+ * */
+let request = (url, params = {}, opts = {}) => {
+    // 1. 加载菊花
+    if (opts && opts.loading) store.commit('OPEN_LOADING'); // 显示菊花
+
+    // 2. 组装请求的param
+    let opt = opts || {},
+        param = {
+            url: url,
+            method: opts.method || 'get',
+            headers: {
+                // 用户认证token
+                'access-token': CONFIG.token || utils.getSessionStorage().get('token')
+            },
+            params: {}
+        };
+
+    // 服务器端的指定标识，用于区分多公众号及各个下单平台的标识，默认标识：20（代表H5）。 Author by Dio Zhu. on 2017.12.22
+    param.params['access_source'] = utils.getSessionStorage().get('access_source') || 20;
+
+    // 开启表单模式，转换对象、数组为string
+    if (opt.emulateJSON) {
+        param.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+        for (let k in params) if (params.hasOwnProperty(k) && (Object.prototype.toString.call(params[k]) === '[object Object]')) params[k] = JSON.stringify(params[k]);
+        // 转换数据格式
+        param.transformRequest = [function (data) { return qs.stringify(data); }];
+    }
+
+    // 3. post请求
+    if (param.method.toLowerCase() === 'post') {
+        // post传递数据
+        param.data = params;
+    } else {
+        // get请求
+        param.params = Object.assign(param.params, params);
+
+        param.paramsSerializer = function (data) {
+            return qs.stringify(data);
+        }; // 序列化query参数
+    }
+
+    // 4. 发起请求
+    // logger.log(`${url}请求的参数：`, param);
+    return Vue.$http.request(param).then(res => {
+        // logger.log(`${url}返回的结果：`, res.data);
+        // 请求成功，取消loading菊花
+        if (opts && opts.loading) store.dispatch('CLOSE_LOADING'); // 隐藏菊花
+
+        if (res && res.data && res.data.errcode === 0) {
+            // 成功返回，并返回正确结果
+            return Promise.resolve(res.data.data);
+        } else if ([10003, 10004, 10005, 10006, 10011].indexOf(res.data.errcode) >= 0) {
+            // 成功返回，但是token失效，重新拉取token，只拉3次，防止死循环
+            let retryNum = utils.getSessionStorage().get('retryNum') || 0;
+            utils.getSessionStorage().set('token', ''); // 清token
+            utils.getSessionStorage().set('beforeLoginUrl', encodeURIComponent(router.currentRoute.fullPath)); // 保存用户进入的url
+            if (retryNum < 3) {
+                retryNum++;
+                utils.getSessionStorage().set('retryNum', retryNum);
+                router.push({ name: 'author' }); // 跳登陆
+            }
+            return Promise.reject(res);
+        } else {
+            return Promise.reject(res);
+        }
+    }).catch(e => {
+        // 请求成功，取消loading菊花
+        if (opts && opts.loading) store.dispatch('CLOSE_LOADING'); // 隐藏菊花
+        return Promise.reject(e);
+    });
+};
+
+/*
+ * 封装jsonp
+ * @param string url 请求的URL地址
+ * @param Object params 请求的参数
+ * @param Object opts 请求的设置项
+ *  param: 设置回调函数名称
+ *  timeout: 设置超时时间
+ *  prefix：设置前缀名
+ *
+ * @return Promise 返回Promise对象
+ *          Author By 刘俊俊 2018.9.12
+ * */
+let jsonp = (url, params, opts = {}) => {
+    return new Promise((resolve, reject) => {
+        let param = qs.stringify(params);
+        let uri = url + '?' + param;
+
+        originJsonp(uri, opts, (err, data) => {
+            // console.log('jsonp返回结果:', err, data);
+            if (err) {
+                reject(err);
+            } else {
+                resolve(data.content.address_detail.city);
+            }
+        });
+    });
+};
+/**
+ * 百度地图接口，根据当前IP获取城市信息
+ *              -- Author by Dio Zhu. on 2017.11.9
+ */
+export const getCityByIp = (params = {ak: CONFIG.BMAP_AK}, opts) => jsonp(process.env.VUE_APP_BMAP_URL + '/location/ip', params, opts);
+
+/**
+ * section 方式：基本上nodejs使用的是这种方式
+ *      第一页：offset: 0, limit: 10
+ *      第二页：offset: 10, limit: 20
+ * page 方式： 所有php的分页基本使用这种方式
+ *      第一页：page: 1, pageNum: 10
+ *      第二页：page: 2, pageNum: 10
+ * limit 方式： 评论赞的微服务使用这种方式
+ *      第一页：offset: 0, limit: 10
+ *      第二页：offset:10, limit: 10
+ * 添加了enabled参数，调整了组件加载机制，适应一个页面多个滚动条的情况；
+ * 调整了为空判断、结束语判断等逻辑；
+ *              -- Mod by Dio Zhu. on 2017.3.17
+ * time 方式：秘语中上拉加载，用的是传最后跳的时间戳的方法
+ *      第一页：oTime：-1，pageSize：10
+ *      第二页：oTime: 第一次最后一条数据的时间（接口中有返回），pageSize：10
+ *              -- xufeng on 2017.4.17
+ */
+let _fetcher = {
+    getInstance (fn, typ) {
+        let _obj = {
+            offset: 0,                  // 当前页数(nodejs)
+            limit: CONFIG.LIMIT,        // 每页显示记录数(nodejs)
+            page: 1,                    // 当前页号
+            time: -1,                   // 当前分页时间
+            fetch () {
+                logger.log('[api._fetcher.fetch]');
+                if (typ === 'section') {
+                    return this.getListBySection();
+                } else if (typ === 'limit') {
+                    return this.getListByLimit();
+                } else if (typ === 'page') {
+                    return this.getListByPage();
+                } else if (typ === 'time') {
+                    return this.getListByTime();
+                } else {
+                    return Promise.reject('error func type in api fetcher...');
+                }
+            },
+            getListBySection () {
+                logger.log('[api._fetcher.getListBySection]', this.offset, this.limit);
+                if (typeof fn === 'function') {
                     return fn({
-                        offset: offset,
-                        limit: limit
+                        offset: this.offset,
+                        limit: (this.offset + this.limit)
                     }).then(res => {
-                        logger.log('=============> ', (res && res.length));
-                        if (res && res.length) _offset += res.length;
+                        if (res && res.length) this.offset += res.length;
                         return Promise.resolve(res);
-                    }).catch(e => {
-                        logger.error(`[api.fetch].getListBySection.error: ${e}`);
-                        return Promise.reject(e);
                     });
-                } catch (e) {
-                    logger.error(`[api.fetch].getListBySection.error: ${e}`);
-                    return Promise.reject(e);
                 }
-            };
-        if (typ === 'section') {
-            func = getListBySection;
-        }
-        if (typeof func === 'function') {
-            try {
-                return func().then(res => {
-                    return Promise.resolve(res);
-                });
-            } catch (e) {
-                logger.error(`[api.fetch.after]error: ${e}`);
-                return Promise.reject(e);
+            },
+            getListByLimit () {
+                logger.log('[api._fetcher.getListByLimit]', this.offset, this.limit);
+                if (typeof fn === 'function') {
+                    return fn({
+                        offset: this.offset,
+                        limit: this.limit
+                    }).then(res => {
+                        if (res && res.length) this.offset += res.length;
+                        return Promise.resolve(res);
+                    });
+                }
+            },
+            getListByPage () {
+                logger.log('[api._fetcher.getListByPage]', this.page, this.limit);
+                if (typeof fn === 'function') {
+                    return fn({
+                        page: this.page,
+                        limit: this.limit
+                    }).then(res => {
+                        if (res && res.length) this.page += 1;
+                        return Promise.resolve(res);
+                    });
+                }
+            },
+            getListByTime () {
+                logger.log('[api._fetcher.getListByTime]', this.time, this.limit);
+                if (typeof fn === 'function') {
+                    return fn({
+                        time: this.time,
+                        limit: this.limit
+                    }).then(({res = [], last = -1} = {}) => {
+                        if (res && res.length) this.time = last;
+                        return Promise.resolve(res);
+                    });
+                }
             }
-        }
-    },
-    _fetcher = {
-        getInstance (fn, typ) {
-            let _obj = {
-                offset: 0,                  // 当前页数(nodejs)
-                limit: CONFIG.LIMIT,        // 每页显示记录数(nodejs)
-                fetch () {
-                    logger.log('[api._fetcher.fetch]');
-                    if (typ === 'section') {
-                        return this.getListBySection();
-                    } else {
-                        return Promise.reject('error func type in api fetcher...');
-                    }
-                },
-                getListBySection () {
-                    logger.log('[api._fetcher.getListBySection]', this.offset, this.limit);
-                    if (typeof fn === 'function') {
-                        return fn({
-                            offset: this.offset,
-                            limit: (this.offset + this.limit)
-                        }).then(res => {
-                            if (res && res.length) this.offset += res.length;
-                            return Promise.resolve(res);
-                        });
-                    }
-                }
-            };
-            return _obj;
-        }
-    };
+        };
+        return _obj;
+    }
+};
 export function getFetcher (fn, typ) {
     return _fetcher.getInstance(fn, typ);
 };
 
-export function fetch (fn, typ) {
-    return _fetch(fn, typ);
+// 获取用户真实token -- Author by Dio sunleqing. on 2018-01-15
+export const getUserToken = (params, opts) => request(CONFIG.URL + '/wap/user/get_real_token', params, opts);
+
+// 测试
+export const getDelay = (params, opts) => {
+    let rtn = Date.now(),
+        delay = params.delay || 200;
+    return new Promise((resolve, reject) => { setTimeout(() => { resolve(rtn); }, delay); });
 };
+/** 【测试】POST~-- Author by Dio sunelqing. on 2018.4.9 */
+export const postTest = (params, opts) => request(CONFIG.URL + '/wap/user/add_address', params, { ...opts, method: 'post', emulateJSON: true });
+/** 【测试】POST~-- Author by Dio sunelqing. on 2018.4.9 */
+export const postTest2 = (params, opts) => request(CONFIG.URL + '/activity_sales/add_activity_sales', params, { ...opts, method: 'post', emulateJSON: true });
+/** 【测试】GET -- Author by Dio sunelqing. on 2018.4.9 */
+export const getTest = (params, opts) => request(CONFIG.URL + '/wap/city/get_city_list', params, opts);
+/** 【测试】根据手机号获取token，仅用于测试 -- Author by Dio Zhu. on 2018.4.13 */
+export const bindPhone = (params, opts) => request(CONFIG.URL + '/wap/user/bind_phone', params, opts);
 
-/**
- * 登陆接口，此接口Comb项目使用的是富强的，提供了用户id获取的接口，不用在本地搞数据库，实际项目中请按照自己后台修改~
- *              -- Author by Dio Zhu. on 2017.3.20
- */
-export function signin () {
-    // let uri = 'http://p100.muser.systoon.com/user/getInfoByCode',
-    //     params = {
-    //         'appId': CONFIG.APPID,
-    //         'code': CONFIG.CODE
-    //     };
+/** 【公共】获取省、市、区列表 -- Author by Dio Zhu. on 2018.5.10 */
+export const getProvinceList = (params, opts) => request(CONFIG.URL + '/wap/city/get_province_list', params, opts);
+export const getCityLists = (params, opts) => request(CONFIG.URL + '/wap/city/get_city_list_by_province_id', params, opts);
+export const getCountyList = (params, opts) => request(CONFIG.URL + '/wap/city/get_county_list_by_city_id', params, opts);
 
-    // return post(uri, params, {loading: true}).then(function (data) {
-    //     // return post(uri, params).then(function (data) {
-    //     CONFIG.loginData.userInfo = data || { userId: 1 };
-    //     logger.log('api.login.loginData: ', CONFIG.loginData);
-    //     return Promise.resolve(data);
-    // });
-
-    // demo数据，上面接口没改https，改了后可打开。 mod by Dio Zhu. on 2017.8.3
-    let data = { appId: '505', avatarId: 'http://scloud.toon.mobi/f/5QrmKlnSrl40wuPJEqRGTT-SfBBaKT+7uU7DL5fNJ14fG.jpg', feedId: 'c_1407459100687437', params: [], subtitle: '幸福666', title: '寂寞红酒', toonUid: '0', userId: '2711523797' };
-    CONFIG.loginData.userInfo = data || { userId: 1 };
-    logger.log('api.login.loginData: ', CONFIG.loginData);
-    return Promise.resolve(data);
-};
-
-/**
- * 根据ids，获取一组用户数据，接口由富强提供，实际项目中，各后台自己完成。。。
- *              -- Author by Dio Zhu. on 2017.4.18
- */
-export function getUsers (params, opts) {
-    let uri = 'http://p100.muser.systoon.com/user/getUserList',
-        param = params || {};
-    param.appId = CONFIG.APPID;
-
-    return post(uri, params, opts);
-};
-
-/**
- * 富强提供的临时接口，用于根据id列表获取主题列表
- */
-export function _getSubjectByIds (params, opts) {
-    // let uri = 'http://msbbs.toon.mobi',
-    let uri = 'http://p100.ms-bbs.systoon.com/test/topiclist',
-        // let uri = CONFIG.URL + '/test/topiclist',
-        param = params || {};
-    param.appId = CONFIG.APPID;
-
-    return post(uri, params, opts);
-};
-
-/**
- * 峰军提供的feed信息接口
- * 地址：t200.appinstall.toon.mobi/plugin/feedinfo
- * 数据格式：{'id':'313','code':'/XbBYdC1N+wJaLLziEhh+QeVcJDBgZbeYRdSGUbAOz9s7H4R+JfRBbbo/8hI/RDdGDbdkSXiC5xq7f838ZFFh8fTKCg4X6RKdLsmoXUSdG6MkcZkMmjZExOaOYNkXVnuKpk0QzcacMOoSbgWCAhMqIweR/Wg7OHzzkszcZINY+YTH70y8g5uwEmZLlk3MCMyXgFGMtKW+LQ='}
- *
- */
-export function login () {
-    // logger.log('@@@login.code: ', CONFIG.code);
-    let _self = this,
-        params = null,
-        uri = 'http://t200.appinstall.toon.mobi/plugin/feedinfo',
-        code = CONFIG.CODE;
-
-    if (!code) {
-        return Promise.reject('code error!');
-    }
-
-    params = {
-        'id': 505,
-        'code': code
-    };
-    return post(uri, params).then(function (data) {
-        CONFIG.loginData.userInfo = data || { userId: 1 };
-        logger.log('api.login.loginData: ', CONFIG.loginData);
-
-        // 通知后台保存用户信息
-        _self._addUser({
-            userId: data.userId,
-            feedId: data.feedId,
-            avatarId: data.avatarId,
-            title: data.title,
-            subtitle: data.subtitle,
-            cardNo: data.cardNo,
-            version: data.version
-        });
-        return Promise.resolve(data);
-    });
-};
-
-/**
- * 通知本地服务，保存用户信息。。。这个方法在其他项目中不存在哈，因为用了上面那个峰军的接口，所以要把获取回来的用户信息放到本地。。。
- * 没有用数据库，后台直接写个json文件保存的。。。
- *              -- Author by Dio Zhu. on 2017.1.22
- */
-export function _addUser (params, opts) {
-    let uri = CONFIG.URL + '/api/addUser',
-        param = params || {};
-    return post(uri, param, opts);
-};
-
-/** 获取列表信息 */
-export function getRandomList (params, opts) {
-    let uri = CONFIG.URL + '/api/getRandomList',
-        param = params || {};
-    param.session = (CONFIG.loginData) ? CONFIG.loginData.session || '' : '';
-    return post(uri, param, opts);
-};
-
-export function getInfiniteList (params, opts) {
-    let uri = CONFIG.URL + '/api/getInfiniteList',
-        param = params || {};
-    param.session = (CONFIG.loginData) ? CONFIG.loginData.session || '' : '';
-    return post(uri, param, opts);
-};
-
-/**
- * 获取图片列表信息
- */
-export function getImgList (params, opts) {
-    let uri = CONFIG.URL + '/api/getImgList', // 列表显示
-        param = params || {};
-    param.session = (CONFIG.loginData) ? CONFIG.loginData.session || '' : '';
-    return post(uri, param, opts);
-};
-
-/**
- * 向当前app服务请求微服务的token
- * 注意: 这里是向当前APP的服务端请求token, 而不是微服务!
- *              -- Author by Dio Zhu. on 2016.12.25
- */
-export function vGetMicroCommentToken (params, opts) {
-    let uri = CONFIG.URL + '/api/comment/token',
-        param = params || {};
-    return get(uri, param, opts).then(function (res) {
-        CONFIG.COMMENT_TOKEN = res.token;
-        logger.log('REFRESH COMMENT TOKEN: ', CONFIG.COMMENT_TOKEN);
-        return Promise.resolve(res.token);
-    });
-};
-
-/**
- * 根据评论赞微服务的用户id，获取本地用户列表，补充用户信息（头像、名称、推广语等）
- *              -- Author by Dio Zhu. on 2017.1.3
- */
-export function vGetUserList (params, opts) {
-    let uri = 'http://p100.muser.systoon.com/user/getUserList',
-        param = params || {};
-    param.appId = CONFIG.APPID;
-    return post(uri, param, opts);
-};
-/**
- * 向当前app服务请求微服务的token
- *              -- Author by Dio Zhu. on 2017.4.10
- */
-export function vGetMicroBbsToken (params, opts) {
-    let uri = CONFIG.BBS_URL + '/bbs/gettoken',
-        param = params || {};
-    param.appId = CONFIG.BBS_APPID;
-    return post(uri, param, opts).then(function (res) {
-        CONFIG.BBS_TOKEN = res.token;
-        logger.log('REFRESH BBS TOKEN: ', CONFIG.BBS_TOKEN);
-        return Promise.resolve(res.token);
-    });
-};
-/**
- * 纯测试...
- */
-export function getDelay (params, opts) {
-    let uri = CONFIG.URL + '/api/getDelay',
-        param = params || {};
-    return post(uri, param, opts);
-};
-/**
- * 批量获取用户信息
- */
-export function getUserList (params, opts) {
-    let uri = 'http://t200app-daily.toon.mobi/user/getUserList',
-        param = params || {};
-    param.ticket = CONFIG.ticket;
-    return post(uri, param, opts);
-};
-/**
- * 选择人员搜索接口
- */
-export function searchUser (params, opts) {
-    let uri = 'http://t200app-daily.toon.mobi/user/search',
-        param = params || {};
-    param.ticket = CONFIG.ticket;
-    return post(uri, param, opts);
-};
-/**
- * 获取组织或人员树
- */
-export function getOrgTree (params, opts) {
-    let uri = 'http://t200app-daily.toon.mobi/user/getOrgTree',
-        param = params || {};
-    param.ticket = CONFIG.ticket;
-    return post(uri, param, opts);
-};

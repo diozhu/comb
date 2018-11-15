@@ -15,22 +15,27 @@ const routeList = [
             { name: 'Spinner', path: '/spinner' },
             { name: 'Icon', path: '/icon' },
             { name: 'Button', path: '/button' },
-            { name: 'Text', path: '/404' },
+            { name: 'Text', path: '/text' },
+            { name: 'Album', path: '/album' },
             // { name: 'Album', path: '/404' },
-            { name: 'Animat', path: '/404' },
+            { name: 'Animat', path: '/animat' },
         ]
     },
     {
         title: 'Base Components',
         list: [
-            { name: 'Toast', path: '/404' },
-            { name: 'MessageBox', path: '/404' },
-            { name: 'Picker', path: '/404' },
-            { name: 'Popup', path: '/404' },
-            { name: 'DatetimePicker', path: '/404' },
-            { name: 'Swipe', path: '/404' },
-            { name: 'CharIndexes', path: '/404' },
-            { name: 'Tab', path: '/404' },
+            { name: 'Toast', path: '/toast' },
+            { name: 'MessageBox', path: '/message-box' },
+            { name: 'Picker', path: '/picker' },
+            { name: 'Popup', path: '/popup' },
+            { name: 'DatetimePicker', path: '/datetime-picker' },
+            // { name: 'Swipe', path: '/404' },
+            { name: 'SwipeLabel', path: '/swipe-label' },
+            { name: 'CharIndexes', path: '/char-indexes' },
+            { name: 'TabBar', path: '/tab-bar' },
+            { name: 'Media', path: '/media' },
+            { name: 'autocomplete', path: '/autocomplete' },
+            { name: 'star', path: '/star' },
             { name: 'Scroll', path: '/404' },
             { name: 'Refresh', path: '/404' },
             { name: 'Viewer', path: '/404' },
@@ -43,6 +48,7 @@ const routeList = [
     {
         title: 'Form Components',
         list: [
+            { name: 'api', path: '/api' },
             { name: 'Form', path: '/404' },
             { name: 'Cell', path: '/404' },
             { name: 'CellSwipe', path: '/404' },
@@ -67,7 +73,7 @@ const getComponent = (n) => {
     }, initRoute = (list) => {
         // let routes = [];
         // let routes = [ { name: 'index', path: '/', component: Vue.extend(require('./views/index.vue').default) } ];
-        let routes = [ { name: 'index', path: '/', component: getComponent('/index') } ];
+        let routes = [ { name: 'index', path: '/index', component: getComponent('/index') } ];
         list.map(item =>
             item.list.map(page =>
                 routes.push({
