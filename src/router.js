@@ -99,4 +99,32 @@ router.direct = (to, from) => {
     return 1; // 进入
 };
 
+/**
+ * 复写vue的push和replace，在query中添加时间戳，以此保存各页面的滚动条位置信息，用于回退时的滚动条复位，需与keep-alive配合使用。
+ *              -- Author by Hao Chai. on 2016.12.20, copy from the project of 'answer'
+ * 原打算不使用这种方式，直接使用scrollBehavior复位
+ * 但是页面keep-alive后，scrollBehavior由于transition或渲染原因使得滚动条无法准确复位。。。
+ *              -- Mod by Dio Zhu. on 2017.3.15
+ */
+let p = router.push,
+    r = router.replace;
+router.push = function (params) {
+    let tag = Date.now();
+    if (params.query) {
+        params.query.timestamp = tag;
+    } else {
+        params.query = {timestamp: tag};
+    }
+    p.call(router, params);
+};
+router.replace = function (params) {
+    let tag = Date.now();
+    if (params.query) {
+        params.query.timestamp = tag;
+    } else {
+        params.query = {timestamp: tag};
+    }
+    r.call(router, params);
+};
+
 export default router;

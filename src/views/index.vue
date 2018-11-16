@@ -5,7 +5,7 @@
             <div v-for="(item, idx) in rows.list" :key="idx">
                 <!--<p>{{ item.name }}</p>-->
                 <v-cell
-                    :title="item.name"
+                    :title="((item.meta && item.meta.title) ? item.meta.title + '（' : '') + item.name + ((item.meta && item.meta.title) ? '）' : '')"
                     is-link
                     :to="{ name: item.name }"
                 ></v-cell>

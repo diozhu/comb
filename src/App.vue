@@ -85,7 +85,7 @@
                 if (this.$router.direction > 0) this.trans = 'slide-left'; // in
                 else if (this.$router.direction < 0) this.trans = 'slide-right'; // back
                 else this.trans = 'fade'; // refresh
-                console.log(`APP.${this._uid}.watch: $route!!!`, this.$router.direction, this.trans);
+                console.log(`APP.${this._uid}.watch: $route!!!`, this.$router.direction, this.trans, this.$route);
             }
         },
 
