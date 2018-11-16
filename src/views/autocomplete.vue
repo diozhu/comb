@@ -16,7 +16,7 @@
             };
         },
         mounted () {
-            // this.$logger.log('shaolingtabbar.mounted...');
+            // console.log('shaolingtabbar.mounted...');
             // this.template = `<h1>${this.selected}我是标签模板第一项.</h1>`;
             // this.template1 = `${this.selected}我是标签模板第二项.`;
             // this.template2 = `${this.selected}我是标签模板第三项.`;

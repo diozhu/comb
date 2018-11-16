@@ -53,7 +53,7 @@
             this.init();
         },
         beforeRouteLeave (to, from, next) { // 测试离开用语。 Author by Dio Zhu. on 2018.4.12
-            // this.$logger.log('page-star.beforeRouteLeave!!! ', this.$router.direct(to, from), !this.$router.direct(to, from));
+            // console.log('page-star.beforeRouteLeave!!! ', this.$router.direct(to, from), !this.$router.direct(to, from));
             if (this.$router.direct(to, from) === 1) {
                 next();
             } else {

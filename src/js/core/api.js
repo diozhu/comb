@@ -268,7 +268,7 @@ export const getDelay = (params, opts) => {
 /** 【测试】获取列表信息 */
 // export const getRandomList = (params, opts) => request(CONFIG.URL + '/api/getRandomList', params, { ...opts, method: 'post' });
 export const getRandomList = (params, opts) => {
-    console.log('!!!!!!!!!!!!!!', params);
+    // console.log('!!!!!!!!!!!!!!', params);
     let obj = {'id': 1001, 'title': '这是一句测试的内容', 'dt': 1478655191000, 'userInfo': { 'id': 397833, 'title': '老朱', 'subtitle': '推广语', 'isfollow': 1, 'avatar': 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png' }},
         rtn = [],
         delay = params.delay || 200;
@@ -292,3 +292,8 @@ export const getProvinceList = (params, opts) => request(CONFIG.URL + '/wap/city
 export const getCityLists = (params, opts) => request(CONFIG.URL + '/wap/city/get_city_list_by_province_id', params, opts);
 export const getCountyList = (params, opts) => request(CONFIG.URL + '/wap/city/get_county_list_by_city_id', params, opts);
 
+/**
+ * 获取信息
+ *              -- Author by Dio Sunleqing. on 2017.12.13
+ */
+export const uploadImageFromWx = (params, opts) => request(CONFIG.URL + '/wap/system/upload_image_from_wx', params, opts);
