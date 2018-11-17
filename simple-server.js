@@ -12,7 +12,7 @@ var bodyParser = require('body-parser'); // -- Author by Dio Zhu. on 2017.2.10
 
 var static_path = path.join(__dirname, "dist");
 
-var PROJECT_NAME = process.env["PROJECT_NAME"] || 'doing';
+var PROJECT_NAME = process.env["PROJECT_NAME"] || 'comb';
 
 app.use(compression()); // gzip，内网联调可以打开。 mod by Dio Zhu. on 2018.11.14
 
@@ -50,7 +50,7 @@ app.use(function (req, res) {
     res.redirect("/" + PROJECT_NAME);
 });
 
-var server = app.listen(3000, function () {
+var server = app.listen(3001, function () {
     var host = server.address().address;
     var port = server.address().port;
 

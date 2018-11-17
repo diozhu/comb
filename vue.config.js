@@ -24,10 +24,7 @@ module.exports = {
     lintOnSave: undefined,
 
     baseUrl: process.env.NODE_ENV === "production" ? "/" + process.env.VUE_APP_PROJECT_NAME : "/",
-    outputDir:
-        process.env.NODE_ENV === "production"
-            ? path.resolve(__dirname, "./lib")
-            : undefined,
+    outputDir: process.env.NODE_ENV === 'production' ? path.resolve(__dirname, './dist/' + process.env.VUE_APP_PROJECT_NAME) : undefined,
     assetsDir: "static",
     runtimeCompiler: undefined,
     productionSourceMap: false,
@@ -43,12 +40,9 @@ module.exports = {
 
     configureWebpack: config => {
         // 该对象将会被 webpack-merge 合并入最终的 webpack 配置
-        if (process.env.NODE_ENV === "production") {
-            // 生产环境修改配置...
+        if (process.env.NODE_ENV === "production") { // 生产环境修改配置...
             // console.log('------>>> ', config);
-            config.optimization.splitChunks.cacheGroups.default = {
-                minSize: 0
-            }; // 查了mini-css-extract-plugin源码，默认30K（30*1024）以下的css不进行chunk，会报conflicting order警告。 mod by Dio Zhu. on 2018.9.3
+            config.optimization.splitChunks.cacheGroups.default = { minSize: 0 }; // 查了mini-css-extract-plugin源码，默认30K（30*1024）以下的css不进行chunk，会报conflicting order警告。 mod by Dio Zhu. on 2018.9.3
             // 添加externals，vue、vuex、vue-router等使用cdn方式，在此排除后，需要在上面的HtmlWebpackPlugin.scripts中设置外链。 Author by Dio Zhu. on 2017.6.23
             config.externals = {
                 vue: "Vue",
@@ -68,8 +62,7 @@ module.exports = {
                 );
             }
             // config.devtool = false;
-        } else {
-            // 开发环境修改配置...
+        } else { // 开发环境修改配置...
             // config.entry = path.resolve(__dirname, './example/main.js');
             // config.entry = './example/main.js';
             config.resolve = {
