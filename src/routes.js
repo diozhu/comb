@@ -1,219 +1,66 @@
-// const PageNotFound = resolve => require(['./views/404.vue'], resolve); //eslint-disable-line
-// const Index = resolve => require(['./views/index.vue'], resolve);
-//
-// const routes = [
-//     { name: 'index', path: '/', component: Index, meta: {title: '首页', keepAlive: true} },
-//     { path: '*', meta: {title: '出错啦'}, component: PageNotFound },
-// ];
-
-import Vue from 'vue';
-
 const routeList = [
-    {
-        title: 'CSS组件',
-        list: [
-            {name: 'Layout', path: '/layout', meta: {title: '布局'}},
-            {name: 'Sticky', path: '/sticky', meta: {title: '粘性布局'}},
-            {name: 'Spinner', path: '/spinner', meta: {title: '加载动画'}},
-            {name: 'Icon', path: '/icon', meta: {title: '图标'}},
-            {name: 'Button', path: '/button', meta: {title: '按钮'}},
-            {name: 'Text', path: '/text', meta: {title: '文本'}},
-            {name: 'Album', path: '/album', meta: {title: '相册布局'}},
-            // { name: 'Album', path: '/404' },
-            {name: 'Animat', path: '/animat', meta: {title: '动画'}},
-        ]
-    },
-    {
-        title: '基础组件',
-        list: [
-            {name: 'Toast', path: '/toast', meta: {title: 'Toast'}},
-            {name: 'MessageBox', path: '/message-box', meta: {title: '消息弹框'}},
-            {name: 'Picker', path: '/picker', meta: {title: '拨盘'}},
-            {name: 'Popup', path: '/popup', meta: {title: '下滑弹出组件'}},
-            {name: 'DatetimePicker', path: '/datetime-picker', meta: {title: '日期拨盘'}},
-            // { name: 'Swipe', path: '/404' },
-            {name: 'CharIndexes', path: '/char-indexes', meta: {title: '索引'}},
-            {name: 'TabBar', path: '/tab-bar', meta: {title: '标签'}},
-            {name: 'SwipeLabel', path: '/swipe-label', meta: {title: '左右可滑动标签'}},
-            {name: 'Media', path: '/media', meta: {title: '多媒体'}},
-            {name: 'Autocomplete', path: '/autocomplete', meta: {title: '已废弃'}},
-            {name: 'Calendar', path: '/calendar', meta: {title: '日历'}},
-            {name: 'Star', path: '/star', meta: {title: '评星'}},
-            {name: 'Swiper', path: '/swiper', meta: {title: '轮播'}},
-            {name: 'Timeline', path: '/timeline', meta: {title: '时间线'}},
-            {name: 'Viewer', path: '/404'},
-            {name: 'Image', path: '/404'},
-        ]
-    },
-    {
-        title: 'Form表单类组件',
-        list: [
-            {name: 'Api', path: '/api', meta: {title: '接口调用（axios）'}},
-            {name: 'Radio', path: '/form-radio', meta: {title: '单选'}},
-            {name: 'CheckBox', path: '/form-checkbox', meta: {title: '多选'}},
-            {name: 'Cell', path: '/cell', meta: {title: '列表单元'}},
-            {name: 'CellSwipe', path: '/cell-swipe', meta: {title: '滑动单元'}},
-            {name: 'Switch', path: '/form-switch', meta: {title: '开关'}},
-            {name: 'Field', path: '/form-field', meta: {title: '输入框'}},
-            // { name: 'Badge', path: '/404', meta: {title: '通知'} },
-            {name: 'Search', path: '/form-search', meta: {title: '查询'}},
-            // { name: 'UploadImages', path: '/404', meta: {title: '上传图片'} },
-            {name: 'Validator', path: '/form-validator', meta: {title: '表单校验'}},
-            {name: 'Form', path: '/form', meta: {title: '表单'}},
-        ]
-    },
-    {
-        title: '复杂应用类',
-        list: [
-            {name: 'Feed', path: '/feed', meta: {title: '名片'}},
-            {name: 'Scroll', path: '/scroll', meta: {title: '滚动条（vuex演示）', keepAlive: true}},
-            {name: 'scroll-two', path: '/scroll-two', meta: {title: '多滚动条（vuex演示）', keepAlive: true}},
-            {name: 'detail', path: '/detail', meta: {title: '详情页', keepAlive: true}},
-            {name: 'Refresh', path: '/refresh', meta: {title: '下拉刷新', keepAlive: true}},
-            {name: 'refresh-two', path: '/refresh-two', meta: {title: '多个刷新', keepAlive: true}},
-            {name: 'map', path: '/map', meta: {title: '地图'}},
-            {name: 'map-markers', path: '/map-markers', meta: {title: '地图'}},
-            {name: 'map-selector', path: '/map-selector', meta: {title: '地图'}},
-        ]
-    },
-    {
-        title: '开发中...',
-        list: [
-            {name: 'InfiniteScroll', path: '/infinite-scroll', meta: {title: '无限滚动'}},
-        ]
-    }
+    {name: 'index', path: '/index', meta: {title: '首页', group: ''}, component: resolve => require(['./views/index'], resolve)},
+
+    // CSS组件
+    {name: 'Layout', path: '/layout', meta: {title: '布局', group: 'CSS组件'}, component: resolve => require(['./views/layout'], resolve)},
+    {name: 'Sticky', path: '/sticky', meta: {title: '粘性布局', group: 'CSS组件'}, component: resolve => require(['./views/sticky'], resolve)},
+    {name: 'Spinner', path: '/spinner', meta: {title: '加载动画', group: 'CSS组件'}, component: resolve => require(['./views/spinner'], resolve)},
+    {name: 'Icon', path: '/icon', meta: {title: '图标', group: 'CSS组件'}, component: resolve => require(['./views/icon'], resolve)},
+    {name: 'Button', path: '/button', meta: {title: '按钮', group: 'CSS组件'}, component: resolve => require(['./views/button'], resolve)},
+    {name: 'Text', path: '/text', meta: {title: '文本', group: 'CSS组件'}, component: resolve => require(['./views/index'], resolve)},
+    {name: 'Album', path: '/album', meta: {title: '相册布局', group: 'CSS组件'}, component: resolve => require(['./views/album'], resolve)},
+    // { name: 'Album', path: '/404', component: resolve => require(['./views/404'], resolve)},
+    {name: 'Animat', path: '/animat', meta: {title: '动画', group: 'CSS组件'}, component: resolve => require(['./views/animat'], resolve)},
+
+    // 基础组件
+    {name: 'Toast', path: '/toast', meta: {title: 'Toast', group: '基础组件'}, component: resolve => require(['./views/toast'], resolve)},
+    {name: 'MessageBox', path: '/message-box', meta: {title: '消息弹框', group: '基础组件'}, component: resolve => require(['./views/message-box'], resolve)},
+    {name: 'Picker', path: '/picker', meta: {title: '拨盘', group: '基础组件'}, component: resolve => require(['./views/picker'], resolve)},
+    {name: 'Popup', path: '/popup', meta: {title: '下滑弹出组件', group: '基础组件'}, component: resolve => require(['./views/popup'], resolve)},
+    {name: 'DatetimePicker', path: '/datetime-picker', meta: {title: '日期拨盘', group: '基础组件'}, component: resolve => require(['./views/datetime-picker'], resolve)},
+    // { name: 'Swipe', path: '/404' },
+    {name: 'CharIndexes', path: '/char-indexes', meta: {title: '索引', group: '基础组件'}, component: resolve => require(['./views/char-indexes'], resolve)},
+    {name: 'TabBar', path: '/tab-bar', meta: {title: '标签', group: '基础组件'}, component: resolve => require(['./views/tab-bar'], resolve)},
+    {name: 'SwipeLabel', path: '/swipe-label', meta: {title: '左右可滑动标签', group: '基础组件'}, component: resolve => require(['./views/swipe-label'], resolve)},
+    {name: 'Media', path: '/media', meta: {title: '多媒体', group: '基础组件'}, component: resolve => require(['./views/media'], resolve)},
+    {name: 'Autocomplete', path: '/autocomplete', meta: {title: '已废弃', group: '基础组件'}, component: resolve => require(['./views/autocomplete'], resolve)},
+    {name: 'Calendar', path: '/calendar', meta: {title: '日历', group: '基础组件'}, component: resolve => require(['./views/calendar'], resolve)},
+    {name: 'Star', path: '/star', meta: {title: '评星', group: '基础组件'}, component: resolve => require(['./views/star'], resolve)},
+    {name: 'Swiper', path: '/swiper', meta: {title: '轮播', group: '基础组件'}, component: resolve => require(['./views/swiper'], resolve)},
+    {name: 'Timeline', path: '/timeline', meta: {title: '时间线', group: '基础组件'}, component: resolve => require(['./views/timeline'], resolve)},
+    {name: 'Viewer', path: '/404', meta: {title: 'Viewer', group: '基础组件'}, component: resolve => require(['./views/404'], resolve)},
+    {name: 'Image', path: '/404', meta: {title: 'Image', group: '基础组件'}, component: resolve => require(['./views/404'], resolve)},
+
+    // Form表单类组件
+    {name: 'Api', path: '/api', meta: {title: '接口调用（axios）', group: 'Form表单类组件'}, component: resolve => require(['./views/api'], resolve)},
+    {name: 'Radio', path: '/form-radio', meta: {title: '单选', group: 'Form表单类组件'}, component: resolve => require(['./views/form-radio'], resolve)},
+    {name: 'CheckBox', path: '/form-checkbox', meta: {title: '多选', group: 'Form表单类组件'}, component: resolve => require(['./views/form-checkbox'], resolve)},
+    {name: 'Cell', path: '/cell', meta: {title: '列表单元', group: 'Form表单类组件'}, component: resolve => require(['./views/cell'], resolve)},
+    {name: 'CellSwipe', path: '/cell-swipe', meta: {title: '滑动单元', group: 'Form表单类组件'}, component: resolve => require(['./views/cell-swipe'], resolve)},
+    {name: 'Switch', path: '/form-switch', meta: {title: '开关', group: 'Form表单类组件'}, component: resolve => require(['./views/form-switch'], resolve)},
+    {name: 'Field', path: '/form-field', meta: {title: '输入框', group: 'Form表单类组件'}, component: resolve => require(['./views/form-field'], resolve)},
+    // { name: 'Badge', path: '/404', meta: {title: '通知', group: 'Form表单类组件'}, component: resolve => require(['./views/404'], resolve)},
+    {name: 'Search', path: '/form-search', meta: {title: '查询', group: 'Form表单类组件'}, component: resolve => require(['./views/form-search'], resolve)},
+    // { name: 'UploadImages', path: '/404', meta: {title: '上传图片', group: 'Form表单类组件'}, component: resolve => require(['./views/404'], resolve)},
+    {name: 'Validator', path: '/form-validator', meta: {title: '表单校验', group: 'Form表单类组件'}, component: resolve => require(['./views/form-validator'], resolve)},
+    {name: 'Form', path: '/form', meta: {title: '表单', group: 'Form表单类组件'}, component: resolve => require(['./views/form'], resolve)},
+
+    // 复杂应用类
+    {name: 'Feed', path: '/feed', meta: {title: '名片', group: '复杂应用类'}, component: resolve => require(['./views/feed'], resolve)},
+    {name: 'Scroll', path: '/scroll', meta: {title: '滚动条（vuex演示）', group: '复杂应用类', keepAlive: true}, component: resolve => require(['./views/scroll'], resolve)},
+    {name: 'scroll-two', path: '/scroll-two', meta: {title: '多滚动条（vuex演示）', group: '复杂应用类', keepAlive: true}, component: resolve => require(['./views/scroll-two'], resolve)},
+    {name: 'detail', path: '/detail', meta: {title: '详情页', group: '复杂应用类', keepAlive: true}, component: resolve => require(['./views/detail'], resolve)},
+    {name: 'Refresh', path: '/refresh', meta: {title: '下拉刷新', group: '复杂应用类', keepAlive: true}, component: resolve => require(['./views/refresh'], resolve)},
+    {name: 'refresh-two', path: '/refresh-two', meta: {title: '多个刷新', group: '复杂应用类', keepAlive: true}, component: resolve => require(['./views/refresh-two'], resolve)},
+    {name: 'map', path: '/map', meta: {title: '地图', group: '复杂应用类'}, component: resolve => require(['./views/map'], resolve)},
+    {name: 'map-markers', path: '/map-markers', meta: {title: '地图', group: '复杂应用类'}, component: resolve => require(['./views/map-markers'], resolve)},
+    {name: 'map-selector', path: '/map-selector', meta: {title: '地图', group: '复杂应用类'}, component: resolve => require(['./views/map-selector'], resolve)},
+
+    // 开发中...
+    {name: 'InfiniteScroll', path: '/infinite-scroll', meta: {title: '无限滚动', group: '开发中...'}, component: resolve => require(['./views/infinite-scroll'], resolve)},
+    {name: 'HugeTable', path: '/huge-table', meta: {title: '大表格', group: '开发中...'}, component: resolve => require(['./views/huge-table'], resolve)},
 ];
 
-const getComponent = (n) => {
-    return resolve => require([`@/views${n}`], resolve);
-};
-// const getComponent = componentName => resolve => require(['components/CommonComponents'], components => resolve(components[componentName]));
-const initRoute = (list) => {
-    // let routes = [];
-    // let routes = [ { name: 'index', path: '/', component: Vue.extend(require('./views/index.vue').default) } ];
-    let routes = [{
-        name: 'index',
-        path: '/index',
-        component: getComponent('/index'),
-        meta: {title: '组件列表', requiresAuth: false, keepAlive: true}
-    }];
-    // let routes = [ { name: 'index', path: '/index', component: resolve => require([`./views/index`], resolve), meta: {title: '组件列表', requiresAuth: false, keepAlive: true} } ];
-    list.map(item =>
-        item.list.map(page =>
-            routes.push({
-                name: page.name,
-                path: page.path,
-                // component: Vue.extend(require(`./views${page.path}`).default),
-                component: getComponent(page.path),
-                // component: resolve => require([`./views${page.path}`], resolve),
-                meta: page.meta
-            })
-        )
-    );
-    console.log(JSON.stringify(routes));
-    return routes;
-};
-
-// let routes = initRoute(routeList);
-let routes = [{
-        "name": "index",
-        "path": "/index",
-        "meta": {"title": "组件列表", "requiresAuth": false, "keepAlive": true},
-        "component": resolve => require([`./views/index`], resolve)
-    }, {
-        "name": "Layout",
-        "path": "/layout",
-        "meta": {"title": "布局"},
-        "component": resolve => require([`./views/layout`], resolve)
-    }
-// , {
-//     "name": "Sticky",
-//     "path": "/sticky",
-//     "meta": {"title": "粘性布局"}
-// }, {"name": "Spinner", "path": "/spinner", "meta": {"title": "加载动画"}}, {
-//     "name": "Icon",
-//     "path": "/icon",
-//     "meta": {"title": "图标"}
-// }, {"name": "Button", "path": "/button", "meta": {"title": "按钮"}}, {
-//     "name": "Text",
-//     "path": "/text",
-//     "meta": {"title": "文本"}
-// }, {"name": "Album", "path": "/album", "meta": {"title": "相册布局"}}, {
-//     "name": "Animat",
-//     "path": "/animat",
-//     "meta": {"title": "动画"}
-// }, {"name": "Toast", "path": "/toast", "meta": {"title": "Toast"}}, {
-//     "name": "MessageBox",
-//     "path": "/message-box",
-//     "meta": {"title": "消息弹框"}
-// }, {"name": "Picker", "path": "/picker", "meta": {"title": "拨盘"}}, {
-//     "name": "Popup",
-//     "path": "/popup",
-//     "meta": {"title": "下滑弹出组件"}
-// }, {"name": "DatetimePicker", "path": "/datetime-picker", "meta": {"title": "日期拨盘"}}, {
-//     "name": "CharIndexes",
-//     "path": "/char-indexes",
-//     "meta": {"title": "索引"}
-// }, {"name": "TabBar", "path": "/tab-bar", "meta": {"title": "标签"}}, {
-//     "name": "SwipeLabel",
-//     "path": "/swipe-label",
-//     "meta": {"title": "左右可滑动标签"}
-// }, {"name": "Media", "path": "/media", "meta": {"title": "多媒体"}}, {
-//     "name": "Autocomplete",
-//     "path": "/autocomplete",
-//     "meta": {"title": "已废弃"}
-// }, {"name": "Calendar", "path": "/calendar", "meta": {"title": "日历"}}, {
-//     "name": "Star",
-//     "path": "/star",
-//     "meta": {"title": "评星"}
-// }, {"name": "Swiper", "path": "/swiper", "meta": {"title": "轮播"}}, {
-//     "name": "Timeline",
-//     "path": "/timeline",
-//     "meta": {"title": "时间线"}
-// }, {"name": "Viewer", "path": "/404"}, {"name": "Image", "path": "/404"}, {
-//     "name": "Api",
-//     "path": "/api",
-//     "meta": {"title": "接口调用（axios）"}
-// }, {"name": "Radio", "path": "/form-radio", "meta": {"title": "单选"}}, {
-//     "name": "CheckBox",
-//     "path": "/form-checkbox",
-//     "meta": {"title": "多选"}
-// }, {"name": "Cell", "path": "/cell", "meta": {"title": "列表单元"}}, {
-//     "name": "CellSwipe",
-//     "path": "/cell-swipe",
-//     "meta": {"title": "滑动单元"}
-// }, {"name": "Switch", "path": "/form-switch", "meta": {"title": "开关"}}, {
-//     "name": "Field",
-//     "path": "/form-field",
-//     "meta": {"title": "输入框"}
-// }, {"name": "Search", "path": "/form-search", "meta": {"title": "查询"}}, {
-//     "name": "Validator",
-//     "path": "/form-validator",
-//     "meta": {"title": "表单校验"}
-// }, {"name": "Form", "path": "/form", "meta": {"title": "表单"}}, {
-//     "name": "Feed",
-//     "path": "/feed",
-//     "meta": {"title": "名片"}
-// }, {"name": "Scroll", "path": "/scroll", "meta": {"title": "滚动条（vuex演示）", "keepAlive": true}}, {
-//     "name": "scroll-two",
-//     "path": "/scroll-two",
-//     "meta": {"title": "多滚动条（vuex演示）", "keepAlive": true}
-// }, {"name": "detail", "path": "/detail", "meta": {"title": "详情页", "keepAlive": true}}, {
-//     "name": "Refresh",
-//     "path": "/refresh",
-//     "meta": {"title": "下拉刷新", "keepAlive": true}
-// }, {"name": "refresh-two", "path": "/refresh-two", "meta": {"title": "多个刷新", "keepAlive": true}}, {
-//     "name": "map",
-//     "path": "/map",
-//     "meta": {"title": "地图"}
-// }, {"name": "map-markers", "path": "/map-markers", "meta": {"title": "地图"}}, {
-//     "name": "map-selector",
-//     "path": "/map-selector",
-//     "meta": {"title": "地图"}
-// }, {"name": "InfiniteScroll", "path": "/infinite-scroll", "meta": {"title": "无限滚动"}}
-];
-console.log(routes);
-console.log(JSON.stringify(routes));
-export default routes;
+export default routeList;
 // export default routeList;
 export const menus = routeList;

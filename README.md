@@ -34,5 +34,14 @@ npm i -S git+ssh://git@git.hy-sport.cn:front/comb-ui.git#v2.0.0
 rm -rf node_modules/.cache && rm -rf node_modules/comb-ui && npm i -S comb-ui
 ```
 
+## comb-loader安装方式
+
+npm i -S git+ssh://git@git.hy-sport.cn:front/comb-loader.git#develop
+```
+
+### 更新方式（需要清除node_modules的缓存！）
+rm -rf node_modules/.cache && rm -rf node_modules/comb-loader && npm i -S comb-loader
+```
+
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).

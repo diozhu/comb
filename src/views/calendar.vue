@@ -114,13 +114,14 @@
     </div>
 </template>
 <script>
-    import vRow from 'comb-ui/src/vendors/v-row.vue';
-    import vCol from 'comb-ui/src/vendors/v-col.vue';
-    import vCell from 'comb-ui/src/vendors/v-cell.vue';
-    import vButton from 'comb-ui/src/vendors/v-button';
-    import vCalendar from 'comb-ui/src/vendors/v-calendar.vue';
-    import vText from 'comb-ui/src/vendors/v-text';
-    import vPopup from 'comb-ui/src/vendors/v-popup';
+    // import vRow from 'comb-ui/src/vendors/v-row.vue';
+    // import vCol from 'comb-ui/src/vendors/v-col.vue';
+    // import vCell from 'comb-ui/src/vendors/v-cell.vue';
+    // import vButton from 'comb-ui/src/vendors/v-button';
+    // import vCalendar from 'comb-ui/src/vendors/v-calendar.vue';
+    // import vText from 'comb-ui/src/vendors/v-text';
+    // import vPopup from 'comb-ui/src/vendors/v-popup';
+    import { vRow, vCol, vCell, vButton, vCalendar, vText, vPopup } from 'comb-ui';
     import * as api from '../js/core/api.js';
     import * as utils from '../js/utils/utils.js';
 
