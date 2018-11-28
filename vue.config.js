@@ -66,20 +66,20 @@ module.exports = {
         } else { // 开发环境修改配置...
             // // config.entry = path.resolve(__dirname, './example/main.js');
             // // config.entry = './example/main.js';
-            // config.resolve = {
-            //     extensions: [".js", ".vue", ".json"],
-            //     alias: {
-            //         vue$: "vue/dist/vue.esm.js",
-            //         "@": path.resolve(__dirname, "./src"),
-            //         assets: path.resolve(__dirname, "./src/assets")
-            //         // 'assets': __dirname + 'src/assets'
-            //         // 'jquery': path.resolve(__dirname, './static/js/vendor/jquery.slim.min'),
-            //         // // '$': path.resolve(__dirname, './static/js/vendor/jquery.slim.min')
-            //     }
-            // };
-            // config.output.pathinfo = true; // dev环境下，console中可显示对应的文件位置，而不是打包后的app.js，仅可用于dev环境！   -- Author by Dio Zhu. on 2017.4.20
-            // config.devtool = false;
-            // // // config.devtool = '#cheap-module-eval-source-map';
+            config.resolve = {
+                extensions: [".js", ".vue", ".json"],
+                alias: {
+                    vue$: "vue/dist/vue.esm.js",
+                    "@": path.resolve(__dirname, "./src"),
+                    assets: path.resolve(__dirname, "./src/assets")
+                    // 'assets': __dirname + 'src/assets'
+                    // 'jquery': path.resolve(__dirname, './static/js/vendor/jquery.slim.min'),
+                    // // '$': path.resolve(__dirname, './static/js/vendor/jquery.slim.min')
+                }
+            };
+            config.output.pathinfo = true; // dev环境下，console中可显示对应的文件位置，而不是打包后的app.js，仅可用于dev环境！   -- Author by Dio Zhu. on 2017.4.20
+            config.devtool = false;
+            // config.devtool = '#cheap-module-eval-source-map';
         }
     },
 

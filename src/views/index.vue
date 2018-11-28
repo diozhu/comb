@@ -25,7 +25,7 @@
         name: "home",
         data () {
             return {
-                list: menus
+                list: menus,
             };
         },
         mounted () {
