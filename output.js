@@ -1,7 +1,8 @@
+[initChain]  development
 {
   mode: 'development',
   context: '/hy-sport/comb',
-  devtool: 'cheap-module-eval-source-map',
+  devtool: 'source-map',
   node: {
     setImmediate: false,
     process: 'mock',
@@ -15,7 +16,8 @@
     path: '/hy-sport/comb/dist',
     filename: '[name].js',
     publicPath: '/',
-    globalObject: 'this'
+    globalObject: 'this',
+    pathinfo: true
   },
   resolve: {
     alias: {
@@ -55,7 +57,7 @@
             loader: 'cache-loader',
             options: {
               cacheDirectory: '/hy-sport/comb/node_modules/.cache/vue-loader',
-              cacheIdentifier: '44b71486'
+              cacheIdentifier: '75e989b1'
             }
           },
           /* config.module.rule('vue').use('vue-loader') */
@@ -66,7 +68,7 @@
                 preserveWhitespace: false
               },
               cacheDirectory: '/hy-sport/comb/node_modules/.cache/vue-loader',
-              cacheIdentifier: '44b71486'
+              cacheIdentifier: '75e989b1'
             }
           },
           /* config.module.rule('vue').use('comb-loader') */
@@ -1027,7 +1029,7 @@
       },
       /* config.module.rule('js') */
       {
-        test: /\.jsx?$/,
+        test: /\.js$/,
         exclude: [
           function () { /* omitted long function */ }
         ],
@@ -1037,12 +1039,16 @@
             loader: 'cache-loader',
             options: {
               cacheDirectory: '/hy-sport/comb/node_modules/.cache/babel-loader',
-              cacheIdentifier: '79e63c1f'
+              cacheIdentifier: 'a02a44fa'
             }
           },
           /* config.module.rule('js').use('babel-loader') */
           {
             loader: 'babel-loader'
+          },
+          /* config.module.rule('js').use('comb-js-loader') */
+          {
+            loader: '/hy-sport/comb/node_modules/comb-loader/src/js-loader.js'
           }
         ]
       },
@@ -1065,7 +1071,7 @@
                 '.vue'
               ],
               cache: true,
-              cacheIdentifier: '1c9230b6',
+              cacheIdentifier: '64ca8e46',
               emitWarning: true,
               emitError: false,
               formatter: function () { /* omitted long function */ }
@@ -1074,15 +1080,6 @@
         ]
       }
     ]
-  },
-  optimization: {
-    splitChunks: {
-      cacheGroups: {
-        vendors: {
-          maxSize: 100000
-        }
-      }
-    }
   },
   plugins: [
     /* config.plugin('vue-loader') */
@@ -1165,12 +1162,20 @@
         }
       ]
     ),
-    {},
-    {
-      options: {
+    /* config.plugin('comb-plugin') */
+    new CombPlugin(),
+    /* config.plugin('filter-warnings-plugin') */
+    new FilterWarningsPlugin(
+      {
+        filter: /\[mini-css-extract-plugin]\nConflicting\sorder\sbetween:/
+      }
+    ),
+    /* config.plugin('mini-chunk-size-plugin') */
+    new MinChunkSizePlugin(
+      {
         minChunkSize: 50000
       }
-    }
+    )
   ],
   entry: {
     app: [
