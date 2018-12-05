@@ -1,6 +1,6 @@
 const path = require("path");
 const merge = require('webpack-merge');
-const combLoader = require('comb-loader');
+// const combLoader = require('comb-loader');
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
 module.exports = {
@@ -24,7 +24,7 @@ module.exports = {
 
     configureWebpack: config => { // 该对象将会被 webpack-merge 合并入最终的 webpack 配置
         // console.log('------>>> ', config.module.rules);
-        config = combLoader.init(config, {});
+        // config = combLoader.init(config, {});
         if (process.env.NODE_ENV === "production") { // 生产环境修改配置...
             // config.optimization.splitChunks.cacheGroups.default = { minSize: 0 }; // 查了mini-css-extract-plugin源码，默认30K（30*1024）以下的css不进行chunk，会报conflicting order警告。 mod by Dio Zhu. on 2018.9.3
             if (process.env.npm_lifecycle_event === "analyze") {
@@ -39,11 +39,11 @@ module.exports = {
     },
 
     chainWebpack: config => { // https://github.com/mozilla-neutrino/webpack-chain
-        config = combLoader.initChain(config, {
-            // developmentSwitcher: { // 开发环境的文件转换: xxx.js => xxx.development.js
-            //     js: [ 'api.js' ]
-            // }
-        });
+        // config = combLoader.initChain(config, {
+        //     // developmentSwitcher: { // 开发环境的文件转换: xxx.js => xxx.development.js
+        //     //     js: [ 'api.js' ]
+        //     // }
+        // });
         // // console.log('chainWebpack: ', config);
         // webpack 原始配置的上层抽象，可以添加、修改loader、修改plugin选项
         // config.module.rule('vue').use('vue-loader').tap(options => { // 修改vue-loader选项
