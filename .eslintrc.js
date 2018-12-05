@@ -75,7 +75,8 @@ module.exports = {
         'vue/no-unused-components': 'off',
         'vue/require-prop-type-constructor': 'off',
         'vue/html-closing-bracket-newline': 'off',
-        'vue/html-closing-bracket-spacing': 'off'
+        'vue/html-closing-bracket-spacing': 'off',
+        'vue/component-name-in-template-casing': 'off'
     },
 
     parserOptions: {
