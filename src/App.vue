@@ -251,7 +251,7 @@
             padding-top: pxTorem(15px);
             padding-left: pxTorem(15px);
             line-height: pxTorem(40px);
-            background: #f2f2f4;
+            // background: #f2f2f4;
         }
 
         .desc {

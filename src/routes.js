@@ -1,5 +1,7 @@
 const routeList = [
+    {name: 'home', path: '/', meta: {title: '首页', group: ''}, component: resolve => require(['./views/home'], resolve)},
     {name: 'index', path: '/index', meta: {title: '首页', group: ''}, component: resolve => require(['./views/index'], resolve)},
+    {name: '404', path: '*', meta: {title: '404', group: ''}, component: resolve => require(['./views/404'], resolve)},
 
     // CSS组件
     {name: 'Layout', path: '/layout', meta: {title: '布局', group: 'CSS组件'}, component: resolve => require(['./views/layout'], resolve)},

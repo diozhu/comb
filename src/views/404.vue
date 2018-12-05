@@ -45,7 +45,7 @@
             line-height: pxTorem(28px);
             padding-left: pxTorem(15px);
             color: #777E8C;
-            background: #f2f2f4;
+            // background: #f2f2f4;
         }
     }
 </style>

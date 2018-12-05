@@ -22,42 +22,18 @@ if (window.console && console.log && config && config.DEBUG) {
         console[method] = () => {};
     });
 }
-let logger = (() => {
-    let logFunc = function () {},
-        errorFunc = function () {},
-        warnFunc = function () {},
-        assertFunc = function () {};
-
-    if (window.console && console.log && config && config.DEBUG) {
-        logFunc = console.log.bind(console);
-        warnFunc = console.warn.bind(console);
-    }
-    errorFunc = console.error.bind(console);
-    assertFunc = console.assert.bind(console);
-    return {
-        log: logFunc,
-        error: errorFunc,
-        warn: warnFunc,
-        assert: assertFunc
-    };
-})();
-
-// let logger = (function () {
-//     let timestamp = function () {},
-//         logFunc = function () {},
+// let logger = (() => {
+//     let logFunc = function () {},
 //         errorFunc = function () {},
 //         warnFunc = function () {},
 //         assertFunc = function () {};
-//     timestamp.toString = function () {
-//         return '[' + utils.formatTime(new Date(), 'hh:mm:ss ms') + ']' + '[' + utils.getCurrentPath({pathOnly: true}) + ']';
-//     };
 
 //     if (window.console && console.log && config && config.DEBUG) {
-//         logFunc = console.log.bind(console, '%s', timestamp);
+//         logFunc = console.log.bind(console);
+//         warnFunc = console.warn.bind(console);
 //     }
-//     errorFunc = console.error.bind(console, '%s', timestamp);
-//     warnFunc = console.warn.bind(console, '%s', timestamp);
-//     assertFunc = console.assert.bind(console, '%s', timestamp);
+//     errorFunc = console.error.bind(console);
+//     assertFunc = console.assert.bind(console);
 //     return {
 //         log: logFunc,
 //         error: errorFunc,
@@ -65,4 +41,28 @@ let logger = (() => {
 //         assert: assertFunc
 //     };
 // })();
-export default logger;
+
+// // let logger = (function () {
+// //     let timestamp = function () {},
+// //         logFunc = function () {},
+// //         errorFunc = function () {},
+// //         warnFunc = function () {},
+// //         assertFunc = function () {};
+// //     timestamp.toString = function () {
+// //         return '[' + utils.formatTime(new Date(), 'hh:mm:ss ms') + ']' + '[' + utils.getCurrentPath({pathOnly: true}) + ']';
+// //     };
+
+// //     if (window.console && console.log && config && config.DEBUG) {
+// //         logFunc = console.log.bind(console, '%s', timestamp);
+// //     }
+// //     errorFunc = console.error.bind(console, '%s', timestamp);
+// //     warnFunc = console.warn.bind(console, '%s', timestamp);
+// //     assertFunc = console.assert.bind(console, '%s', timestamp);
+// //     return {
+// //         log: logFunc,
+// //         error: errorFunc,
+// //         warn: warnFunc,
+// //         assert: assertFunc
+// //     };
+// // })();
+// export default logger;
