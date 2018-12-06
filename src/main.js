@@ -6,7 +6,7 @@ import store from "./store";
 import { sync } from 'vuex-router-sync';
 import VueLazyload from 'vue-lazyload';
 import "./registerServiceWorker";
-// import './js/utils/highlightjs.js'; // 代码高亮
+import './js/utils/highlightjs.js'; // 代码高亮
 import * as dom from './js/utils/dom.js';
 import * as filters from './filters';
 import './js/utils/logger.js';
