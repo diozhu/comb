@@ -41,7 +41,6 @@
     <!--import CONFIG from '../config';-->
     <!--import * as api from '../js/core/api';-->
     <!--import * as utils from '../js/utils/utils';-->
-    <!--import logger from '../js/utils/logger';-->
     <!--import vFeed from 'comb-ui/src/vendors/v-feed';-->
     <!--import vText from 'comb-ui/src/vendors/v-text';-->
     <!--import vCommentBar from 'comb-ui/src/vendors/v-comment-bar';-->
@@ -100,7 +99,7 @@
         <!--},-->
 
         <!--mounted () {-->
-            <!--this.$logger.log('p-comments-replies.mounted: ');-->
+            <!--console.log('p-comments-replies.mounted: ');-->
         <!--},-->
         <!--methods: {-->
             <!--/**-->
@@ -114,7 +113,7 @@
                     <!--offset: offset,-->
                     <!--limit: limit-->
                 <!--}).then((res) => {-->
-                    <!--logger.log('===> comment-info.getList: ', res);-->
+                    <!--console.log('===> comment-info.getList: ', res);-->
                     <!--let len = res && res.length || 0;-->
                     <!--if (res && len > 0) {-->
                         <!--res.forEach((v) => { // 整理list数据-->
@@ -153,7 +152,7 @@
                 <!--});-->
 
                 <!--return api.vGetUserList({uids: ids}).then(function (res) {-->
-                    <!--logger.log('[comments].getUserInfo: ', res);-->
+                    <!--console.log('[comments].getUserInfo: ', res);-->
                     <!--_self.listData.forEach(function (v, k) { // 匹配用户数据-->
                         <!--if (!v.userInfo || !v.userInfo.title) {-->
                             <!--let user = _.find(res, function (i) { return parseInt(i.userId) === v.comment.UserId; }) || {avatarId: '', title: '未知用户'};-->
@@ -179,7 +178,7 @@
                             <!--}-->
                         <!--});-->
                     <!--});-->
-                    <!--logger.log('[comments].getUserInfo: ', _self.listData);-->
+                    <!--console.log('[comments].getUserInfo: ', _self.listData);-->
                 <!--});-->
             <!--},-->
 
@@ -190,9 +189,9 @@
             <!--handleDelComment (res) {-->
                 <!--let cmt = MicroComment.getCurrentItem();-->
                 <!--if (cmt && cmt.OPT === 1) {-->
-                    <!--this.$logger.log('p-comments.handleDelComment: add...');-->
+                    <!--console.log('p-comments.handleDelComment: add...');-->
                 <!--} else {-->
-                    <!--this.$logger.log('p-comments.handleDelComment: del...');-->
+                    <!--console.log('p-comments.handleDelComment: del...');-->
                 <!--}-->
                 <!--MicroComment.clearCurrentItem();-->
 <!--//                this.$store.commit('DEL_POSITION', this.$route.query.timestamp); // 删除位置信息，触发滚动条重新刷新-->
@@ -203,7 +202,7 @@
 <!--//                this.$router.push({name: 'comments-create', query: {subjectId: this.$route.query.subjectId, commentNum: this.comment.CommentNum, praiseNum: this.comment.LikeNum, toid: toId, touid: toUserId, isLike: this.comment.LikeFlag}});-->
 <!--//                this.$router.push({name: 'comment-create', params: {id: this.$route.params.id}, query: {toid: item.comment.CommentId, touid: item.comment.UserId}});-->
                 <!--let pid = !item.comment.CommentId ? 0 : (item.comment.Parent ? item.comment.Parent : item.comment.CommentId);-->
-                <!--logger.log('[comments].p-comments.reply: ', item, pid);-->
+                <!--console.log('[comments].p-comments.reply: ', item, pid);-->
                 <!--this.$router.push({name: 'comment-create', params: {id: this.subjectId}, query: {toid: item.comment.CommentId, touid: item.comment.UserId, pid: pid}});-->
             <!--},-->
 

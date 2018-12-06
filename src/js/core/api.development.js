@@ -13,7 +13,6 @@
  *              -- Author by Dio Zhu. on 2017.6.26
  */
 import CONFIG from '../../config';
-import logger from '../utils/logger';
 import _promise from '../utils/promise';
 import store from '../../store/';
 import * as utils from '../utils/utils.js';
@@ -99,9 +98,9 @@ let request = (url, params = {}, opts = {}) => {
     }
 
     // 4. 发起请求
-    // logger.log(`${url}请求的参数：`, param);
+    // console.log(`${url}请求的参数：`, param);
     return Vue.$http.request(param).then(res => {
-        // logger.log(`${url}返回的结果：`, res.data);
+        // console.log(`${url}返回的结果：`, res.data);
         // 请求成功，取消loading菊花
         if (opts && opts.loading) store.dispatch('CLOSE_LOADING'); // 隐藏菊花
 
@@ -188,7 +187,7 @@ let _fetcher = {
             page: 1,                    // 当前页号
             time: -1,                   // 当前分页时间
             fetch () {
-                logger.log('[api._fetcher.fetch]');
+                console.log('[api._fetcher.fetch]');
                 if (typ === 'section') {
                     return this.getListBySection();
                 } else if (typ === 'limit') {
@@ -202,7 +201,7 @@ let _fetcher = {
                 }
             },
             getListBySection () {
-                logger.log('[api._fetcher.getListBySection]', this.offset, this.limit);
+                console.log('[api._fetcher.getListBySection]', this.offset, this.limit);
                 if (typeof fn === 'function') {
                     return fn({
                         offset: this.offset,
@@ -214,7 +213,7 @@ let _fetcher = {
                 }
             },
             getListByLimit () {
-                logger.log('[api._fetcher.getListByLimit]', this.offset, this.limit);
+                console.log('[api._fetcher.getListByLimit]', this.offset, this.limit);
                 if (typeof fn === 'function') {
                     return fn({
                         offset: this.offset,
@@ -226,7 +225,7 @@ let _fetcher = {
                 }
             },
             getListByPage () {
-                logger.log('[api._fetcher.getListByPage]', this.page, this.limit);
+                console.log('[api._fetcher.getListByPage]', this.page, this.limit);
                 if (typeof fn === 'function') {
                     return fn({
                         page: this.page,
@@ -238,7 +237,7 @@ let _fetcher = {
                 }
             },
             getListByTime () {
-                logger.log('[api._fetcher.getListByTime]', this.time, this.limit);
+                console.log('[api._fetcher.getListByTime]', this.time, this.limit);
                 if (typeof fn === 'function') {
                     return fn({
                         time: this.time,

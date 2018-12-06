@@ -115,7 +115,6 @@
 </template>
 
 <script type="text/ecmascript-6">
-import logger from '../js/utils/logger';
 import vCheckbox from 'comb-ui/src/vendors/v-checkbox';
 
 export default {
@@ -148,14 +147,14 @@ export default {
         this.options12 = ['中专', '大专', '本科', '硕士', '博士', '博士后', '其他'];
     },
     mounted () {
-        logger.log('form mounted... ');
+        console.log('form mounted... ');
     },
     components: {
         'v-checkbox': vCheckbox
     },
     methods: {
         handleChange (e) {
-            logger.log('form.handleChange: ', e);
+            console.log('form.handleChange: ', e);
         }
     }
 };

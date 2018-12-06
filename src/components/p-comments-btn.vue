@@ -92,7 +92,7 @@
         <!--},-->
 
         <!--mounted () {-->
-            <!--this.$logger.log('p-paytype-label.mounted: ', this.commentNum, this.praiseNum);-->
+            <!--console.log('p-paytype-label.mounted: ', this.commentNum, this.praiseNum);-->
         <!--},-->
         <!--methods: {-->
             <!--goToComment () {-->
@@ -100,7 +100,7 @@
                 <!--this.$router.push({name: 'comment-create', params: {id: this.currentValue.Id}, query: {}});-->
             <!--},-->
             <!--togglePraise (e) {-->
-                <!--this.$logger.log('p-comments-btn.method.togglePraise...', e.target);-->
+                <!--console.log('p-comments-btn.method.togglePraise...', e.target);-->
                 <!--e.stopPropagation();-->
 
                 <!--if (!this.currentValue.LikeFlag) { // 点赞-->
@@ -113,7 +113,7 @@
                         <!--this.$set(this.currentValue, 'LikeNum', this.currentValue.LikeNum + 1);-->
                         <!--this.$store.commit('ADD_PRAISE', this.currentValue);-->
                     <!--}).catch((e) => {-->
-                        <!--this.$logger.error('post praise error: ', e);-->
+                        <!--console.error('post praise error: ', e);-->
                     <!--});-->
                 <!--} else { // 取消点赞-->
                     <!--MicroComment.delPraise({-->
@@ -125,7 +125,7 @@
                         <!--this.$set(this.currentValue, 'LikeNum', this.currentValue.LikeNum - 1);-->
                         <!--this.$store.commit('DEL_PRAISE', this.currentValue);-->
                     <!--}).catch((e) => {-->
-                        <!--this.$logger.error('delete praise error: ', e);-->
+                        <!--console.error('delete praise error: ', e);-->
                     <!--});-->
                 <!--}-->
             <!--}-->

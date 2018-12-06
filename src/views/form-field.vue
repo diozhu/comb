@@ -165,7 +165,6 @@
 </template>
 
 <script>
-import logger from '../js/utils/logger';
 import vField from 'comb-ui/src/vendors/v-field';
 import vCell from 'comb-ui/src/vendors/v-cell.vue';
 
@@ -190,7 +189,7 @@ export default {
         };
     },
     mounted () {
-        logger.log('form-field mounted... ');
+        console.log('form-field mounted... ');
     },
     methods: {
 

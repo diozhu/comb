@@ -59,19 +59,19 @@
         <!--},-->
 
         <!--created () {-->
-            <!--this.$logger.log('p-float-comments.created: ');-->
+            <!--console.log('p-float-comments.created: ');-->
             <!--this.init();-->
         <!--},-->
 
         <!--mounted () {-->
-            <!--this.$logger.log('p-float-comments.mounted: ');-->
+            <!--console.log('p-float-comments.mounted: ');-->
         <!--},-->
 
         <!--methods: {-->
             <!--init () {-->
 <!--//                MicroComment.getSubject(1002).then((res) => {-->
                 <!--MicroComment.getSubject(this.id).then((res) => {-->
-                    <!--this.$logger.log('p-float-comments.init: ', res);-->
+                    <!--console.log('p-float-comments.init: ', res);-->
                     <!--res.Id = res.SubjectId;-->
                     <!--this.comment = res;-->
                     <!--this.$store.commit('SET_COMMENT', res); // 保存评论赞对象-->
@@ -79,7 +79,7 @@
             <!--},-->
 
             <!--togglePraise (e) {-->
-                <!--this.$logger.log('p-float-comments.method.togglePraise...', e.target);-->
+                <!--console.log('p-float-comments.method.togglePraise...', e.target);-->
                 <!--e.stopPropagation();-->
 
                 <!--if (!this.comment.LikeFlag) { // 点赞-->
@@ -92,7 +92,7 @@
                         <!--this.$set(this.comment, 'LikeNum', this.comment.LikeNum + 1);-->
                         <!--this.$store.commit('ADD_PRAISE', this.comment);-->
                     <!--}).catch((e) => {-->
-                        <!--this.$logger.error('post praise error: ', e);-->
+                        <!--console.error('post praise error: ', e);-->
                     <!--});-->
                 <!--} else { // 取消点赞-->
                     <!--MicroComment.delPraise({-->
@@ -104,13 +104,13 @@
                         <!--this.$set(this.comment, 'LikeNum', this.comment.LikeNum - 1);-->
                         <!--this.$store.commit('DEL_PRAISE', this.comment);-->
                     <!--}).catch((e) => {-->
-                        <!--this.$logger.error('delete praise error: ', e);-->
+                        <!--console.error('delete praise error: ', e);-->
                     <!--});-->
                 <!--}-->
             <!--},-->
 
             <!--addComment (e) {-->
-                <!--this.$logger.log('p-float-comments.method.addComment...');-->
+                <!--console.log('p-float-comments.method.addComment...');-->
                 <!--e.stopPropagation();-->
 
                 <!--this.$router.push({name: 'comments-detail', query: {subjectId: this.comment.Id, toid: this.comment.CommentId, touid: this.comment.UserId}});-->

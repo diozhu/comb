@@ -31,7 +31,7 @@
         },
 
         created () {
-            this.$logger.log('p-banner.created... ', this.value);
+            console.log('p-banner.created... ', this.value);
         },
 
         methods: {

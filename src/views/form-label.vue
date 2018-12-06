@@ -100,7 +100,6 @@
 </template>
 
 <script>
-import logger from '../js/utils/logger';
 import vLabel from 'comb-ui/src/vendors/v-label';
 
 export default {
@@ -113,21 +112,21 @@ export default {
         console.log('created');
     },
     mounted () {
-        logger.log('form mounted... ');
+        console.log('form mounted... ');
     },
     components: {
         'v-label': vLabel
     },
     methods: {
         selectDemo () {
-            logger.log('form.selectDemo: ');
+            console.log('form.selectDemo: ');
         },
         handleChange (e) {
-            logger.log('form.handleChange: ', e);
+            console.log('form.handleChange: ', e);
         },
         delFunc (id, e) {
             this.deletedId = id;
-            logger.log('form.delFunc: ', id, e);
+            console.log('form.delFunc: ', id, e);
         }
     }
 };

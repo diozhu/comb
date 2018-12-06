@@ -26,7 +26,7 @@
         methods: {
             add (e) {
                 e.preventDefault();
-                this.$logger.log(this.data.name += ' 233');
+                console.log(this.data.name += ' 233');
             }
         }
     };

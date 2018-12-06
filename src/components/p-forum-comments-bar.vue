@@ -20,7 +20,6 @@
 <!--<script type="text/ecmascript-6">-->
     <!--import MicroBbs from 'comb-ui/src/vendors/v-forum';-->
     <!--import * as utils from '../js/utils/utils';-->
-    <!--import logger from '../js/utils/logger';-->
     <!--import { mapState } from 'vuex'; //eslint-disable-line-->
 
     <!--export default {-->
@@ -135,7 +134,7 @@
         <!--methods: {-->
             <!--togglePraise (e) {-->
                 <!--if (!this.praiseEnable) return;-->
-<!--//                logger.log('v-comment-bar.method.togglePraise...', e.target);-->
+<!--//                console.log('v-comment-bar.method.togglePraise...', e.target);-->
                 <!--e.stopPropagation();-->
 
                 <!--if (!this.comment.LikeFlag) { // 点赞-->
@@ -151,7 +150,7 @@
                         <!--this.$store.commit('ADD_FORUM_PRAISE', this.comment);-->
 <!--//                        }-->
                     <!--}).catch((e) => {-->
-                        <!--this.$logger.error('p-forum-reply.post praise error: ', e);-->
+                        <!--console.error('p-forum-reply.post praise error: ', e);-->
                     <!--});-->
                 <!--} else { // 取消点赞-->
                     <!--MicroBbs.delPraise({-->
@@ -166,7 +165,7 @@
                         <!--this.$store.commit('DEL_FORUM_PRAISE', this.comment);-->
 <!--//                        }-->
                     <!--}).catch((e) => {-->
-                        <!--this.$logger.error('p-forum-reply.delete praise error: ', e);-->
+                        <!--console.error('p-forum-reply.delete praise error: ', e);-->
                     <!--});-->
                 <!--}-->
             <!--},-->
@@ -175,10 +174,10 @@
                 <!--MicroBbs.delTopic({-->
                     <!--topicId: this.comment.Id || 0-->
                 <!--}).then(res => {-->
-                    <!--this.$logger.log('p-forum-comments.delTopic.SUCCESS: ', res);-->
+                    <!--console.log('p-forum-comments.delTopic.SUCCESS: ', res);-->
                     <!--this.$router.go(-1);-->
                 <!--}).catch(e => {-->
-                    <!--this.$logger.error('p-forum-comments.delTopic.ERROR: ', e);-->
+                    <!--console.error('p-forum-comments.delTopic.ERROR: ', e);-->
                 <!--});-->
             <!--},-->
 
@@ -187,17 +186,17 @@
                     <!--topicId: this.comment.Id,-->
                     <!--commentId: this.comment.CommentId-->
                 <!--}).then(res => {-->
-                    <!--this.$logger.log('p-forum-comments.delComment.SUCCESS: ', res);-->
+                    <!--console.log('p-forum-comments.delComment.SUCCESS: ', res);-->
                     <!--this.$store.commit('DEL_FORUM_COMMENT_NUM', {Id: this.comment.Id}); // 提交变更-->
                     <!--this.$emit('handle-del-comment', res);-->
                 <!--}).catch(e => {-->
-                    <!--this.$logger.error('p-forum-comments.delComment.ERROR: ', e);-->
+                    <!--console.error('p-forum-comments.delComment.ERROR: ', e);-->
                 <!--});-->
             <!--},-->
 
             <!--addComment (e) {-->
                 <!--if (!this.commentEnable) return;-->
-                <!--logger.log('p-forum-comments.addComment...');-->
+                <!--console.log('p-forum-comments.addComment...');-->
                 <!--e.stopPropagation();-->
 
                 <!--let touid = this.comment.CommentId ? this.comment.UserId : 0; // 一级评论不带touid-->

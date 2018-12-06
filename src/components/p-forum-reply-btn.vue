@@ -88,9 +88,9 @@
         <!--},-->
 
         <!--mounted () {-->
-<!--//            this.$logger.log('p-forum-reply.mounted: ', this.commentNum, this.praiseNum);-->
+<!--//            console.log('p-forum-reply.mounted: ', this.commentNum, this.praiseNum);-->
             <!--//            // 初始化评论赞对象-->
-<!--//            this.$logger.log('=====>>> ', this.$store.getters.forumComments, this.comment);-->
+<!--//            console.log('=====>>> ', this.$store.getters.forumComments, this.comment);-->
 <!--//            if (!this.$store.getters.forumComments.hasOwnProperty(this.comment.Id)) {-->
 <!--//                this.$store.commit('SET_FORUM_COMMENT', this.comment);-->
 <!--//            }-->
@@ -100,7 +100,7 @@
                 <!--this.$router.push({name: 'forum-reply', params: {forumId: this.$route.params.forumId, topicId: this.comment.Id}, query: {commentNum: this.comment.CommentNum, likeNum: this.comment.LikeNum, likeFlag: this.comment.LikeFlag}});-->
             <!--},-->
             <!--togglePraise (e) {-->
-                <!--this.$logger.log('p-forum-reply.method.togglePraise...');-->
+                <!--console.log('p-forum-reply.method.togglePraise...');-->
                 <!--e.stopPropagation();-->
 
                 <!--if (!this.comment.LikeFlag) { // 点赞-->
@@ -112,7 +112,7 @@
 <!--//                        this.$store.commit('SET_FORUM_COMMENT', Object.create(this.comment));-->
                         <!--this.$store.commit('ADD_FORUM_PRAISE', this.comment);-->
                     <!--}).catch((e) => {-->
-                        <!--this.$logger.error('p-forum-reply.post praise error: ', e);-->
+                        <!--console.error('p-forum-reply.post praise error: ', e);-->
                     <!--});-->
                 <!--} else { // 取消点赞-->
                     <!--MicroBbs.delPraise({-->
@@ -123,7 +123,7 @@
 <!--//                        this.$store.commit('SET_FORUM_COMMENT', Object.create(this.comment));-->
                         <!--this.$store.commit('DEL_FORUM_PRAISE', this.comment);-->
                     <!--}).catch((e) => {-->
-                        <!--this.$logger.error('p-forum-reply.delete praise error: ', e);-->
+                        <!--console.error('p-forum-reply.delete praise error: ', e);-->
                     <!--});-->
                 <!--}-->
             <!--}-->

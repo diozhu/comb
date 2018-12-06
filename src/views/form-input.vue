@@ -69,7 +69,6 @@
 </template>
 
 <script>
-import logger from '../js/utils/logger';
 import vInput from 'comb-ui/src/vendors/v-input';
 
 export default {
@@ -86,7 +85,7 @@ export default {
         console.log('created');
     },
     mounted () {
-        logger.log('form mounted... ');
+        console.log('form mounted... ');
     },
     components: {
         'v-input': vInput
@@ -96,13 +95,13 @@ export default {
             this.$router.push(name);
         },
         simpleAlert () {
-            logger.log('this is simple alert !');
+            console.log('this is simple alert !');
         },
         selectDemo () {
-            logger.log('form.selectDemo: ');
+            console.log('form.selectDemo: ');
         },
         handleChange (e) {
-            logger.log('form.handleChange: ', e);
+            console.log('form.handleChange: ', e);
         }
     }
 };

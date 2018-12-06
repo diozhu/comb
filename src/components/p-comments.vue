@@ -66,7 +66,6 @@
     <!--import CONFIG from '../config';-->
     <!--import * as api from '../js/core/api';-->
     <!--import * as utils from '../js/utils/utils';-->
-    <!--import logger from '../js/utils/logger';-->
     <!--import vFeed from 'comb-ui/src/vendors/v-feed';-->
     <!--import vText from 'comb-ui/src/vendors/v-text';-->
     <!--import vCommentBar from 'comb-ui/src/vendors/v-comment-bar';-->
@@ -150,13 +149,13 @@
                 <!--this.$emit('input', val);-->
             <!--},-->
 <!--//            comment (val) {-->
-<!--//                logger.log('!!!watch: comment ===> ', val);-->
+<!--//                console.log('!!!watch: comment ===> ', val);-->
 <!--//                // 监听评论赞对象变化，调整两个数字-->
 <!--//                this.$set(this.labs[0], 'txt', '评论' + val.CommentNum);-->
 <!--//                this.$set(this.labs[1], 'txt', '点赞' + val.LikeNum);-->
 <!--//            },-->
             <!--'comment.LikeFlag' (val) { // 监听点赞，如果取消或者添加，处理对应的点赞列表。 Author by Dio Zhu. on 2017.2.14-->
-                <!--logger.log('!!!watch: item ===> ', this.comment.LikeFlag, val);-->
+                <!--console.log('!!!watch: item ===> ', this.comment.LikeFlag, val);-->
 <!--//                // 方式一：前端处理点赞对象的新增和删除-->
 <!--//                this.refreshPraiseList();-->
                 <!--// 方式二：重新刷新列表-->
@@ -165,13 +164,13 @@
         <!--},-->
 
         <!--created () {-->
-            <!--logger.log('p-comments.created... ');-->
+            <!--console.log('p-comments.created... ');-->
             <!--this.init();-->
         <!--},-->
 
         <!--methods: {-->
             <!--init () {-->
-                <!--logger.log('p-comments.init... ', this.comment);-->
+                <!--console.log('p-comments.init... ', this.comment);-->
 <!--//                if (!this.subjectId) {-->
 <!--//                    MicroComment.getSubject(this.$route.params.id).then(res => {-->
 <!--//                        let CommentNum = res.CommentNum ? ' ' + res.CommentNum + '' : '',-->
@@ -202,7 +201,7 @@
                     <!--offset: offset,-->
                     <!--limit: limit-->
                 <!--}).then((res) => {-->
-                    <!--logger.log('===> comment-info.getList: ', res);-->
+                    <!--console.log('===> comment-info.getList: ', res);-->
                     <!--let len = res.length;-->
                     <!--if (res && len > 0) {-->
                         <!--res.forEach((v) => { // 整理list数据-->
@@ -235,7 +234,7 @@
                 <!--});-->
 
                 <!--return api.vGetUserList({uids: ids}).then(function (res) {-->
-                    <!--logger.log('[comments].getUserInfo: ', res);-->
+                    <!--console.log('[comments].getUserInfo: ', res);-->
                     <!--if (!isPraise) { // 评论的用户信息-->
                         <!--_self.listData.forEach(function (v, k) { // 匹配用户数据-->
                             <!--if (!v.userInfo || !v.userInfo.title) {-->
@@ -249,7 +248,7 @@
                                 <!--_self.$set(_self.listData[k].comment, 'Content', `<span class="re">回复@${_self.listData[k].toUserInfo.title}：</span>${_self.listData[k].comment.Content}`);-->
                             <!--}-->
                         <!--});-->
-                        <!--logger.log('[comments].getUserInfo: ', _self.listData);-->
+                        <!--console.log('[comments].getUserInfo: ', _self.listData);-->
                     <!--} else { // 点赞的用户信息-->
                         <!--_self.praiseList.forEach(function (v, k) { // 匹配用户数据-->
                             <!--if (!v.userInfo || !v.userInfo.title) {-->
@@ -261,7 +260,7 @@
                                 <!--_self.$set(_self.praiseList[k], 'toUserInfo', _.find(res, function (i) { return parseInt(i.userId) === v.comment.ToUserId; }) || {avatarId: '', title: '未知用户'});-->
                             <!--}-->
                         <!--});-->
-                        <!--logger.log('[comments].getUserInfo: ', _self.praiseList);-->
+                        <!--console.log('[comments].getUserInfo: ', _self.praiseList);-->
                     <!--}-->
                 <!--});-->
             <!--},-->
@@ -277,7 +276,7 @@
                     <!--offset: offset,-->
                     <!--limit: limit-->
                 <!--}).then((res) => {-->
-                    <!--logger.log('comment-info.getPraise: ', res);-->
+                    <!--console.log('comment-info.getPraise: ', res);-->
                     <!--let len = (res && res.length) ? res.length : 0;-->
                     <!--if (res && len > 0) {-->
                         <!--if (this.praiseOffset === 0) this.praiseList = []; // 因为watch了点赞状态，手动添加了假数据，这里根据列表长度进行覆盖，避免重复数据。 Author by Dio Zhu. on 2017.2.15-->
@@ -301,9 +300,9 @@
                 <!--if (!this.comment) return;-->
 
                 <!--let myPraise = _.find(this.praiseList, function (i) { return i.comment.UserId === parseInt(CONFIG.loginData.userInfo.userId); });-->
-                <!--logger.log('-&#45;&#45;&ndash;&gt; ', this.comment.LikeFlag, myPraise, this.praiseList.length);-->
+                <!--console.log('-&#45;&#45;&ndash;&gt; ', this.comment.LikeFlag, myPraise, this.praiseList.length);-->
                 <!--if (this.comment.LikeFlag && !myPraise) { // 点赞：添加点赞数据-->
-                    <!--logger.log('===>', this.comment);-->
+                    <!--console.log('===>', this.comment);-->
                     <!--this.praiseList.push({-->
                         <!--id: this.comment.subjectId,-->
                         <!--formatedTm: utils.formatTime(new Date()),-->
@@ -317,7 +316,7 @@
                         <!--}-->
                     <!--});-->
                 <!--}-->
-                <!--logger.log('-&#45;&#45;&ndash;&gt; ', this.praiseList);-->
+                <!--console.log('-&#45;&#45;&ndash;&gt; ', this.praiseList);-->
             <!--},-->
 
             <!--/**-->
@@ -327,9 +326,9 @@
             <!--handleDelComment (res) {-->
                 <!--let cmt = MicroComment.getCurrentItem();-->
                 <!--if (cmt && cmt.OPT === 1) {-->
-                    <!--this.$logger.log('p-comments.handleDelComment: add...');-->
+                    <!--console.log('p-comments.handleDelComment: add...');-->
                 <!--} else {-->
-                    <!--this.$logger.log('p-comments.handleDelComment: del...');-->
+                    <!--console.log('p-comments.handleDelComment: del...');-->
                 <!--}-->
                 <!--MicroComment.clearCurrentItem();-->
 <!--//                this.$store.commit('DEL_POSITION', this.$route.query.timestamp); // 删除位置信息，触发滚动条重新刷新-->
@@ -341,7 +340,7 @@
 <!--//                this.$router.push({name: 'comment-create', params: {id: this.$route.params.id}, query: {toid: item.comment.CommentId, touid: item.comment.UserId}});-->
                 <!--// 如果是主题，直接返回parent = 0，如果有parent直接返回，如果没有，取第一级评论的commentId-->
                 <!--let pid = !item.comment.CommentId ? 0 : (item.comment.Parent ? item.comment.Parent : item.comment.CommentId);-->
-                <!--logger.log('[comments].p-comments.reply: ', item, pid);-->
+                <!--console.log('[comments].p-comments.reply: ', item, pid);-->
                 <!--this.$router.push({name: 'comment-create', params: {id: this.subjectId}, query: {toid: item.comment.CommentId, touid: item.comment.UserId, pid: pid}});-->
             <!--}-->
         <!--}-->

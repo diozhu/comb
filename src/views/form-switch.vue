@@ -50,7 +50,6 @@
 </template>
 
 <script>
-import logger from '../js/utils/logger';
 import vSwitch from 'comb-ui/src/vendors/v-switch.vue';
 
 export default {
@@ -64,14 +63,14 @@ export default {
         console.log('created');
     },
     mounted () {
-        logger.log('form mounted... ');
+        console.log('form mounted... ');
     },
     components: {
         'v-switch': vSwitch
     },
     methods: {
         handleChange (e) {
-            logger.log('form.handleChange: ', e);
+            console.log('form.handleChange: ', e);
         }
     }
 };

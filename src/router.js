@@ -61,7 +61,7 @@ router.afterEach((route, to, from, next) => {
      */
 
     try { // 路由跳转，隐藏菊花~ Author by Dio Zhu. on 2017.2.17
-        // logger.log('===>>> router.afterEach ===>>> ', router.app.$store);
+        // console.log('===>>> router.afterEach ===>>> ', router.app.$store);
         if (store && store.state) {
             store.dispatch('CLOSE_LOADING');
             store.dispatch('CLOSE_LOADING');
@@ -81,7 +81,7 @@ router.setTitle = function (title) {
 router.direct = (to, from) => {
     if (from && to) {
         // 方式二、根据from和to里的时间戳大小判断前后顺序
-        // logger.log('router.direct: ------> ', from, to);
+        // console.log('router.direct: ------> ', from, to);
         // 如果刷新：path==='/' 或者首页：path相等
         if (from.path === '/' && !from.name) return 0; // 首页或刷新
         // 来源无时间戳，进入

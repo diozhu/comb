@@ -63,7 +63,6 @@
 <!--</template>-->
 <!--<script type="text/ecmascript-6">-->
     <!--import CONFIG from '../config';-->
-    <!--import logger from '../js/utils/logger';-->
     <!--import vFeed from 'comb-ui/src/vendors/v-feed';-->
     <!--import vText from 'comb-ui/src/vendors/v-text';-->
     <!--import vSwipeLabel from 'comb-ui/src/vendors/v-swipe-label.vue';-->
@@ -144,13 +143,13 @@
                 <!--this.$emit('input', val);-->
             <!--},-->
 <!--//            comment (val) {-->
-<!--//                logger.log('!!!watch: comment ===> ', val);-->
+<!--//                console.log('!!!watch: comment ===> ', val);-->
 <!--//                // 监听评论赞对象变化，调整两个数字-->
 <!--//                this.$set(this.labs[0], 'txt', '评论' + val.CommentNum);-->
 <!--//                this.$set(this.labs[1], 'txt', '点赞' + val.LikeNum);-->
 <!--//            },-->
             <!--'comment.LikeFlag' (val) { // 监听点赞，如果取消或者添加，处理对应的点赞列表。 Author by Dio Zhu. on 2017.2.14-->
-                <!--logger.log('!!!watch: item ===> ', this.comment.LikeFlag, val);-->
+                <!--console.log('!!!watch: item ===> ', this.comment.LikeFlag, val);-->
 <!--//                // 方式一：前端处理点赞对象的新增和删除-->
 <!--//                this.refreshPraiseList();-->
                 <!--// 方式二：重新刷新列表-->
@@ -159,14 +158,14 @@
         <!--},-->
 
         <!--created () {-->
-            <!--logger.log('p-forum-comments.created... ');-->
+            <!--console.log('p-forum-comments.created... ');-->
             <!--this.init();-->
         <!--},-->
 
         <!--methods: {-->
             <!--init () {-->
 <!--//                if (!this.comment.Id) this.$router.go(-1);-->
-                <!--logger.log('p-forum-comments.init... ');-->
+                <!--console.log('p-forum-comments.init... ');-->
                 <!--this.$set(this.labs[0], 'txt', this.labs[0].txt + this.comment.CommentNum);-->
                 <!--this.$set(this.labs[1], 'txt', this.labs[1].txt + this.comment.LikeNum);-->
             <!--},-->
@@ -187,7 +186,7 @@
                     <!--page: page,-->
                     <!--pageNum: pageNum-->
                 <!--}).then((res) => {-->
-                    <!--logger.log('===> p-forum-comments.getList: ', res);-->
+                    <!--console.log('===> p-forum-comments.getList: ', res);-->
                     <!--if (res.length) {-->
                         <!--res.forEach((v) => {-->
                             <!--if (v.ToUserId && v.toUserInfo.name) {-->
@@ -225,7 +224,7 @@
                     <!--page: page,-->
                     <!--pageNum: pageNum-->
                 <!--}).then((res) => {-->
-                    <!--logger.log('comment-info.getPraise: ', res);-->
+                    <!--console.log('comment-info.getPraise: ', res);-->
                     <!--this.praiseList = this.praiseList.concat(res);-->
                     <!--return Promise.resolve(res);-->
                 <!--});-->
@@ -238,9 +237,9 @@
             <!--handleDelComment (res) {-->
                 <!--let cmt = MicroBbs.getCurrentItem();-->
                 <!--if (cmt && cmt.OPT === 1) {-->
-                    <!--this.$logger.log('p-forum-comments.handleDelComment: add...');-->
+                    <!--console.log('p-forum-comments.handleDelComment: add...');-->
                 <!--} else {-->
-                    <!--this.$logger.log('p-forum-comments.handleDelComment: del...');-->
+                    <!--console.log('p-forum-comments.handleDelComment: del...');-->
                 <!--}-->
                 <!--MicroBbs.clearCurrentItem();-->
 <!--//                this.$store.commit('DEL_POSITION', this.$route.query.timestamp); // 删除位置信息，触发滚动条重新刷新-->
@@ -248,7 +247,7 @@
             <!--},-->
 
             <!--reply (commentId, userId, e) {-->
-                <!--logger.log('v-forum-comments.reply...', commentId, userId);-->
+                <!--console.log('v-forum-comments.reply...', commentId, userId);-->
                 <!--e.stopPropagation();-->
 
 <!--//                this.$router.push({name: 'comment-create', query: {id: this.topicId, toid: commentId, touid: userId}});-->
@@ -264,9 +263,9 @@
 <!--//                if (!this.comment) return;-->
 <!--//-->
 <!--//                let myPraise = _.find(this.praiseList, function (i) { return i.comment.UserId === parseInt(CONFIG.loginData.userInfo.userId); });-->
-<!--//                logger.log('-&#45;&#45;&ndash;&gt; ', this.comment.LikeFlag, myPraise, this.praiseList.length);-->
+<!--//                console.log('-&#45;&#45;&ndash;&gt; ', this.comment.LikeFlag, myPraise, this.praiseList.length);-->
 <!--//                if (this.comment.LikeFlag && !myPraise) { // 点赞：添加点赞数据-->
-<!--//                    logger.log('===>', this.comment);-->
+<!--//                    console.log('===>', this.comment);-->
 <!--//                    this.praiseList.push({-->
 <!--//                        id: this.comment.subjectId,-->
 <!--//                        formatedTm: utils.formatTime(new Date()),-->
@@ -280,11 +279,11 @@
 <!--//                        }-->
 <!--//                    });-->
 <!--//                }-->
-<!--//                logger.log('-&#45;&#45;&ndash;&gt; ', this.praiseList);-->
+<!--//                console.log('-&#45;&#45;&ndash;&gt; ', this.praiseList);-->
 <!--//            },-->
 <!--//-->
 <!--//            reply (toId, toUserId) {-->
-<!--//                logger.log('[comments].p-forum-comments.reply: ', toId, toUserId);-->
+<!--//                console.log('[comments].p-forum-comments.reply: ', toId, toUserId);-->
 <!--//                this.$router.push({name: 'comments-create', query: {subjectId: this.$route.query.subjectId, commentNum: this.comment.CommentNum, praiseNum: this.comment.LikeNum, toid: toId, touid: toUserId, isLike: this.comment.LikeFlag}});-->
 <!--//            }-->
         <!--}-->

@@ -55,7 +55,7 @@
         <!--},-->
 
         <!--mounted () {-->
-<!--//            this.$logger.log('p-comments-reply.mounted: ');-->
+<!--//            console.log('p-comments-reply.mounted: ');-->
         <!--},-->
         <!--methods: {-->
             <!--goReply (item) {-->
