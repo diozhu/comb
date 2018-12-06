@@ -8,7 +8,6 @@ import VueLazyload from 'vue-lazyload';
 import "./registerServiceWorker";
 // import './js/utils/highlightjs.js'; // 代码高亮
 import * as dom from './js/utils/dom.js';
-import CombUi from "comb-ui";
 import * as filters from './filters';
 import './js/utils/logger.js';
 
@@ -20,8 +19,6 @@ Vue.config.productionTip = false;
 // sync the router with the vuex store.
 // this registers `store.state.route`
 sync(store, router);
-
-Vue.use(CombUi);
 
 // 注册过滤器
 Object.keys(filters).forEach(key => {
