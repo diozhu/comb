@@ -218,8 +218,8 @@
 </script>
 <style lang="scss">
     @import './scss/app.scss'; // 基础样式
-    @import "../node_modules/highlight.js/styles/zenburn.css"; // 代码高亮的样式，正式项目请移除: darcula、googlecode
-    @import "./scss/_highlight.scss"; // 代码高亮的样式，正式项目请移除
+    @import '../node_modules/highlight.js/styles/zenburn.css'; // 代码高亮的样式，正式项目请移除: darcula、googlecode
+    @import './scss/_highlight.scss'; // 代码高亮的样式，正式项目请移除
 
     [v-cloak]{
         display: none;

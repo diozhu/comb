@@ -1,11 +1,11 @@
-import Vue from "vue";
+import Vue from 'vue';
 import FastClick from 'fastclick';
-import App from "./App.vue";
-import router from "./router";
-import store from "./store";
+import App from './App.vue';
+import router from './router';
+import store from './store';
 import { sync } from 'vuex-router-sync';
 import VueLazyload from 'vue-lazyload';
-import "./registerServiceWorker";
+import './registerServiceWorker';
 import './js/utils/highlightjs.js'; // 代码高亮
 import * as dom from './js/utils/dom.js';
 import * as filters from './filters';
@@ -69,8 +69,11 @@ Vue.use(VueLazyload, {
     }
 });
 
+// 关闭百度统计自动pv记录，在router.afterEach中去掉参数（主要是timestamp）手动传。add by Dio Zhu. on 2018.12.7
+if (window._hmt) window._hmt.push(['_setAutoPageview', false]); //eslint-disable-line
+
 new Vue({
     router,
     store,
     render: h => h(App)
-}).$mount("#app");
+}).$mount('#app');

@@ -57,6 +57,12 @@ module.exports = {
         return config;
     },
 
+    pluginOptions: {
+        developmentSwitcher: { // 开发环境的文件转换: xxx.js => xxx.development.js
+            js: [ 'api.js' ]
+        }
+    },
+
     pwa: {
         name: "动因体育",
         themeColor: "#FFFFFF",
