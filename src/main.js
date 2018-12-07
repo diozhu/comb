@@ -69,8 +69,7 @@ Vue.use(VueLazyload, {
     }
 });
 
-// 关闭百度统计自动pv记录，在router.afterEach中去掉参数（主要是timestamp）手动传。add by Dio Zhu. on 2018.12.7
-if (window._hmt) window._hmt.push(['_setAutoPageview', false]); //eslint-disable-line
+if (window._hmt) window._hmt.push(['_setAutoPageview', false]); // 关闭百度统计自动pv记录，在router.afterEach中去掉参数（主要是timestamp）手动传。add by Dio Zhu. on 2018.12.7
 
 new Vue({
     router,
