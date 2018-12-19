@@ -76,7 +76,7 @@ module.exports = {
         'vue/require-prop-type-constructor': 'off',
         'vue/html-closing-bracket-newline': 'off',
         'vue/html-closing-bracket-spacing': 'off',
-        'vue/component-name-in-template-casing': 'off'
+        'vue/component-name-in-template-casing': ['error', 'kebab-case']
     },
 
     parserOptions: {

@@ -2,7 +2,8 @@ const path = require("path");
 
 module.exports = {
     // 是否在保存的时候使用 `eslint-loader` 进行检查
-    lintOnSave: undefined,
+    lintOnSave: 'error',
+    // lintOnSave: process.env.NODE_ENV !== "production",
 
     baseUrl: process.env.NODE_ENV === "production" ? "/" + process.env.VUE_APP_PROJECT_NAME : "/",
     outputDir: process.env.NODE_ENV === 'production' ? path.resolve(__dirname, './dist/' + process.env.VUE_APP_PROJECT_NAME) : undefined,
@@ -47,9 +48,13 @@ module.exports = {
         // contentBase: path.resolve(__dirname, './example'),
         // publicPath: path.resolve(__dirname, './example'),
         open: false,
-        historyApiFallback: true,
-        noInfo: true,
-        overlay: true,
+        // historyApiFallback: true,
+        // noInfo: true,
+        // overlay: true,
+        overlay: {
+            warnings: true,
+            errors: true
+        },
         proxy: {
             "/virtual/order": {
                 // target: 'http://server-doing.hy-sport.cn',

@@ -23,7 +23,6 @@
     import vCell from 'comb-ui/src/vendors/v-cell.vue';
 
     export default {
-        name: "home",
         components: { vCell },
         data () {
             return {

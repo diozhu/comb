@@ -149,32 +149,32 @@
             沟槽的意义在于嵌套，而在简单布局情况下，沟槽的存在使得布局变得稍显复杂，所以gutter的默认值为0；
             如果要设定沟槽，与css方式一样，本项目根据的ui规格为750，css换算37.5，所以如果需要15px的沟槽，此处需传入30作为参数；
         </p>
-        <v-row :gutter.Number="30">
+        <v-row :gutter="30">
             <v-col :span="6"><p>文字</p></v-col>
             <v-col :span="6"><p>文字</p></v-col>
         </v-row>
-        <v-row :gutter.Number="30">
+        <v-row :gutter="30">
             <v-col :span="4"><p>文字</p></v-col>
             <v-col :span="4"><p>文字</p></v-col>
             <v-col :span="4"><p>文字</p></v-col>
         </v-row>
-        <v-row :gutter.Number="30">
+        <v-row :gutter="30">
             <v-col :span="3"><p>文字</p></v-col>
             <v-col :span="3"><p>文字</p></v-col>
             <v-col :span="3"><p>文字</p></v-col>
             <v-col :span="3"><p>文字</p></v-col>
         </v-row>
         <pre v-highlightjs @touchend.stop><code class="html">
-        &lt;v-row :gutter.Number="30"&gt;
+        &lt;v-row :gutter="30"&gt;
             &lt;v-col :span="6"&gt;&lt;p&gt;文字&lt;/p&gt;&lt;/v-col&gt;
             &lt;v-col :span="6"&gt;&lt;p&gt;文字&lt;/p&gt;&lt;/v-col&gt;
         &lt;/v-row&gt;
-        &lt;v-row :gutter.Number="30"&gt;
+        &lt;v-row :gutter="30"&gt;
             &lt;v-col :span="4"&gt;&lt;p&gt;文字&lt;/p&gt;&lt;/v-col&gt;
             &lt;v-col :span="4"&gt;&lt;p&gt;文字&lt;/p&gt;&lt;/v-col&gt;
             &lt;v-col :span="4"&gt;&lt;p&gt;文字&lt;/p&gt;&lt;/v-col&gt;
         &lt;/v-row&gt;
-        &lt;v-row :gutter.Number="30"&gt;
+        &lt;v-row :gutter="30"&gt;
             &lt;v-col :span="3"&gt;&lt;p&gt;文字&lt;/p&gt;&lt;/v-col&gt;
             &lt;v-col :span="3"&gt;&lt;p&gt;文字&lt;/p&gt;&lt;/v-col&gt;
             &lt;v-col :span="3"&gt;&lt;p&gt;文字&lt;/p&gt;&lt;/v-col&gt;
@@ -183,32 +183,32 @@
         </code></pre>
 
         <p class="desc">在做双按钮或者左右布局的时候，两个block的间距以及到屏幕的间距可通过设置avg来实现平分的效果，添加avg之后的平分样式：</p>
-        <v-row :gutter.Number="30" :avg="true">
+        <v-row :gutter="30" :avg="true">
             <v-col :span="6"><p>文字</p></v-col>
             <v-col :span="6"><p>文字</p></v-col>
         </v-row>
-        <v-row :gutter.Number="30" :avg="true">
+        <v-row :gutter="30" :avg="true">
             <v-col :span="4"><p>文字</p></v-col>
             <v-col :span="4"><p>文字</p></v-col>
             <v-col :span="4"><p>文字</p></v-col>
         </v-row>
-        <v-row :gutter.Number="30" :avg="true">
+        <v-row :gutter="30" :avg="true">
             <v-col :span="3"><p>文字</p></v-col>
             <v-col :span="3"><p>文字</p></v-col>
             <v-col :span="3"><p>文字</p></v-col>
             <v-col :span="3"><p>文字</p></v-col>
         </v-row>
         <pre v-highlightjs @touchend.stop><code class="html">
-        &lt;v-row :gutter.Number="30" :avg="true"&gt;
+        &lt;v-row :gutter="30" :avg="true"&gt;
             &lt;v-col :span="6"&gt;&lt;p&gt;文字&lt;/p&gt;&lt;/v-col&gt;
             &lt;v-col :span="6"&gt;&lt;p&gt;文字&lt;/p&gt;&lt;/v-col&gt;
         &lt;/v-row&gt;
-        &lt;v-row :gutter.Number="30" :avg="true"&gt;
+        &lt;v-row :gutter="30" :avg="true"&gt;
             &lt;v-col :span="4"&gt;&lt;p&gt;文字&lt;/p&gt;&lt;/v-col&gt;
             &lt;v-col :span="4"&gt;&lt;p&gt;文字&lt;/p&gt;&lt;/v-col&gt;
             &lt;v-col :span="4"&gt;&lt;p&gt;文字&lt;/p&gt;&lt;/v-col&gt;
         &lt;/v-row&gt;
-        &lt;v-row :gutter.Number="30" :avg="true"&gt;
+        &lt;v-row :gutter="30" :avg="true"&gt;
             &lt;v-col :span="3"&gt;&lt;p&gt;文字&lt;/p&gt;&lt;/v-col&gt;
             &lt;v-col :span="3"&gt;&lt;p&gt;文字&lt;/p&gt;&lt;/v-col&gt;
             &lt;v-col :span="3"&gt;&lt;p&gt;文字&lt;/p&gt;&lt;/v-col&gt;
@@ -218,28 +218,28 @@
 
         <h2>栅格的嵌套</h2>
         <p class="desc">由于沟槽的存在，使得嵌套非常简单~</p>
-        <v-row :gutter.Number="30">
+        <v-row :gutter="30">
             <v-col :span="6"><p>文字</p></v-col>
             <v-col :span="6">
-                <v-row :gutter.Number="30">
+                <v-row :gutter="30">
                     <v-col :span="6"><p>文字</p></v-col>
                     <v-col :span="6"><p>文字</p></v-col>
                 </v-row>
-                <v-row :gutter.Number="30">
+                <v-row :gutter="30">
                     <v-col :span="6"><p>文字</p></v-col>
                     <v-col :span="6"><p>文字</p></v-col>
                 </v-row>
             </v-col>
         </v-row>
         <pre v-highlightjs @touchend.stop><code class="html">
-        &lt;v-row :gutter.Number="30"&gt;
+        &lt;v-row :gutter="30"&gt;
             &lt;v-col :span="6"&gt;&lt;p&gt;文字&lt;/p&gt;&lt;/v-col&gt;
             &lt;v-col :span="6"&gt;
-                &lt;v-row :gutter.Number="30"&gt;
+                &lt;v-row :gutter="30"&gt;
                     &lt;v-col :span="6"&gt;&lt;p&gt;文字&lt;/p&gt;&lt;/v-col&gt;
                     &lt;v-col :span="6"&gt;&lt;p&gt;文字&lt;/p&gt;&lt;/v-col&gt;
                 &lt;/v-row&gt;
-                &lt;v-row :gutter.Number="30"&gt;
+                &lt;v-row :gutter="30"&gt;
                     &lt;v-col :span="6"&gt;&lt;p&gt;文字&lt;/p&gt;&lt;/v-col&gt;
                     &lt;v-col :span="6"&gt;&lt;p&gt;文字&lt;/p&gt;&lt;/v-col&gt;
                 &lt;/v-row&gt;
@@ -248,28 +248,28 @@
         </code></pre>
 
         <p class="desc">加上avg的嵌套效果</p>
-        <v-row :gutter.Number="30" :avg="true">
+        <v-row :gutter="30" :avg="true">
             <v-col :span="6"><p>文字</p></v-col>
             <v-col :span="6">
-                <v-row :gutter.Number="30" :avg="true">
+                <v-row :gutter="30" :avg="true">
                     <v-col :span="6"><p>文字</p></v-col>
                     <v-col :span="6"><p>文字</p></v-col>
                 </v-row>
-                <v-row :gutter.Number="30" :avg="true">
+                <v-row :gutter="30" :avg="true">
                     <v-col :span="6"><p>文字</p></v-col>
                     <v-col :span="6"><p>文字</p></v-col>
                 </v-row>
             </v-col>
         </v-row>
         <pre v-highlightjs @touchend.stop><code class="html">
-        &lt;v-row :gutter.Number="30" :avg="true"&gt;
+        &lt;v-row :gutter="30" :avg="true"&gt;
             &lt;v-col :span="6"&gt;&lt;p&gt;文字&lt;/p&gt;&lt;/v-col&gt;
             &lt;v-col :span="6"&gt;
-                &lt;v-row :gutter.Number="30" :avg="true"&gt;
+                &lt;v-row :gutter="30" :avg="true"&gt;
                     &lt;v-col :span="6"&gt;&lt;p&gt;文字&lt;/p&gt;&lt;/v-col&gt;
                     &lt;v-col :span="6"&gt;&lt;p&gt;文字&lt;/p&gt;&lt;/v-col&gt;
                 &lt;/v-row&gt;
-                &lt;v-row :gutter.Number="30" :avg="true"&gt;
+                &lt;v-row :gutter="30" :avg="true"&gt;
                     &lt;v-col :span="6"&gt;&lt;p&gt;文字&lt;/p&gt;&lt;/v-col&gt;
                     &lt;v-col :span="6"&gt;&lt;p&gt;文字&lt;/p&gt;&lt;/v-col&gt;
                 &lt;/v-row&gt;
