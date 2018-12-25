@@ -9,6 +9,7 @@ var app = express();
 // var api = require('../routes/api');
 // var history = require('connect-history-api-fallback'); // -- Author by Dio Zhu. on 2017.2.10
 var bodyParser = require('body-parser'); // -- Author by Dio Zhu. on 2017.2.10
+var portfinder = require('portfinder');
 
 var static_path = path.join(__dirname, "dist");
 
@@ -50,9 +51,22 @@ app.use(function (req, res) {
     res.redirect("/" + PROJECT_NAME);
 });
 
-var server = app.listen(3001, function () {
-    var host = server.address().address;
-    var port = server.address().port;
+portfinder.basePort = 3001;
+portfinder.highestPort = 3999;
+portfinder.getPortPromise().then(port => {
+    var server = app.listen(port, function () {
+        var host = server.address().address;
+        var port = server.address().port;
 
-    console.log('Example app listening at http://%s:%s', host, port);
+        console.log('Example app listening at http://%s:%s', host, port);
+    });
+}).catch(e => {
+    console.log(e);
 });
+
+// var server = app.listen(3001, function () {
+//     var host = server.address().address;
+//     var port = server.address().port;
+//
+//     console.log('Example app listening at http://%s:%s', host, port);
+// });

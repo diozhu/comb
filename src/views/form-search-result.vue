@@ -3,6 +3,17 @@
         <v-row :gutter="30">
             <v-search :autofocus="true" v-model="keywords" @handle-search="handleSearch"> </v-search>
         </v-row>
+
+        <pre v-highlightjs @touchend.stop><code class="html">
+        &lt;v-row :gutter="30"&gt;
+            &lt;v-search :autofocus="true" v-model="keywords" @handle-search="handleSearch"&gt; &lt;/v-search&gt;
+        &lt;/v-row&gt;
+        </code></pre>
+
+        <p class="desc">
+            关于autofocus:
+            ios下要想实现进入时自动focus，需要确保当前的页面与入口页在一个chunk中，在routes文件中配置webpackChunkName同名；  -- Author by Dio Zhu. on 2018.12.25
+        </p>
     </div>
 </template>
 

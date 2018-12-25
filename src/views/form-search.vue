@@ -16,9 +16,9 @@
         <h2>示例</h2>
         <p class="desc">默认样式fff，点击此组件跳转到指定路由</p>
         <v-row :gutter="30">
-            <router-link to="/form-search-result">
-                <v-search></v-search>
-            </router-link>
+            <!--<router-link to="/form-search-result">-->
+                <v-search :to="{name: 'SearchResult'}" disabled></v-search>
+            <!--</router-link>-->
         </v-row>
         <pre v-highlightjs @touchend.stop><code class="html">
         &lt;v-row :gutter="30"&gt;
@@ -28,16 +28,16 @@
         &lt;/v-row&gt;
         </code></pre>
 
-        <h2>搜索</h2>
-        <p class="desc">第二页的搜索，点击有动画</p>
-        <v-row :gutter="30">
-            <v-search :autofocus="true" v-model="keywords" @handle-search="handleSearch"> </v-search>
-        </v-row>
-        <pre v-highlightjs @touchend.stop><code class="html">
-        &lt;v-row :gutter="30"&gt;
-            &lt;v-search :autofocus="true" v-model="keywords" @handle-search="handleSearch"&gt; &lt;/v-search&gt;
-        &lt;/v-row&gt;
-        </code></pre>
+        <!--<h2>搜索</h2>-->
+        <!--<p class="desc">第二页的搜索，点击有动画</p>-->
+        <!--<v-row :gutter="30">-->
+            <!--<v-search v-model="keywords" @handle-search="handleSearch"> </v-search>-->
+        <!--</v-row>-->
+        <!--<pre v-highlightjs @touchend.stop><code class="html">-->
+        <!--&lt;v-row :gutter="30"&gt;-->
+            <!--&lt;v-search :autofocus="true" v-model="keywords" @handle-search="handleSearch"&gt; &lt;/v-search&gt;-->
+        <!--&lt;/v-row&gt;-->
+        <!--</code></pre>-->
     </div>
 </template>
 

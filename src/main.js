@@ -12,7 +12,10 @@ import * as filters from './filters';
 import './js/utils/logger.js';
 
 // 注册 fastclick
-FastClick.attach(document.body);
+// FastClick.attach(document.body);
+document.addEventListener('DOMContentLoaded', function() {
+    if (window.FastClick) window.FastClick.attach(document.body);
+}, false);
 
 Vue.config.productionTip = false;
 
