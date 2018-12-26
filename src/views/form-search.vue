@@ -16,14 +16,12 @@
         <h2>示例</h2>
         <p class="desc">默认样式fff，点击此组件跳转到指定路由</p>
         <v-row :gutter="30">
-            <!--<router-link to="/form-search-result">-->
-                <v-search :to="{name: 'SearchResult'}" disabled></v-search>
-            <!--</router-link>-->
+            <v-search :to="{name: 'SearchResult'}" disabled></v-search>
         </v-row>
         <pre v-highlightjs @touchend.stop><code class="html">
         &lt;v-row :gutter="30"&gt;
             &lt;router-link to="/form-search-result"&gt;
-                &lt;v-search&gt;&lt;/v-search&gt;
+                &lt;v-search :to="{name: 'SearchResult'}" disabled&gt;&lt;/v-search&gt;
             &lt;/router-link&gt;
         &lt;/v-row&gt;
         </code></pre>

@@ -14,12 +14,18 @@
             关于autofocus:
             ios下要想实现进入时自动focus，需要确保当前的页面与入口页在一个chunk中，在routes文件中配置webpackChunkName同名；  -- Author by Dio Zhu. on 2018.12.25
         </p>
+
+        <p class="desc">TODO：半成品，项目中暂无此需求，如有再继续写后面的。。。输入文字后，保留输入的样式，动画不能写在focus下。。。</p>
+
     </div>
 </template>
 
 <script>
 import vRow from 'comb-ui/src/vendors/v-row.vue';
-import vSearch from 'comb-ui/src/vendors/v-search';
+import vSearch from 'comb-ui/src/vendors/v-search.vue';
+import Vue from 'vue';
+import Toast from 'comb-ui/src/vendors/v-toast.js';
+Vue.$toast = Vue.prototype.$toast = Toast;
 
 export default {
     components: { vRow, vSearch },
