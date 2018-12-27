@@ -58,13 +58,13 @@
         },
 
         mounted () {
-            console.log('api.mounted...');
+            console.log('page-api.mounted...');
             this.init();
         },
 
         methods: {
             init () {
-                console.log('api.init...');
+                console.log('page-api.init...');
                 if (!utils.getSessionStorage().get('token')) {
                     api.bindPhone({ // qa环境使用手机号获取token
                         phone: '18612795267',
@@ -78,21 +78,21 @@
                 }
             },
             handleGet () {
-                console.log('api.handleGet...');
+                console.log('page-api.handleGet...');
                 api.getTest().then(res => {
                     this.$toast('success!!!');
-                    console.log('api.getTest.success: ', res);
+                    console.log('page-api.getTest.success: ', res);
                 }).catch(e => this.$toast(Trans(e)));
             },
             handleGet2 () {
-                console.log('api.handleGet2...');
+                console.log('page-api.handleGet2...');
                 api.getTest({}, {loading: true}).then(res => {
                     this.$toast('success!!!');
-                    console.log('api.getTest.success: ', res);
+                    console.log('page-api.getTest.success: ', res);
                 }).catch(e => this.$toast(Trans(e)));
             },
             handlePost () {
-                console.log('api.handlePost...');
+                console.log('page-api.handlePost...');
                 api.postTest({
                     name: 'test',
                     phone: '18612795267',
@@ -102,10 +102,10 @@
                     address: '蜂巢测试'
                 }).then(res => {
                     this.$toast('success!!!');
-                    console.log('api.postTest.success: ', res);
+                    console.log('page-api.postTest.success: ', res);
                 }).catch(e => { // 登录失败的判断，正常项目别这么写。。。这里只是测试。。。
                     this.$toast(Trans(e));
-                    console.error('api.postTest.error: ', e);
+                    console.error('page-api.postTest.error: ', e);
                     if (e.errcode === 10003 || e.errcode === 10004 || e.errcode === 10005 || e.errcode === 10006 || e.errcode === 10011) {
                         utils.getSessionStorage().set('token', '');
                         this.init();
@@ -113,7 +113,7 @@
                 });
             },
             handlePost2 () {
-                console.log('api.handlePost2...');
+                console.log('page-api.handlePost2...');
                 api.postTest({
                     name: 'test',
                     phone: '18612795267',
@@ -123,11 +123,11 @@
                     address: '蜂巢测试'
                 }, {loading: true}).then(res => {
                     this.$toast('success!!!');
-                    console.log('api.getTest.success: ', res);
+                    console.log('page-api.getTest.success: ', res);
                 }).catch(e => this.$toast(Trans(e)));
             },
             handlePost3 () { // 复杂对象，不用管好不好使，直接看发送的数据格式
-                console.log('api.handlePost3...');
+                console.log('page-api.handlePost3...');
                 utils.getSessionStorage().set('token', '1523590804.8.1296e38ead0b230caf4e371a5837dfcc042afb1c'); // 临时~
                 api.postTest2({
                     sales_name: '蜂巢测试~',
@@ -140,7 +140,7 @@
                     goods_rel: [{'sales_range': 1, 'city_id': 1, 'goods_id': '1412', 'sales_range_rel': 1, 'city_id_rel': 1, 'goods_rel_id': '1412', 'is_limit': 0, 'goods_nums': '', 'showRelationBtn': false}, {'sales_range': 1, 'city_id': 1, 'goods_id': '1408', 'sales_range_rel': 1, 'city_id_rel': 1, 'goods_rel_id': '1412', 'is_limit': 0, 'goods_nums': '', 'showRelationBtn': false}]
                 }, {loading: true}).then(res => {
                     this.$toast('success!!!');
-                    console.log('api.getTest.success: ', res);
+                    console.log('page-api.getTest.success: ', res);
                 }).catch(e => this.$toast(Trans(e)));
             }
         }

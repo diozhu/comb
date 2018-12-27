@@ -5,21 +5,25 @@
  */
 const dic = {
     /**
-     * 评论点赞错误码
+     * 错误码
      */
-    COMMENTS_ERROR: {
+    ERROR: {
         'DEFAULT': '操作失败, 请您稍后再试~',
         1001: '参数错误，请您稍后再试~'
     }
 };
 
-let trans = function (key, val) {
-    if (dic[key] && dic[key][val]) {
-        return dic[key][val];
-    } else if (dic[key]['DEFAULT']) {
-        return dic[key]['DEFAULT'];
+let trans = function (val, key = 'ERROR') {
+    if (val && val.data) {
+        if (dic[key] && dic[key][val.data.errcode]) {
+            return dic[key][val.data.errcode];
+        } else if (dic[key]['DEFAULT']) {
+            return dic[key]['DEFAULT'];
+        } else {
+            return '请您稍后再试~';
+        }
     } else {
-        return '请您稍后再试~';
+        return dic[key]['DEFAULT'];
     }
 };
 
