@@ -24,6 +24,9 @@
                 list: menus,
             };
         },
+        created () {
+            console.log('page.index.created: ');
+        },
         mounted () {
             console.log('page.index.mounted: ');
         },
