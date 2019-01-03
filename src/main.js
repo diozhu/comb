@@ -10,6 +10,7 @@ import './js/utils/highlightjs.js'; // 代码高亮
 import * as dom from './js/utils/dom.js';
 import * as filters from './filters';
 import './js/utils/logger.js';
+import { Toast } from 'comb-ui';
 
 // 注册 fastclick
 // FastClick.attach(document.body);
@@ -27,6 +28,9 @@ sync(store, router);
 Object.keys(filters).forEach(key => {
     Vue.filter(key, filters[key]);
 });
+
+// 注册蜂巢组件
+Vue.$toast = Vue.prototype.$toast = Toast;
 
 // 延时加载
 Vue.use(VueLazyload, {

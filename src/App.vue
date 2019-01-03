@@ -85,16 +85,16 @@
                 if (this.$router.direction > 0) this.trans = 'slide-left'; // in
                 else if (this.$router.direction < 0) this.trans = 'slide-right'; // back
                 else this.trans = 'fade'; // refresh
-                console.log(`APP.${this._uid}.watch: $route!!!`, this.$router.direction, this.trans, this.$route);
+                // console.log(`APP.${this._uid}.watch: $route!!!`, this.$router.direction, this.trans, this.$route);
             }
         },
 
         created () {
-            console.log('App.created... ');
+            // console.log('App.created... ');
         },
 
         mounted () {
-            console.log('APP mounted... ');
+            // console.log('APP mounted... ');
             this.loadingObj = document.getElementById('loading-wrapper');
         },
 //
@@ -119,7 +119,7 @@
 //                if (!this.$route.query.timestamp) { // 本地路由为了保存滚动位置都加了时间戳，如果没有，说明是首页~
                 if (!window.history || !window.history.state) { // 如果首页，调协议关闭webview~
                     // console.log('<== swipe right! back ...');
-                } else if (this.$route.name === 'my-subject-list' || this.$route.name === 'viewer' || this.$route.name === 'cell' || this.$route.name === 'subscribe') {
+                } else if (this.$route.name === 'viewer' || this.$route.name === 'cell') {
                     console.log('<== swipe right, do nothing ...');
                     // 图片预览页调用了swiper，冒泡居然反了。。。这里暂时根据路由判断
                 } else {
@@ -143,12 +143,12 @@
              *              -- Author by Dio Zhu. on 2018.8.1
              */
             enter (el, done) {
-                console.log(`[APP.transition].enter: ${this.$route.name}`, el.className, this.trans);
+                // console.log(`[APP.transition].enter: ${this.$route.name}`, el.className, this.trans);
                 let flt = 0, w = window.document.body.clientWidth * 0.6; // 首页，渐进
                 if (this.trans === 'slide-left') flt = w; // 进入
                 else if (this.trans === 'slide-right') flt = -w; // 回退
                 // 在这里处理滚动位置，如果放在before会出现绑定与挂载顺序问题，放在after会出现闪动。。。
-                console.log(`[APP.transition].enter: starting recompute the scroll position...`);
+                // console.log(`[APP.transition].enter: starting recompute the scroll position...`);
                 // if (this.$router.direct() && el) { // 前进，因为添加了transition，这里directive的inserted钩子未能正常执行，所以在动画结束后进行手动触发。。。
                 if (this.$router.directtion >= 0 && el) { // 前进，因为添加了transition，这里directive的inserted钩子未能正常执行，所以在动画结束后进行手动触发。。。
                     // 防止新页面也是keep-alive的，清除所有位置信息
@@ -167,7 +167,7 @@
                 setTimeout(() => { done(); }, 400);
             },
             afterEnter (el) { // 还原滚动条信息
-                console.log(`[APP.transition].afterEnter: ${this.$route.name}`, el.className);
+                // console.log(`[APP.transition].afterEnter: ${this.$route.name}`, el.className);
                 setTimeout(() => { // ios低版本会出现动画延后无法正常清除webkitTransform现象，造成form页picker的遮罩层顺序颠倒，这里延迟处理。 mod by Dio Zhu. on 2018.8.2
                     el.style.transform = ''; // 清除动画残留，避免合并层过多。。。
                     el.style.webkitTransform = ''; // 清除动画残留，避免合并层过多。。。
@@ -175,7 +175,7 @@
                 }, 500);
             },
             leave (el, done) { // 离开前获取滚动条信息
-                console.log(`[APP.transition].leave: ${this.$route.name}`, el.className, this.trans);
+                // console.log(`[APP.transition].leave: ${this.$route.name}`, el.className, this.trans);
                 // el.style.opacity = 0.1;
                 // done();
                 // 页面离开动画. mod by Dio Zhu. on 2018.7.31
@@ -185,7 +185,7 @@
                     cel = el.cloneNode(true),
                     pos = el.getAttribute('scroll-position') ? el.getAttribute('scroll-position').split('-') : [0, 0], // 首页，渐进
                     tmp = ScrollPosition.getPos(el);
-                console.log(`[APP.transition].leave: ${this.$route.name}`, el.className, this.trans, pos, tmp);
+                // console.log(`[APP.transition].leave: ${this.$route.name}`, el.className, this.trans, pos, tmp);
                 p.appendChild(cel); // 不能直接用el进行动画，这里如果异步执行done会扰乱vue的释放规则，造成滚动容器的位置会被还原，这里用了cloneNode再重新渲染一个dom进行动画展示，完事儿再异步删除。 Author by Dio Zhu. on 2018.8.1
                 ScrollPosition.setPos(cel, tmp);
                 done();
@@ -205,7 +205,7 @@
                 }, 400);
             },
             afterLeave (el) {
-                console.log(`[APP.transition].afterLeave: ${this.$route.name}`);
+                // console.log(`[APP.transition].afterLeave: ${this.$route.name}`);
                 // 还原滚动条信息
                 setTimeout(() => {
                     el.style.transform = ''; // 清除动画残留，避免合并层过多。。。

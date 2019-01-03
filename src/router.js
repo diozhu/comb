@@ -18,7 +18,7 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    console.log('[router.js] router.beforeEach: ------ BEFORE ------ ', ' from: ', from, ', to: ', to, ', direct: ', router.direct(to, from), router.direct());
+    console.info('[router.js] router.beforeEach: ------ BEFORE ------ ', ' from: ', from, ', to: ', to, ', direct: ', router.direct(to, from), router.direct());
     if (store.state && !to.matched.some(v => v.meta.disableLoading) && router.direct(to, from) >= 0) { // 路由跳转，显示菊花~ Author by Dio Zhu. on 2017.2.17, 回退时不显示菊花。。。mod by Dio Zhu. on 2017.8.25
         store.commit('OPEN_LOADING');
     }
@@ -49,7 +49,7 @@ router.beforeEach((to, from, next) => {
 });
 
 router.afterEach((to, from) => {
-    console.log('[router.js] router.afterEach: ------ AFTER ------ ', ' from: ', from, ', to: ', to, ', direct: ', router.direct(to, from), router.direct());
+    console.info('[router.js] router.afterEach: ------ AFTER ------ ', ' from: ', from, ', to: ', to, ', direct: ', router.direct(to, from), router.direct());
     /** set title */
     if (to.meta && to.meta.title) {
         router.setTitle(to.meta.title);

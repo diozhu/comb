@@ -1,8 +1,21 @@
-[initChain]  development
+[vue-cli-plugin-comb] chainWebpack: 
+[initChain] externals:  //s2.oss.dongyin.net/vue/2.5.17/vue.min.js
+[initChain] externals:  //s2.oss.dongyin.net/vue-router/3.0.1/vue-router.min.js
+[initChain] externals:  //s2.oss.dongyin.net/axios/0.18.0/axios.min.js
+[initChain] externals:  //s2.oss.dongyin.net/vuex/3.0.1/vuex.min.js
+[initChain] externals:  //s2.oss.dongyin.net/velocity/1.5.2/velocity.min.js
+[initChain] NOTE：Confirm the above URL, Please ~
 {
   mode: 'development',
   context: '/hy-sport/comb',
   devtool: 'source-map',
+  externals: {
+    vue: 'Vue',
+    'vue-router': 'VueRouter',
+    axios: 'axios',
+    vuex: 'Vuex',
+    'velocity-animate': 'Velocity'
+  },
   node: {
     setImmediate: false,
     process: 'mock',
@@ -25,6 +38,8 @@
       vue$: 'vue/dist/vue.runtime.esm.js'
     },
     extensions: [
+      '.wasm',
+      '.mjs',
       '.js',
       '.jsx',
       '.vue',
@@ -57,7 +72,7 @@
             loader: 'cache-loader',
             options: {
               cacheDirectory: '/hy-sport/comb/node_modules/.cache/vue-loader',
-              cacheIdentifier: '75e989b1'
+              cacheIdentifier: '00207327'
             }
           },
           /* config.module.rule('vue').use('vue-loader') */
@@ -68,12 +83,8 @@
                 preserveWhitespace: false
               },
               cacheDirectory: '/hy-sport/comb/node_modules/.cache/vue-loader',
-              cacheIdentifier: '75e989b1'
+              cacheIdentifier: '00207327'
             }
-          },
-          /* config.module.rule('vue').use('comb-loader') */
-          {
-            loader: 'comb-loader'
           }
         ]
       },
@@ -1039,16 +1050,25 @@
             loader: 'cache-loader',
             options: {
               cacheDirectory: '/hy-sport/comb/node_modules/.cache/babel-loader',
-              cacheIdentifier: 'a02a44fa'
+              cacheIdentifier: '022e8eae'
             }
           },
           /* config.module.rule('js').use('babel-loader') */
           {
             loader: 'babel-loader'
           },
-          /* config.module.rule('js').use('comb-js-loader') */
+          /* config.module.rule('js').use('switcher-loader') */
           {
-            loader: '/hy-sport/comb/node_modules/comb-loader/src/js-loader.js'
+            loader: '/hy-sport/comb/node_modules/vue-cli-plugin-comb/switcher-loader.js',
+            options: {
+              developmentSwitchers: [
+                'api.js'
+              ]
+            }
+          },
+          /* config.module.rule('js').use('import-loader') */
+          {
+            loader: '/hy-sport/comb/node_modules/vue-cli-plugin-comb/import-loader.js'
           }
         ]
       },
@@ -1071,9 +1091,10 @@
                 '.vue'
               ],
               cache: true,
-              cacheIdentifier: '64ca8e46',
-              emitWarning: true,
-              emitError: false,
+              cacheIdentifier: '9318b006',
+              emitWarning: false,
+              emitError: true,
+              eslintPath: '/hy-sport/comb/node_modules/eslint/lib/api.js',
               formatter: function () { /* omitted long function */ }
             }
           }
@@ -1088,10 +1109,20 @@
     new DefinePlugin(
       {
         'process.env': {
-          NODE_ENV: '"development"',
+          VUE_APP_DEBUG: '"true"',
+          VUE_APP_TITLE: '"动因体育"',
+          VUE_APP_APPID: '"20"',
           VUE_APP_PROJECT_NAME: '"comb"',
           VUE_APP_URL: '"//qa.doing.hy-sport.cn"',
           VUE_APP_LIMIT: '"10"',
+          VUE_APP_SIGNIN_URL: '""',
+          VUE_APP_MATCH_URL: '""',
+          VUE_APP_BMAP_URL: '""',
+          VUE_APP_BMAP_AK: '"fxgnhRQk7PhTxbS65PQl85QQTIYjuZro"',
+          VUE_APP_AMAP_KEY: '"5249ccefcdf2da0475ac21cb30105601"',
+          VUE_APP_AMAP_VERSION: '"1.4.1"',
+          VUE_APP_AIDONGJI_URL: '""',
+          NODE_ENV: '"development"',
           BASE_URL: '"/"'
         }
       }
@@ -1119,7 +1150,95 @@
     new HtmlWebpackPlugin(
       {
         templateParameters: function () { /* omitted long function */ },
-        template: '/hy-sport/comb/public/index.html'
+        template: '/hy-sport/comb/public/index.html',
+        dnsPreOps: [
+          {
+            rel: 'dns-prefetch',
+            href: '//hy-sport-img.b0.upaiyun.com'
+          },
+          {
+            rel: 'dns-prefetch',
+            href: '//s01.dongyin.net'
+          },
+          {
+            rel: 'dns-prefetch',
+            href: '//s0.oss.dongyin.net'
+          },
+          {
+            rel: 'dns-prefetch',
+            href: '//s1.oss.dongyin.net'
+          },
+          {
+            rel: 'dns-prefetch',
+            href: '//s2.oss.dongyin.net'
+          },
+          {
+            rel: 'dns-prefetch',
+            href: '//dy-static-h5.oss-cn-beijing.aliyuncs.com'
+          },
+          {
+            rel: 'preconnect',
+            href: '//hy-sport-img.b0.upaiyun.com'
+          },
+          {
+            rel: 'preconnect',
+            href: '//s01.dongyin.net'
+          },
+          {
+            rel: 'preconnect',
+            href: '//s0.oss.dongyin.net'
+          },
+          {
+            rel: 'preconnect',
+            href: '//s1.oss.dongyin.net'
+          },
+          {
+            rel: 'preconnect',
+            href: '//s2.oss.dongyin.net'
+          },
+          {
+            rel: 'preconnect',
+            href: '//dy-static-h5.oss-cn-beijing.aliyuncs.com'
+          }
+        ],
+        scripts: [
+          {
+            rel: 'preload',
+            url: '//s2.oss.dongyin.net/vue/2.5.17/vue.min.js'
+          },
+          {
+            rel: 'preload',
+            url: '//s2.oss.dongyin.net/vue-router/3.0.1/vue-router.min.js'
+          },
+          {
+            rel: 'preload',
+            url: '//s2.oss.dongyin.net/axios/0.18.0/axios.min.js'
+          },
+          {
+            rel: 'preload',
+            url: '//s2.oss.dongyin.net/vuex/3.0.1/vuex.min.js'
+          },
+          {
+            rel: 'preload',
+            url: '//s2.oss.dongyin.net/velocity/1.5.2/velocity.min.js'
+          }
+        ],
+        minify: {
+          removeComments: true,
+          collapseWhitespace: true,
+          removeAttributeQuotes: true,
+          collapseBooleanAttributes: true,
+          removeScriptTypeAttributes: true,
+          minifyCSS: false,
+          minifyJS: {
+            compress: {
+              drop_console: true,
+              pure_funcs: [
+                'console.log'
+              ]
+            }
+          }
+        }
       }
     ),
     /* config.plugin('pwa') */
@@ -1162,8 +1281,6 @@
         }
       ]
     ),
-    /* config.plugin('comb-plugin') */
-    new CombPlugin(),
     /* config.plugin('filter-warnings-plugin') */
     new FilterWarningsPlugin(
       {
