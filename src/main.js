@@ -61,17 +61,23 @@ Vue.use(VueLazyload, {
             // let isPng = /\.png/.test(thumb);
             // if (/s01.dongyin.net|aliyuncs.com/.test(thumb)) thumb += '?x-oss-process=image/format,webp/resize,w_101' + (isPng ? '' : '/blur,r_1,s_1'); // oss 缩略图
             // else if (/upaiyun.com/.test(thumb)) thumb += '!/format/webp/fw/101' + (isPng ? '' : '/gaussblur/1x1'); // 又拍云 缩略图
-            if (/s01.dongyin.net|aliyuncs.com/.test(thumb)) thumb += '?x-oss-process=image/resize,w_21'; // oss 缩略图
-            else if (/upaiyun.com/.test(thumb)) thumb += '!/format/webp/fw/21'; // 又拍云 缩略图
-            // console.log('[plugins.vue-lazyload] filter.progressive: ', thumb);
+            if (/oss.dongyin.net|s01.dongyin.net|aliyuncs.com/.test(thumb)) thumb += '?x-oss-process=image/resize,w_21'; // oss 缩略图
+            else if (/upaiyun.com/.test(thumb)) thumb += '!/format/fw/21'; // 又拍云 缩略图
+            else thumb = listener.src;
+            // console.warn('[plugins.vue-lazyload] filter.progressive: ', thumb, listener.src);
             listener.loading = thumb;
+            if (!listener.startTime) listener.startTime = Date.now();
         }
     },
     adapter: {
-        loaded ({ bindType, el, naturalHeight, naturalWidth, $parent, src, loading, error, Init }) {
+        loaded (listener, options) { // load完成后根据加载时间判断是否从缓存加载，'cached'的class决定动画时间长短。 add by Dio Zhu. on 2019.1.4
+            if (!listener.endTime) listener.endTime = Date.now();
+            let dif = parseInt(listener.endTime - listener.startTime);
+            console.warn('[vue-lazyload] loading time: ', dif, ' ==> ', listener.src);
+            if (dif <= 50 && !dom.hasClass(listener.el, 'cached')) dom.addClass(listener.el, 'cached');
             // console.log('[plugins.vue-lazyload] adapter.loaded: el -> ', dom.hasClass(el, 'loading'));
-            if (dom.hasClass(el, 'loading')) dom.removeClass(el, 'loading');
-            dom.addClass(el, 'loaded');
+            if (dom.hasClass(listener.el, 'loading')) dom.removeClass(listener.el, 'loading');
+            dom.addClass(listener.el, 'loaded');
         }
     }
 });

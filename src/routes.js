@@ -29,8 +29,8 @@ const routeList = [
     {name: 'Star', path: '/star', meta: {title: '评星', group: '基础组件'}, component: () => import('./views/star.vue')},
     {name: 'Swiper', path: '/swiper', meta: {title: '轮播', group: '基础组件'}, component: () => import('./views/swiper.vue')},
     {name: 'Timeline', path: '/timeline', meta: {title: '时间线', group: '基础组件'}, component: () => import('./views/timeline.vue')},
-    {name: 'Viewer', path: '/404', meta: {title: 'Viewer', group: '基础组件'}, component: () => import('./views/404.vue')},
-    {name: 'Image', path: '/404', meta: {title: 'Image', group: '基础组件'}, component: () => import('./views/404.vue')},
+    {name: 'Viewer', path: '/viewer', meta: {title: 'Viewer', group: '基础组件'}, component: () => import('comb-ui/src/vendors/v-viewer.vue')},
+    {name: 'Image', path: '/image', meta: {title: 'Image', group: '基础组件'}, component: () => import('./views/image.vue')},
 
     // Form表单类组件
     {name: 'Api', path: '/api', meta: {title: '接口调用（axios）', group: 'Form表单类组件'}, component: () => import('./views/api.vue')},

@@ -54,7 +54,7 @@ router.afterEach((to, from) => {
     if (to.meta && to.meta.title) {
         router.setTitle(to.meta.title);
     } else {
-        router.setTitle(process.evn.VUE_APP_TITLE || '');
+        router.setTitle(process.env.VUE_APP_TITLE || '');
     }
 
     /**

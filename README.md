@@ -26,11 +26,12 @@ npm run lint
 ```
 
 ## 蜂巢组件安装方式
-
+```bash
 npm i -S git+ssh://git@git.hy-sport.cn:front/comb-ui.git#v2.0.0
 ```
 
 ### 更新方式（需要清除node_modules的缓存！）
+```bash
 rm -rf node_modules/.cache && rm -rf node_modules/comb-ui && npm i -S comb-ui
 ```
 

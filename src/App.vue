@@ -119,7 +119,7 @@
 //                if (!this.$route.query.timestamp) { // 本地路由为了保存滚动位置都加了时间戳，如果没有，说明是首页~
                 if (!window.history || !window.history.state) { // 如果首页，调协议关闭webview~
                     // console.log('<== swipe right! back ...');
-                } else if (this.$route.name === 'viewer' || this.$route.name === 'cell') {
+                } else if ((this.$route.name && this.$route.name.toLocaleLowerCase() === 'viewer') || this.$route.name === 'cell') {
                     console.log('<== swipe right, do nothing ...');
                     // 图片预览页调用了swiper，冒泡居然反了。。。这里暂时根据路由判断
                 } else {
