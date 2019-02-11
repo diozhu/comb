@@ -73,7 +73,7 @@ Vue.use(VueLazyload, {
         loaded (listener, options) { // load完成后根据加载时间判断是否从缓存加载，'cached'的class决定动画时间长短。 add by Dio Zhu. on 2019.1.4
             if (!listener.endTime) listener.endTime = Date.now();
             let dif = parseInt(listener.endTime - listener.startTime);
-            console.warn('[vue-lazyload] loading time: ', dif, ' ==> ', listener.src);
+            // console.warn('[vue-lazyload] loading time: ', dif, ' ==> ', listener.src);
             if (dif <= 50 && !dom.hasClass(listener.el, 'cached')) dom.addClass(listener.el, 'cached');
             // console.log('[plugins.vue-lazyload] adapter.loaded: el -> ', dom.hasClass(el, 'loading'));
             if (dom.hasClass(listener.el, 'loading')) dom.removeClass(listener.el, 'loading');

@@ -3,12 +3,12 @@
         <h2>相册组件 v-album</h2>
         <h2>默认：渐显</h2>
         <v-image v-model="img1" @click="goViewer([img1], 0)"></v-image>
-        <!--<h2>缩放</h2>-->
-        <!--<v-image v-model="img2" animation="scale" @click="goViewer([img2], 0)"></v-image>-->
-        <!--<v-image v-model="img3" @click="goViewer([img1, img2, img3, img4, img5, img6], 2)"></v-image>-->
-        <!--<v-image v-model="img4" animation="scale"></v-image>-->
-        <!--<v-image v-model="img5" animation="scale"></v-image>-->
-        <!--<v-image v-model="img6"></v-image>-->
+        <h2>缩放</h2>
+        <v-image v-model="img2" animation="scale" @click="goViewer([img2], 0)"></v-image>
+        <v-image v-model="img3" @click="goViewer([img1, img2, img3, img4, img5, img6], 2)"></v-image>
+        <v-image v-model="img4" animation="scale"></v-image>
+        <v-image v-model="img5" animation="scale"></v-image>
+        <v-image v-model="img6"></v-image>
         <!--<pre v-highlightjs @touchend.stop><code class="html">-->
         <!--&lt;v-album v-model="img1"&gt;&lt;/v-album&gt;-->
         <!--</code></pre>-->
