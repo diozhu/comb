@@ -103,7 +103,6 @@ export let cookie = {
 };
 export function getLocalStorage (key = '') {
     let storage = window.localStorage,
-        // _uid = 'cn.hy-sport.comb';
         _uid = key || window.location.host.split('.').reverse().join('.');
 
     if (!storage) {
@@ -148,7 +147,6 @@ export function getLocalStorage (key = '') {
 };
 export function getSessionStorage (key = '') {
     let storage = window.sessionStorage,
-        // _uid = 'cn.hy-sport.comb';
         _uid = key || window.location.host.split('.').reverse().join('.');
 
     if (!storage) {
@@ -511,11 +509,11 @@ export function thumb (url, { width = 750, height = 0 } = {}) {
         if (width && height) str += '!/both/' + width + 'x' + height;
         else if (width) str += '!/fw/' + width;
         else if (height) str += '!/fh/' + height;
-    } else if (/img-yp-cdn.dongyin.net/.test(url)) { // 阿里云缩略图
+    } else if (/static.91wuliu.com/.test(url)) { // 阿里云缩略图
         if (width && height) str += '?x-oss-process=image/resize,h_' + height + ',w_' + width;
         else if (width) str += '?x-oss-process=image/resize,w_' + width;
         else if (height) str += '?x-oss-process=image/resize,h_' + height;
-    } else if (/dy-static-h5.oss-cn-beijing.aliyuncs.com/.test(url)) {
+    } else if (/oss-cn-beijing.aliyuncs.com/.test(url)) {
         if (width && height) str += '?x-oss-process=image/resize,h_' + height + ',w_' + width;
         else if (width) str += '?x-oss-process=image/resize,w_' + width;
         else if (height) str += '?x-oss-process=image/resize,h_' + height;
@@ -582,7 +580,7 @@ export function format (url, { width = 0, height = 0, type = '', thumb = false }
 
         let newQuery = tmp === '!' ? '' : tmp;
         return url + newQuery;
-    } else if (/s01.dongyin.net|aliyuncs.com/.test(url)) { // 阿里云oss（自有域名：s01.dongyin.net）
+    } else if (/static.91wuliu.com|aliyuncs.com/.test(url)) { // 阿里云oss（自有域名）
         // console.warn(url, thumb);
         if (thumb) return url + '?x-oss-process=image/format,webp/resize,w_51' + (newType === 'png' ? '' : '/blur,r_5,s_5'); // 返回缩略图
         let tmp = '';

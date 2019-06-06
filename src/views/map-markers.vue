@@ -17,10 +17,11 @@
 </template>
 
 <script type="text/ecmascript-6">
-import vMap from 'comb-ui/src/vendors/v-map.vue';
+// import vMap from 'comb-ui/src/vendors/v-map.vue';
+import { vRow, vCol, vMap, vButton } from 'comb-ui';
 
 export default {
-    components: {vMap},
+    components: { vRow, vCol, vMap, vButton },
 
     data () {
         return {

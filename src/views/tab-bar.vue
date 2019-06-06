@@ -16,7 +16,7 @@
 
         <h2>示例</h2>
 
-        <v-tabbar v-bind:tabs='tabs' @change = "changeFn">
+        <v-tab-bar v-bind:tabs='tabs' @change = "changeFn">
             <!--<p slot="con" v-for="(item, index) in tabs.tabCons" :key="index" v-if='tabs.selectNum==index'>-->
                 <!--{{item}}-->
             <!--</p>-->
@@ -25,7 +25,7 @@
             <p slot="customTpl" v-if='tabs.selectNum==2'>{{template2}}</p>
             <p slot="customTpl" v-if='tabs.selectNum==0' ref='testTpl'></p>
 
-        </v-tabbar>
+        </v-tab-bar>
         <div class="selected-val"><span>{{selectNav}}</span>已选中:</div>
         <!-- <div class="selected-val"><span>{{selectNav1()}}</span>已选中:</div> -->
     </div>
@@ -47,9 +47,10 @@
      *     <p slot="customTpl" v-if='tabs.selectNum==0'>{{template}}</p>
      * </v-tabbar>
      */
-    import vTabbar from 'comb-ui/src/vendors/v-tab-bar.vue';
+    // import vTabbar from 'comb-ui/src/vendors/v-tab-bar.vue';
+    import { vTabBar } from 'comb-ui';
     export default {
-        components: { vTabbar },
+        components: { vTabBar },
 
         data () {
             return {

@@ -15,6 +15,23 @@ var static_path = path.join(__dirname, "dist");
 
 var PROJECT_NAME = process.env["PROJECT_NAME"] || 'comb';
 
+//设置允许跨域访问该服务.
+app.all('*', function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*'); //Access-Control-Allow-Headers ,可根据浏览器的F12查看,把对应的粘贴在这里就行
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.header('Access-Control-Allow-Methods', '*');
+    res.header('Content-Type', 'application/json;charset=utf-8');
+    next();
+});
+
+// app.all("*", function(req,res,next) { //设置允许跨域的域名，*代表允许任意域名跨域
+//     res.header("Access-Control-Allow-Origin","*"); //允许的header类型
+//     res.header("Access-Control-Allow-Headers","content-type"); //跨域允许的请求方式
+//     res.header("Access-Control-Allow-Methods","DELETE,PUT,POST,GET,OPTIONS");
+//     if (req.method.toLowerCase() == 'options') res.send(200); //让options尝试请求快速结束
+//     else next();
+// });
+
 app.use(compression()); // gzip，内网联调可以打开。 mod by Dio Zhu. on 2018.11.14
 
 app.use(function (req, res, next) {

@@ -4,7 +4,7 @@
 
         <v-feed
             :feedId = "'c_1407459100687437'"
-            :imgUrl = "'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png'"
+            :imgUrl = "'https://avatars3.githubusercontent.com/u/9164880?s=400&u=d28ed14bd6366235ecadccf73615e5e97d4951a7&v=4'"
             :title = "'老朱'"
             :subtitle = "'人在江湖飘~'"
             :classes = "'small'"

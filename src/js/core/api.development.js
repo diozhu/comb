@@ -39,13 +39,6 @@ if (typeof Promise === 'undefined') {
 // };
 CONFIG.URL = process.env.VUE_APP_URL;
 
-// 线上地址
-// CONFIG.URL = 'http://api-dongyin.hy-sport.cn/';
-
-// q1地址
-// CONFIG.URL = 'http://q1-s-doing.hy-sport.cn';
-// CONFIG.URL = 'http://qh.test.doing.hy-sport.cn';
-
 /*
  * 封装Axios
  * @param string url 请求的URL地址
@@ -269,7 +262,7 @@ export const getDelay = (params, opts) => {
 // export const getRandomList = (params, opts) => request(CONFIG.URL + '/api/getRandomList', params, { ...opts, method: 'post' });
 export const getRandomList = (params, opts) => {
     // console.log('!!!!!!!!!!!!!!', params);
-    let obj = {'id': 1001, 'title': '这是一句测试的内容', 'dt': 1478655191000, 'userInfo': { 'id': 397833, 'title': '老朱', 'subtitle': '推广语', 'isfollow': 1, 'avatar': 'http://hy-sport-img.b0.upaiyun.com/upload_image/31383bcec5c838fbc9ca7b7bdaf42d08b75dc1d2.png' }},
+    let obj = {'id': 1001, 'title': '这是一句测试的内容', 'dt': 1478655191000, 'userInfo': { 'id': 397833, 'title': '老朱', 'subtitle': '推广语', 'isfollow': 1, 'avatar': 'https://avatars3.githubusercontent.com/u/9164880?s=400&u=d28ed14bd6366235ecadccf73615e5e97d4951a7&v=4' }},
         rtn = [],
         delay = params.delay || 200;
     for (let i = params.offset || 0, len = params.limit || 10;i < len;i++) {

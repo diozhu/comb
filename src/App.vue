@@ -279,9 +279,9 @@
             }
         }
 
-        .attributes {
-            /*padding: 0 pxTorem(6px);*/
-        }
+        // .attributes {
+        //     /*padding: 0 pxTorem(6px);*/
+        // }
     }
 
 </style>

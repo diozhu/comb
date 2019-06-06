@@ -11,13 +11,13 @@
         </div>
         <div class="listview simple">
             <ul>
-                <li @click="go('http://git.hy-sport.cn/front/comb-ui/blob/develop/README.md')">readme<i class="icon icon-arrow-r"></i></li>
-                <li @click="go('http://git.hy-sport.cn/front/comb-ui/issues')">issues<i class="icon icon-arrow-r"></i></li>
+                <li @click="go('http://github.com/diozhu/comb/blob/develop/README.md')">readme<i class="icon icon-arrow-r"></i></li>
+                <li @click="go('http://github.com/diozhu/comb/issues')">issues<i class="icon icon-arrow-r"></i></li>
             </ul>
         </div>
         <div class="listview simple">
             <ul>
-                <li @click="go('http://git.hy-sport.cn/front/vue-cli-plugin-comb/blob/develop/README.md')">脚手架<i class="icon icon-arrow-r"></i></li>
+                <li @click="go('http://github.com/diozhu/vue-cli-plugin-comb/blob/develop/README.md')">脚手架<i class="icon icon-arrow-r"></i></li>
             </ul>
         </div>
     </div>

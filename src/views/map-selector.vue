@@ -1,13 +1,18 @@
 <template>
     <div class="page page-map-selector">
-        <v-search v-model="keywords" @handle-search="handleSearch"></v-search>
+        <!--<v-search v-model="keywords" @handle-search="handleSearch"></v-search>-->
+
+        <label>
+            <input id="keywords" type="text" v-model="keywords" />
+        </label>
+
         <div ref="amap" class="amap">
             <v-map
                 :lng="lng"
                 :lat="lat"
                 :markers="markers"
                 :keywords="keywords"
-                placeSearch
+                place-search-enable
                 :radius="500"
                 :locations="locations"
                 @locations-change="handleLocationsChange"
@@ -33,8 +38,9 @@
 
 <script type="text/ecmascript-6">
 import Vue from 'vue';
+import { vInput } from 'comb-ui';
 import vMap from 'comb-ui/src/vendors/v-map.vue';
-import vSearch from 'comb-ui/src/vendors/v-search.vue';
+// import vSearch from 'comb-ui/src/vendors/v-search.vue';
 import vScroll from 'comb-ui/src/vendors/v-scroll.js';
 import vRadio from 'comb-ui/src/vendors/v-radio.vue';
 import vButton from 'comb-ui/src/vendors/v-button.vue';
@@ -43,7 +49,7 @@ import bus from 'comb-ui/src/vendors/eventbus.js';
 Vue.use(vScroll);
 
 export default {
-    components: { vMap, vSearch, vRadio, vButton },
+    components: { vMap, vInput, vRadio, vButton },
 
     data () {
         return {
@@ -69,6 +75,9 @@ export default {
             let pos = JSON.parse(val);
             if (!pos || !pos.position) return;
             bus.$emit('v-map.changeMarker', pos.position);
+        },
+        keywords (val) {
+            this.getList();
         }
     },
 

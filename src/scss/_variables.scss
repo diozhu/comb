@@ -201,16 +201,3 @@ $btn-btn-color:                   #FDD108 !default;
 //** Disabled cursor for form controls and buttons.
 $cursor-disabled:                not-allowed !default;
 
-//@function format($filename, $width:0, $height:0){
-//    $str: '//s01.dongyin.net/doing/#{$filename}';
-//
-//    @if ($width != 0 and $height != 0) {
-//        @return '#{$str}?x-oss-process=image/resize,h_#{$width},w_#{$height}';
-//    }@else if ($width != 0) {
-//        @return '#{$str}?x-oss-process=image/resize,w_#{$width}';
-//    }@else if ($height != 0) {
-//        @return '#{$str}?x-oss-process=image/resize,h_#{$height}';
-//    }@else {
-//        @return $str;
-//    }
-//}

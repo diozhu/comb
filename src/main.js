@@ -58,10 +58,7 @@ Vue.use(VueLazyload, {
             if (ossidx > 0) thumb = thumb.substring(0, ossidx);
             let ypidx = thumb.lastIndexOf('!/');
             if (ypidx > 0) thumb = thumb.substring(0, ypidx);
-            // let isPng = /\.png/.test(thumb);
-            // if (/s01.dongyin.net|aliyuncs.com/.test(thumb)) thumb += '?x-oss-process=image/format,webp/resize,w_101' + (isPng ? '' : '/blur,r_1,s_1'); // oss 缩略图
-            // else if (/upaiyun.com/.test(thumb)) thumb += '!/format/webp/fw/101' + (isPng ? '' : '/gaussblur/1x1'); // 又拍云 缩略图
-            if (/oss.dongyin.net|s01.dongyin.net|aliyuncs.com/.test(thumb)) thumb += '?x-oss-process=image/resize,w_21'; // oss 缩略图
+            if (/static.91wuliu.com|aliyuncs.com/.test(thumb)) thumb += '?x-oss-process=image/resize,w_21'; // oss 缩略图
             else if (/upaiyun.com/.test(thumb)) thumb += '!/format/fw/21'; // 又拍云 缩略图
             else thumb = listener.src;
             // console.warn('[plugins.vue-lazyload] filter.progressive: ', thumb, listener.src);

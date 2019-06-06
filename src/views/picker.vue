@@ -14,6 +14,8 @@
                     }]</td><td>Array</td><td>-</td><td>-</td></tr>
                 <tr><td>valueKey</td><td>列对象的values如果为对象数组，此为对象的key</td><td>String</td><td>-</td><td>-</td></tr>
                 <tr><td>visibleItemCount</td><td>slot中可见行数</td><td>Number</td><td>-</td><td>-</td></tr>
+                <tr><td>rotateEffect</td><td>齿轮效果</td><td>Boolean</td><td>-</td><td>false</td></tr>
+                <tr><td>vibrateEnabled</td><td>开启震动（仅Android支持）</td><td>Boolean</td><td>-</td><td>false</td></tr>
                 <tr><th>slots</th><th colspan="4">说明</th></tr>
                 <tr><td>-</td><td colspan="4">插入顶部工具栏</td></tr>
                 <tr><th>events</th><th colspan="4">说明</th></tr>

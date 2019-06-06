@@ -22,37 +22,20 @@ let config = {
     AMAP_VERSION: '1.4.1', // 高德API版本
     AIDONGJI_URL: '',
 };
-if (process.env.NODE_ENV === 'production') { // 如果是线上环境，修改对应的参数. mod by Dio Zhu. on 2017.6.22
-    let url = window.location.href;
-    if (/^https?:\/\/pre\.doing\.hy-sport\.cn\//ig.test(url)) { // 预发环境
-        // config.URL = 'http://pre.doing.hy-sport.cn';
-        config.URL = '//api-dongyin.hy-sport.cn';
-        // config.MATCH_URL = 'http://47.95.47.51:8081';
-        config.MATCH_URL = '//qa-s-match.hy-sport.cn:9082';
-        config.AIDONGJI_URL = '//aidongji.hy-sport.cn';
-    } else if (/^https?:\/\/dongyin\.hy-sport\.cn\//ig.test(url)) { // 上线环境，公网解析
-        config.URL = '//api-dongyin.hy-sport.cn';
-        config.MATCH_URL = 'http://47.95.43.139:9081';
-        // config.MATCH_URL = '//api-match.hy-sport.cn:9082';
-        config.AIDONGJI_URL = '//aidongji.hy-sport.cn';
-    } else if (/^https?:\/\/q1-f-doing\.hy-sport\.cn\//ig.test(url)) { // 测试环境二，公网解析
-        config.URL = '//q1-s-doing.hy-sport.cn/';
-        config.MATCH_URL = '//q1-s-match.hy-sport.cn:8081';
-        config.AIDONGJI_URL = '//aidongji.hy-sport.cn';
-    } else { // 开发环境
-        config.URL = '//qa.doing.hy-sport.cn';
-        // config.MATCH_URL = '//47.95.47.51:8081';
-        config.MATCH_URL = '//qa-s-match.hy-sport.cn:9082';
-        config.AIDONGJI_URL = '//aidongji.hy-sport.cn';
-    }
-    config.SIGNIN_URL = '//qa.education.hy-sport.cn'; // 开发环境
-    // config.COMMENT_UTL = 'http://172.28.50.173:8080';
-    config.BMAP_URL = 'http://api.map.baidu.com';
-    // config.MATCH_URL = 'http://47.95.47.51:8081';
-}
 // if (process.env.NODE_ENV === 'production') { // 如果是线上环境，修改对应的参数. mod by Dio Zhu. on 2017.6.22
-//     config.URL = '';
+//     let url = window.location.href;
+//     if (/^https?:\/\/pre\.doing\.comb\.cn\//ig.test(url)) { // 预发环境
+//
+//     } else if (/^https?:\/\/www\.comb\.cn\//ig.test(url)) { // 上线环境，公网解析
+//
+//     } else if (/^https?:\/\/q2\.comb\.cn\//ig.test(url)) { // 测试环境二，公网解析
+//
+//     } else { // 开发环境
+//
+//     }
 // }
-// window.location.host.indexOf('localhost') !== -1 || window.location.host.indexOf('doing') !== -1 ? 'http://qa.doing.hy-sport.cn' : 'http://api-dongyin.hy-sport.cn',
+// // if (process.env.NODE_ENV === 'production') { // 如果是线上环境，修改对应的参数. mod by Dio Zhu. on 2017.6.22
+// //     config.URL = '';
+// // }
 
 export default config;

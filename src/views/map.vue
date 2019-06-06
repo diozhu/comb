@@ -15,11 +15,12 @@
                 <tr><td>dragEnable</td><td>是否可拖拽</td><td>Boolean</td><td>-</td><td>false</td></tr>
                 <tr><td>img</td><td>如有图则不初始化高德，直接显示图片</td><td>String</td><td>-</td><td>-</td></tr>
                 <tr><td>location</td><td>显示地址</td><td>String</td><td>-</td><td>-</td></tr>
+                <tr><td>zoom</td><td>缩放</td><td>Number</td><td>-</td><td>17</td></tr>
             </table>
         </div>
 
         <h2>示例</h2>
-        <v-map :lng="lng" :lat="lat" :dragEnable="true"></v-map>
+        <v-map :lng="lng" :lat="lat" :dragEnable="true" :zoom="12"></v-map>
         <pre v-highlightjs @touchend.stop><code class="html">
         &lt;v-map :lng="lng" :lat="lat" :dragEnable="true"&gt;&lt;/v-map&gt;
         </code></pre>
