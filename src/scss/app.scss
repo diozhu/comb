@@ -10,8 +10,12 @@
 @import "form";
 //font css
 @import "icon";
-@import "animate";
+// @import "animate";
 
+@font-face { // 微信字体，邵蔚提供，用于所有价格数字。mod by Dio Zhu. on 2018.10.29
+    font-family: "DINCond Bold";
+    src: url(//dy-static-h5.oss-cn-beijing.aliyuncs.com/vendor/fonts/DINCond-Bold.otf);
+}
 .v-touch {
     height: 100%;
     position: relative;
@@ -23,7 +27,7 @@
         overflow-x: hidden;
         overflow-y: auto; // 设定默认滚动容器
         -webkit-overflow-scrolling: touch;
-        background: #F2f2f2; // 添加v-transition后，如果page没有底色会透底。。。
+        background: $body-bg; // 添加v-transition后，如果page没有底色会透底。。。
     }
 }
 
@@ -40,7 +44,7 @@
 //     position: relative;
 //     overflow-x: hidden;
 //     overflow-y: auto;
-    
+
 //     &::-webkit-scrollbar {
 //         display: none;
 //     }
@@ -113,7 +117,7 @@
     bottom: 0;
     z-index: 10000;
     background:#FFF;
-    opacity:0.8;
+    opacity:0.3;
 
     &.show {
         display: block;
@@ -147,7 +151,7 @@
 /* 可以设置不同的进入和离开动画 */
 /* 设置持续时间和动画函数 */
 .fade-enter-active {
-    transition: opacity .3s ease;
+    transition: opacity .3s ease-in-out;
 }
 .fade-enter, .fade-leave-active {
     opacity: 0;

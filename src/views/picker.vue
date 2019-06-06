@@ -14,6 +14,8 @@
                     }]</td><td>Array</td><td>-</td><td>-</td></tr>
                 <tr><td>valueKey</td><td>列对象的values如果为对象数组，此为对象的key</td><td>String</td><td>-</td><td>-</td></tr>
                 <tr><td>visibleItemCount</td><td>slot中可见行数</td><td>Number</td><td>-</td><td>-</td></tr>
+                <tr><td>rotateEffect</td><td>齿轮效果</td><td>Boolean</td><td>-</td><td>false</td></tr>
+                <tr><td>vibrateEnabled</td><td>开启震动（仅Android支持）</td><td>Boolean</td><td>-</td><td>false</td></tr>
                 <tr><th>slots</th><th colspan="4">说明</th></tr>
                 <tr><td>-</td><td colspan="4">插入顶部工具栏</td></tr>
                 <tr><th>events</th><th colspan="4">说明</th></tr>
@@ -206,7 +208,7 @@ export default {
     },
     methods: {
         onObjChange (picker, values) {
-            this.$logger.log('picker-demo.onObjChange: ', values);
+            console.log('picker-demo.onObjChange: ', values);
             this.objSelectedKey = values[0]['key'];
             this.objSelectedValue = values[0]['values'];
         }
@@ -219,7 +221,7 @@ export default {
 </template>
 
 <script type="text/ecmascript-6">
-    import vPicker from '../vendor/v-picker';
+    import vPicker from 'comb-ui/src/vendors/v-picker';
 
     const address = {
         '北京': ['北京'],
@@ -353,7 +355,7 @@ export default {
             },
 
             onObjChange (picker, values) {
-                this.$logger.log('picker-demo.onObjChange: ', values);
+                console.log('picker-demo.onObjChange: ', values);
 //                picker.setSlotValues(1, address[values[0]]);
                 this.objSelectedKey = values[0]['key'];
                 this.objSelectedValue = values[0]['values'];

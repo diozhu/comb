@@ -14,7 +14,7 @@
 
             <v-scroll v-model="listData" :func="getList" func-type="section">
                 <ul>
-                    <li v-for="item in listData" @click="goDetail(item)">
+                    <li v-for="(item, index) in listData" :key="index" @click="goDetail(item)">
                         <v-feed
                             :feedId="item.userInfo.feedId"
                             :imgUrl="item.userInfo.avatar"
@@ -32,22 +32,22 @@
 
 <script>
     import * as api from '../js/core/api';
-    import vRefresh from '../vendor/v-refresh.vue';
-    import vScroll from '../vendor/v-scroll.vue';
-    import vFeed from '../vendor/v-feed.vue';
-    import vText from '../vendor/v-text.vue';
+    import vRefresh from 'comb-ui/src/vendors/v-refresh.vue';
+    import vScroll from 'comb-ui/src/vendors/v-scroll.vue';
+    import vFeed from 'comb-ui/src/vendors/v-feed.vue';
+    import vText from 'comb-ui/src/vendors/v-text.vue';
     import { mapGetters } from 'vuex';
 
     export default {
         components: { vRefresh, vScroll, vFeed, vText },
-//         components: {
-// //            vRefresh,
-// //            vScroll,
-//             vRefresh (resolve) { setTimeout(() => { resolve(require('../vendor/v-refresh.vue')); }); },
-//             vScroll (resolve) { setTimeout(() => { resolve(require('../vendor/v-scroll.vue')); }); },
-//             vFeed (resolve) { setTimeout(() => { resolve(require('../vendor/v-feed.vue')); }); },
-//             vText (resolve) { setTimeout(() => { resolve(require('../vendor/v-text.vue')); }); }
-//         },
+        //         components: {
+        // //            vRefresh,
+        // //            vScroll,
+        //             vRefresh (resolve) { setTimeout(() => { resolve(require('comb-ui/src/vendors/v-refresh.vue')); }); },
+        //             vScroll (resolve) { setTimeout(() => { resolve(require('comb-ui/src/vendors/v-scroll.vue')); }); },
+        //             vFeed (resolve) { setTimeout(() => { resolve(require('comb-ui/src/vendors/v-feed.vue')); }); },
+        //             vText (resolve) { setTimeout(() => { resolve(require('comb-ui/src/vendors/v-text.vue')); }); }
+        //         },
 
         data () {
             return {
@@ -68,12 +68,12 @@
         },
 
         mounted () {
-            this.$logger.log('refresh.mounted... ');
+            console.log('refresh.mounted... ');
             // this.init();
         },
 
         activated () {
-            this.$logger.log('refresh.activated... ');
+            console.log('refresh.activated... ');
             if (this.$router.direct()) { // in
                 this.init();
             } else { // back
@@ -83,14 +83,15 @@
 
         methods: {
             init () { // refresh组件如果用在单独详情页，也可通过此函数进行页面数据加载
-                this.$logger.log('refresh.init...');
+                console.log('refresh.init...');
 
                 return api.getDelay({delay: 500}).then(res => { // 拉取详情信息
+                    console.log('refresh.init.success: ', res);
                     this.info = res;
                     return Promise.resolve(res);
                 });
 
-//                return Promise.resolve({}); // 如果不需要接口，但想要下拉效果，也可直接返回一个空的promise对象
+                // return Promise.resolve({}); // 如果不需要接口，但想要下拉效果，也可直接返回一个空的promise对象
             },
 
             getList ({ offset, limit }) {
@@ -98,7 +99,7 @@
             },
 
             goDetail (item) {
-                this.$logger.log('refresh.goDetail:', item);
+                console.log('refresh.goDetail:', item);
                 this.$router.push({name: 'refresh-two'});
             }
         }

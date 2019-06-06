@@ -131,33 +131,32 @@
         &lt;/ul&gt;
         </code></pre>
 
-
         <div class="blank"></div>
     </div>
 </template>
 
 <script type="text/ecmascript-6">
-    import vCell from '../vendor/v-cell.vue';
+import vCell from 'comb-ui/src/vendors/v-cell.vue';
 
-    export default {
-        components: { vCell },
+export default {
+    components: { vCell },
 
-        data () {
-            return {
-                listData: []  //
-            };
-        },
+    data () {
+        return {
+            listData: []  //
+        };
+    },
 
-        created () {
-        },
+    created () {
+    },
 
-        mounted () {
-            this.$logger.log('cell.mounted... ');
-        },
+    mounted () {
+        console.log('cell.mounted... ');
+    },
 
-        methods: {
-        }
-    };
+    methods: {
+    }
+};
 </script>
 
 <style rel="stylesheet/scss" lang="scss">

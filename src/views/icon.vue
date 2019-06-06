@@ -149,8 +149,10 @@
         padding: 0 ($grid-gutter-width / 2);
 
         .icon-list{
-            @include box_flex;
+            //@include box_flex;
+            display: flex;
             margin: pxTorem(15px) 0;
+
             li{
                 width: 33.3%;
                 text-align: center;

@@ -20,13 +20,19 @@
         <h2>示例</h2>
         <ul class="listview listview-form">
             <li>
-                <v-cell title="点击弹出toast" is-link @click.native="openToast"></v-cell>
+                <v-cell title="点击弹出toast（单行）" is-link @click.native="openToast"></v-cell>
+            </li>
+            <li>
+                <v-cell title="点击弹出toast（多行）" is-link @click.native="openToastMuti"></v-cell>
             </li>
         </ul>
         <pre v-highlightjs @touchend.stop><code class="html">
         &lt;ul class="listview listview-form"&gt;
             &lt;li&gt;
-                &lt;v-cell title="点击弹出toast" is-link @click.native="openToast"&gt;&lt;/v-cell&gt;
+                &lt;v-cell title="点击弹出toast（单行）" is-link @click.native="openToast"&gt;&lt;/v-cell&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+                &lt;v-cell title="点击弹出toast（多行）" is-link @click.native="openToastMuti"&gt;&lt;/v-cell&gt;
             &lt;/li&gt;
         &lt;/ul&gt;
         </code></pre>
@@ -37,12 +43,12 @@
             data () {
                 return { };
             },
-            mounted () {
-                this.$logger.log('toast.mounted... ');
-            },
             methods: {
                 openToast: function () {
                     this.$toast('提示文字，尽量限制在一行以内');
+                },
+                openToastMuti: function () {
+                    this.$toast('提示文字，尽量限制在一行以内，如果是多行，调整文字靠左对齐~');
                 }
             }
         };
@@ -69,7 +75,7 @@
                 return { };
             },
             mounted () {
-                this.$logger.log('toast.mounted... ');
+                console.log('toast.mounted... ');
             },
             methods: {
                 openToastWithIcon () {
@@ -100,7 +106,7 @@
                 return { };
             },
             mounted () {
-                this.$logger.log('toast.mounted... ');
+                console.log('toast.mounted... ');
             },
             methods: {
                 openBottomToast () {
@@ -116,7 +122,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-    import vCell from '../vendor/v-cell.vue';
+    import vCell from 'comb-ui/src/vendors/v-cell.vue';
 
     export default {
         components: { vCell },
@@ -127,11 +133,15 @@
             };
         },
         mounted () {
-            this.$logger.log('toast.mounted... ');
+            console.log('toast.mounted... ');
         },
         methods: {
             openToast: function () {
                 this.$toast('提示文字，尽量限制在一行以内');
+            },
+            openToastMuti: function () {
+                // this.$toast('提示文字，尽量限制在一行以内');
+                this.$toast('提示文字，尽量限制在一行以内，如果是多行，调整文字靠左对齐~');
             },
 
             openToastWithIcon () {

@@ -1,6 +1,6 @@
 <template>
     <div class="v-tabBar page page-cell">
-    <h2>选项卡参考样例</h2>
+        <h2>选项卡参考样例</h2>
 
         <p class="desc">选项卡功能，包括常规内容切换，导航上下位置可选，数据即时更新。</p>
 
@@ -14,19 +14,18 @@
             </table>
         </div>
 
-
         <h2>示例</h2>
 
-        <v-tabbar v-bind:tabs='tabs' @change = "changeFn">
-            <p slot="con" v-for="(item, index) in tabs.tabCons"  v-if='tabs.selectNum==index'>
-                {{item}}
-            </p>
+        <v-tab-bar v-bind:tabs='tabs' @change = "changeFn">
+            <!--<p slot="con" v-for="(item, index) in tabs.tabCons" :key="index" v-if='tabs.selectNum==index'>-->
+                <!--{{item}}-->
+            <!--</p>-->
             <p slot="customTpl" v-if='tabs.selectNum==0'>{{template}}</p>
             <p slot="customTpl" v-if='tabs.selectNum==1'>{{template1}}</p>
             <p slot="customTpl" v-if='tabs.selectNum==2'>{{template2}}</p>
             <p slot="customTpl" v-if='tabs.selectNum==0' ref='testTpl'></p>
 
-        </v-tabbar>
+        </v-tab-bar>
         <div class="selected-val"><span>{{selectNav}}</span>已选中:</div>
         <!-- <div class="selected-val"><span>{{selectNav1()}}</span>已选中:</div> -->
     </div>
@@ -48,9 +47,10 @@
      *     <p slot="customTpl" v-if='tabs.selectNum==0'>{{template}}</p>
      * </v-tabbar>
      */
-    import vTabbar from '../vendor/v-tab-bar.vue';
+    // import vTabbar from 'comb-ui/src/vendors/v-tab-bar.vue';
+    import { vTabBar } from 'comb-ui';
     export default {
-        components: { vTabbar },
+        components: { vTabBar },
 
         data () {
             return {
@@ -66,7 +66,7 @@
             };
         },
         mounted () {
-            this.$logger.log('shaolingtabbar.mounted...');
+            console.log('tab-bar.mounted...');
             this.template = `<h1>${this.selected}我是标签模板第一项.</h1>`;
             this.template1 = `${this.selected}我是标签模板第二项.`;
             this.template2 = `${this.selected}我是标签模板第三项.`;
@@ -100,7 +100,7 @@
         background: #f2f2f4;
         p{
             font-size: pxTorem(16px)
-         }
+        }
     }
     .selected-val{
         margin: pxTorem(10px) 0;

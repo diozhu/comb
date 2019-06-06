@@ -57,7 +57,7 @@
         &lt;/ul&gt;
         </code></pre>
         <pre v-highlightjs @touchend.stop><code class="html">
-        import Messagebox from '../vendor/v-message-box.js';
+        import Messagebox from 'comb-ui/src/vendors/v-message-box.js';
         export default {
             components: { vCell },
 
@@ -65,7 +65,7 @@
                 return { };
             },
             mounted () {
-                this.$logger.log('message-box.mounted... ');
+                console.log('message-box.mounted... ');
             },
             methods: {
                 openAlert: function () {
@@ -115,8 +115,8 @@
 </template>
 
 <script>
-    import vCell from '../vendor/v-cell.vue';
-    import Messagebox from '../vendor/v-message-box.js';
+    import vCell from 'comb-ui/src/vendors/v-cell.vue';
+    import Messagebox from 'comb-ui/src/vendors/v-message-box.js';
 
     export default {
         components: { vCell },
@@ -124,11 +124,11 @@
             return { };
         },
         mounted () {
-            this.$logger.log('message-box.mounted... ');
+            console.log('message-box.mounted... ');
         },
 
         beforeRouteLeave (to, from, next) {
-            this.$logger.log('message-box.beforeRouteLeave... ');
+            console.log('message-box.beforeRouteLeave... ');
             try {
                 Messagebox.close(); // 离开前关闭
             } catch (e) {}

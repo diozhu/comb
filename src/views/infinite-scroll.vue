@@ -9,20 +9,20 @@
             </p>
             <!-- 墓碑样式 -->
             <!--<template slot="tombstone" scope="props">-->
-                <!--<div>-->
-                    <!--<div class="avatar"></div>-->
-                    <!--<div class="bubble">-->
-                        <!--<p></p>-->
-                        <!--<p></p>-->
-                        <!--<p></p>-->
-                        <!--<div class="meta">-->
-                            <!--<time class="posted-date"></time>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
+            <!--<div>-->
+            <!--<div class="avatar"></div>-->
+            <!--<div class="bubble">-->
+            <!--<p></p>-->
+            <!--<p></p>-->
+            <!--<p></p>-->
+            <!--<div class="meta">-->
+            <!--<time class="posted-date"></time>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--</div>-->
             <!--</template>-->
             <!-- 实际滚动行样式 -->
-            <template slot="item" scope="props">
+            <template slot="item" slot-scope="props">
                 <div @click="goDetail(props.data)">
                     <v-feed
                         :feedId="props.data.userInfo ? props.data.userInfo.feedId : ''"
@@ -41,13 +41,13 @@
 </template>
 
 <script type="text/ecmascript-6">
-    import vText from '../vendor/v-text.vue';
-    import vFeed from '../vendor/v-feed.vue';
-    import vInfiniteScroll from '../vendor/v-infinite-scroll.vue';
+    import vText from 'comb-ui/src/vendors/v-text.vue';
+    import vFeed from 'comb-ui/src/vendors/v-feed.vue';
+    import vInfiniteScroll from 'comb-ui/src/vendors/v-infinite-scroll.vue';
     import config from '../config';
     import * as api from '../js/core/api';
     import { mapGetters } from 'vuex';
-    import Stats from '../../static/js/vendor/stats.min.js'; // 状态插件
+    import Stats from '../js/utils/stats.js'; // 状态插件
 
     export default {
         components: { vText, vFeed, vInfiniteScroll },
@@ -63,27 +63,12 @@
             ...mapGetters(['userInfo', 'follows'])     // 从store中获取当前登陆用户信息
         },
 
-//        created () {
-//            this.$logger.log('scroll.created... ');
-//        },
         mounted () {
-            this.$logger.log('scroll.mounted... ');
+            console.log('scroll.mounted... ');
             this.initStatsPlugins(); // 初始化状态插件
         },
 
-//        deactivated () {
-//            this.$logger.log('scroll.deactivated... ', document.body.scrollHeight);
-//        },
-    //    beforeRouteLeave (to, from, next) {
-    //        this.$logger.log(`scroll.${this._uid}.beforeRouteLeave: `, document.body.scrollHeight, this.timestamp, window.pageYOffset);
-    //        next();
-    //    },
-
         methods: {
-//            init () {
-//    //            this.getList();
-//            },
-
             initStatsPlugins () {
                 if (window.requestIdleCallback) {
                     let self = this;
@@ -109,18 +94,16 @@
             },
 
             getList ({ offset = 0, limit = config.LIMIT }) {
-                this.$logger.log('infinite-scroll.methods.getList: ', ...arguments);
-                return api.getInfiniteList({
+                console.log('infinite-scroll.methods.getList: ', ...arguments);
+                return api.getRandomList({
                     offset: offset,
                     limit: limit
                 }).then((res) => {
-//                    this.$logger.log('infinite-scroll.methods.getList: SUCCESS, ', res);
                     return Promise.resolve(res);
                 });
             },
             goDetail (item) {
-                this.$logger.log('infinite-scroll.methods.goDetail: ', item.title);
-//                this.$router.push({name: 'scroll-two', query: {subjectId: this.$route.query.subjectId, id: item.id}});
+                console.log('infinite-scroll.methods.goDetail: ', item.title);
             },
             handleTest () { // 通过enabled参数变化，控制滚动条组件刷新列表。。。用于多入参list情况
                 this.flashTag = false;

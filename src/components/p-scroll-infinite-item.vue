@@ -14,8 +14,8 @@
 </template>
 
 <script type="text/ecmascript-6">
-    import vFeed from '../vendor/v-feed.vue';
-    import vText from '../vendor/v-text.vue';
+    import vFeed from 'comb-ui/src/vendors/v-feed.vue';
+    import vText from 'comb-ui/src/vendors/v-text.vue';
 
     export default {
         components: { vFeed, vText },
@@ -26,7 +26,7 @@
         methods: {
             add (e) {
                 e.preventDefault();
-                this.$logger.log(this.data.name += ' 233');
+                console.log(this.data.name += ' 233');
             }
         }
     };

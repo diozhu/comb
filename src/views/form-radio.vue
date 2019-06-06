@@ -15,6 +15,12 @@
             </table>
         </div>
 
+        <h2>doing项目样式</h2>
+        <v-radio class="doing" v-model="doingVal" :options="doingOpts" radioClasses="disk" mode="cards"></v-radio>
+        <p class="desc">当前选择：{{ doingVal }}</p>
+        <br />
+        <br />
+
         <h2>示例</h2>
         <ul class="listview listview-form">
             <li class="height-auto">
@@ -95,8 +101,6 @@
         &lt;/ul&gt;
         </code></pre>
 
-
-
         <!--<div class="listview listview-form">-->
 
             <!--&lt;!&ndash;radio button，lab样式&ndash;&gt;-->
@@ -114,9 +118,8 @@
 </template>
 
 <script>
-import logger from '../js/utils/logger';
-import vRadio from '../vendor/v-radio.vue';
-import vRadioTag from '../vendor/v-radio-tag.vue';
+import vRadio from 'comb-ui/src/vendors/v-radio.vue';
+import vRadioTag from 'comb-ui/src/vendors/v-radio-tag.vue';
 
 export default {
     data () {
@@ -131,14 +134,20 @@ export default {
             radioValue2: '当前位置的值',
             radioValue3: '选项A',
             radioValue4: '选项A',
-            radioValue5: '选项A'
+            radioValue5: '选项A',
+            doingOpts: [
+                {label: '中教培训课', value: 1},
+                {label: '外教培训课', value: 2},
+                {label: '超级球队[已预约]', value: 3, disabled: true}
+            ],
+            doingVal: 2
         };
     },
     created: function () {
         console.log('created');
     },
     mounted () {
-        logger.log('form mounted... ');
+        console.log('form mounted... ');
     },
     components: {
         'v-radio': vRadio,
@@ -149,13 +158,13 @@ export default {
             this.$router.push(name);
         },
         simpleAlert () {
-            logger.log('this is simple alert !');
+            console.log('this is simple alert !');
         },
         selectDemo () {
-            logger.log('form.selectDemo: ');
+            console.log('form.selectDemo: ');
         },
         handleChange (e) {
-            logger.log('form.handleChange: ', e);
+            console.log('form.handleChange: ', e);
         }
     }
 };
@@ -166,6 +175,10 @@ export default {
     @import "../scss/mixins";
 
     .page-form {
+
+        .doing {
+            padding: 0 pxTorem(22);
+        }
 
         .v-radio.position .v-radio__r{
             height: pxTorem(64px);

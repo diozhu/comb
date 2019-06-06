@@ -1,16 +1,16 @@
 <template>
     <div class="page page-refresh-two">
-        <v-refresh :func="init" v-model="currentLab" :swipeLength.Number="labs.length">
+        <v-refresh :func="init" v-model="currentLab" :swipeLength="labs.length">
             <h2>样例</h2>
             <div class="page-refresh__header">{{ info | specialTime }}</div>
 
             <v-swipe-label :fixed="true">
-                <div @click="clickLabel(item)" :class="['itm', {cur: currentLab==item.id}]" v-for="item in labs">{{item.txt}}</div>
+                <div @click="clickLabel(item)" :class="['itm', {cur: currentLab==item.id}]" v-for="(item, index) in labs" :key="index">{{item.txt}}</div>
             </v-swipe-label>
 
             <v-scroll v-model="listData" :func="getList" func-type="section" :enabled="currentLab === 0">
                 <ul>
-                    <li v-for="item in listData">
+                    <li v-for="(item, idx) in listData" :key="idx">
                         <v-feed
                             :feedId="item.userInfo.feedId"
                             :imgUrl="item.userInfo.avatarId"
@@ -18,15 +18,15 @@
                             :subtitle="item.userInfo.subtitle"
                             :classes="'title small no-border'"
                         ></v-feed>
-                        <v-text classes="content" :value="item.content.content"></v-text>
-                        <v-album v-model="item.content.imgObjects"></v-album>
+                        <v-text classes="content" :value="item.title"></v-text>
+                        <!--<v-album v-model="item.content.imgObjects"></v-album>-->
                     </li>
                 </ul>
             </v-scroll>
 
             <v-scroll v-model="listDataSec" :func="getListSec" func-type="section" :enabled="currentLab === 1">
                 <ul>
-                    <li v-for="item in listDataSec">
+                    <li v-for="(item, idx) in listDataSec" :key="idx">
                         <v-feed
                             :feedId="item.userInfo.feedId"
                             :imgUrl="item.userInfo.avatar"
@@ -34,7 +34,7 @@
                             :subtitle="item.userInfo.subtitle"
                             :classes="'title small no-border'"
                         ></v-feed>
-                        <v-text classes="content" :value="item.title"></v-text>
+                        <v-text classes="content" :value="'【第二页】' + item.title"></v-text>
                     </li>
                 </ul>
             </v-scroll>
@@ -43,14 +43,14 @@
 </template>
 
 <script>
-    import vRefresh from '../vendor/v-refresh.vue';
-    import vScroll from '../vendor/v-scroll.vue';
-    import vFeed from '../vendor/v-feed.vue';
-    import vText from '../vendor/v-text.vue';
+    import vRefresh from 'comb-ui/src/vendors/v-refresh.vue';
+    import vScroll from 'comb-ui/src/vendors/v-scroll.vue';
+    import vFeed from 'comb-ui/src/vendors/v-feed.vue';
+    import vText from 'comb-ui/src/vendors/v-text.vue';
     import * as api from '../js/core/api';
     import { mapGetters } from 'vuex'; //eslint-disable-line
-    import vSwipeLabel from '../vendor/v-swipe-label.vue';
-    import vAlbum from '../vendor/v-album.vue';
+    import vSwipeLabel from 'comb-ui/src/vendors/v-swipe-label.vue';
+    import vAlbum from 'comb-ui/src/vendors/v-album.vue';
 
     export default {
         components: { vRefresh, vScroll, vFeed, vText, vSwipeLabel, vAlbum },
@@ -69,11 +69,11 @@
         },
 
         computed: {
-            ...mapGetters(['userInfo', 'follows'])     // 从store中获取当前登陆用户信息
+            ...mapGetters(['userInfo', 'follows']) // 从store中获取当前登陆用户信息
         },
 
         mounted () {
-            this.$logger.log('refresh-two.mounted... ');
+            console.log('refresh-two.mounted... ');
             this.init();
         },
 
@@ -87,7 +87,7 @@
 
         methods: {
             init () {
-                this.$logger.log('refresh-two.init...');
+                console.log('refresh-two.init...');
 
                 return api.getDelay({delay: 500}).then(res => {
                     this.info = res;
@@ -100,8 +100,8 @@
             },
 
             getList ({ offset, limit }) {
-//                return api.getRandomList({ offset: offset, limit: limit });
-                return api.getImgList({ offset: offset, limit: limit });
+                //                return api.getRandomList({ offset: offset, limit: limit });
+                return api.getRandomList({ offset: offset, limit: limit });
             },
 
             getListSec ({ offset, limit }) {

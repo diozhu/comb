@@ -182,12 +182,11 @@
 </template>
 
 <script type="text/babel">
-    import vCell from '../vendor/v-cell.vue';
+    import vCell from 'comb-ui/src/vendors/v-cell.vue';
     import * as utils from '../js/utils/utils';
-    import {Toast} from '../vendor/index';
-    import vDatetimePicker from '../vendor/v-datetime-picker';
-    import vButton from '../vendor/v-button';
-    import logger from '../js/utils/logger';
+    import {Toast} from 'comb-ui/src/vendors/index';
+    import vDatetimePicker from 'comb-ui/src/vendors/v-datetime-picker';
+    import vButton from 'comb-ui/src/vendors/v-button';
 
     export default {
         components: { vCell, vDatetimePicker, vButton },
@@ -230,12 +229,12 @@
 
         methods: {
             open (picker) {
-                logger.log('datetime-picker.open: ');
+                console.log('datetime-picker.open: ');
                 this.$refs[picker].open();
             },
 
             handleChange (value) {
-                logger.log('datetime-picker.handleChange: ', value);
+                console.log('datetime-picker.handleChange: ', value);
                 Toast({
                     message: '选择: ' + utils.formatTime(value),
                     position: 'bottom'
@@ -246,7 +245,7 @@
                 this.$refs.picker1.open();
             },
             handlePicker1 (value) {
-                logger.log('datetime-picker.handlePicker1: ', value);
+                console.log('datetime-picker.handlePicker1: ', value);
                 this.value1 = value;
             },
 
@@ -254,7 +253,7 @@
                 this.$refs.picker2.open();
             },
             handlePicker2 (value) {
-                logger.log('datetime-picker.handlePicker2: ', value);
+                console.log('datetime-picker.handlePicker2: ', value);
                 this.value2 = value;
             },
 
@@ -262,7 +261,7 @@
                 this.$refs.picker3.open();
             },
             handlePicker3 (value) {
-                logger.log('datetime-picker.handlePicker3: ', value);
+                console.log('datetime-picker.handlePicker3: ', value);
                 this.value3 = value;
             },
 
@@ -270,7 +269,7 @@
                 this.$refs.picker4.open();
             },
             handlePicker4 (value) {
-                logger.log('datetime-picker.handlePicker4: ', value);
+                console.log('datetime-picker.handlePicker4: ', value);
                 this.value4 = value;
             },
 
@@ -278,7 +277,7 @@
                 this.$refs.picker5.open();
             },
             handlePicker5 (value) {
-                logger.log('datetime-picker.handlePicker5: ', value);
+                console.log('datetime-picker.handlePicker5: ', value);
                 this.value5 = value;
             },
 
@@ -286,7 +285,7 @@
                 this.$refs.picker6.open();
             },
             handlePicker6 (value) {
-                logger.log('datetime-picker.handlePicker6: ', value);
+                console.log('datetime-picker.handlePicker6: ', value);
                 this.value6 = value;
             }
         }

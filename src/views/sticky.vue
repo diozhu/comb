@@ -31,40 +31,40 @@
         <div class="v-sticky" v-sticky.top="100">
             <v-button size="full" styles="rectangle">距顶部100px</v-button>
         </div>
-        <div class="num"><p v-for="n in 100">模拟数据{{n}}</p></div>
+        <div class="num"><p v-for="n in 100" :key="n">模拟数据{{n}}</p></div>
         <div class="v-sticky" v-sticky.top>
             <v-button size="full" styles="rectangle">中间吸顶</v-button>
         </div>
-        <div class="num"><p v-for="n in 100">模拟数据{{n}}</p></div>
+        <div class="num"><p v-for="n in 100" :key="n">模拟数据{{n}}</p></div>
         <div class="v-sticky" v-sticky.bottom="50">
             <v-button size="full" styles="rectangle">距底部50px</v-button>
         </div>
-        <div class="num"><p v-for="n in 50">模拟数据{{n}}</p></div>
-     <div class="blank">end</div>
+        <div class="num"><p v-for="n in 50" :key="n">模拟数据{{n}}</p></div>
+        <div class="blank">end</div>
     </div>
 </template>
 
 <script>
-import vButton from '../vendor/v-button.vue';
-import Vue from 'vue';
-import sticky from '../vendor/v-sticky.js';
-Vue.use(sticky);
+    import vButton from 'comb-ui/src/vendors/v-button.vue';
+    import Vue from 'vue';
+    import sticky from 'comb-ui/src/vendors/v-sticky.js';
+    Vue.use(sticky);
 
-export default {
-    components: { vButton },
+    export default {
+        components: { vButton },
 
-    data () {
-        return {
-        };
-    },
+        data () {
+            return {
+            };
+        },
 
-    mounted () {
-        this.$logger.log('sticky.mounted... ');
-    },
+        mounted () {
+            console.log('sticky.mounted... ');
+        },
 
-    methods: {
-    }
-};
+        methods: {
+        }
+    };
 </script>
 
 <style rel="stylesheet/scss" lang="scss">

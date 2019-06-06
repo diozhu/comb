@@ -141,9 +141,9 @@
     </div>
 </template>
 <script>
-    import vRow from '../vendor/v-row.vue';
-    import vCol from '../vendor/v-col.vue';
-    import vButton from '../vendor/v-button';
+    import vRow from 'comb-ui/src/vendors/v-row.vue';
+    import vCol from 'comb-ui/src/vendors/v-col.vue';
+    import vButton from 'comb-ui/src/vendors/v-button';
 
     export default {
         components: { vButton, vRow, vCol },
@@ -156,7 +156,7 @@
             console.log('created');
         },
         mounted () {
-            this.$logger.log('button.mounted... ');
+            console.log('button.mounted... ');
         },
         methods: {
 
@@ -177,9 +177,9 @@
             color: #FFFFFF;
             font-size: pxTorem(17px);
             margin-top: pxTorem(20px);
-            @include box;
-            @include pack(center);
-            @include align;
+            //@include box;
+            /*@include pack(center);
+            @include align;*/
             .btn-child{
                 width: pxTorem(165px);
                 height: pxTorem(39px);

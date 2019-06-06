@@ -2,15 +2,15 @@
     <div class="page page-feed">
         <h2>名片参考样例</h2>
 
-         <div class="t-6">
+        <div class="t-6">
             <div>
                 <div>
-                    <div style="background: url(http://scloud.toon.mobi/f/TptY54A58iDdczs9At3haUK6ulWuzMuEPd9bIJGv3kIfG_80_80_100_1.png)"></div>
+                    <div style="background: url(https://s01.dongyin.net/doing/default-avatar.png)"></div>
                 </div>
             </div>
-        </div> 
+        </div>
 
-        <div class="listview listview-form" v-for="user in this.users">
+        <div class="listview listview-form" v-for="(user, index) in this.users" :key="index">
 
             <v-feed
                 :feedId = "user.feedId"
@@ -27,7 +27,7 @@
 
         <v-feed
             :feedId = "'c_1407459100687437'"
-            :imgUrl = "'http://scloud.toon.mobi/f/TptY54A58iDdczs9At3haUK6ulWuzMuEPd9bIJGv3kIfG_80_80_100_1.png'"
+            :imgUrl = "'https://s01.dongyin.net/doing/default-avatar.png'"
             :title = "'老朱'"
             :subtitle = "'人在江湖飘~'"
             :classes = "'small'"
@@ -36,7 +36,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-    import vFeed from '../vendor/v-feed';
+    import vFeed from 'comb-ui/src/vendors/v-feed';
 
     export default {
         components: { vFeed },
@@ -48,12 +48,12 @@
         },
 
         mounted () {
-    //        this.$logger.log('feed mounted... ');
+            //        console.log('feed mounted... ');
             this.users = [
                 {
                     userId: '397833',
                     feedId: 'o_1407459100687437',
-                    avatarId: 'http://scloud.toon.mobi/f/TptY54A58iDdczs9At3haUK6ulWuzMuEPd9bIJGv3kIfG_80_80_100_1.png',
+                    avatarId: 'https://s01.dongyin.net/doing/default-avatar.png',
                     title: 'Dio',
                     desc: '18:00',
                     subtitle: 'Dio...',
@@ -62,7 +62,7 @@
                 {
                     userId: '397833',
                     feedId: 'c_1407459100687437',
-                    avatarId: 'http://scloud.toon.mobi/f/TptY54A58iDdczs9At3haUK6ulWuzMuEPd9bIJGv3kIfG_80_80_100_1.jpg',
+                    avatarId: 'https://s01.dongyin.net/doing/default-avatar.png',
                     title: '老朱',
                     desc: '18:00',
                     subtitle: '推广啦啦啦',
@@ -71,7 +71,7 @@
                 {
                     userId: '397833',
                     feedId: 'g_1407459100687437',
-                    avatarId: 'http://scloud.toon.mobi/f/TptY54A58iDdczs9At3haUK6ulWuzMuEPd9bIJGv3kIfG_80_80_100_1.png',
+                    avatarId: 'https://s01.dongyin.net/doing/default-avatar.png',
                     title: '李四',
                     desc: '18:00',
                     subtitle: '老李哇哈哈',
@@ -81,7 +81,7 @@
                 {
                     userId: '397833',
                     feedId: 'o_1407459100687437',
-                    avatarId: 'http://scloud.toon.mobi/f/TptY54A58iDdczs9At3haUK6ulWuzMuEPd9bIJGv3kIfG_80_80_100_1.png',
+                    avatarId: 'https://s01.dongyin.net/doing/default-avatar.png',
                     title: 'Dio',
                     desc: '1km以内',
                     subtitle: 'Dio...',
@@ -92,7 +92,7 @@
                 {
                     userId: '397833',
                     feedId: 'c_1407459100687437',
-                    avatarId: 'http://scloud.toon.mobi/f/TptY54A58iDdczs9At3haUK6ulWuzMuEPd9bIJGv3kIfG_80_80_100_1.jpg',
+                    avatarId: 'https://s01.dongyin.net/doing/default-avatar.png',
                     title: '老朱',
                     desc: '2.1km',
                     subtitle: '推广啦啦啦',
@@ -103,7 +103,7 @@
                 {
                     userId: '397833',
                     feedId: 'g_1407459100687437',
-                    avatarId: 'http://scloud.toon.mobi/f/TptY54A58iDdczs9At3haUK6ulWuzMuEPd9bIJGv3kIfG_80_80_100_1.png',
+                    avatarId: 'https://s01.dongyin.net/doing/default-avatar.png',
                     title: '李四',
                     desc: '200km',
                     subtitle: '老李哇哈哈',
@@ -148,7 +148,7 @@
             height:pxTorem(46px);
             transform: rotate(120deg);
             visibility: hidden;
-            
+
             div {
                 width: 100%;
                 height:100%;
@@ -162,11 +162,11 @@
                 >div {
                     transform: rotate(-60deg);
                     visibility: visible;
-                    
+
                     >div {
                         // transform: rotate(-60deg);
                         visibility: visible;
-                        
+
                     }
                 }
             }

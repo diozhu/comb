@@ -8,7 +8,7 @@
     </div>
 </template>
 <script>
-    import vButton from '../vendor/v-button.vue';
+    import vButton from 'comb-ui/src/vendors/v-button.vue';
     import { mapState, mapMutations } from 'vuex'; //eslint-disable-line
 
     /**
@@ -131,8 +131,8 @@
             background: #FFF;
             color: #333;
             border: #333 1px solid;
-            -webkit-border-radius: pxTorem(2px);
-            -moz-border-radius: pxTorem(2px);
+             -webkit-border-radius: pxTorem(2px);
+             -moz-border-radius: pxTorem(2px);
             border-radius: pxTorem(2px);
 
             .v-btn-text {

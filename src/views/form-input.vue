@@ -13,8 +13,6 @@
         </div>
 
         <h2>示例</h2>
-
-
         <div class="listview listview-form">
             <!--普通样式-->
             <ul>
@@ -71,8 +69,7 @@
 </template>
 
 <script>
-import logger from '../js/utils/logger';
-import vInput from '../vendor/v-input';
+import vInput from 'comb-ui/src/vendors/v-input';
 
 export default {
     data () {
@@ -88,7 +85,7 @@ export default {
         console.log('created');
     },
     mounted () {
-        logger.log('form mounted... ');
+        console.log('form mounted... ');
     },
     components: {
         'v-input': vInput
@@ -98,13 +95,13 @@ export default {
             this.$router.push(name);
         },
         simpleAlert () {
-            logger.log('this is simple alert !');
+            console.log('this is simple alert !');
         },
         selectDemo () {
-            logger.log('form.selectDemo: ');
+            console.log('form.selectDemo: ');
         },
         handleChange (e) {
-            logger.log('form.handleChange: ', e);
+            console.log('form.handleChange: ', e);
         }
     }
 };

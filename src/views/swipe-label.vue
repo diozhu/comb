@@ -54,7 +54,7 @@ export default {
     },
     methods: {
         clickLabel (item) {
-            logger.log('click label: ', item);
+            console.log('click label: ', item);
             this.currentLab = item.id;
         }
     }
@@ -97,8 +97,8 @@ export default {
 </template>
 
 <script>
-import vFeed from '../vendor/v-feed.vue';
-import vSwipeLabel from '../vendor/v-swipe-label.vue';
+import vFeed from 'comb-ui/src/vendors/v-feed.vue';
+import vSwipeLabel from 'comb-ui/src/vendors/v-swipe-label.vue';
 
 export default {
     name: 'page-swipe-label',
@@ -120,15 +120,15 @@ export default {
     },
 
     mounted () {
-        this.$logger.log('swipe label mounted... ');
+        console.log('swipe label mounted... ');
     },
 
     methods: {
         onTransitionEnd (e) { // transitionEnd事件测试，1.需要兼容性写法触发，2.只能直接用到dom上，transition、router-view元素不行。。。Author by Dio Zhu. on 2017.5.21
-            this.$logger.log(`!!!!!!!!![swipe-label].onTransitionEnd!`, e);
+            console.log(`!!!!!!!!![swipe-label].onTransitionEnd!`, e);
         },
         clickLabel (item) {
-            this.$logger.log('click label: ', item);
+            console.log('click label: ', item);
             this.currentLab = item.id;
         }
     }

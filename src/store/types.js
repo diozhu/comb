@@ -1,6 +1,9 @@
 /**
  * Created by diozhu on 2017/1/8.
  */
+// url mutaions
+export const SET_URL = 'SET_URL';
+export const GET_URL = 'GET_URL';
 // login mutaions
 export const SIGNIN = 'SIGNIN';
 export const SIGNIN_STATUS = 'SIGNIN_STATUS';
@@ -11,6 +14,9 @@ export const CLOSE_LOADING = 'CLOSE_LOADING';
 export const SET_POSITION = 'SET_POSITION';
 export const GET_POSITION = 'GET_POSITION';
 export const DEL_POSITION = 'DEL_POSITION';
+// user location
+export const SET_LOCATION = 'SET_LOCATION';
+export const GET_LOCATION = 'GET_LOCATION';
 
 // follow mutations
 export const GET_FOLLOW = 'GET_FOLLOW';

@@ -17,13 +17,13 @@
 @mixin center($center){
     text-align:$center;
 }
-@mixin box{
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-box;
-    display: -o-box;
-    display: box;
-}
+//@mixin box{
+//    display: -webkit-box;
+//    display: -moz-box;
+//    display: -ms-box;
+//    display: -o-box;
+//    display: box;
+//}
 @mixin flex{
     -webkit-box-flex: 1;
     -moz-box-flex: 1;

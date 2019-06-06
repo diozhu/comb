@@ -30,26 +30,26 @@
 </template>
 
 <script>
-import logger from '../js/utils/logger';
-import vSpinner from '../vendor/v-spinner/';
-// import vCell from './vendor/v-cell';
+    // import vSpinner from 'comb-ui/src/vendors/v-spinner/';
+    import vSpinner from 'comb-ui/src/vendors/v-spinner/';
+    // import vCell from './vendor/v-cell';
 
-export default {
-    data () {
-        return {
+    export default {
+        data () {
+            return {
 
-        };
-    },
-    mounted () {
-        logger.log('spinner mounted... ');
-    },
-    components: {
-        'v-spinner': vSpinner
-    },
-    methods: {
+            };
+        },
+        mounted () {
+            console.log('spinner mounted... ');
+        },
+        components: {
+            'v-spinner': vSpinner
+        },
+        methods: {
 
-    }
-};
+        }
+    };
 </script>
 
 <style rel="stylesheet/scss" lang="scss">

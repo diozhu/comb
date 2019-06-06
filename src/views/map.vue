@@ -3,7 +3,7 @@
         <h2>v-map</h2>
 
         <p class="desc">
-            包含toon地图、高德地图
+            包含地图、高德地图
         </p>
 
         <div class="attributes">
@@ -15,15 +15,15 @@
                 <tr><td>dragEnable</td><td>是否可拖拽</td><td>Boolean</td><td>-</td><td>false</td></tr>
                 <tr><td>img</td><td>如有图则不初始化高德，直接显示图片</td><td>String</td><td>-</td><td>-</td></tr>
                 <tr><td>location</td><td>显示地址</td><td>String</td><td>-</td><td>-</td></tr>
+                <tr><td>zoom</td><td>缩放</td><td>Number</td><td>-</td><td>17</td></tr>
             </table>
         </div>
 
         <h2>示例</h2>
-        <v-map :lng="lng" :lat="lat" :dragEnable="true"></v-map>
+        <v-map :lng="lng" :lat="lat" :dragEnable="true" :zoom="12"></v-map>
         <pre v-highlightjs @touchend.stop><code class="html">
         &lt;v-map :lng="lng" :lat="lat" :dragEnable="true"&gt;&lt;/v-map&gt;
         </code></pre>
-
 
         <h2>静态图</h2>
         <v-map :lng="lng" :lat="lat" :img="img" :location="location"></v-map>
@@ -31,31 +31,7 @@
         &lt;v-map :lng="lng" :lat="lat" :img="img" :location="location"&gt;&lt;/v-map&gt;
         </code></pre>
 
-        <h2>Toon协议</h2>
-        <p class="desc">打开地图选地址</p>
-        <v-button type="info" @click="openToonMap">打开toon地图</v-button>
-        <p class="desc msg">
-            lat: {{ lat }}
-            lng: {{ lng }}
-            address: {{ address }}
-        </p>
-        <pre v-highlightjs @touchend.stop><code class="html">
-            &lt;v-button type="info" @click="openToonMap"&gt;打开地图&lt;/v-button&gt;
-            openToonMap () {
-                toonCall({}, 'mwap/map', res =&gt; {
-                    res = res || {};
-                    if (res.latitude && res.longitude) {
-                        this.lat = res.latitude;
-                        this.lng = res.longitude;
-                        this.address = res.address;
-                        // todo: 正式项目相应调整
-                        this.$toast(this.address);
-                    }
-                });
-            }
-        </code></pre>
-
-        <h2>高德地址搜索（仿toon）</h2>
+        <h2>高德地址搜索</h2>
         <p class="desc">打开地图搜索地址，可拖拽，根据范围搜索周边，范围可自定；</p>
         <v-button type="info" @click="openMap">打开地图</v-button>
 
@@ -67,11 +43,10 @@
 </template>
 
 <script type="text/ecmascript-6">
-//    import AMap from 'http://webapi.amap.com/maps?v=1.3&key=7f339c48990ad1b3bac62a5338b92041';
-//    require('http://webapi.amap.com/maps?v=1.3&key=7f339c48990ad1b3bac62a5338b92041');
-    import vButton from '../vendor/v-button.vue';
-    import vMap from '../vendor/v-map.vue';
-    import { toonCall } from '../js/core/core'; // Examples of using the toon protocal. Author by Dio Zhu. on 2017.2.24
+    //    import AMap from 'http://webapi.amap.com/maps?v=1.3&key=7f339c48990ad1b3bac62a5338b92041';
+    //    require('http://webapi.amap.com/maps?v=1.3&key=7f339c48990ad1b3bac62a5338b92041');
+    import vButton from 'comb-ui/src/vendors/v-button.vue';
+    import vMap from 'comb-ui/src/vendors/v-map.vue';
 
     export default {
         components: { vButton, vMap },
@@ -80,7 +55,7 @@
             return {
                 lng: '116.4514501384251588', // 经度
                 lat: '39.9951573546932124', // 纬度
-                img: 'http://rssqiniu.systoon.com/500283127.898516.jpg',
+                img: '',
                 location: '北京市朝阳区望京街道望京西路150号季景·沁园',
 
                 address: ''
@@ -89,32 +64,18 @@
 
         activated () {
             if (this.$router.direct()) {
-                this.$logger.log('map.activated... in');
+                console.log('map.activated... in');
             } else {
-                this.$logger.log('map.activated... back', this.$root.selectedPosition);
+                console.log('map.activated... back', this.$root.selectedPosition);
                 this.$toast(this.$root.selectedPosition.name);
             }
         },
 
         mounted () {
-            this.$logger.log('map.mounted... ', window.AMap);
+            console.log('map.mounted... ', window.AMap);
         },
 
         methods: {
-            openToonMap () {
-                toonCall({
-                }, 'mwap/map', res => {
-                    res = res || {};
-                    if (res.latitude && res.longitude) {
-                        this.lat = res.latitude;
-                        this.lng = res.longitude;
-                        this.address = res.address;
-                        // todo: 正式项目相应调整
-                        this.$toast(this.address);
-                    }
-                });
-            },
-
             openMap () {
                 this.$router.push({name: 'map-selector', query: {lng: this.lng, lat: this.lat}});
             },

@@ -6,23 +6,23 @@
 
 <script>
 
-export default {
-    components: { },
+    export default {
+        components: { },
 
-    data () {
-        return {
+        data () {
+            return {
 
-        };
-    },
+            };
+        },
 
-    mounted () {
-        this.$logger.log('404 page not found...');
-    },
+        mounted () {
+            console.log('404 page not found...');
+        },
 
-    methods: {
+        methods: {
 
-    }
-};
+        }
+    };
 </script>
 
 <style rel="stylesheet/scss" lang="scss">
@@ -45,7 +45,7 @@ export default {
             line-height: pxTorem(28px);
             padding-left: pxTorem(15px);
             color: #777E8C;
-            background: #f2f2f4;
+            // background: #f2f2f4;
         }
     }
 </style>

@@ -97,10 +97,10 @@ export default {
 </template>
 
 <script type="text/babel">
-    import vCell from '../vendor/v-cell.vue';
-    import vPicker from '../vendor/v-picker';
-    import vPopup from '../vendor/v-popup';
-    import vButton from '../vendor/v-button';
+    import vCell from 'comb-ui/src/vendors/v-cell.vue';
+    import vPicker from 'comb-ui/src/vendors/v-picker';
+    import vPopup from 'comb-ui/src/vendors/v-popup';
+    import vButton from 'comb-ui/src/vendors/v-button';
 
     export default {
         components: { vCell, vPicker, vPopup, vButton },
@@ -145,7 +145,7 @@ export default {
             },
 
             confirm () {
-                this.$logger.log('popup.confirm: ');
+                console.log('popup.confirm: ');
                 this.$toast(this.dateValue);
                 this.popupVisible4 = false;
             }
