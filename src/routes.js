@@ -68,6 +68,8 @@ const routeList = [
     {name: 'canvasBitmap', path: '/canvas-bitmap', meta: {title: 'canvasBitmap', group: '开发中...'}, component: () => import('./views/canvas-bitmap.vue')},
     {name: 'map-tms', path: '/map-tms', meta: {title: 'map-tms', group: '开发中...'}, component: () => import('./views/map-tms.vue')},
     {name: 'map-search', path: '/map-search', meta: {title: 'map-search', group: '开发中...'}, component: () => import('./views/map-search.vue')},
+    {name: 'upload-image', path: '/upload-image', meta: {title: 'upload-image', group: '开发中...'}, component: () => import('./views/upload-image.vue')},
+    {name: 'vue-pdf', path: '/vue-pdf', meta: {title: 'vue-pdf', group: '开发中...'}, component: () => import('./views/vue-pdf.vue')},
 
     {name: '404', path: '*', meta: {title: '404', group: ''}, component: () => import('./views/404.vue')}
 ];
