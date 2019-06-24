@@ -1,16 +1,16 @@
 <template>
-    <div class="page page-upload-image">
-        <h2>upload-image</h2>
+    <div class="page page-vue-pdf">
+        <h2>vue-pdf</h2>
         
-        <v-upload-image v-model="currentList" :apiUrl="apiUrl"></v-upload-image>
+        <embed width="100%" height="100%" name="plugin" id="plugin" src="http://www.gov.cn/zhengce/pdfFile/2018_PDF.pdf" type="application/pdf" internalinstanceid="15">
     </div>
 </template>
 
 <script type="text/ecmascript-6">
-    import vUploadImage from 'comb-ui/src/vendors/v-upload-image.vue';
+    import pdf from 'vue-pdf';
 
     export default {
-        components: { vUploadImage },
+        components: { pdf },
 
         data () {
             return {
@@ -27,7 +27,7 @@
     @import "../scss/variables";
     @import "../scss/mixins";
 
-    .page-upload-image {
+    .page-vue-pdf {
 
         .blank {
             width: 100%;

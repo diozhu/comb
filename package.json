@@ -11,7 +11,7 @@
     },
     "dependencies": {
         "axios": "^0.18.0",
-        "comb-ui": "^2.0.11",
+        "comb-ui": "^2.0.18",
         "core-js": "^2.6.5",
         "fastclick": "^1.0.6",
         "highlight.js": "^9.13.1",
@@ -23,6 +23,7 @@
         "vue": "^2.6.10",
         "vue-cli-plugin-comb": "^2.0.5",
         "vue-lazyload": "^1.2.6",
+        "vue-pdf": "^4.0.7",
         "vue-router": "^3.0.6",
         "vuex": "^3.1.1",
         "vuex-router-sync": "^5.0.0"
