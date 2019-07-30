@@ -9,7 +9,7 @@
             <table>
                 <tr><th>参数</th><th>说明</th><th>类型</th><th>可选</th><th>默认</th></tr>
                 <tr><td>fixed</td><td>固定在页面底部</td><td>Boolean</td><td>-</td><td>false</td></tr>
-                <tr><td>customTpl</td><td>是否有自定义模板</td><td>Boolean</td><td>-</td><td>false</td></tr>
+                <!-- <tr><td>customTpl</td><td>是否有自定义模板</td><td>Boolean</td><td>-</td><td>false</td></tr> -->
                 <tr><td>slots</td><td colspan="4">根据id</td></tr>
             </table>
         </div>
@@ -20,10 +20,10 @@
             <!--<p slot="con" v-for="(item, index) in tabs.tabCons" :key="index" v-if='tabs.selectNum==index'>-->
                 <!--{{item}}-->
             <!--</p>-->
-            <p slot="customTpl" v-if='tabs.selectNum==0'>{{template}}</p>
+            <!-- <p slot="customTpl" v-if='tabs.selectNum==0'>{{template}}</p>
             <p slot="customTpl" v-if='tabs.selectNum==1'>{{template1}}</p>
             <p slot="customTpl" v-if='tabs.selectNum==2'>{{template2}}</p>
-            <p slot="customTpl" v-if='tabs.selectNum==0' ref='testTpl'></p>
+            <p slot="customTpl" v-if='tabs.selectNum==0' ref='testTpl'></p> -->
 
         </v-tab-bar>
         <div class="selected-val"><span>{{selectNav}}</span>已选中:</div>
@@ -59,32 +59,29 @@
                     customTpl: true,
                     selectNum: 0,
                     tabCons: ['我初始化的000月度内容', '我初始化的111月度内容', '我初始化的222季度内容'], // 可改为ES6模板
-                    tabNavs: ['年度', '月度', '季度']
+                    tabNavs: [{name: '年度', bubbleNum: '101' }, {name: '月度', bubbleNum: '11' }, {name: '季度', bubbleNum: '11' }]
                 },
-                selected: '年度',
+                selected: {name: '年度', bubbleNum: '11' },
                 template: ''
             };
         },
         mounted () {
             console.log('tab-bar.mounted...');
-            this.template = `<h1>${this.selected}我是标签模板第一项.</h1>`;
-            this.template1 = `${this.selected}我是标签模板第二项.`;
-            this.template2 = `${this.selected}我是标签模板第三项.`;
-            this.$refs.testTpl.innerHTML = `<h1>${this.selected}我是标签模板第一项.</h1>`;
+            // this.template = `<h1>${this.selected}我是标签模板第一项.</h1>`;
+            // this.template1 = `${this.selected}我是标签模板第二项.`;
+            // this.template2 = `${this.selected}我是标签模板第三项.`;
+            // this.$refs.testTpl.innerHTML = `<h1>${this.selected}我是标签模板第一项.</h1>`;
         },
         created () {
         },
         computed: {
             selectNav: function () {
-                return this.selected.split('度')[0];
+                return this.selected.name;
             }
         },
         methods: {
             changeFn: function (item, index) {
                 this.selected = item; // 得到值的后续操作
-            },
-            selectNav1: function () {
-                return this.selected.split('度')[0];
             }
         }
     };
