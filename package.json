@@ -28,10 +28,10 @@
         "vuex-router-sync": "^5.0.0"
     },
     "devDependencies": {
-        "@vue/cli-plugin-babel": "^3.8.0",
-        "@vue/cli-plugin-eslint": "^3.8.0",
-        "@vue/cli-plugin-pwa": "^3.8.0",
-        "@vue/cli-service": "^3.8.0",
+        "@vue/cli-plugin-babel": "^5.0.8",
+        "@vue/cli-plugin-eslint": "^5.0.8",
+        "@vue/cli-plugin-pwa": "^5.0.8",
+        "@vue/cli-service": "^5.0.8",
         "@vue/eslint-config-prettier": "^4.0.1",
         "babel-eslint": "^10.0.1",
         "compression": "^1.7.3",
@@ -43,7 +43,7 @@
         "portfinder": "^1.0.20",
         "postcss-px2rem": "^0.3.0",
         "prettier": "^1.17.1",
-        "sass-loader": "^7.1.0",
+        "sass-loader": "^13.2.0",
         "vue-template-compiler": "^2.6.10"
     },
     "gitHooks": {
